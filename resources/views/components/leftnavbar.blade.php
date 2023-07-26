@@ -42,7 +42,7 @@
 
                         <li>
                             <a href="wallet.html">
-                                <i class="fas fa-building"></i>
+                                <i class="fas fa-truck-moving"></i>
                                 <span>Stocks </span>
                             </a>
                         </li>
@@ -56,9 +56,9 @@
 
                         <li>
                             <a href="#sidebarMultilevel1" data-bs-toggle="collapse">
-                                <i class="fa fa-users"></i>
+                                <i class="fas fa-check-double"></i>
                                 <span> Approvals</span>
-                                <span class="badge bg-success rounded-pill float-end">9+</span>
+                                <span class="badge bg-success rounded-pill float-end">New</span>
                             </a>
                             <div class="collapse" id="sidebarMultilevel1">
                                 <ul class="nav-second-level">
@@ -84,7 +84,7 @@
 
                         <li>
                             <a href="#sidebarMultilevel2" data-bs-toggle="collapse">
-                                <i class="fa fa-users"></i>
+                                <i class="mdi mdi-book-settings-outline"></i>
                                 <span> Reports</span>
                                 <span class="menu-arrow"></span>
                             </a>
