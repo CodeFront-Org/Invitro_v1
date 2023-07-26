@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Carbon\Carbon;
+use App\Models\User;
 
 class LoginController extends Controller
 {
@@ -29,12 +30,19 @@ class LoginController extends Controller
     */
 
     use AuthenticatesUsers;
- 
+
     protected function authenticated(Request $request, $user)
     {
+        // //check if otp is verified
+        // if(!Auth::user()->otp_verified){
+        // auth()->logout();
+        // return '400';
+        // }
+
         // Logs activity for user login timestamp
         $currentDateTime = Carbon::now();
         $currentDateTimeMilliseconds = $currentDateTime->format('d F Y H:i:s:v');
+        User::where('email',$user->email)->update(['last_login'=>$currentDateTime]);
         Log::channel('user_login')->notice($user->email." of DB_ID ".$user->id." Logged in at: ".$currentDateTimeMilliseconds);
 
         // Insert login log into database
