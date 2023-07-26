@@ -30,6 +30,6 @@ Route::get('/registration', function () {//Register customer
 //*******************************end registration */
 
 Auth::routes();
-Route::post('/new_admin_juasmart_reg', [App\Http\Controllers\Auth\NewAdminRegister::class,'register'])->name('new_admin_juasmart_reg');
+Route::post('/new_admin_reg', [App\Http\Controllers\Auth\NewAdminRegister::class,'register'])->name('new_admin_reg');
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

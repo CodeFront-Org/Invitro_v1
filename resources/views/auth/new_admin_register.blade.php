@@ -257,7 +257,7 @@ if (isAllPopulated && isChecked) {
     //Sending register request
     $.ajax({
         type: "POST",
-        url: "{{ route('new_admin_juasmart_reg') }}",
+        url: "{{ route('new_admin_reg') }}",
         data: {_token:"{{csrf_token()}}",firstname,lastname,email,phone,password,terms},
         success: function (response) {   console.log(response)
             Swal.fire({
