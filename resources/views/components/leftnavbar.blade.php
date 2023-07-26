@@ -1,4 +1,4 @@
-        <div class="left-side-menu" style="background-size: cover;background-image: linear-gradient(to right, #0754fa64,#001d919e);overflow: hidden;color:white">
+        <div class="left-side-menu" style="background-size: cover;background-image: linear-gradient(to right, #1b47f721,#001d9154);overflow: hidden;color:white">
 
             <div class="h-100" data-simplebar>
 
@@ -9,19 +9,13 @@
 
                         <li class="menu-title">Navigation</li>
 @role('admin')
-                        <li>
-                            <a href="wallet.html">
-                                <i class="fas fa-building"></i>
-                                <span>Projects </span>
-                            </a>
-                        </li>
 
-                        <li>
-                            <a href="wallet.html">
-                                <i class="fas fa-city"></i>
-                                <span>Company </span>
-                            </a>
-                        </li>
+                            <li>
+                                <a href="index.html">
+                                    <i class="mdi mdi-view-dashboard-outline"></i>
+                                    <span> Dashboard </span>
+                                </a>
+                            </li>
 
                         <li>
                             <a href="#sidebarMultilevel" data-bs-toggle="collapse">
@@ -48,8 +42,8 @@
 
                         <li>
                             <a href="wallet.html">
-                                <i class="fas fa-user-tag"></i>
-                                <span>Role Setup </span>
+                                <i class="fas fa-building"></i>
+                                <span>Stocks </span>
                             </a>
                         </li>
 
@@ -61,25 +55,57 @@
                         </li>
 
                         <li>
-                            <a href="wallet.html">
-                                <i class="fas fa-star"></i>
-                                <span>Reviews </span>
+                            <a href="#sidebarMultilevel1" data-bs-toggle="collapse">
+                                <i class="fa fa-users"></i>
+                                <span> Approvals</span>
+                                <span class="badge bg-success rounded-pill float-end">9+</span>
                             </a>
+                            <div class="collapse" id="sidebarMultilevel1">
+                                <ul class="nav-second-level">
+                                        <li>
+                                            <a href="#">
+                                                Stocks
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#">
+                                                Returns
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#">
+                                                Orders
+                                            </a>
+                                        </li>
+                                </ul>
+
+                            </div>
                         </li>
 
                         <li>
-                            <a href="wallet.html">
-                                <i class="fas fa-comment"></i>
-                                <span>Feedback </span>
+                            <a href="#sidebarMultilevel2" data-bs-toggle="collapse">
+                                <i class="fa fa-users"></i>
+                                <span> Reports</span>
+                                <span class="menu-arrow"></span>
                             </a>
+                            <div class="collapse" id="sidebarMultilevel2">
+                                <ul class="nav-second-level">
+                                        <li>
+                                            <a href="#">
+                                                Stocks
+                                            </a>
+                                        </li>
+                                </ul>
+
+                            </div>
                         </li>
 @endrole
-                        <!--<li>
+                        <li>
                             <a href="profile.html">
                                 <i class="fas fa-user-circle"></i>
                                 <span> Profile </span>
                             </a>
-                        </li>-->
+                        </li>
 
                     </ul>
 
