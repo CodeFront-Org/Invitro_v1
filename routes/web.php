@@ -17,7 +17,7 @@ Route::get('/', function () {
     return view('auth.login');
 });
 //*****************Routes for registering Roles, Permission and Admin on first creation of the app***//
-Route::get('/Roles_registration_url',[App\Http\Controllers\RolesRegistration::class,'index'])->name('Roles_Regestration_url');//Registering roles built in app
+Route::get('/Roles_registration_url',[App\Http\Controllers\Auth\RolesRegistration::class,'index'])->name('Roles_Regestration_url');//Registering roles built in app
 
 Route::get('/admin_register_url',function(){//Register admin
     $label='Admin Register';
