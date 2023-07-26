@@ -4,7 +4,7 @@
                     <div class="col-md-6">
                         <script>
                             document.write(new Date().getFullYear())
-                        </script> &copy; JuaSmart
+                        </script> &copy; CodeFront
                         <a href=""></a>
                     </div>
                     <div class="col-md-6">

@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8" />
-    <title>Dashboard | JuaSmart - Client dashboard</title>
+    <title>Dashboard | CodeFront - Client dashboard</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="" name="description" />
     <meta content="Martin Njoroge" name="author" />

@@ -61,21 +61,6 @@
                         </li>
 
                         <li>
-                            <a href="{{route('config.index')}}">
-                                <i class="fas fa-info-circle"></i>
-                                <span>Config </span>
-                            </a>
-                        </li>
-
-
-                        <!--<li>
-                            <a href="{{route('settings.index')}}">
-                                <i class="fas fa-cog"></i>
-                                <span>Settings </span>
-                            </a>
-                        </li>-->
-
-                        <li>
                             <a href="wallet.html">
                                 <i class="fas fa-star"></i>
                                 <span>Reviews </span>
