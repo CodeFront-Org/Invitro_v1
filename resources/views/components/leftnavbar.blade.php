@@ -26,12 +26,12 @@
                             <div class="collapse" id="sidebarMultilevel">
                                 <ul class="nav-second-level">
                                         <li>
-                                            <a href="#">
+                                            <a href="{{route('users.index')}}">
                                                 Staff
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="#">
+                                            <a href="{{route('users.index')}}">
                                                 Customers
                                             </a>
                                         </li>

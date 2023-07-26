@@ -39,3 +39,7 @@ Auth::routes();
 Route::post('/new_admin_reg', [App\Http\Controllers\Auth\NewAdminRegister::class,'register'])->name('new_admin_reg');
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+
+// Application Routes
+Route::resource('/users',App\Http\Controllers\UserController::class);
