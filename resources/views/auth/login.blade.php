@@ -9,7 +9,7 @@
     <meta content="Martin Njoroge" name="author" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <!-- App favicon -->
-    <link rel="shortcut icon" href="{{asset('images/Logo/s-dark.png')}}">
+    <link rel="shortcut icon" href="{{asset('images/Logo/logo.png')}}">
     <!-- Notification css (Toastr) -->
     <link href="{{asset('libs/toastr/build/toastr.min.css')}}" rel="stylesheet" type="text/css" />
 
@@ -39,7 +39,7 @@
                 <div class="col-md-8 col-lg-6 col-xl-4">
                     <div class="text-center">
                         <a href="index.html">
-                            <img src="{{asset('images/Logo/s-no bg.png')}}" alt="" width="50" class="mx-auto">
+                            <img src="{{asset('images/Logo/logo.png')}}" alt="" width="60" class="mx-auto">
                         </a>
                         <p class="text-muted mt-0 mb-1">CodeFront</p>
 

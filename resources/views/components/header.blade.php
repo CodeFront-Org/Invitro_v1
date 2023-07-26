@@ -9,7 +9,7 @@
     <meta content="Martin Njoroge" name="author" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <!-- App favicon -->
-        <link rel="shortcut icon" href="{{asset('images/Logo/s-dark.png')}}">
+        <link rel="shortcut icon" href="{{asset('images/Logo/logo.png')}}">
 
         <!-- third party css -->
         <link href="{{asset('libs/datatables.net-bs5/css/dataTables.bootstrap5.min.css')}}" rel="stylesheet" type="text/css" />

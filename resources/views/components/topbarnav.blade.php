@@ -1,4 +1,4 @@
-        <div class="navbar-custom" style="background-image: linear-gradient(to left, #fac10764,#fac107e0);">
+        <div class="navbar-custom" style="background-image: linear-gradient(to left, #0754fa64,#001d919e);">
             <ul class="list-unstyled topnav-menu float-end mb-0">
 
                 <li class="d-none d-lg-block">
@@ -147,18 +147,18 @@
             <div class="logo-box">
                 <a href="index.html" class="logo logo-light text-center">
                     <span class="logo-sm">
-                                <img src="{{asset('images/Logo/s-no bg.png')}}" alt="" width="60">
+                                <img src="{{asset('images/Logo/logo.png')}}" alt="" width="60">
                             </span>
                     <span class="logo-lg" style="left:50px;">
-                                <img src="{{asset('images/Logo/s-no bg.png')}}" alt="" width="85">
+                                <img src="{{asset('images/Logo/logo.png')}}" alt="" width="85">
                             </span>
                 </a>
                 <a href="index.html" class="logo logo-dark text-center">
                     <span class="logo-sm">
-                                <img src="{{asset('images/Logo/s-no bg.png')}}" alt="" width="60">
+                                <img src="{{asset('images/Logo/logo.png')}}" alt="" width="60">
                             </span>
                     <span class="logo-lg" style="left:50px;">
-                                <img src="{{asset('images/Logo/s-no bg.png')}}" alt="" width="85">
+                                <img src="{{asset('images/Logo/logo.png')}}" alt="" width="85">
                             </span>
                 </a>
             </div>
