@@ -21,9 +21,8 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->integer('id_number')->nullable()->unique();
             $table->string('contacts',50)->nullable()->unique();
-            $table->string('mpesa_contact',50)->nullable()->unique();
             $table->smallInteger('role_type')->nullable();
-            $table->smallInteger('status')->nullable()->default(1);  // Indicate whether present or absent
+            $table->smallInteger('status')->nullable()->default(1);  // Indicate whether
             $table->string('path')->nullable(); //to be used for img path
             $table->timestamp('last_login')->nullable();
             $table->smallInteger('login_attempts')->default(0);
