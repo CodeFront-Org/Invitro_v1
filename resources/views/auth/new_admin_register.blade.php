@@ -49,7 +49,7 @@
                         <div class="card-body p-lg-3">
 
                             <div class="text-center mb-4">
-                                <h4 class="text-uppercase mt-0" style="color: #fac107;">Sign Up</h4>
+                                <h4 class="text-uppercase mt-0" style="color: #001d91f5;">Sign Up</h4>
                             </div>
 
                             <form id="registerForm" method="POST" class="needs-validation" novalidate>
@@ -125,18 +125,18 @@
                                 <div class="col-md-12 mt-1 mb-3">
                                     <div class="form-check form-check-warning">
                                         <input type="checkbox" name="terms" class="form-check-input check-btn" id="invalidCheck" required />
-                                        <label class="form-check-label" for="invalidCheck">By creating an account means you agree to the<a style="color: #fac107;" href="http://"> Terms and Conditions</a></label>
+                                        <label class="form-check-label" for="invalidCheck">By creating an account means you agree to the<a style="color: #001d91f5;" href="http://"> Terms and Conditions</a></label>
                                         <div class="invalid-feedback">
                                             You must agree before submitting.
                                         </div>
                                     </div>
                                 </div>
 
-                                <button class="btn rounded-pill p-1" id="btn_save" style="width: 100%; background-color: #fac107;color: white;" type="submit">
+                                <button class="btn rounded-pill p-1" id="btn_save" style="width: 100%; background-color: #001d91f5;color: white;" type="submit">
 
                                                         Submit
                                                     </button>
-                                <button class="btn rounded-pill p-1" id="loader" style="width: 100%; background-color: #fac107;color: white;display:none;" type="button">
+                                <button class="btn rounded-pill p-1" id="loader" style="width: 100%; background-color: #001d91f5;color: white;display:none;" type="button">
                                                         <span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
                                                         Saving Info...
                                                     </button>
@@ -146,7 +146,7 @@
 
                             <div class="row mt-2">
                                 <div class="col-12 text-center">
-                                    <p class="text-muted">Already have account? <a href="{{route('login')}}" class="text-dark ms-1"><b style="color: #fac107;">Sign In</b></a></p>
+                                    <p class="text-muted">Already have account? <a href="{{route('login')}}" class="text-dark ms-1"><b style="color: #001d91f5;">Sign In</b></a></p>
                                 </div>
                                 <!-- end col -->
                             </div>
