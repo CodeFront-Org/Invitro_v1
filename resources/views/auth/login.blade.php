@@ -97,13 +97,6 @@
                     </div>
                     <!-- end card -->
 
-                    <div class="row mt-3">
-                        <div class="col-12 text-center">
-                            <p> <a href="pages-recoverpw.html" class="text-muted ms-1" data-bs-toggle="modal" data-bs-target="#con-close-modal-changepsw"><i class="fa fa-lock me-1"></i>Forgot your password?</a></p>
-                            <p class="text-muted">Don't have an account? <a href="{{route('registration')}}" class="text-dark ms-1"><b>Sign Up</b></a></p>
-                        </div>
-                        <!-- end col -->
-                    </div>
                     <!-- end row -->
 
                 </div>
