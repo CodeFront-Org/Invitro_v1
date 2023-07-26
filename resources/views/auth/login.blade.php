@@ -59,7 +59,7 @@
                             </div>
                         @endif
                             <div class="text-center mb-4">
-                                <h4 class="text-uppercase mt-0" style="color: #fac107;">Sign In</h4>
+                                <h4 class="text-uppercase mt-0" style="color: #001d91f5;">Sign In</h4>
                             </div>
 
                             <form id="loginForm">
@@ -74,18 +74,18 @@
                                 </div>
 
                                 <div class="mb-3">
-                                    <div class="form-check form-check-warning">
+                                    <div class="form-check form-check-primary">
                                         <input type="checkbox" class="form-check-input" id="checkbox-signin">
                                         <label class="form-check-label" for="checkbox-signin">Remember me</label>
                                     </div>
                                 </div>
 
                                 <div class="mb-2 d-grid text-center">
-                                    <button class="btn rounded-pill p-1" id="btn_save" style="width: 100%; background-color: #fac107;color: white;" type="submit">
+                                    <button class="btn rounded-pill p-1" id="btn_save" style="width: 100%; background-color: #001d91f5;color: white;" type="submit">
 
                                                         Login
                                                     </button>
-                                    <button class="btn rounded-pill p-1" id="loader" style="width: 100%; background-color: #fac107;color: white;display:none;" type="button">
+                                    <button class="btn rounded-pill p-1" id="loader" style="width: 100%; background-color: #001d91f5;color: white;display:none;" type="button">
                                                         <span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
                                                         Authenticating...
                                                     </button>
@@ -129,8 +129,8 @@
                                                     </div>
 
                                                     <div class="mb-3 text-center d-grid">
-                                                        <button class="btn rounded-pill" id="resetbtn" style="width: 100%; background-color: #fac107;color: white" type="submit"> Reset Password </button>
-                                                        <button class="btn rounded-pill p-1" id="loaderMail" style="width: 100%; background-color: #fac107;color: white;display:none;" type="button">
+                                                        <button class="btn rounded-pill" id="resetbtn" style="width: 100%; background-color: #001d91f5;color: white" type="submit"> Reset Password </button>
+                                                        <button class="btn rounded-pill p-1" id="loaderMail" style="width: 100%; background-color: #001d91f5;color: white;display:none;" type="button">
                                                             <span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
                                                         Sending Mail...
                                                     </button>
@@ -162,7 +162,7 @@
                                                         Please check for an email from company and click on the included link to
                                                         reset your password. </p>
 
-                                                    <a data-bs-dismiss="modal" aria-label="Close" class="btn d-block waves-effect waves-light mt-3" style="width: 100%; background-color: #fac107;color: white">Back to Home</a>
+                                                    <a data-bs-dismiss="modal" aria-label="Close" class="btn d-block waves-effect waves-light mt-3" style="width: 100%; background-color: #001d91f5;color: white">Back to Home</a>
 
                                                 </div> <!-- end card-body -->
                                             </div>
