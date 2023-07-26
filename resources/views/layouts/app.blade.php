@@ -1,83 +1,83 @@
-<!doctype html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+<!--Header Sections-->
 
-    <!-- CSRF Token -->
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+<x-header />
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+<!--End Header Section -->
 
-    <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
+@yield('css')
+@yield('modals')
+    <!-- Begin page -->
+    <div id="wrapper">
 
-    <!-- Fonts -->
-    <link rel="dns-prefetch" href="//fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
+        <!-- Topbar Start -->
 
-    <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-</head>
-<body>
-    <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
-            <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'Laravel') }}
-                </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+            <x-topbarnav :label='$label' />
+        <!-- end Topbar -->
 
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <!-- Left Side Of Navbar -->
-                    <ul class="navbar-nav me-auto">
+        <!-- ========== Left Sidebar Start ========== -->
+                <x-leftnavbar />
+        <!-- Left Sidebar End -->
 
-                    </ul>
+        <!-- ============================================================== -->
+        <!-- Start Page Content here -->
+        <!-- ============================================================== -->
 
-                    <!-- Right Side Of Navbar -->
-                    <ul class="navbar-nav ms-auto">
-                        <!-- Authentication Links -->
-                        @guest
-                            @if (Route::has('login'))
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
-                                </li>
-                            @endif
+        <div class="content-page">
+            <div class="content mt-2">
 
-                            @if (Route::has('register'))
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
-                                </li>
-                            @endif
-                        @else
-                            <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    {{ Auth::user()->name }}
-                                </a>
+                <!-- Start Content-->
+                    @yield('content')
 
-                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('logout') }}"
-                                       onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
-                                    </a>
+        </div>
+        <!-- content -->
 
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                        @csrf
-                                    </form>
-                                </div>
-                            </li>
-                        @endguest
-                    </ul>
-                </div>
-            </div>
-        </nav>
+        <!-- Footer Start -->
+             <x-footer />
+        <!-- end Footer -->
 
-        <main class="py-4">
-            @yield('content')
-        </main>
     </div>
+
+    <!-- ============================================================== -->
+    <!-- End Page content -->
+    <!-- ============================================================== -->
+
+    </div>
+    <!-- END wrapper -->
+           <!-- Vendor -->
+        <script src="{{asset('libs/jquery/jquery.min.js')}}"></script>
+        <script src="{{asset('libs/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+        <script src="{{asset('libs/simplebar/simplebar.min.js')}}"></script>
+        <script src="{{asset('libs/node-waves/waves.min.js')}}"></script>
+        <script src="{{asset('libs/waypoints/lib/jquery.waypoints.min.js')}}"></script>
+        <script src="{{asset('libs/jquery.counterup/jquery.counterup.min.js')}}"></script>
+        <script src="{{asset('libs/feather-icons/feather.min.js')}}"></script>
+
+
+
+        @yield('scripts')
+
+
+        <!-- Tippy js-->
+        <script src="{{asset('/libs/tippy.js/tippy.all.min.js')}}"></script>
+
+        <!-- App js -->
+        <script src="{{asset('js/app.min.js')}}"></script>
+
+
+        <!-- Sweet Alerts js -->
+        <script src="{{asset('libs/sweetalert2/sweetalert2.all.min.js')}}"></script>
+
+        <!-- Sweet alert init js-->
+        <script src="{{asset('js/pages/sweet-alerts.init.js')}}"></script>
+
+    <!-- Toastr js -->
+    <script src="{{asset('libs/toastr/build/toastr.min.js')}}"></script>
+
+    <script src="{{asset('js/pages/toastr.init.js')}}"></script>
+    <script>
+
+    </script>
+
 </body>
+
 </html>
