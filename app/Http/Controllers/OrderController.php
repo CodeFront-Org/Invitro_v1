@@ -13,7 +13,8 @@ class OrderController extends Controller
      */
     public function index()
     {
-        //
+        $label="Orders";
+        return view('app.order',compact('label'));
     }
 
     /**

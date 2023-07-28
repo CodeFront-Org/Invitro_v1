@@ -48,7 +48,7 @@
                         </li>
 
                         <li>
-                            <a href="wallet.html">
+                            <a href="{{route('order.index')}}">
                                 <i class="fas fa-shopping-cart"></i>
                                 <span>Orders </span>
                             </a>
