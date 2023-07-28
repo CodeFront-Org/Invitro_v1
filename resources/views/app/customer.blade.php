@@ -52,7 +52,7 @@
             <!-- Add New Customer Modal -->
 
             <div id="con-close-modal-add-1" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
-                <div class="modal-dialog">
+                <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
                         <form id="settiingsForm" method="post">
                         @csrf
@@ -104,7 +104,7 @@
             <!-- Edit Customer Modal -->
 
             <div id="con-close-modal-edit-1" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
-                <div class="modal-dialog">
+                <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
                         <form id="settiingsForm" method="post">
                         @csrf
