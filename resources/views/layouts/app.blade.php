@@ -1,6 +1,6 @@
 <!--Header Sections-->
 
-<x-header />
+<x-header :label='$label' />
 
 <!--End Header Section -->
 

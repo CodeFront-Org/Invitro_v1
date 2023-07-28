@@ -11,7 +11,7 @@
 @role('admin')
 
                             <li>
-                                <a href="index.html">
+                                <a href="{{route('home')}}">
                                     <i class="mdi mdi-view-dashboard-outline"></i>
                                     <span> Dashboard </span>
                                 </a>
@@ -64,7 +64,7 @@
 
                         <li>
                             <a href="#sidebarMultilevel2" data-bs-toggle="collapse">
-                                <i class="mdi mdi-book-settings-outline"></i>
+                                <i class="fas fa-newspaper"></i>
                                 <span> Reports</span>
                                 <span class="menu-arrow"></span>
                             </a>

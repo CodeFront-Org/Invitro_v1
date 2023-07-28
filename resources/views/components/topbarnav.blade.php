@@ -145,7 +145,7 @@
 
             <!-- LOGO -->
             <div class="logo-box">
-                <a href="index.html" class="logo logo-light text-center">
+                <a href="{{route('home')}}" class="logo logo-light text-center">
                     <span class="logo-sm">
                                 <img src="{{asset('images/Logo/logo.png')}}" alt="" width="60">
                             </span>
@@ -153,7 +153,7 @@
                                 <img src="{{asset('images/Logo/logo.png')}}" alt="" width="85">
                             </span>
                 </a>
-                <a href="index.html" class="logo logo-dark text-center">
+                <a href="{{route('home')}}" class="logo logo-dark text-center">
                     <span class="logo-sm">
                                 <img src="{{asset('images/Logo/logo.png')}}" alt="" width="60">
                             </span>
