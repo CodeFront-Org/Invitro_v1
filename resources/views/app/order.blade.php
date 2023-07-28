@@ -102,7 +102,7 @@
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label for="field-2l" class="form-label">Destination</label>
-                                        <input type="text" name="o_level" class="form-control" id="field-2l" placeholder="order level" required>
+                                        <input type="text" name="destination" class="form-control" id="field-2l" placeholder="destination" required>
                                     </div>
                                 </div>
                             </div>
@@ -110,27 +110,27 @@
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label for="field-2n" class="form-label">Invoice Number</label>
-                                        <input type="text" name="source" class="form-control" id="field-2n" placeholder="source" required>
+                                        <input type="text" name="invoice" class="form-control" id="field-2n" placeholder="invoice number" required>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label for="field-2l" class="form-label">Receipt</label>
-                                        <input type="text" name="e_date" class="form-control" id="field-2l" placeholder="expiry date" required>
+                                        <input type="text" name="receipt" class="form-control" id="field-2l" placeholder="Receipt Number" required>
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-12">
                                     <div class="mb-3">
                                         <label for="field-2l" class="form-label">Date</label>
-                                        <input type="date" name="e_date" class="form-control" id="field-2l" placeholder="expiry date" required>
+                                        <input type="date" name="date" class="form-control" id="field-2l" placeholder="expiry date" required>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-12">
                                     <div class="mb-3">
                                         <label for="field-2" class="form-label">Remarks</label>
-                                        <textarea id="textarea" class="form-control" required maxlength="300" rows="3" placeholder="Your Remarks"></textarea>
+                                        <textarea id="textarea" name="remarks" class="form-control" required maxlength="300" rows="3" placeholder="Your Remarks"></textarea>
                                     </div>
                                 </div>
                             </div>
