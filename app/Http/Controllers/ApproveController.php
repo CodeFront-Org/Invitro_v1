@@ -13,7 +13,8 @@ class ApproveController extends Controller
      */
     public function index()
     {
-        //
+        $label="Approvals";
+        return view('app.approve',compact('label'));
     }
 
     /**
