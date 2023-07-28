@@ -4,13 +4,7 @@
         <div class="row mt-1">
             <div class="col-12">
             <button  style="background-color: #08228a9f;color: white" type="button" class="btn right" data-bs-toggle="modal" data-bs-target="#con-close-modal-add-1">
-                     New
-                </button>
-            <button  style="background-color: #08228a9f;color: white" type="button" class="btn right" data-bs-toggle="modal" data-bs-target="#con-close-modal-reOrder-1">
-                    Re-Order
-                </button>
-            <button  style="background-color: #08228a9f;color: white" type="button" class="btn right" data-bs-toggle="modal" data-bs-target="#con-close-modal-return-1">
-                   Return
+                    <i class='fa fa-plus' aria-hidden='true'></i>  New
                 </button>
                 <div class="card" style="border-radius:0px 15px 15px 15px;box-shadow: 2px 3px 3px 2px rgba(9, 107, 255, 0.179);">
                     <div class="card-body">
@@ -19,15 +13,14 @@
                                 <thead class="table-light">
                                 <tr>
                                     <th>#</th>
-                                    <th>Name</th>
+                                    <th>Product</th>
                                     <th>Quantity</th>
                                     <th>Amount</th>
-                                    <th>lim</th>
-                                    <th>Source</th>
-                                    <th>Staff</th>
-                                    <th>Date In</th>
-                                    <th>Expiry</th>
-                                    <th>Type</th>
+                                    <th>Destination</th>
+                                    <th>Invoice</th>
+                                    <th>Reciept</th>
+                                    <th>Staff Incharge</th>
+                                    <th>Date</th>
                                     <th>Remarks</th>
                                     <th>Actions</th>
                                 </tr>
@@ -40,18 +33,20 @@
                                         <td>Panadol</td>
                                         <td>3 Cartons</td>
                                         <td>25,000</td>
-                                        <td>1</td>
                                         <td>KEMSA</td>
+                                        <td>Invoice #34</td>
+                                        <td>Re #43</td>
                                         <td>Martin Njoroge</td>
                                         <td>28 July 2023</td>
-                                        <td>28 July 2023</td>
-                                        <td>New</td>
                                         <td class="text-left" style="min-width: 130px; max-width: 130px; overflow: hidden; font-size: 12px;">
                                                 My remarks on entry of Order.
                                         </td>
                                         <td style='font-size:10px; text-align: center;'>
                                             <button type="button" style="background-color: #08228a9f;color: white" class="btn btn-xs" data-bs-toggle="modal" data-bs-target="#con-close-modal-edit-1">
                                                 <i class='fas fa-pen' aria-hidden='true'></i>
+                                                </button>
+                                            <button type="button" style="background-color: #006fd6aa;color: white" class="btn btn-xs" data-bs-toggle="modal" data-bs-target="#con-close-modal-return-1">
+                                                <i class='fas fa-minus-circle' aria-hidden='true'></i>
                                                 </button>
                                             <button type="button" onclick="del(this)" value="" class="btn btn-danger btn-xs">
                                                 <i class='fa fa-trash' aria-hidden='true'></i>
@@ -169,88 +164,7 @@
                 </div>
             </div><!-- /.modal -->
 
-
-            <!-- Add New Order Modal -->
-
-            <div id="con-close-modal-reOrder-1" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content">
-                        <form id="settiingsForm" method="post">
-                        @csrf
-                        @method('post')
-                        <input type="hidden" name="type" value="0">
-                        <div class="modal-header">
-                            <h4 class="modal-title">Re-Order</h4>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label for="field-2n" class="form-label">Name</label>
-                                        <input type="text" name="name" class="form-control" id="field-2n" placeholder="name" required>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label for="field-2l" class="form-label">Quantity</label>
-                                        <input type="text" name="quantity" class="form-control" id="field-2l" placeholder="quantity" required>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label for="field-2n" class="form-label">Amount</label>
-                                        <input type="number" name="amount" class="form-control" id="field-2n" placeholder="amount" required>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label for="field-2l" class="form-label">Order Level</label>
-                                        <input type="number" name="o_level" class="form-control" id="field-2l" placeholder="order level" required>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label for="field-2n" class="form-label">Source</label>
-                                        <input type="text" name="source" class="form-control" id="field-2n" placeholder="source" required>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label for="field-2l" class="form-label">Expiry Date</label>
-                                        <input type="date" name="e_date" class="form-control" id="field-2l" placeholder="expiry date" required>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="mb-3">
-                                        <label for="field-2" class="form-label">Remarks</label>
-                                        <textarea id="textarea" class="form-control" required maxlength="300" rows="3" placeholder="Your Remarks"></textarea>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button class="btn rounded-pill p-1" id="addbtn" style="width: 100%; background-color: #08228a9f;color: white" type="submit">
-                                    Submit
-                            </button>
-                            <button class="btn rounded-pill p-1" id="editloader" style="width: 100%; background-color: #08228a9f;color: white;display:none;" type="button">
-                                    <span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
-                                    Saving Data...
-                            </button>
-                        </div>
-                        </form>
-                    </div>
-                </div>
-            </div><!-- /.modal -->
-
-
-            <!-- Add New Order Modal -->
+            <!-- Return Stock Modal -->
 
             <div id="con-close-modal-return-1" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
                 <div class="modal-dialog modal-dialog-centered">
@@ -260,7 +174,7 @@
                         @method('post')
                         <input type="hidden" name="type" value="0">
                         <div class="modal-header">
-                            <h4 class="modal-title">Return Order</h4>
+                            <h4 class="modal-title">Return Stock</h4>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
