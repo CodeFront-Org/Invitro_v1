@@ -17,6 +17,10 @@ class UserController extends Controller
         return view('app.staff',compact('label'));
     }
 
+    public function customers(){
+        $label="Customers";
+        return view('app.customer',compact('label'));
+    }
     /**
      * Show the form for creating a new resource.
      *

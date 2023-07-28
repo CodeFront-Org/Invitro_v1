@@ -4,7 +4,7 @@
         <div class="row mt-1">
             <div class="col-12">
             <button  style="background-color: #08228a9f;color: white" type="button" class="btn right" data-bs-toggle="modal" data-bs-target="#con-close-modal-add-1">
-                  <i class='fa fa-plus' aria-hidden='true'></i>   Add Staff
+                  <i class='fa fa-plus' aria-hidden='true'></i>   Add Customer
                 </button>
                 <div class="card" style="border-radius:0px 15px 15px 15px;box-shadow: 2px 3px 3px 2px rgba(9, 107, 255, 0.179);">
                     <div class="card-body">
@@ -49,7 +49,7 @@
         </div> <!-- end row -->
 
 
-            <!-- Add New Staff Modal -->
+            <!-- Add New Customer Modal -->
 
             <div id="con-close-modal-add-1" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
                 <div class="modal-dialog">
@@ -59,21 +59,15 @@
                         @method('post')
                         <input type="hidden" name="type" value="0">
                         <div class="modal-header">
-                            <h4 class="modal-title">Add Staff</h4>
+                            <h4 class="modal-title">Add Customer</h4>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
                             <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-12">
                                     <div class="mb-3">
-                                        <label for="field-2n" class="form-label">First Name</label>
+                                        <label for="field-2n" class="form-label">Customer/Company Name</label>
                                         <input type="text" name="f_name" class="form-control" id="field-2n" placeholder="first name" required>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label for="field-2l" class="form-label">Last Name</label>
-                                        <input type="text" name="l_name" class="form-control" id="field-2l" placeholder="last name" required>
                                     </div>
                                 </div>
                             </div>
@@ -89,15 +83,6 @@
                                         <label for="field-2e" class="form-label">Email</label>
                                         <input type="email" name="email" class="form-control" id="field-2e" placeholder="email" required>
                                     </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12 mb-3">
-                                    <label for="field-11" class="form-label">Role</label>
-                                    <select name="role" class="form-control form-select" id="field-11" required>
-                                                <option value="0">Admin</option>
-                                                <option value="1">Store Keeper</option>
-                                        </select>
                                 </div>
                             </div>
                         </div>
@@ -116,7 +101,7 @@
             </div><!-- /.modal -->
 
 
-            <!-- Edit Staff Modal -->
+            <!-- Edit Customer Modal -->
 
             <div id="con-close-modal-edit-1" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
                 <div class="modal-dialog">
@@ -126,21 +111,15 @@
                         @method('PATCH')
                         <input type="hidden" name="type" value="0">
                         <div class="modal-header">
-                            <h4 class="modal-title">Edit Staff</h4>
+                            <h4 class="modal-title">Edit Customer</h4>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
                             <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-12">
                                     <div class="mb-3">
-                                        <label for="field-2ne" class="form-label">First Name</label>
+                                        <label for="field-2ne" class="form-label">Customer/Company Name</label>
                                         <input type="text" value="Martin" name="f_name" class="form-control" id="field-2ne" placeholder="first name" required>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label for="field-2le" class="form-label">Last Name</label>
-                                        <input type="text" value="Njoroge" name="l_name" class="form-control" id="field-2le" placeholder="last name" required>
                                     </div>
                                 </div>
                             </div>
@@ -156,15 +135,6 @@
                                         <label for="field-2ee" class="form-label">Email</label>
                                         <input type="email" value="martin@gmail.com" name="email" class="form-control" id="field-2ee" placeholder="email" required>
                                     </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12 mb-3">
-                                    <label for="field-11" class="form-label">Role</label>
-                                    <select name="role" class="form-control form-select" id="field-11" required>
-                                                <option value="0">Admin</option>
-                                                <option value="1">Store Keeper</option>
-                                        </select>
                                 </div>
                             </div>
                         </div>
