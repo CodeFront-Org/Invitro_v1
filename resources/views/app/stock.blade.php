@@ -4,7 +4,7 @@
         <div class="row mt-1">
             <div class="col-12">
             <button  style="background-color: #08228a9f;color: white" type="button" class="btn right" data-bs-toggle="modal" data-bs-target="#con-close-modal-add-1">
-                  <i class='fa fa-plus' aria-hidden='true'></i>  New
+                     New
                 </button>
             <button  style="background-color: #08228a9f;color: white" type="button" class="btn right" data-bs-toggle="modal" data-bs-target="#con-close-modal-restock-1">
                     Re-Stock
