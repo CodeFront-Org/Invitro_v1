@@ -67,13 +67,13 @@
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label for="field-2n" class="form-label">First Name</label>
-                                        <input type="text" name="name" class="form-control" id="field-2n" placeholder="first name" required>
+                                        <input type="text" name="f_name" class="form-control" id="field-2n" placeholder="first name" required>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label for="field-2l" class="form-label">Last Name</label>
-                                        <input type="text" name="name" class="form-control" id="field-2l" placeholder="last name" required>
+                                        <input type="text" name="l_name" class="form-control" id="field-2l" placeholder="last name" required>
                                     </div>
                                 </div>
                             </div>
@@ -81,20 +81,20 @@
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label for="field-2c" class="form-label">Contacts</label>
-                                        <input type="text" name="name" class="form-control" id="field-2c" placeholder="name" required>
+                                        <input type="text" name="contacts" class="form-control" id="field-2c" placeholder="contacts" required>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label for="field-2e" class="form-label">Email</label>
-                                        <input type="email" name="name" class="form-control" id="field-2e" placeholder="email" required>
+                                        <input type="email" name="email" class="form-control" id="field-2e" placeholder="email" required>
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-12 mb-3">
                                     <label for="field-11" class="form-label">Role</label>
-                                    <select name="country" class="form-control form-select" id="field-11" required>
+                                    <select name="role" class="form-control form-select" id="field-11" required>
                                                 <option value="0">Admin</option>
                                                 <option value="1">Store Keeper</option>
                                         </select>
@@ -115,6 +115,72 @@
                 </div>
             </div><!-- /.modal -->
 
+
+            <!-- Edit Staff Modal -->
+
+            <div id="con-close-modal-edit-1" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <form id="settiingsForm" method="post">
+                        @csrf
+                        @method('PATCH')
+                        <input type="hidden" name="type" value="0">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Edit Staff</h4>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="field-2ne" class="form-label">First Name</label>
+                                        <input type="text" value="Martin" name="f_name" class="form-control" id="field-2ne" placeholder="first name" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="field-2le" class="form-label">Last Name</label>
+                                        <input type="text" value="Njoroge" name="l_name" class="form-control" id="field-2le" placeholder="last name" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="field-2ce" class="form-label">Contacts</label>
+                                        <input type="text" value="0797965680" name="contacts" class="form-control" id="field-2ce" placeholder="contacts" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="field-2ee" class="form-label">Email</label>
+                                        <input type="email" value="martin@gmail.com" name="email" class="form-control" id="field-2ee" placeholder="email" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12 mb-3">
+                                    <label for="field-11" class="form-label">Role</label>
+                                    <select name="role" class="form-control form-select" id="field-11" required>
+                                                <option value="0">Admin</option>
+                                                <option value="1">Store Keeper</option>
+                                        </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn rounded-pill p-1" id="addbtn" style="width: 100%; background-color: #08228a9f;color: white" type="submit">
+                                    Submit
+                            </button>
+                            <button class="btn rounded-pill p-1" id="addloader" style="width: 100%; background-color: #08228a9f;color: white;display:none;" type="button">
+                                    <span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
+                                    Saving Data...
+                            </button>
+                        </div>
+                        </form>
+                    </div>
+                </div>
+            </div><!-- /.modal -->
 
 
 
