@@ -4,7 +4,7 @@
         <div class="row mt-1">
             <div class="col-12">
             <button  style="background-color: #08228a9f;color: white" type="button" class="btn right" data-bs-toggle="modal" data-bs-target="#con-close-modal-add-1">
-                    <i class='fa fa-plus' aria-hidden='true'></i>  New
+                     Approve New Stock
                 </button>
                 <div class="card" style="border-radius:0px 15px 15px 15px;box-shadow: 2px 3px 3px 2px rgba(9, 107, 255, 0.179);">
                     <div class="card-body">
@@ -13,16 +13,16 @@
                                 <thead class="table-light">
                                 <tr>
                                     <th>#</th>
-                                    <th>Product</th>
+                                    <th>Name</th>
                                     <th>Quantity</th>
                                     <th>Amount</th>
-                                    <th>Destination</th>
-                                    <th>Invoice</th>
-                                    <th>Reciept</th>
-                                    <th>Staff Incharge</th>
-                                    <th>Date</th>
+                                    <th>lim</th>
+                                    <th>Source</th>
+                                    <th>Staff</th>
+                                    <th>Date In</th>
+                                    <th>Expiry</th>
                                     <th>Remarks</th>
-                                    <th>Actions</th>
+                                    <th>Approve</th>
                                 </tr>
                                 </thead>
 
@@ -33,25 +33,16 @@
                                         <td>Panadol</td>
                                         <td>3 Cartons</td>
                                         <td>25,000</td>
+                                        <td>1</td>
                                         <td>KEMSA</td>
-                                        <td>Invoice #34</td>
-                                        <td>Re #43</td>
                                         <td>Martin Njoroge</td>
                                         <td>28 July 2023</td>
-                                        <td class="text-left" style="min-width: 130px; max-width: 130px; overflow: hidden; font-size: 12px;">
-                                                My remarks on entry of Order.
+                                        <td>28 July 2023</td>
+                                        <td class="text-left" style="min-width: 200px; max-width: 200px; overflow: hidden; font-size: 12px;">
+                                                My remarks on entry of stock.
                                         </td>
-                                        <td style='font-size:10px; text-align: center;'>
-                                            <button type="button" style="background-color: #08228a9f;color: white" class="btn btn-xs" data-bs-toggle="modal" data-bs-target="#con-close-modal-edit-1">
-                                                <i class='fas fa-pen' aria-hidden='true'></i>
-                                                </button>
-                                            <button type="button" style="background-color: #006fd6aa;color: white" class="btn btn-xs" data-bs-toggle="modal" data-bs-target="#con-close-modal-return-1">
-                                                <i class='fas fa-minus-circle' aria-hidden='true'></i>
-                                                </button>
-                                            <button type="button" onclick="del(this)" value="" class="btn btn-danger btn-xs">
-                                                <i class='fa fa-trash' aria-hidden='true'></i>
-                                            </button>
-
+                                        <td style="color:green">
+                                            <input type="checkbox" class="custom-control-input" name="status[]" value="">
                                         </td>
                                     </tr>
                                 </tbody>
