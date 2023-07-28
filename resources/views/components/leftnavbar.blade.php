@@ -55,31 +55,11 @@
                         </li>
 
                         <li>
-                            <a href="#sidebarMultilevel1" data-bs-toggle="collapse">
+                            <a href="{{route('approve.index')}}" data-bs-toggle="collapse">
                                 <i class="fas fa-check-double"></i>
                                 <span> Approvals</span>
                                 <span class="badge bg-success rounded-pill float-end">New</span>
                             </a>
-                            <div class="collapse" id="sidebarMultilevel1">
-                                <ul class="nav-second-level">
-                                        <li>
-                                            <a href="#">
-                                                Stocks
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                Returns
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                Orders
-                                            </a>
-                                        </li>
-                                </ul>
-
-                            </div>
                         </li>
 
                         <li>
