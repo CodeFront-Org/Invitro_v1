@@ -11,9 +11,10 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($user)
+    public function index()
     {
-        return $user;
+        $label="Staff";
+        return view('app.staff',compact('label'));
     }
 
     /**

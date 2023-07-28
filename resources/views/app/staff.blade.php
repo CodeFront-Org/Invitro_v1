@@ -1,19 +1,22 @@
 @extends('layouts.app')
 
 @section('content')
-        <div class="row mt-3">
+        <div class="row mt-1">
             <div class="col-12">
-            <button  style="background-color: #fac107;color: white" type="button" class="btn right" data-bs-toggle="modal" data-bs-target="#con-close-modal-add-1">
-                  <i class='fa fa-plus' aria-hidden='true'></i>   Add Settings
+            <button  style="background-color: #08228a9f;color: white" type="button" class="btn right" data-bs-toggle="modal" data-bs-target="#con-close-modal-add-1">
+                  <i class='fa fa-plus' aria-hidden='true'></i>   Add Staff
                 </button>
-                <div class="card" style="border-radius:0px 15px 15px 15px;box-shadow: 2px 3px 3px 2px rgba(255, 239, 9, 0.179);">
+                <div class="card" style="border-radius:0px 15px 15px 15px;box-shadow: 2px 3px 3px 2px rgba(9, 107, 255, 0.179);">
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table id="datatable" class="table table-sm dt-responsive nowrap text-center">
+                            <table id="datatable" class="table table-sm table-bordered dt-responsive nowrap text-center">
                                 <thead class="table-light">
                                 <tr>
+                                    <th>#</th>
                                     <th>Name</th>
-                                    <th>Value</th>
+                                    <th>Contact</th>
+                                    <th>Email</th>
+                                    <th>Role</th>
                                     <th>Actions</th>
                                 </tr>
                                 </thead>
@@ -21,10 +24,13 @@
 
                                 <tbody>
                                     <tr>
-                                        <td>n</td>
-                                        <td>n</td>
+                                        <td>1. </td>
+                                        <td>Martin Njoroge</td>
+                                        <td>0797965680</td>
+                                        <td>martin@gmail.com</td>
+                                        <td>Admin</td>
                                         <td style='font-size:10px; text-align: center;'>
-                                            <button type="button" style="background-color: #fac107;color: white" class="btn btn-xs" data-bs-toggle="modal" data-bs-target="#con-close-modal-edit-settings-">
+                                            <button type="button" style="background-color: #08228a9f;color: white" class="btn btn-xs" data-bs-toggle="modal" data-bs-target="#con-close-modal-edit-settings-">
                                                 <i class='fas fa-pen' aria-hidden='true'></i>
                                                 </button>
                                             <button type="button" onclick="del(this)" value="" class="btn btn-danger btn-xs">

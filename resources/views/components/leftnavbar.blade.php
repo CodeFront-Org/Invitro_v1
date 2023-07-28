@@ -26,7 +26,7 @@
                             <div class="collapse" id="sidebarMultilevel">
                                 <ul class="nav-second-level">
                                         <li>
-                                            <a href="{{route('users.index', ['user' => 1])}}">
+                                            <a href="{{route('users.index')}}">
                                                 Staff
                                             </a>
                                         </li>
