@@ -4,10 +4,7 @@
         <div class="row mt-1">
             <div class="col-12">
             <button  style="background-color: #08228a9f;color: white" type="button" class="btn right" data-bs-toggle="modal" data-bs-target="#con-close-modal-add-1">
-                  <i class='fa fa-plus' aria-hidden='true'></i>   New Stock
-                </button>
-            <button  style="background-color: #08228a9f;color: white" type="button" class="btn right" data-bs-toggle="modal" data-bs-target="#con-close-modal-add-1">
-                     Return
+                  <i class='fa fa-plus' aria-hidden='true'></i>  Add Stock
                 </button>
                 <div class="card" style="border-radius:0px 15px 15px 15px;box-shadow: 2px 3px 3px 2px rgba(9, 107, 255, 0.179);">
                     <div class="card-body">
@@ -97,6 +94,27 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="mb-3">
+                                    <label for="field-11w" class="form-label">Quantity Type</label>
+                                    <select name="role" class="form-control form-select" id="field-11w" required>
+                                                <option value="0">Cartoons</option>
+                                                <option value="1">Packets</option>
+                                                <option value="1">Single Items</option>
+                                        </select>
+                                </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                    <label for="field-11q" class="form-label">Order Type</label>
+                                    <select name="role" class="form-control form-select" id="field-11q" required>
+                                                <option value="0">New</option>
+                                                <option value="1">Return</option>
+                                        </select>
+                                </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
                                         <label for="field-2n" class="form-label">Amount</label>
                                         <input type="number" name="amount" class="form-control" id="field-2n" placeholder="amount" required>
                                     </div>
@@ -104,7 +122,7 @@
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label for="field-2l" class="form-label">Order Level</label>
-                                        <input type="1" name="o_level" class="form-control" id="field-2l" placeholder="order level" required>
+                                        <input type="number" name="o_level" class="form-control" id="field-2l" placeholder="order level" required>
                                     </div>
                                 </div>
                             </div>
@@ -112,13 +130,13 @@
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label for="field-2n" class="form-label">Source</label>
-                                        <input type="text" name="f_name" class="form-control" id="field-2n" placeholder="" required>
+                                        <input type="text" name="source" class="form-control" id="field-2n" placeholder="source" required>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label for="field-2l" class="form-label">Expiry Date</label>
-                                        <input type="text" name="l_name" class="form-control" id="field-2l" placeholder="last name" required>
+                                        <input type="date" name="e_date" class="form-control" id="field-2l" placeholder="expiry date" required>
                                     </div>
                                 </div>
                             </div>
@@ -153,56 +171,90 @@
                     <div class="modal-content">
                         <form id="settiingsForm" method="post">
                         @csrf
-                        @method('PATCH')
+                        @method('post')
                         <input type="hidden" name="type" value="0">
                         <div class="modal-header">
-                            <h4 class="modal-title">Edit Stock</h4>
+                            <h4 class="modal-title">Add Stock</h4>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="mb-3">
-                                        <label for="field-2ne" class="form-label"></label>
-                                        <input type="text" value="Martin" name="f_name" class="form-control" id="field-2ne" placeholder="" required>
+                                        <label for="field-2n" class="form-label">Name</label>
+                                        <input type="text" value="" name="name" class="form-control" id="field-2n" placeholder="name" required>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="mb-3">
-                                        <label for="field-2le" class="form-label">Last Name</label>
-                                        <input type="text" value="Njoroge" name="l_name" class="form-control" id="field-2le" placeholder="last name" required>
+                                        <label for="field-2l" class="form-label">Quantity</label>
+                                        <input type="text" value="" name="quantity" class="form-control" id="field-2l" placeholder="quantity" required>
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="mb-3">
-                                        <label for="field-2ce" class="form-label">Contacts</label>
-                                        <input type="text" value="0797965680" name="contacts" class="form-control" id="field-2ce" placeholder="contacts" required>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label for="field-2ee" class="form-label">Email</label>
-                                        <input type="email" value="martin@gmail.com" name="email" class="form-control" id="field-2ee" placeholder="email" required>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12 mb-3">
-                                    <label for="field-11" class="form-label">Role</label>
-                                    <select name="role" class="form-control form-select" id="field-11" required>
-                                                <option value="0">Admin</option>
-                                                <option value="1">Store Keeper</option>
+                                    <label for="field-11w" class="form-label">Quantity Type</label>
+                                    <select name="role" class="form-control form-select" id="field-11w" required>
+                                                <option value="0">Cartoons</option>
+                                                <option value="1">Packets</option>
+                                                <option value="1">Single Items</option>
                                         </select>
+                                </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                    <label for="field-11q" class="form-label">Order Type</label>
+                                    <select name="role" class="form-control form-select" id="field-11q" required>
+                                                <option value="0">New</option>
+                                                <option value="1">Return</option>
+                                        </select>
+                                </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="field-2n" class="form-label">Amount</label>
+                                        <input type="number" value="" name="amount" class="form-control" id="field-2n" placeholder="amount" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="field-2l" class="form-label">Order Level</label>
+                                        <input type="number" value="" name="o_level" class="form-control" id="field-2l" placeholder="order level" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="field-2n" class="form-label">Source</label>
+                                        <input type="text" value="" name="source" class="form-control" id="field-2n" placeholder="source" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="field-2l" class="form-label">Expiry Date</label>
+                                        <input type="date" value="" name="e_date" class="form-control" id="field-2l" placeholder="expiry date" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="mb-3">
+                                        <label for="field-2" class="form-label">Remarks</label>
+                                        <textarea id="textarea" value="" class="form-control" required maxlength="300" rows="3" placeholder="Your Remarks"></textarea>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button class="btn rounded-pill p-1" id="addbtn" style="width: 100%; background-color: #08228a9f;color: white" type="submit">
+                            <button class="btn rounded-pill p-1" id="editbtn" style="width: 100%; background-color: #08228a9f;color: white" type="submit">
                                     Submit
                             </button>
-                            <button class="btn rounded-pill p-1" id="addloader" style="width: 100%; background-color: #08228a9f;color: white;display:none;" type="button">
+                            <button class="btn rounded-pill p-1" id="editloader" style="width: 100%; background-color: #08228a9f;color: white;display:none;" type="button">
                                     <span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
                                     Saving Data...
                             </button>
@@ -211,8 +263,6 @@
                     </div>
                 </div>
             </div><!-- /.modal -->
-
-
 
 
 @endsection
