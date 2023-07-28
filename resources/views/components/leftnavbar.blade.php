@@ -41,7 +41,7 @@
                         </li>
 
                         <li>
-                            <a href="{{route('stock')}}">
+                            <a href="{{route('stock.index')}}">
                                 <i class="fas fa-truck-moving"></i>
                                 <span>Stocks </span>
                             </a>

@@ -13,7 +13,8 @@ class StockController extends Controller
      */
     public function index()
     {
-        //
+        $label="Stocks";
+        return view('app.stock',compact('label'));
     }
 
     /**

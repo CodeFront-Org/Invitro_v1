@@ -4,19 +4,28 @@
         <div class="row mt-1">
             <div class="col-12">
             <button  style="background-color: #08228a9f;color: white" type="button" class="btn right" data-bs-toggle="modal" data-bs-target="#con-close-modal-add-1">
-                  <i class='fa fa-plus' aria-hidden='true'></i>   Add Staff
+                  <i class='fa fa-plus' aria-hidden='true'></i>   New Stock
+                </button>
+            <button  style="background-color: #08228a9f;color: white" type="button" class="btn right" data-bs-toggle="modal" data-bs-target="#con-close-modal-add-1">
+                     Return
                 </button>
                 <div class="card" style="border-radius:0px 15px 15px 15px;box-shadow: 2px 3px 3px 2px rgba(9, 107, 255, 0.179);">
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table id="datatable" class="table table-sm table-bordered dt-responsive nowrap text-center">
+                            <table  style="font-family: 'Times New Roman', Times, serif" class="table table-bordered nowrap text-center" id="datatable" class="table table-sm table-bordered dt-responsive nowrap text-center">
                                 <thead class="table-light">
                                 <tr>
                                     <th>#</th>
                                     <th>Name</th>
-                                    <th>Contact</th>
-                                    <th>Email</th>
-                                    <th>Role</th>
+                                    <th>Quantity</th>
+                                    <th>Amount</th>
+                                    <th>lim</th>
+                                    <th>Source</th>
+                                    <th>Staff</th>
+                                    <th>Date In</th>
+                                    <th>Expiry</th>
+                                    <th>Type</th>
+                                    <th>Remarks</th>
                                     <th>Actions</th>
                                 </tr>
                                 </thead>
@@ -25,10 +34,18 @@
                                 <tbody>
                                     <tr>
                                         <td>1. </td>
+                                        <td>Panadol</td>
+                                        <td>3 Cartons</td>
+                                        <td>25,000</td>
+                                        <td>1</td>
+                                        <td>KEMSA</td>
                                         <td>Martin Njoroge</td>
-                                        <td>0797965680</td>
-                                        <td>martin@gmail.com</td>
-                                        <td>Admin</td>
+                                        <td>28 July 2023</td>
+                                        <td>28 July 2023</td>
+                                        <td>New</td>
+                                        <td class="text-left" style="min-width: 130px; max-width: 130px; overflow: hidden; font-size: 12px;">
+                                                My remarks on entry of stock.
+                                        </td>
                                         <td style='font-size:10px; text-align: center;'>
                                             <button type="button" style="background-color: #08228a9f;color: white" class="btn btn-xs" data-bs-toggle="modal" data-bs-target="#con-close-modal-edit-1">
                                                 <i class='fas fa-pen' aria-hidden='true'></i>
@@ -49,7 +66,7 @@
         </div> <!-- end row -->
 
 
-            <!-- Add New Staff Modal -->
+            <!-- Add New Stock Modal -->
 
             <div id="con-close-modal-add-1" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
                 <div class="modal-dialog modal-dialog-centered">
@@ -59,45 +76,58 @@
                         @method('post')
                         <input type="hidden" name="type" value="0">
                         <div class="modal-header">
-                            <h4 class="modal-title">Add Staff</h4>
+                            <h4 class="modal-title">Add Stock</h4>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="mb-3">
-                                        <label for="field-2n" class="form-label">First Name</label>
-                                        <input type="text" name="f_name" class="form-control" id="field-2n" placeholder="first name" required>
+                                        <label for="field-2n" class="form-label">Name</label>
+                                        <input type="text" name="name" class="form-control" id="field-2n" placeholder="name" required>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="mb-3">
-                                        <label for="field-2l" class="form-label">Last Name</label>
+                                        <label for="field-2l" class="form-label">Quantity</label>
+                                        <input type="text" name="quantity" class="form-control" id="field-2l" placeholder="quantity" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="field-2n" class="form-label">Amount</label>
+                                        <input type="number" name="amount" class="form-control" id="field-2n" placeholder="amount" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="field-2l" class="form-label">Order Level</label>
+                                        <input type="1" name="o_level" class="form-control" id="field-2l" placeholder="order level" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="field-2n" class="form-label">Source</label>
+                                        <input type="text" name="f_name" class="form-control" id="field-2n" placeholder="" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="field-2l" class="form-label">Expiry Date</label>
                                         <input type="text" name="l_name" class="form-control" id="field-2l" placeholder="last name" required>
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-12">
                                     <div class="mb-3">
-                                        <label for="field-2c" class="form-label">Contacts</label>
-                                        <input type="text" name="contacts" class="form-control" id="field-2c" placeholder="contacts" required>
+                                        <label for="field-2" class="form-label">Remarks</label>
+                                        <textarea id="textarea" class="form-control" required maxlength="300" rows="3" placeholder="Your Remarks"></textarea>
                                     </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label for="field-2e" class="form-label">Email</label>
-                                        <input type="email" name="email" class="form-control" id="field-2e" placeholder="email" required>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12 mb-3">
-                                    <label for="field-11" class="form-label">Role</label>
-                                    <select name="role" class="form-control form-select" id="field-11" required>
-                                                <option value="0">Admin</option>
-                                                <option value="1">Store Keeper</option>
-                                        </select>
                                 </div>
                             </div>
                         </div>
@@ -116,7 +146,7 @@
             </div><!-- /.modal -->
 
 
-            <!-- Edit Staff Modal -->
+            <!-- Edit Stock Modal -->
 
             <div id="con-close-modal-edit-1" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
                 <div class="modal-dialog modal-dialog-centered">
@@ -126,15 +156,15 @@
                         @method('PATCH')
                         <input type="hidden" name="type" value="0">
                         <div class="modal-header">
-                            <h4 class="modal-title">Edit Staff</h4>
+                            <h4 class="modal-title">Edit Stock</h4>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="mb-3">
-                                        <label for="field-2ne" class="form-label">First Name</label>
-                                        <input type="text" value="Martin" name="f_name" class="form-control" id="field-2ne" placeholder="first name" required>
+                                        <label for="field-2ne" class="form-label"></label>
+                                        <input type="text" value="Martin" name="f_name" class="form-control" id="field-2ne" placeholder="" required>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
