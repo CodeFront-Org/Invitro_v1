@@ -30,7 +30,7 @@
                                         <td>martin@gmail.com</td>
                                         <td>Admin</td>
                                         <td style='font-size:10px; text-align: center;'>
-                                            <button type="button" style="background-color: #08228a9f;color: white" class="btn btn-xs" data-bs-toggle="modal" data-bs-target="#con-close-modal-edit-settings-">
+                                            <button type="button" style="background-color: #08228a9f;color: white" class="btn btn-xs" data-bs-toggle="modal" data-bs-target="#con-close-modal-edit-1">
                                                 <i class='fas fa-pen' aria-hidden='true'></i>
                                                 </button>
                                             <button type="button" onclick="del(this)" value="" class="btn btn-danger btn-xs">
@@ -105,7 +105,7 @@
                             <button class="btn rounded-pill p-1" id="addbtn" style="width: 100%; background-color: #08228a9f;color: white" type="submit">
                                     Submit
                             </button>
-                            <button class="btn rounded-pill p-1" id="addloader" style="width: 100%; background-color: #08228a9f;color: white;display:none;" type="button">
+                            <button class="btn rounded-pill p-1" id="editloader" style="width: 100%; background-color: #08228a9f;color: white;display:none;" type="button">
                                     <span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
                                     Saving Data...
                             </button>
