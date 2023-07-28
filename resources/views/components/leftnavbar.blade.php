@@ -31,7 +31,7 @@
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="{{route('users.index')}}">
+                                            <a href="{{route('customers')}}">
                                                 Customers
                                             </a>
                                         </li>

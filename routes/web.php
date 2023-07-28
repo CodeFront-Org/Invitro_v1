@@ -43,3 +43,4 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 // Application Routes
 Route::resource('/users',App\Http\Controllers\UserController::class);
+Route::get('/customers', [App\Http\Controllers\UserController::class, 'customers'])->name('customers');
