@@ -55,7 +55,7 @@
                         </li>
 
                         <li>
-                            <a href="{{route('approve.index')}}" data-bs-toggle="collapse">
+                            <a href="{{route('approve.index')}}">
                                 <i class="fas fa-check-double"></i>
                                 <span> Approvals</span>
                                 <span class="badge bg-success rounded-pill float-end">New</span>
