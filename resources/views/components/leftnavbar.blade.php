@@ -81,7 +81,7 @@
                         </li>
 @endrole
                         <li>
-                            <a href="profile.html">
+                            <a href="{{route('profile')}}">
                                 <i class="fas fa-user-circle"></i>
                                 <span> Profile </span>
                             </a>
