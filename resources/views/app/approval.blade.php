@@ -58,6 +58,113 @@
         </div> <!-- end row -->
 
 
+
+<!-- Approve Orders -->
+        <div class="row mt-1">
+            <div class="col-12">
+            <button  style="background-color: #08228a9f;color: white" type="button" class="btn right" data-bs-toggle="modal" data-bs-target="#con-close-modal-add-1">
+                     Approve Orders
+                </button>
+                <div class="card" style="border-radius:0px 15px 15px 15px;box-shadow: 2px 3px 3px 2px rgba(9, 107, 255, 0.179);">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table  style="font-family: 'Times New Roman', Times, serif" class="table table-bordered nowrap text-center" id="datatable" class="table table-sm table-bordered dt-responsive nowrap text-center">
+                                <thead class="table-light">
+                                <tr>
+                                    <th>#</th>
+                                    <th>Product</th>
+                                    <th>Quantity</th>
+                                    <th>Amount</th>
+                                    <th>Destination</th>
+                                    <th>Invoice</th>
+                                    <th>Reciept</th>
+                                    <th>Staff Incharge</th>
+                                    <th>Date</th>
+                                    <th>Remarks</th>
+                                    <th>Approve</th>
+                                </tr>
+                                </thead>
+
+
+                                <tbody>
+                                    <tr>
+                                        <td>1. </td>
+                                        <td>Panadol</td>
+                                        <td>3 Cartons</td>
+                                        <td>25,000</td>
+                                        <td>KEMSA</td>
+                                        <td>Invoice #34</td>
+                                        <td>Re #43</td>
+                                        <td>Martin Njoroge</td>
+                                        <td>28 July 2023</td>
+                                        <td class="text-left" style="min-width: 130px; max-width: 130px; overflow: hidden; font-size: 12px;">
+                                                My remarks on entry of Order.
+                                        </td>
+                                        <td style="color:green">
+                                            <input type="checkbox" class="custom-control-input" name="status[]" value="">
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-info waves-effect waves-light">Save changes</button>
+                    </div>
+                </div>
+
+            </div>
+        </div> <!-- end row -->
+
+
+
+<!-- Approve Returns -->
+        <div class="row mt-1">
+            <div class="col-12">
+            <button  style="background-color: #08228a9f;color: white" type="button" class="btn right" data-bs-toggle="modal" data-bs-target="#con-close-modal-add-1">
+                     Approve Return of Stock
+                </button>
+                <div class="card" style="border-radius:0px 15px 15px 15px;box-shadow: 2px 3px 3px 2px rgba(9, 107, 255, 0.179);">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table  style="font-family: 'Times New Roman', Times, serif" class="table table-bordered nowrap text-center" id="datatable" class="table table-sm table-bordered dt-responsive nowrap text-center">
+                                <thead class="table-light">
+                                <tr>
+                                    <th>#</th>
+                                    <th>Name</th>
+                                    <th>Quantity</th>
+                                    <th>Destination</th>
+                                    <th>Remarks</th>
+                                    <th>Approve</th>
+                                </tr>
+                                </thead>
+
+
+                                <tbody>
+                                    <tr>
+                                        <td>1. </td>
+                                        <td>Panadol</td>
+                                        <td>3 Cartons</td>
+                                        <td>KEMSA</td>
+                                        <td class="text-left" style="min-width: 200px; max-width: 200px; overflow: hidden; font-size: 12px;">
+                                                My remarks on entry of stock.
+                                        </td>
+                                        <td style="color:green">
+                                            <input type="checkbox" class="custom-control-input" name="status[]" value="">
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-info waves-effect waves-light">Save changes</button>
+                    </div>
+                </div>
+
+            </div>
+        </div> <!-- end row -->
+
 @endsection
 
 @section('scripts')
