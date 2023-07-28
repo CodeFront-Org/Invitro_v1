@@ -45,3 +45,4 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::resource('/users',App\Http\Controllers\UserController::class);
 Route::get('/customers', [App\Http\Controllers\UserController::class, 'customers'])->name('customers');
 Route::resource('/stock',App\Http\Controllers\StockController::class);
+Route::resource('/order',App\Http\Controllers\OrderController::class);
