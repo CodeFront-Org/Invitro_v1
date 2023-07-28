@@ -204,92 +204,77 @@
 
             <!-- Edit Order Modal -->
 
-            <div id="con-close-modal-edit-1" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+            <div id="con-close-modal-add-1" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
                         <form id="settiingsForm" method="post">
                         @csrf
-                        @method('PATCH')
+                        @method('post')
                         <input type="hidden" name="type" value="0">
                         <div class="modal-header">
-                            <h4 class="modal-title">Edit Order</h4>
+                            <h4 class="modal-title">Add Order</h4>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="mb-3">
-                                        <label for="field-2n" class="form-label">Name</label>
-                                        <input type="text" value="" name="name" class="form-control" id="field-2n" placeholder="name" required>
+                                        <label for="field-2n" class="form-label">Product</label>
+                                        <input type="text" name="name" class="form-control" id="field-2n" placeholder="product name" required>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label for="field-2l" class="form-label">Quantity</label>
-                                        <input type="text" value="" name="quantity" class="form-control" id="field-2l" placeholder="quantity" required>
+                                        <input type="text" name="quantity" class="form-control" id="field-2l" placeholder="quantity" required>
                                     </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                    <label for="field-11w" class="form-label">Quantity Type</label>
-                                    <select name="role" class="form-control form-select" id="field-11w" required>
-                                                <option value="0">Cartons</option>
-                                                <option value="1">Packets</option>
-                                                <option value="1">Single Items</option>
-                                        </select>
-                                </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                    <label for="field-11q" class="form-label">Order Type</label>
-                                    <select name="role" class="form-control form-select" id="field-11q" required>
-                                                <option value="0">New</option>
-                                                <option value="1">Return</option>
-                                        </select>
-                                </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label for="field-2n" class="form-label">Amount</label>
-                                        <input type="number" value="" name="amount" class="form-control" id="field-2n" placeholder="amount" required>
+                                        <input type="number" name="amount" class="form-control" id="field-2n" placeholder="amount" required>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="mb-3">
-                                        <label for="field-2l" class="form-label">Order Level</label>
-                                        <input type="number" value="" name="o_level" class="form-control" id="field-2l" placeholder="order level" required>
+                                        <label for="field-2l" class="form-label">Destination</label>
+                                        <input type="text" name="destination" class="form-control" id="field-2l" placeholder="destination" required>
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="mb-3">
-                                        <label for="field-2n" class="form-label">Source</label>
-                                        <input type="text" value="" name="source" class="form-control" id="field-2n" placeholder="source" required>
+                                        <label for="field-2n" class="form-label">Invoice Number</label>
+                                        <input type="text" name="invoice" class="form-control" id="field-2n" placeholder="invoice number" required>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="mb-3">
-                                        <label for="field-2l" class="form-label">Expiry Date</label>
-                                        <input type="date" value="" name="e_date" class="form-control" id="field-2l" placeholder="expiry date" required>
+                                        <label for="field-2l" class="form-label">Receipt</label>
+                                        <input type="text" name="receipt" class="form-control" id="field-2l" placeholder="Receipt Number" required>
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="mb-3">
+                                        <label for="field-2l" class="form-label">Date</label>
+                                        <input type="date" name="date" class="form-control" id="field-2l" placeholder="expiry date" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="mb-3">
                                         <label for="field-2" class="form-label">Remarks</label>
-                                        <textarea id="textarea" value="" class="form-control" required maxlength="300" rows="3" placeholder="Your Remarks"></textarea>
+                                        <textarea id="textarea" name="remarks" class="form-control" required maxlength="300" rows="3" placeholder="Your Remarks"></textarea>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button class="btn rounded-pill p-1" id="editbtn" style="width: 100%; background-color: #08228a9f;color: white" type="submit">
+                            <button class="btn rounded-pill p-1" id="addbtn" style="width: 100%; background-color: #08228a9f;color: white" type="submit">
                                     Submit
                             </button>
                             <button class="btn rounded-pill p-1" id="editloader" style="width: 100%; background-color: #08228a9f;color: white;display:none;" type="button">
@@ -301,7 +286,6 @@
                     </div>
                 </div>
             </div><!-- /.modal -->
-
 
 @endsection
 
