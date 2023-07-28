@@ -41,7 +41,7 @@
                         </li>
 
                         <li>
-                            <a href="wallet.html">
+                            <a href="{{route('stock')}}">
                                 <i class="fas fa-truck-moving"></i>
                                 <span>Stocks </span>
                             </a>
