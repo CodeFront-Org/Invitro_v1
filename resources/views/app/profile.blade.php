@@ -39,7 +39,7 @@
                         w-md
                         waves-effect waves-light
                         mt-2
-                      " style="background-color: #30D5C8;color: white" id="updatebtn" data-type="update" data-id="">
+                      " style="background-color: #08228a9f;color: white" id="updatebtn" data-type="update" data-id="">
                                         <li class="list-inline-item"> Save <i class="fas fa-save"></i>
                                     </button>
                                     </li>
@@ -87,7 +87,7 @@
                         w-md
                         waves-effect waves-light
                         mt-2
-                      " style="background-color: #30D5C8;color: white" data-type="psw" data-id="" id="pswUpdate">
+                      " style="background-color: #08228a9f;color: white" data-type="psw" data-id="" id="pswUpdate">
                                 Update Password
                             </button>
                     </form>

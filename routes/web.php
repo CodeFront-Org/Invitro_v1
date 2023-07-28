@@ -47,4 +47,4 @@ Route::get('/customers', [App\Http\Controllers\UserController::class, 'customers
 Route::resource('/stock',App\Http\Controllers\StockController::class);
 Route::resource('/order',App\Http\Controllers\OrderController::class);
 Route::resource('/approve',App\Http\Controllers\ApproveController::class);
-Route::post('/profile', [App\Http\Controllers\UserController::class, 'profileUpdate'])->name('profile');
+Route::get('/profile', [App\Http\Controllers\ProfileController::class, 'profileUpdate'])->name('profile');
