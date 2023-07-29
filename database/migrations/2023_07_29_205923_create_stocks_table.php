@@ -18,6 +18,7 @@ class CreateStocksTable extends Migration
             $table->smallInteger('user_id');
             $table->smallInteger('product_id');
             $table->smallInteger('quantity');
+            $table->integer('amount')->nullable();
             $table->tinyInteger('type')->default(0);// 0 for returned stocks and 1 for new stocks
             $table->string('source');
             $table->tinyInteger('approve')->default(0);

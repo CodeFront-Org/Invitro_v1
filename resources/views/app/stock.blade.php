@@ -97,29 +97,8 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="mb-3">
-                                    <label for="field-11w" class="form-label">Quantity Type</label>
-                                    <select name="role" class="form-control form-select" id="field-11w" required>
-                                                <option value="0">Cartons</option>
-                                                <option value="1">Packets</option>
-                                                <option value="1">Single Items</option>
-                                        </select>
-                                </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                    <label for="field-11q" class="form-label">Order Type</label>
-                                    <select name="role" class="form-control form-select" id="field-11q" required>
-                                                <option value="0">New</option>
-                                                <option value="1">Return</option>
-                                        </select>
-                                </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label for="field-2n" class="form-label">Amount</label>
-                                        <input type="number" name="amount" class="form-control" id="field-2n" placeholder="amount" required>
+                                        <label for="field-2n" class="form-label">Amount per item</label>
+                                        <input type="number" name="amount" class="form-control" id="field-2n" placeholder="amount per item" required>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -141,6 +120,18 @@
                                         <label for="field-2l" class="form-label">Expiry Date</label>
                                         <input type="date" name="e_date" class="form-control" id="field-2l" placeholder="expiry date" required>
                                     </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="mb-3">
+                                    <label for="field-11w" class="form-label">Quantity Type</label>
+                                    <select name="role" class="form-control form-select" id="field-11w" required>
+                                                <option value="0">Cartons</option>
+                                                <option value="1">Packets</option>
+                                                <option value="1">Single Items</option>
+                                        </select>
+                                </div>
                                 </div>
                             </div>
                             <div class="row">
@@ -184,9 +175,11 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="mb-3">
-                                        <label for="field-2n" class="form-label">Name</label>
-                                        <input type="text" name="name" class="form-control" id="field-2n" placeholder="name" required>
-                                    </div>
+                                    <label for="field-11w" class="form-label">Product Name</label>
+                                    <select name="name" class="form-control form-select" id="field-11w" required>
+                                                <option value="0">Panadol</option>
+                                        </select>
+                                </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="mb-3">
@@ -265,9 +258,11 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="mb-3">
-                                        <label for="field-2n" class="form-label">Name</label>
-                                        <input type="text" value="" name="name" class="form-control" id="field-2n" placeholder="name" required>
-                                    </div>
+                                    <label for="field-11w" class="form-label">Product Name</label>
+                                    <select name="name" class="form-control form-select" id="field-11w" required>
+                                                <option value="0">Panadol</option>
+                                        </select>
+                                </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="mb-3">
@@ -279,29 +274,8 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="mb-3">
-                                    <label for="field-11w" class="form-label">Quantity Type</label>
-                                    <select name="role" class="form-control form-select" id="field-11w" required>
-                                                <option value="0">Cartons</option>
-                                                <option value="1">Packets</option>
-                                                <option value="1">Single Items</option>
-                                        </select>
-                                </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                    <label for="field-11q" class="form-label">Order Type</label>
-                                    <select name="role" class="form-control form-select" id="field-11q" required>
-                                                <option value="0">New</option>
-                                                <option value="1">Return</option>
-                                        </select>
-                                </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label for="field-2n" class="form-label">Amount</label>
-                                        <input type="number" value="" name="amount" class="form-control" id="field-2n" placeholder="amount" required>
+                                        <label for="field-2n" class="form-label">Amount per item</label>
+                                        <input type="number" value="" name="amount" class="form-control" id="field-2n" placeholder="amount per item" required>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -323,6 +297,18 @@
                                         <label for="field-2l" class="form-label">Expiry Date</label>
                                         <input type="date" value="" name="e_date" class="form-control" id="field-2l" placeholder="expiry date" required>
                                     </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="mb-3">
+                                    <label for="field-11w" class="form-label">Quantity Type</label>
+                                    <select name="role" class="form-control form-select" id="field-11w" required>
+                                                <option value="0">Cartons</option>
+                                                <option value="1">Packets</option>
+                                                <option value="1">Single Items</option>
+                                        </select>
+                                </div>
                                 </div>
                             </div>
                             <div class="row">

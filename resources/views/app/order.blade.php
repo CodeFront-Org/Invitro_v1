@@ -81,9 +81,11 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="mb-3">
-                                        <label for="field-2n" class="form-label">Product</label>
-                                        <input type="text" name="name" class="form-control" id="field-2n" placeholder="product name" required>
-                                    </div>
+                                    <label for="field-11w" class="form-label">Product Name</label>
+                                    <select name="name" class="form-control form-select" id="field-11w" required>
+                                                <option value="0">Panadol</option>
+                                        </select>
+                                </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="mb-3">
@@ -166,9 +168,11 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="mb-3">
-                                        <label for="field-2n" class="form-label">Name</label>
-                                        <input type="text" name="name" class="form-control" id="field-2n" placeholder="name" required>
-                                    </div>
+                                    <label for="field-11w" class="form-label">Product Name</label>
+                                    <select name="name" class="form-control form-select" id="field-11w" required>
+                                                <option value="0">Panadol</option>
+                                        </select>
+                                </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="mb-3">
