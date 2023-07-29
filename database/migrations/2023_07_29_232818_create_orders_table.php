@@ -15,6 +15,15 @@ class CreateOrdersTable extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
+            $table->smallInteger('user_id');
+            $table->Integer('stock_id');
+            $table->string('destination');
+            $table->string('quantity');
+            $table->string('remarks');
+            $table->string('invoice');
+            $table->string('receipt');
+            $table->tinyInteger('approve')->default(0);
+            $table->softDeletes();
             $table->timestamps();
         });
     }

@@ -17,6 +17,7 @@ class CreateProductsTable extends Migration
             $table->id();
             $table->smallInteger('user_id');
             $table->smallInteger('order_level');
+            $table->string('quantity_type');
             $table->softDeletes();
             $table->timestamps();
         });
