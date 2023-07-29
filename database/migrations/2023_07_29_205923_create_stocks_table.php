@@ -15,6 +15,15 @@ class CreateStocksTable extends Migration
     {
         Schema::create('stocks', function (Blueprint $table) {
             $table->id();
+            $table->smallInteger('user_id');
+            $table->smallInteger('product_id');
+            $table->smallInteger('quantity');
+            $table->tinyInteger('type')->default(0);// 0 for returned stocks and 1 for new stocks
+            $table->string('source');
+            $table->tinyInteger('approve')->default(0);
+            $table->string('remarks');
+            $table->dateTime('expiry_date');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
