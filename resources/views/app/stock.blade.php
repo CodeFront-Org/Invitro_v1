@@ -71,7 +71,7 @@
             <div id="con-close-modal-add-1" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
-                        <form id="settiingsForm" method="post">
+                        <form id="addForm" method="post">
                         @csrf
                         @method('post')
                         <input type="hidden" name="type" value="0">
@@ -147,7 +147,7 @@
                             <button class="btn rounded-pill p-1" id="addbtn" style="width: 100%; background-color: #08228a9f;color: white" type="submit">
                                     Submit
                             </button>
-                            <button class="btn rounded-pill p-1" id="editloader" style="width: 100%; background-color: #08228a9f;color: white;display:none;" type="button">
+                            <button class="btn rounded-pill p-1" id="addloader" style="width: 100%; background-color: #08228a9f;color: white;display:none;" type="button">
                                     <span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
                                     Saving Data...
                             </button>
@@ -158,7 +158,7 @@
             </div><!-- /.modal -->
 
 
-            <!-- Add New Stock Modal -->
+            <!-- REstock Stock Modal -->
 
             <div id="con-close-modal-restock-1" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
                 <div class="modal-dialog modal-dialog-centered">
@@ -350,7 +350,7 @@ loader.show();
 let data=$("#settiingsForm").serialize();
 $.ajax({
     type: "POST",
-    url: "#",
+    url: "/stock",
     data: data,
     success: function (response) {
 
@@ -371,10 +371,12 @@ $.ajax({
                         "showMethod": "fadeIn",
                         "hideMethod": "fadeOut"
                     }
-                    toastr["success"]("", "Settings Saved Succesfully.")
-        location.href='#'
+                    toastr["success"]("", "Stock Saved Succesfully.")
+        location.href='/stock'
     },
     error: function(res){
+        btn.show();
+        loader.hide();
         Swal.fire("Error!", "Try again later...", "error");
     }
 });
