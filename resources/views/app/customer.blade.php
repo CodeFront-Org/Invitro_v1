@@ -57,7 +57,7 @@
                         <form id="addForm" method="post">
                         @csrf
                         @method('post')
-                        <input type="hidden" name="type" value="0">
+                        <input type="hidden" name="type" value="1">
                         <div class="modal-header">
                             <h4 class="modal-title">Add Customer</h4>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -109,7 +109,7 @@
                         <form id="addForm" method="post">
                         @csrf
                         @method('PATCH')
-                        <input type="hidden" name="type" value="0">
+                        <input type="hidden" name="type" value="1">
                         <div class="modal-header">
                             <h4 class="modal-title">Edit Customer</h4>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>

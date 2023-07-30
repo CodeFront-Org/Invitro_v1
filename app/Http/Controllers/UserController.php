@@ -19,7 +19,7 @@ class UserController extends Controller
     public function index()
     {
         $label="Staff";
-        $data=User::select('id','first_name','last_name','email','contacts','role_type')->latest()->get();
+        $data=User::select('id','first_name','last_name','email','contacts','role_type')->where('role_type',2)->latest()->get();
         return view('app.staff',compact('label','data'));
     }
 
@@ -45,28 +45,55 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-            $password="staff123";
-            $status=$request->role;
-            // Create new user
-            $user = User::create([
-                'first_name' => $request->f_name,
-                'last_name' => $request->l_name,
-                'contacts' => $request->contacts,
-                'email' => $request->email,
-                'password' => Hash::make($password),
-                'role_type'=>$request->status=='0'?'1':'2',//Role For 2 staff 1 admin
-            ]);
-        //Add Role to the newly added staff Based on create condition
-        if($user){
-            //Log activity
-            Log::channel('user_reg')->notice(Auth::user()->email." of DB id ".Auth::id()." Registered Staff ".$request->email." with role of ".$status);
-            $user=User::where('email',$request->email)->first();
-            if($status=='0'){//add admin role
-                $user->assignRole('admin');
-            }elseif($status=='1'){//add staff role
-                $user->assignRole('staff');
-            }
+$type=$request->type;
+if($type==0){//Store staff
+    $password="staff123";
+    $status=$request->role;
+    // Create new user
+    $user = User::create([
+        'first_name' => $request->f_name,
+        'last_name' => $request->l_name,
+        'contacts' => $request->contacts,
+        'email' => $request->email,
+        'password' => Hash::make($password),
+        'role_type'=>$request->status=='0'?'1':'2',//Role For 2 staff 1 admin
+    ]);
+    //Add Role to the newly added staff Based on create condition
+    if($user){
+        //Log activity
+        Log::channel('user_reg')->notice(Auth::user()->email." of DB id ".Auth::id()." Registered Staff ".$request->email." with role of ".$status);
+        $user=User::where('email',$request->email)->first();
+        if($status=='0'){//add admin role
+            $user->assignRole('admin');
+        }elseif($status=='1'){//add staff role
+            $user->assignRole('staff');
         }
+    }
+}elseif($type==1){//store customer
+    $password="customer123";
+    $status=$request->role;
+    // Create new user
+    $user = User::create([
+        'first_name' => $request->name,
+        'last_name' => 'customer',
+        'contacts' => $request->contacts,
+        'email' => $request->email,
+        'password' => Hash::make($password),
+        'role_type'=>3,//Role For 2 staff 1 admin 3for Customer
+    ]);
+    //Add Role to the newly added staff Based on create condition
+    if($user){
+        //Log activity
+        Log::channel('user_reg')->notice(Auth::user()->email." of DB id ".Auth::id()." Registered Customer ".$request->email." with role of ".$status);
+        $user=User::where('email',$request->email)->first();
+        if($status=='0'){//add admin role
+            $user->assignRole('admin');
+        }elseif($status=='1'){//add staff role
+            $user->assignRole('staff');
+        }
+    }
+}
+
     }
 
     /**
