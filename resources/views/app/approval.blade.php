@@ -28,23 +28,25 @@
 
 
                                 <tbody>
-                                    <tr>
-                                        <td>1. </td>
-                                        <td>Panadol</td>
-                                        <td>3 Cartons</td>
-                                        <td>25,000</td>
-                                        <td>1</td>
-                                        <td>KEMSA</td>
-                                        <td>Martin Njoroge</td>
-                                        <td>28 July 2023</td>
-                                        <td>28 July 2023</td>
-                                        <td class="text-left" style="min-width: 200px; max-width: 200px; overflow: hidden; font-size: 12px;">
-                                                My remarks on entry of stock.
-                                        </td>
-                                        <td style="color:green">
-                                            <input type="checkbox" class="custom-control-input" name="status[]" value="">
-                                        </td>
-                                    </tr>
+@foreach ($data as $item)
+    <tr>
+        <td>{{$loop->index+1}}. </td>
+        <td>{{$item['name']}}</td>
+        <td>{{$item['quantity']}}</td>
+        <td>{{$item['amount']}}</td>
+        <td>{{$item['order_level']}}</td>
+        <td>{{$item['source']}}</td>
+        <td>{{$item['staff_name']}}</td>
+        <td>{{$item['']}}</td>
+        <td>{{$item['']}}</td>
+        <td class="text-left" style="min-width: 200px; max-width: 200px; overflow: hidden; font-size: 12px;">
+                {{$item['remarks']}}
+        </td>
+        <td style="color:green">
+            <input type="checkbox" class="custom-control-input" name="status[]" value="">
+        </td>
+    </tr>
+@endforeach
                                 </tbody>
                             </table>
                         </div>

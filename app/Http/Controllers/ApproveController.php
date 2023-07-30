@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Stock;
+use App\Models\Product;
+use App\Models\User;
 
 class ApproveController extends Controller
 {
@@ -14,6 +17,41 @@ class ApproveController extends Controller
     public function index()
     {
         $label="Approvals";
+        $data=array();
+        $approvals=Stock::all()->sortByDesc('id')->where('approve',0);
+        foreach($approvals as $d){
+            //Pick data from products table
+            $name=Product::where('id',$d->product_id)->pluck('name')->first();
+            $order_level=Product::where('id',$d->product_id)->pluck('quantity_type')->first();
+            $quantity_type=Product::where('id',$d->product_id)->pluck('quantity_type')->first();
+            if($quantity_type==0){$t='Carton(s)';}elseif($quantity_type==1){$t='Packets';}else{$t='Items';}
+            //pick remainig data from stock table
+            $user_id=$d->user_id;
+            $f_name=User::where('id',$user_id)->pluck('first_name')->first();
+            $l_name=User::where('id',$user_id)->pluck('last_name')->first();
+            $staff_name=$f_name.' '.$l_name;
+            $quantity=$d->quantity;
+            $amount=$d->amount;
+            $type=$d->type;
+            $source=$d->source;
+            $remarks=$d->remarks;
+            $expiry_date=$d->expiry_date;
+            $created_at=$d->created_at;
+            //Pushing to data array structure
+            array_push($data,[
+                'name'=>$name,
+                'quantity'=>$quantity.' '.$t,
+                'amount'=>$amount,
+                'order_level'=>$order_level,
+                'source'=>$source,
+                'staff'=>$staff_name,
+                'date_in'=>$created_at,
+                'expiry_date'=>$expiry_date,
+                'remarks'=>$remarks
+            ]);
+
+        }
+return $data;
         return view('app.approval',compact('label'));
     }
 
