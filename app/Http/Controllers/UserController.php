@@ -19,7 +19,8 @@ class UserController extends Controller
     public function index()
     {
         $label="Staff";
-        return view('app.staff',compact('label'));
+        $data=User::select('id','first_name','last_name','email','contacts','role_type')->latest()->get();
+        return view('app.staff',compact('label','data'));
     }
 
     public function customers(){
