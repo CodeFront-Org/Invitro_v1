@@ -26,6 +26,7 @@ class ApproveController extends Controller
             $quantity_type=Product::where('id',$d->product_id)->pluck('quantity_type')->first();
             if($quantity_type==0){$t='Carton(s)';}elseif($quantity_type==1){$t='Packets';}else{$t='Items';}
             //pick remainig data from stock table
+            $id=$d->id;
             $user_id=$d->user_id;
             $f_name=User::where('id',$user_id)->pluck('first_name')->first();
             $l_name=User::where('id',$user_id)->pluck('last_name')->first();
@@ -39,6 +40,7 @@ class ApproveController extends Controller
             $created_at=$d->created_at;
             //Pushing to data array structure
             array_push($data,[
+                'id'=>$id,
                 'name'=>$name,
                 'quantity'=>$quantity.' '.$t,
                 'amount'=>$amount,
@@ -73,7 +75,21 @@ class ApproveController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $type=$request->type;
+        if($type==0){//Approve Stocks
+            $data=$request->status;
+            foreach($data as $item){
+            //Approve Stock table
+            Stock::where('id',$item)->update(['approve'=>1]);
+
+            }
+            session()->flash('message','success');
+            return back();
+        }elseif($type==1){//Approve orders
+
+        }elseif($type==2){//Approve Re-turned stocks
+
+        }
     }
 
     /**

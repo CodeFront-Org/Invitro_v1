@@ -1,12 +1,22 @@
 @extends('layouts.app')
 
 @section('content')
+@if (session()->has('message'))
+    <div id="toast" class="alert text-center alert-success alert-dismissible w-100 fade show" role="alert">
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        Approved Successfully.
+    </div>
+@endif
         <div class="row mt-1">
             <div class="col-12">
             <button  style="background-color: #08228a9f;color: white" type="button" class="btn right" data-bs-toggle="modal" data-bs-target="#con-close-modal-add-1">
                      Approve New Stock
                 </button>
                 <div class="card" style="border-radius:0px 15px 15px 15px;box-shadow: 2px 3px 3px 2px rgba(9, 107, 255, 0.179);">
+                <form action="{{route('approve.store')}}" method="post">
+                    @csrf
+                    @method("POST")
+                    <input type="hidden" name="type" value="0">
                     <div class="card-body">
                         <div class="table-responsive">
                             <table  style="font-family: 'Times New Roman', Times, serif" class="table table-bordered nowrap text-center" id="datatable" class="table table-sm table-bordered dt-responsive nowrap text-center">
@@ -43,7 +53,7 @@
                                                 {{$item['remarks']}}
                                         </td>
                                         <td style="color:green">
-                                            <input type="checkbox" class="custom-control-input" name="status[]" value="">
+                                            <input type="checkbox" class="custom-control-input" name="status[]" value="{{$item['id']}}">
                                         </td>
                                     </tr>
                                 @endforeach
@@ -54,6 +64,7 @@
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-info waves-effect waves-light">Save changes</button>
                     </div>
+                    </form>
                 </div>
 
             </div>

@@ -102,7 +102,7 @@
                                 <a href="{{route('approve.index')}}" class="dropdown-item notify-item active">
                                     <p class="notify-details">Approve Stocks</p>
                                     <p class="text-muted mb-0 user-msg">
-                                        <small>Hi, you have new stock to approve.</small>
+                                        <small>Hi, you have <b>{{$approvals}}</b> new stock to approve.</small>
                                     </p>
                                 </a>
                             @endif
