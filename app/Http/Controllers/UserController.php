@@ -101,7 +101,7 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         $status=$request->role;
-        $status==0?'admin':'staff';
+        if($status==0){$status='admin';}elseif($status==1){$status='staff';}
         $email=$request->email;
         //Add staff details to db
         $userUpdate=User::where('id',$id)->update([
@@ -109,12 +109,12 @@ class UserController extends Controller
             'last_name' => $request->l_name,
             'contacts' => $request->contacts,
             'email' => $request->email,
-            'role_type'=>$request->status=='0'?'1':'2',//Role For 2 staff 1 admin
+            'role_type'=>$request->role=='0'?'1':'2',//Role For 2 staff 1 admin
         ]);
         //Update Role to the newly added staff Based on create condition
         if($userUpdate){
             //Log activity
-            Log::channel('user_edit')->notice(Auth::user()->email." of DB id ".Auth::id()." Edited Staff with role of ".$status);
+            Log::channel('user_edit')->notice(Auth::user()->email." of DB id ".Auth::id()." Edited Staff ".$email." with role of ".$status);
             $user=User::where('id',$id)->first();
             $newRole = Role::where('name', $status)->first();// Retrieve the new role you want to assign to the user
             $user->syncRoles($newRole);// Update the user's roles
