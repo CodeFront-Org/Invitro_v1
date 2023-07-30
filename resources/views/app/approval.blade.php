@@ -28,25 +28,25 @@
 
 
                                 <tbody>
-@foreach ($data as $item)
-    <tr>
-        <td>{{$loop->index+1}}. </td>
-        <td>{{$item['name']}}</td>
-        <td>{{$item['quantity']}}</td>
-        <td>{{$item['amount']}}</td>
-        <td>{{$item['order_level']}}</td>
-        <td>{{$item['source']}}</td>
-        <td>{{$item['staff_name']}}</td>
-        <td>{{$item['']}}</td>
-        <td>{{$item['']}}</td>
-        <td class="text-left" style="min-width: 200px; max-width: 200px; overflow: hidden; font-size: 12px;">
-                {{$item['remarks']}}
-        </td>
-        <td style="color:green">
-            <input type="checkbox" class="custom-control-input" name="status[]" value="">
-        </td>
-    </tr>
-@endforeach
+                                @foreach ($data as $item)
+                                    <tr>
+                                        <td>{{$loop->index+1}}. </td>
+                                        <td>{{$item['name']}}</td>
+                                        <td>{{$item['quantity']}}</td>
+                                        <td>{{$item['amount']}}</td>
+                                        <td>{{$item['order_level']}}</td>
+                                        <td>{{$item['source']}}</td>
+                                        <td>{{$item['staff_name']}}</td>
+                                        <td>{{$item['date_in']->format('d F Y')}}</td>
+                                        <td>{{$item['expiry_date']}}</td>
+                                        <td class="text-left" style="min-width: 100px; max-width: 100px; overflow: hidden; font-size: 12px;">
+                                                {{$item['remarks']}}
+                                        </td>
+                                        <td style="color:green">
+                                            <input type="checkbox" class="custom-control-input" name="status[]" value="">
+                                        </td>
+                                    </tr>
+                                @endforeach
                                 </tbody>
                             </table>
                         </div>

@@ -44,15 +44,15 @@ class ApproveController extends Controller
                 'amount'=>$amount,
                 'order_level'=>$order_level,
                 'source'=>$source,
-                'staff'=>$staff_name,
-                'date_in'=>$created_at,
-                'expiry_date'=>$expiry_date,
+                'staff_name'=>$staff_name,
+                'date_in'=>$d->created_at,
+                'expiry_date'=>$d->expiry_date,
                 'remarks'=>$remarks
             ]);
 
         }
-return $data;
-        return view('app.approval',compact('label'));
+
+        return view('app.approval',compact('label','data'));
     }
 
     /**

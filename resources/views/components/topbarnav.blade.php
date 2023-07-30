@@ -62,10 +62,16 @@
                     </div>
                 </li>
 
+                        @php
+                            use App\Models\Stock;
+                            $approvals = count(Stock::all()->where('approve',0));
+                            if($approvals>0){$count=1;}else{$count=0;}
+
+                        @endphp
                 <li class="dropdown notification-list topbar-dropdown">
                     <a class="nav-link dropdown-toggle waves-effect waves-light" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
                         <i class="fe-bell noti-icon"></i>
-                        <span class="badge bg-danger rounded-circle noti-icon-badge">0</span>
+                        <span class="badge bg-danger rounded-circle noti-icon-badge">{{$count}}</span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-end dropdown-lg">
 
@@ -90,8 +96,17 @@
                                 <p class="text-muted mb-0 user-msg">
                                     <small>Hi, your documents were verified</small>
                                 </p>
-                            </a>
-                        </div>-->
+                            </a>-->
+                            <!-- item-->
+                            @if ($approvals>0)
+                                <a href="{{route('approve.index')}}" class="dropdown-item notify-item active">
+                                    <p class="notify-details">Approve Stocks</p>
+                                    <p class="text-muted mb-0 user-msg">
+                                        <small>Hi, you have new stock to approve.</small>
+                                    </p>
+                                </a>
+                            @endif
+                        </div>
 
                         <!-- All
                         <a href="javascript:void(0);" class="dropdown-item text-center text-warning notify-item notify-all">
