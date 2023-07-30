@@ -54,7 +54,7 @@
             <div id="con-close-modal-add-1" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
-                        <form id="settiingsForm" method="post">
+                        <form id="addForm" method="post">
                         @csrf
                         @method('post')
                         <input type="hidden" name="type" value="0">
@@ -67,7 +67,7 @@
                                 <div class="col-md-12">
                                     <div class="mb-3">
                                         <label for="field-2n" class="form-label">Customer/Company Name</label>
-                                        <input type="text" name="f_name" class="form-control" id="field-2n" placeholder="first name" required>
+                                        <input type="text" name="name" class="form-control" id="field-2n" placeholder="name" required>
                                     </div>
                                 </div>
                             </div>
@@ -90,7 +90,7 @@
                             <button class="btn rounded-pill p-1" id="addbtn" style="width: 100%; background-color: #08228a9f;color: white" type="submit">
                                     Submit
                             </button>
-                            <button class="btn rounded-pill p-1" id="editloader" style="width: 100%; background-color: #08228a9f;color: white;display:none;" type="button">
+                            <button class="btn rounded-pill p-1" id="addloader" style="width: 100%; background-color: #08228a9f;color: white;display:none;" type="button">
                                     <span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
                                     Saving Data...
                             </button>
@@ -106,7 +106,7 @@
             <div id="con-close-modal-edit-1" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
-                        <form id="settiingsForm" method="post">
+                        <form id="addForm" method="post">
                         @csrf
                         @method('PATCH')
                         <input type="hidden" name="type" value="0">
@@ -161,16 +161,16 @@
     <script>
     $(document).ready(function(){
 //Add settings Form
-$("#settiingsForm").on('submit',(e)=>{
+$("#addForm").on('submit',(e)=>{
 e.preventDefault();
 var btn=$("#addbtn");
 var loader=$("#addloader")
 btn.hide();
 loader.show();
-let data=$("#settiingsForm").serialize();
+let data=$("#addForm").serialize();
 $.ajax({
     type: "POST",
-    url: "#",
+    url: "/users",
     data: data,
     success: function (response) {
 
@@ -191,10 +191,12 @@ $.ajax({
                         "showMethod": "fadeIn",
                         "hideMethod": "fadeOut"
                     }
-                    toastr["success"]("", "Settings Saved Succesfully.")
-        location.href='#'
+                    toastr["success"]("", "Customer Saved Succesfully.")
+        location.href='/users'
     },
     error: function(res){
+        btn.show();
+        loader.hide();
         Swal.fire("Error!", "Try again later...", "error");
     }
 });
