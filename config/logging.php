@@ -135,6 +135,16 @@ return [
             'path' => storage_path('logs/user/reg.log'),
             'level' => 'info',
         ],
+        'user_edit' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/user/edit.log'),
+            'level' => 'info',
+        ],
+        'user_delete' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/userdelete.log'),
+            'level' => 'info',
+        ],
         'add_stock' => [
             'driver' => 'single',
             'path' => storage_path('logs/stock/add.log'),

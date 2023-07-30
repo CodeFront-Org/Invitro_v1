@@ -123,10 +123,11 @@
     <div id="con-close-modal-edit-{{$item['id']}}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
-                <form id="editForm" method="post">
+                <form class="editForm" method="post">
                 @csrf
                 @method('PATCH')
                 <input type="hidden" name="type" value="0">
+                        <input type="hidden" name="editformId" id="editformId" value="{{$item['id']}}">
                 <div class="modal-header">
                     <h4 class="modal-title">Edit Staff</h4>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -171,10 +172,10 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn rounded-pill p-1" id="addbtn" style="width: 100%; background-color: #08228a9f;color: white" type="submit">
+                    <button class="btn rounded-pill p-1" id="editbtn{{$item['id']}}" style="width: 100%; background-color: #08228a9f;color: white" type="submit">
                             Submit
                     </button>
-                    <button class="btn rounded-pill p-1" id="addloader" style="width: 100%; background-color: #08228a9f;color: white;display:none;" type="button">
+                    <button class="btn rounded-pill p-1" id="editloader{{$item['id']}}" style="width: 100%; background-color: #08228a9f;color: white;display:none;" type="button">
                             <span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
                             Saving Data...
                     </button>
@@ -236,11 +237,11 @@ $.ajax({
 })
 
 // Edit settings Form
-$(".settiingsEditForm").on('submit', function(e) {
+$(".editForm").on('submit', function(e) {
   e.preventDefault();
 
   const form = $(this);
-  var itemId = form.find('input[name="editsettingId"]').val();
+  var itemId = form.find('input[name="editformId"]').val();
   var btn = $("#editbtn" + itemId);
   var loader = $("#editloader" + itemId);
   btn.hide();
@@ -248,7 +249,7 @@ $(".settiingsEditForm").on('submit', function(e) {
   let data = form.serialize();
 $.ajax({
     type: 'PATCH',
-    url: '/#/' + itemId,
+    url: '/users/' + itemId,
     data: data,
     success: function (response) { console.log(response)
 
@@ -269,10 +270,12 @@ $.ajax({
                         "showMethod": "fadeIn",
                         "hideMethod": "fadeOut"
                     }
-                    toastr["success"]("", "Settings Update Succesfully.")
-        location.href='#'
+                    toastr["success"]("", "Data Updated Succesfully.")
+        location.href='/users'
     },
     error: function(res){ console.log(res)
+        btn.show();
+        loader.hide();
         Swal.fire("Error!", "Try again later...", "error");
     }
 });
