@@ -24,6 +24,7 @@
 
                                 <tbody>
                                 @foreach($data as $item)
+                                @if ($item['id']!==Auth::id())
                                     <tr>
                                         <td>{{($loop->index)+1}} </td>
                                         <td>{{$item['first_name']}} {{$item['last_name']}}</td>
@@ -34,12 +35,13 @@
                                             <button type="button" style="background-color: #08228a9f;color: white" class="btn btn-xs" data-bs-toggle="modal" data-bs-target="#con-close-modal-edit-{{$item['id']}}">
                                                 <i class='fas fa-pen' aria-hidden='true'></i>
                                                 </button>
-                                            <button type="button" onclick="del(this)" value="{{$item['']}}" class="btn btn-danger btn-xs">
+                                            <button type="button" onclick="del(this)" value="{{$item['id']}}" class="btn btn-danger btn-xs">
                                                 <i class='fa fa-trash' aria-hidden='true'></i>
                                             </button>
 
                                         </td>
                                     </tr>
+                                @endif
                                 @endforeach
                                 </tbody>
                             </table>
@@ -304,14 +306,14 @@ $.ajax({
         if(t.value){
                 $.ajax({
                     type: "DELETE",
-                    url: "settings/"+id,
+                    url: "users/"+id,
                     data:{
                         _token:"{{csrf_token()}}", id,type
                     },
                     success: function (response) { console.log(response)
 
                         Swal.fire("Deleted", "Successfully.", "success").then(()=>{
-                        location.href='#'})
+                        location.href='/users'})
                     },
                     error: function(res){console.log(res)
                         Swal.fire("Error!", "Try again later...", "error");
