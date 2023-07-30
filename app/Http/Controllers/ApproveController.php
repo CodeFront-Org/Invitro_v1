@@ -22,7 +22,7 @@ class ApproveController extends Controller
         foreach($approvals as $d){
             //Pick data from products table
             $name=Product::where('id',$d->product_id)->pluck('name')->first();
-            $order_level=Product::where('id',$d->product_id)->pluck('quantity_type')->first();
+            $order_level=Product::where('id',$d->product_id)->pluck('order_level')->first();
             $quantity_type=Product::where('id',$d->product_id)->pluck('quantity_type')->first();
             if($quantity_type==0){$t='Carton(s)';}elseif($quantity_type==1){$t='Packets';}else{$t='Items';}
             //pick remainig data from stock table

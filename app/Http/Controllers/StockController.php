@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Stock;
 use App\Models\Product;
+use App\Models\User;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 
@@ -18,7 +19,43 @@ class StockController extends Controller
     public function index()
     {
         $label="Stocks";
-        return view('app.stock',compact('label'));
+        $data=array();
+        $approvals=Stock::all()->sortByDesc('id')->where('approve',1);
+        foreach($approvals as $d){
+            //Pick data from products table
+            $name=Product::where('id',$d->product_id)->pluck('name')->first();
+            $order_level=Product::where('id',$d->product_id)->pluck('order_level')->first();
+            $quantity_type=Product::where('id',$d->product_id)->pluck('quantity_type')->first();
+            if($quantity_type==0){$t='Carton(s)';}elseif($quantity_type==1){$t='Packets';}else{$t='Items';}
+            //pick remainig data from stock table
+            $id=$d->id;
+            $user_id=$d->user_id;
+            $f_name=User::where('id',$user_id)->pluck('first_name')->first();
+            $l_name=User::where('id',$user_id)->pluck('last_name')->first();
+            $staff_name=$f_name.' '.$l_name;
+            $quantity=$d->quantity;
+            $amount=$d->amount;
+            $type=$d->type;
+            $source=$d->source;
+            $remarks=$d->remarks;
+            $expiry_date=$d->expiry_date;
+            $created_at=$d->created_at;
+            //Pushing to data array structure
+            array_push($data,[
+                'id'=>$id,
+                'name'=>$name,
+                'quantity'=>$quantity.' '.$t,
+                'amount'=>$amount,
+                'order_level'=>$order_level,
+                'source'=>$source,
+                'staff_name'=>$staff_name,
+                'date_in'=>$d->created_at,
+                'expiry_date'=>$d->expiry_date,
+                'remarks'=>$remarks
+            ]);
+
+        }
+        return view('app.stock',compact('label','data'));
     }
 
     /**

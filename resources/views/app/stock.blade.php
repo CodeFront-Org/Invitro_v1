@@ -24,7 +24,6 @@
                                     <th>Staff</th>
                                     <th>Date In</th>
                                     <th>Expiry</th>
-                                    <th>Type</th>
                                     <th>Remarks</th>
                                     <th>Actions</th>
                                 </tr>
@@ -32,30 +31,31 @@
 
 
                                 <tbody>
+                                @foreach ($data as $item)
                                     <tr>
-                                        <td>1. </td>
-                                        <td>Panadol</td>
-                                        <td>3 Cartons</td>
-                                        <td>25,000</td>
-                                        <td>1</td>
-                                        <td>KEMSA</td>
-                                        <td>Martin Njoroge</td>
-                                        <td>28 July 2023</td>
-                                        <td>28 July 2023</td>
-                                        <td>New</td>
+                                        <td>{{$loop->index+1}}. </td>
+                                        <td>{{$item['name']}}</td>
+                                        <td>{{$item['quantity']}}</td>
+                                        <td>{{number_format($item['amount'])}}</td>
+                                        <td>{{$item['order_level']}}</td>
+                                        <td>{{$item['source']}}</td>
+                                        <td>{{$item['staff_name']}}e</td>
+                                        <td>{{$item['date_in']}}</td>
+                                        <td>{{$item['expiry_date']}}</td>
                                         <td class="text-left" style="min-width: 130px; max-width: 130px; overflow: hidden; font-size: 12px;">
-                                                My remarks on entry of stock.
+                                                {{$item['remarks']}}
                                         </td>
                                         <td style='font-size:10px; text-align: center;'>
-                                            <button type="button" style="background-color: #08228a9f;color: white" class="btn btn-xs" data-bs-toggle="modal" data-bs-target="#con-close-modal-edit-1">
+                                            <button type="button" style="background-color: #08228a9f;color: white" class="btn btn-xs" data-bs-toggle="modal" data-bs-target="#con-close-modal-edit-{{$item['id']}}">
                                                 <i class='fas fa-pen' aria-hidden='true'></i>
                                                 </button>
-                                            <button type="button" onclick="del(this)" value="" class="btn btn-danger btn-xs">
+                                            <button type="button" onclick="del(this)" value="{{$item['id']}}" class="btn btn-danger btn-xs">
                                                 <i class='fa fa-trash' aria-hidden='true'></i>
                                             </button>
 
                                         </td>
                                     </tr>
+                                @endforeach
                                 </tbody>
                             </table>
                         </div>
