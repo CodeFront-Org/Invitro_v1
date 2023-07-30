@@ -25,7 +25,8 @@ class UserController extends Controller
 
     public function customers(){
         $label="Customers";
-        return view('app.customer',compact('label'));
+        $data=User::select('id','first_name','last_name','email','contacts','role_type')->where('role_type',2)->latest()->get();
+        return view('app.customer',compact('label','data'));
     }
     /**
      * Show the form for creating a new resource.

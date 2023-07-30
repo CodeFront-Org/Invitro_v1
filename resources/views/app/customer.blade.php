@@ -16,29 +16,29 @@
                                     <th>Name</th>
                                     <th>Contact</th>
                                     <th>Email</th>
-                                    <th>Role</th>
                                     <th>Actions</th>
                                 </tr>
                                 </thead>
 
 
                                 <tbody>
+                                @foreach ($data as $item)
                                     <tr>
-                                        <td>1. </td>
-                                        <td>Martin Njoroge</td>
-                                        <td>0797965680</td>
-                                        <td>martin@gmail.com</td>
-                                        <td>Admin</td>
+                                        <td>{{$loop->index+1}}</td>
+                                        <td>{{$item['first_name']}}</td>
+                                        <td>{{$item['contacts']}}</td>
+                                        <td>{{$item['email']}}</td>
                                         <td style='font-size:10px; text-align: center;'>
-                                            <button type="button" style="background-color: #08228a9f;color: white" class="btn btn-xs" data-bs-toggle="modal" data-bs-target="#con-close-modal-edit-1">
+                                            <button type="button" style="background-color: #08228a9f;color: white" class="btn btn-xs" data-bs-toggle="modal" data-bs-target="#con-close-modal-edit-{{$item['id']}}">
                                                 <i class='fas fa-pen' aria-hidden='true'></i>
                                                 </button>
-                                            <button type="button" onclick="del(this)" value="" class="btn btn-danger btn-xs">
+                                            <button type="button" onclick="del(this)" value="{{$item['id']}}" class="btn btn-danger btn-xs">
                                                 <i class='fa fa-trash' aria-hidden='true'></i>
                                             </button>
 
                                         </td>
                                     </tr>
+                                @endforeach
                                 </tbody>
                             </table>
                         </div>
