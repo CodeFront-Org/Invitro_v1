@@ -54,7 +54,7 @@
             <div id="con-close-modal-add-1" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
-                        <form id="settiingsForm" method="post">
+                        <form id="staffForm" method="post">
                         @csrf
                         @method('post')
                         <input type="hidden" name="type" value="0">
@@ -121,7 +121,7 @@
             <div id="con-close-modal-edit-1" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
-                        <form id="settiingsForm" method="post">
+                        <form id="staffForm" method="post">
                         @csrf
                         @method('PATCH')
                         <input type="hidden" name="type" value="0">
@@ -190,19 +190,19 @@
 @section('scripts')
     <script>
     $(document).ready(function(){
-//Add settings Form
-$("#settiingsForm").on('submit',(e)=>{
+//Add settiStaffngs Form
+$("#staffForm").on('submit',(e)=>{
 e.preventDefault();
 var btn=$("#addbtn");
 var loader=$("#addloader")
 btn.hide();
 loader.show();
-let data=$("#settiingsForm").serialize();
+let data=$("#staffForm").serialize();
 $.ajax({
     type: "POST",
-    url: "#",
+    url: "/staff",
     data: data,
-    success: function (response) {
+    success: function (response) {console.log(response)
 
                     toastr.options = {
                         "closeButton": false,
@@ -222,9 +222,9 @@ $.ajax({
                         "hideMethod": "fadeOut"
                     }
                     toastr["success"]("", "Settings Saved Succesfully.")
-        location.href='#'
+        //location.href='/staff'
     },
-    error: function(res){
+    error: function(res){ console.log(res)
         Swal.fire("Error!", "Try again later...", "error");
     }
 });
