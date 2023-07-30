@@ -126,7 +126,7 @@
                                 <div class="col-md-12">
                                     <div class="mb-3">
                                     <label for="field-11w" class="form-label">Quantity Type</label>
-                                    <select name="role" class="form-control form-select" id="field-11w" required>
+                                    <select name="q_type" class="form-control form-select" id="field-11w" required>
                                                 <option value="0">Cartons</option>
                                                 <option value="1">Packets</option>
                                                 <option value="1">Single Items</option>

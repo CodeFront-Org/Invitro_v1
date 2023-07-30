@@ -150,6 +150,16 @@ return [
             'path' => storage_path('logs/stock/add.log'),
             'level' => 'info',
         ],
+        'edit_stock' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/stock/delete.log'),
+            'level' => 'info',
+        ],
+        'delete_stock' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/stock/delete.log'),
+            'level' => 'info',
+        ],
     ],
 
 ];
