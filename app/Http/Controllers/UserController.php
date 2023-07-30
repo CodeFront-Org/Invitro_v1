@@ -3,6 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
+use Spatie\Permission\Models\Role;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -54,10 +59,10 @@ class UserController extends Controller
         if($user){
             //Log activity
             Log::channel('user_reg')->notice(Auth::user()->email." of DB id ".Auth::id()." Registered Staff ".$request->email." with role of ".$status);
-            $user=User::where('email',$email)->first();
-            if($status=='admin'){//add admin role
+            $user=User::where('email',$request->email)->first();
+            if($status=='0'){//add admin role
                 $user->assignRole('admin');
-            }elseif($status=='staff'){//add staff role
+            }elseif($status=='1'){//add staff role
                 $user->assignRole('staff');
             }
         }

@@ -105,7 +105,7 @@
                             <button class="btn rounded-pill p-1" id="addbtn" style="width: 100%; background-color: #08228a9f;color: white" type="submit">
                                     Submit
                             </button>
-                            <button class="btn rounded-pill p-1" id="editloader" style="width: 100%; background-color: #08228a9f;color: white;display:none;" type="button">
+                            <button class="btn rounded-pill p-1" id="addloader" style="width: 100%; background-color: #08228a9f;color: white;display:none;" type="button">
                                     <span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
                                     Saving Data...
                             </button>
@@ -202,7 +202,7 @@ $.ajax({
     type: "POST",
     url: "/users",
     data: data,
-    success: function (response) {console.log(response)
+    success: function (response) {
 
                     toastr.options = {
                         "closeButton": false,
@@ -221,10 +221,12 @@ $.ajax({
                         "showMethod": "fadeIn",
                         "hideMethod": "fadeOut"
                     }
-                    toastr["success"]("", "Settings Saved Succesfully.")
-        //location.href='/staff'
+                    toastr["success"]("", "Data Saved Succesfully.")
+        location.href='/users'
     },
-    error: function(res){ console.log(res)
+    error: function(res){
+        btn.show();
+        loader.hide();
         Swal.fire("Error!", "Try again later...", "error");
     }
 });
