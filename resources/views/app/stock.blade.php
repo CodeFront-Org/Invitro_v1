@@ -138,7 +138,7 @@
                                 <div class="col-md-12">
                                     <div class="mb-3">
                                         <label for="field-2" class="form-label">Remarks</label>
-                                        <textarea id="textarea" class="form-control" required maxlength="300" rows="3" placeholder="Your Remarks"></textarea>
+                                        <textarea id="textarea" name="remarks" class="form-control" required maxlength="300" rows="3" placeholder="Your Remarks"></textarea>
                                     </div>
                                 </div>
                             </div>
@@ -341,13 +341,13 @@
     <script>
     $(document).ready(function(){
 //Add settings Form
-$("#settiingsForm").on('submit',(e)=>{
+$("#addForm").on('submit',(e)=>{
 e.preventDefault();
 var btn=$("#addbtn");
 var loader=$("#addloader")
 btn.hide();
 loader.show();
-let data=$("#settiingsForm").serialize();
+let data=$("#addForm").serialize();
 $.ajax({
     type: "POST",
     url: "/stock",

@@ -16,7 +16,7 @@ class CreateProductsTable extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->smallInteger('user_id');
-            $table->string('name');
+            $table->string('name')->unique();
             $table->smallInteger('order_level');
             $table->string('quantity_type');
             $table->softDeletes();

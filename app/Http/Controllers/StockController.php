@@ -50,22 +50,23 @@ class StockController extends Controller
             'quantity_type'=>$q_type
             ]);
 
-if($product){
+        if($product){
+            $product_id=$product->id;
+            Stock::create([
+                'user_id'=>$id,
+                'product_id'=>$product_id,
+                'quantity'=>$request->quantity,
+                'quantity_type'=>$q_type,
+                'amount'=>$request->amount,
+                'type'=>0, //To know whetehr its new(0) or return(1) stock when reading data
+                'source'=>$request->source,
+                'remarks'=>$request->remarks,
+                'expiry_date'=>$request->e_date,
+            ]);
+        }else{
+            return "error";
+        }
 
-}else{
-
-}
-        Stock::create([
-        'user_id'=>$id,
-        'product_id'=>,
-        'quantity'=>,
-        'quantity_type'=>,
-        'amount'=>,
-        'type'=>, //To know whetehr its new or return stock when reading data
-        'source'=>,
-        'remarks'=>,
-        'expiry_data'=>,
-        ]);
     }
 
     /**
