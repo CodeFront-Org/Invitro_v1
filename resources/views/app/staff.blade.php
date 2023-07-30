@@ -200,7 +200,7 @@ loader.show();
 let data=$("#staffForm").serialize();
 $.ajax({
     type: "POST",
-    url: "/staff",
+    url: "/users",
     data: data,
     success: function (response) {console.log(response)
 

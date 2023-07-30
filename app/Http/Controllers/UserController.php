@@ -39,7 +39,28 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+            $password="staff123";
+            $status=$request->role;
+            // Create new user
+            $user = User::create([
+                'first_name' => $request->f_name,
+                'last_name' => $request->l_name,
+                'contacts' => $request->contacts,
+                'email' => $request->email,
+                'password' => Hash::make($password),
+                'role_type'=>$request->status=='0'?'1':'2',//Role For 2 staff 1 admin
+            ]);
+        //Add Role to the newly added staff Based on create condition
+        if($user){
+            //Log activity
+            Log::channel('user_reg')->notice(Auth::user()->email." of DB id ".Auth::id()." Registered Staff ".$request->email." with role of ".$status);
+            $user=User::where('email',$email)->first();
+            if($status=='admin'){//add admin role
+                $user->assignRole('admin');
+            }elseif($status=='staff'){//add staff role
+                $user->assignRole('staff');
+            }
+        }
     }
 
     /**

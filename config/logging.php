@@ -127,7 +127,17 @@ return [
         ],
         'user_login' => [
             'driver' => 'single',
-            'path' => storage_path('logs/user_login.log'),
+            'path' => storage_path('logs/user/login.log'),
+            'level' => 'info',
+        ],
+        'user_reg' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/user/reg.log'),
+            'level' => 'info',
+        ],
+        'add_stock' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/stock/add.log'),
             'level' => 'info',
         ],
     ],
