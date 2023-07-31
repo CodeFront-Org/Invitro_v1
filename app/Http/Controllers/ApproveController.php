@@ -34,7 +34,6 @@ class ApproveController extends Controller
             $l_name=User::where('id',$user_id)->pluck('last_name')->first();
             $staff_name=$f_name.' '.$l_name;
             $quantity=$d->quantity;
-            $amount=$d->amount;
             $type=$d->type;
             $source=$d->source;
             $remarks=$d->remarks;
@@ -45,7 +44,6 @@ class ApproveController extends Controller
                 'id'=>$id,
                 'name'=>$name,
                 'quantity'=>$quantity.' '.$t,
-                'amount'=>$amount,
                 'order_level'=>$order_level,
                 'source'=>$source,
                 'staff_name'=>$staff_name,

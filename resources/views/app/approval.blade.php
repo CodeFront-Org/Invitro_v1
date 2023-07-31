@@ -25,8 +25,7 @@
                                     <th>#</th>
                                     <th>Name</th>
                                     <th>Quantity</th>
-                                    <th>Amount</th>
-                                    <th>lim</th>
+                                    <th>level</th>
                                     <th>Source</th>
                                     <th>Staff</th>
                                     <th>Date In</th>
@@ -43,7 +42,6 @@
                                         <td>{{$loop->index+1}}. </td>
                                         <td>{{$item['name']}}</td>
                                         <td>{{$item['quantity']}}</td>
-                                        <td>{{$item['amount']}}</td>
                                         <td>{{$item['order_level']}}</td>
                                         <td>{{$item['source']}}</td>
                                         <td>{{$item['staff_name']}}</td>

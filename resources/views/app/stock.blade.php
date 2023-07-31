@@ -18,13 +18,9 @@
                                     <th>#</th>
                                     <th>Name</th>
                                     <th>Quantity</th>
-                                    <th>level</th>
-                                    <th>Source</th>
-                                    <th>Staff</th>
-                                    <th>Date In</th>
-                                    <th>Expiry</th>
-                                    <th>Remarks</th>
-                                    <th>Actions</th>
+                                    <th>Batches</th>
+                                    <th>Order level</th>
+                                    <th>Transactions</th>
                                 </tr>
                                 </thead>
 
@@ -35,22 +31,12 @@
                                         <td>{{$loop->index+1}}. </td>
                                         <td>{{$item['name']}}</td>
                                         <td>{{$item['quantity']}}</td>
+                                        <td>15</td>
                                         <td>{{$item['order_level']}}</td>
-                                        <td>{{$item['source']}}</td>
-                                        <td>{{$item['staff_name']}}</td>
-                                        <td>{{$item['date_in']}}</td>
-                                        <td>{{$item['expiry_date']}}</td>
-                                        <td class="text-left" style="min-width: 100px; max-width: 100px; overflow: hidden; font-size: 12px;">
-                                                {{$item['remarks']}}
-                                        </td>
                                         <td style='font-size:10px; text-align: center;'>
-                                            <button type="button" style="background-color: #08228a9f;color: white" class="btn btn-xs" data-bs-toggle="modal" data-bs-target="#con-close-modal-edit-{{$item['id']}}">
-                                                <i class='fas fa-pen' aria-hidden='true'></i>
+                                            <button type="button" style="background-color: #08228a9f;color: white" class="btn btn-xs" data-bs-toggle="modal" data-bs-target="#con-close-modal-txn-{{$item['id']}}">
+                                                <i class='fas fa-newspaper' aria-hidden='true'></i>
                                                 </button>
-                                            <button type="button" onclick="del(this)" value="{{$item['id']}}" class="btn btn-danger btn-xs">
-                                                <i class='fa fa-trash' aria-hidden='true'></i>
-                                            </button>
-
                                         </td>
                                     </tr>
                                 @endforeach

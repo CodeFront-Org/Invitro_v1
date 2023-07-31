@@ -34,8 +34,6 @@ class StockController extends Controller
             $f_name=User::where('id',$user_id)->pluck('first_name')->first();
             $l_name=User::where('id',$user_id)->pluck('last_name')->first();
             $staff_name=$f_name.' '.$l_name;
-            //$quantity=$d->quantity;
-            $amount=$d->amount;
             $type=$d->type;
             $source=$d->source;
             $remarks=$d->remarks;
@@ -47,7 +45,6 @@ class StockController extends Controller
                 'product_id'=>$d->product_id,
                 'name'=>$name,
                 'quantity'=>$quantity.' '.$t,
-                'amount'=>$amount,
                 'order_level'=>$order_level,
                 'source'=>$source,
                 'staff_name'=>$staff_name,
@@ -99,7 +96,6 @@ class StockController extends Controller
                     'product_id'=>$product_id,
                     'quantity'=>$request->quantity,
                     'quantity_type'=>$q_type,
-                    'amount'=>$request->amount,
                     'type'=>0, //To know whether its new(0) or return(1) stock when reading data
                     'source'=>$request->source,
                     'remarks'=>$request->remarks,
@@ -132,10 +128,10 @@ class StockController extends Controller
                     'product_id'=>$product_id,
                     'quantity'=>$request->quantity,
                     'quantity_type'=>$q_type,
-                    'amount'=>$request->amount,
                     'type'=>0, //To know whetehr its new(0) or return(1) stock when reading data
                     'source'=>$request->source,
                     'remarks'=>$request->remarks,
+                    'approve'=>0,
                     'expiry_date'=>$request->e_date,
                 ]);
             if($stock){
