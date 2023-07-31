@@ -43,6 +43,7 @@ class StockController extends Controller
             //Pushing to data array structure
             array_push($data,[
                 'id'=>$id,
+                'product_id'=>$d->product_id,
                 'name'=>$name,
                 'quantity'=>$quantity.' '.$t,
                 'amount'=>$amount,

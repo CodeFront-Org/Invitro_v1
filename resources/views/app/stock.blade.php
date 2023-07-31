@@ -39,10 +39,10 @@
                                         <td>{{number_format($item['amount'])}}</td>
                                         <td>{{$item['order_level']}}</td>
                                         <td>{{$item['source']}}</td>
-                                        <td>{{$item['staff_name']}}e</td>
+                                        <td>{{$item['staff_name']}}</td>
                                         <td>{{$item['date_in']}}</td>
                                         <td>{{$item['expiry_date']}}</td>
-                                        <td class="text-left" style="min-width: 130px; max-width: 130px; overflow: hidden; font-size: 12px;">
+                                        <td class="text-left" style="min-width: 100px; max-width: 100px; overflow: hidden; font-size: 12px;">
                                                 {{$item['remarks']}}
                                         </td>
                                         <td style='font-size:10px; text-align: center;'>
@@ -177,7 +177,10 @@
                                     <div class="mb-3">
                                     <label for="field-11w" class="form-label">Product Name</label>
                                     <select name="name" class="form-control form-select" id="field-11w" required>
-                                                <option value="0">Panadol</option>
+                                    @foreach ($data as $item)
+                                        <option value="{{$item['product_id']}}">{{$item['name']}}</option>
+                                    @endforeach
+
                                         </select>
                                 </div>
                                 </div>
