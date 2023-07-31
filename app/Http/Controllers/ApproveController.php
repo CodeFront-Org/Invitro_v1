@@ -87,7 +87,7 @@ class ApproveController extends Controller
             //Log activity to file.. First get product name then save it to file
             $p_id=Stock::where('id',$item)->pluck('product_id')->first();
             $name=Product::where('id',$p_id)->pluck('name')->first();
-            Log::channel('approve_stock')->notice($name.' stock appoved by '.Auth::user()->first_name.' Email: '.Auth::user()->email);
+            Log::channel('approve_stock')->notice($name.' stock appoved by '.Auth::user()->first_name.' '.Auth::user()->last_name.' Email: '.Auth::user()->email);
         }
             }
             session()->flash('message','success');

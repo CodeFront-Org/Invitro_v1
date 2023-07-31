@@ -77,37 +77,73 @@ class StockController extends Controller
      */
     public function store(Request $request)
     {
-        $id=Auth::id();
-        $name=$request->name;
-        $o_level=$request->o_level;
-        $q_type=$request->q_type;
-        $product=Product::create([
-            'user_id'=>$id,
-            'name'=>$name,
-            'order_level'=>$o_level,
-            'quantity_type'=>$q_type
-            ]);
-
-        if($product){
-            $product_id=$product->id;
-            $stock=Stock::create([
+        $type=$request->type;
+        if($type==0){//Store new stock
+            $id=Auth::id();
+            $name=$request->name;
+            $o_level=$request->o_level;
+            $q_type=$request->q_type;
+            $product=Product::create([
                 'user_id'=>$id,
-                'product_id'=>$product_id,
-                'quantity'=>$request->quantity,
-                'quantity_type'=>$q_type,
-                'amount'=>$request->amount,
-                'type'=>0, //To know whetehr its new(0) or return(1) stock when reading data
-                'source'=>$request->source,
-                'remarks'=>$request->remarks,
-                'expiry_date'=>$request->e_date,
-            ]);
-        if($stock){
-            //Log activity to file
-            Log::channel('add_stock')->notice('New stock added. Name: '.$name.'. Added by '.Auth::user()->first_name.' Email: '.Auth::user()->email);
+                'name'=>$name,
+                'order_level'=>$o_level,
+                'quantity_type'=>$q_type
+                ]);
+
+            if($product){
+                $product_id=$product->id;
+                $stock=Stock::create([
+                    'user_id'=>$id,
+                    'product_id'=>$product_id,
+                    'quantity'=>$request->quantity,
+                    'quantity_type'=>$q_type,
+                    'amount'=>$request->amount,
+                    'type'=>0, //To know whetehr its new(0) or return(1) stock when reading data
+                    'source'=>$request->source,
+                    'remarks'=>$request->remarks,
+                    'expiry_date'=>$request->e_date,
+                ]);
+            if($stock){
+                //Log activity to file
+                Log::channel('add_stock')->notice('New stock added. Name: '.$name.'. Added by '.Auth::user()->first_name.' Email: '.Auth::user()->email);
+            }
+            }else{
+                return "error";
+            }
+        }elseif($type==1){//**************************** store restock  ********************************************//
+            $id=Auth::id();
+            $name=$request->name;
+            $o_level=$request->o_level;
+            $q_type=$request->q_type;
+            $product=Product::create([
+                'user_id'=>$id,
+                'name'=>$name,
+                'order_level'=>$o_level,
+                'quantity_type'=>$q_type
+                ]);
+
+            if($product){
+                $product_id=$product->id;
+                $stock=Stock::create([
+                    'user_id'=>$id,
+                    'product_id'=>$product_id,
+                    'quantity'=>$request->quantity,
+                    'quantity_type'=>$q_type,
+                    'amount'=>$request->amount,
+                    'type'=>0, //To know whetehr its new(0) or return(1) stock when reading data
+                    'source'=>$request->source,
+                    'remarks'=>$request->remarks,
+                    'expiry_date'=>$request->e_date,
+                ]);
+            if($stock){
+                //Log activity to file
+                Log::channel('add_stock')->notice('New stock added. Name: '.$name.'. Added by '.Auth::user()->first_name.' Email: '.Auth::user()->email);
+            }
+            }else{
+                return "error";
+            }
         }
-        }else{
-            return "error";
-        }
+
 
     }
 

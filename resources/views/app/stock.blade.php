@@ -163,10 +163,10 @@
             <div id="con-close-modal-restock-1" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
-                        <form id="settiingsForm" method="post">
+                        <form id="restockForm" method="post">
                         @csrf
                         @method('post')
-                        <input type="hidden" name="type" value="0">
+                        <input type="hidden" name="type" value="1">
                         <div class="modal-header">
                             <h4 class="modal-title">Re-Stock</h4>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -223,16 +223,16 @@
                                 <div class="col-md-12">
                                     <div class="mb-3">
                                         <label for="field-2" class="form-label">Remarks</label>
-                                        <textarea id="textarea" class="form-control" required maxlength="300" rows="3" placeholder="Your Remarks"></textarea>
+                                        <textarea id="textarea" name="remarks" class="form-control" required maxlength="300" rows="3" placeholder="Your Remarks"></textarea>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button class="btn rounded-pill p-1" id="addbtn" style="width: 100%; background-color: #08228a9f;color: white" type="submit">
+                            <button class="btn rounded-pill p-1" id="restockbtn" style="width: 100%; background-color: #08228a9f;color: white" type="submit">
                                     Submit
                             </button>
-                            <button class="btn rounded-pill p-1" id="editloader" style="width: 100%; background-color: #08228a9f;color: white;display:none;" type="button">
+                            <button class="btn rounded-pill p-1" id="restockloader" style="width: 100%; background-color: #08228a9f;color: white;display:none;" type="button">
                                     <span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
                                     Saving Data...
                             </button>
@@ -351,6 +351,48 @@ var loader=$("#addloader")
 btn.hide();
 loader.show();
 let data=$("#addForm").serialize();
+$.ajax({
+    type: "POST",
+    url: "/stock",
+    data: data,
+    success: function (response) {
+
+                    toastr.options = {
+                        "closeButton": false,
+                        "debug": false,
+                        "newestOnTop": false,
+                        "progressBar": true,
+                        "positionClass": "toast-top-right",
+                        "preventDuplicates": false,
+                        "onclick": null,
+                        "showDuration": "300",
+                        "hideDuration": "1000",
+                        "timeOut": "5000",
+                        "extendedTimeOut": "1000",
+                        "showEasing": "swing",
+                        "hideEasing": "linear",
+                        "showMethod": "fadeIn",
+                        "hideMethod": "fadeOut"
+                    }
+                    toastr["success"]("", "Stock Saved Succesfully.")
+        location.href='/stock'
+    },
+    error: function(res){
+        btn.show();
+        loader.hide();
+        Swal.fire("Error!", "Try again later...", "error");
+    }
+});
+})
+
+//Add settings Form
+$("#restockForm").on('submit',(e)=>{
+e.preventDefault();
+var btn=$("#restockbtn");
+var loader=$("#restockloader")
+btn.hide();
+loader.show();
+let data=$("#restockForm").serialize();
 $.ajax({
     type: "POST",
     url: "/stock",
