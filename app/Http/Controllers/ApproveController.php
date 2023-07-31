@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Stock;
 use App\Models\Product;
 use App\Models\User;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 
 class ApproveController extends Controller
 {
@@ -80,8 +82,13 @@ class ApproveController extends Controller
             $data=$request->status;
             foreach($data as $item){
             //Approve Stock table
-            Stock::where('id',$item)->update(['approve'=>1]);
-
+           $approve=Stock::where('id',$item)->update(['approve'=>1]);
+        if($approve){
+            //Log activity to file.. First get product name then save it to file
+            $p_id=Stock::where('id',$item)->pluck('product_id')->first();
+            $name=Product::where('id',$p_id)->pluck('name')->first();
+            Log::channel('approve_stock')->notice($name.' stock appoved by '.Auth::user()->first_name.' Email: '.Auth::user()->email);
+        }
             }
             session()->flash('message','success');
             return back();
