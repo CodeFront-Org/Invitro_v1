@@ -26,6 +26,7 @@ class StockController extends Controller
             $name=Product::where('id',$d->product_id)->pluck('name')->first();
             $order_level=Product::where('id',$d->product_id)->pluck('order_level')->first();
             $quantity_type=Product::where('id',$d->product_id)->pluck('quantity_type')->first();
+            $quantity=Product::where('id',$d->product_id)->pluck('quantity')->first();
             if($quantity_type==0){$t='Carton(s)';}elseif($quantity_type==1){$t='Packets';}else{$t='Items';}
             //pick remainig data from stock table
             $id=$d->id;
@@ -33,7 +34,7 @@ class StockController extends Controller
             $f_name=User::where('id',$user_id)->pluck('first_name')->first();
             $l_name=User::where('id',$user_id)->pluck('last_name')->first();
             $staff_name=$f_name.' '.$l_name;
-            $quantity=$d->quantity;
+            //$quantity=$d->quantity;
             $amount=$d->amount;
             $type=$d->type;
             $source=$d->source;
@@ -114,14 +115,12 @@ class StockController extends Controller
         }elseif($type==1){//**************************** store restock  ********************************************//
             $id=Auth::id();
             $product_id=$request->name;
-            $name=$request->name;
             $o_level=$request->o_level;
             $quantity=$request->quantity;
             //Get product quantity from db and increment
             $qty=Product::where('id',$product_id)->pluck('quantity')->first();
             $q_type=Product::where('id',$product_id)->pluck('quantity_type')->first();
             $product=Product::where('id',$product_id)->update([
-                'name'=>$name,
                 'order_level'=>$o_level,
                 'quantity'=>$qty+$quantity,
                 ]);
@@ -141,7 +140,7 @@ class StockController extends Controller
                 ]);
             if($stock){
                 //Log activity to file
-                Log::channel('add_stock')->notice('New stock added. Name: '.$name.'. Added by '.Auth::user()->first_name.' Email: '.Auth::user()->email);
+                Log::channel('add_stock')->notice('New stock added. Of Id: '.$product_id.'. Added by '.Auth::user()->first_name.' Email: '.Auth::user()->email);
             }
             }else{
                 return "error";
