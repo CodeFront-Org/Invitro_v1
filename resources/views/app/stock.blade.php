@@ -129,7 +129,7 @@
                                     <select name="q_type" class="form-control form-select" id="field-11w" required>
                                                 <option value="0">Cartons</option>
                                                 <option value="1">Packets</option>
-                                                <option value="1">Single Items</option>
+                                                <option value="2">Single Items</option>
                                         </select>
                                 </div>
                                 </div>

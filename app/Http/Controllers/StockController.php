@@ -90,7 +90,7 @@ class StockController extends Controller
 
         if($product){
             $product_id=$product->id;
-            Stock::create([
+            $stock=Stock::create([
                 'user_id'=>$id,
                 'product_id'=>$product_id,
                 'quantity'=>$request->quantity,
@@ -101,6 +101,10 @@ class StockController extends Controller
                 'remarks'=>$request->remarks,
                 'expiry_date'=>$request->e_date,
             ]);
+        if($stock){
+            //Log activity to file
+            Log::channel('add_stock')->notice('New stock added. Name: '.$name.'. Added by '.Auth::user()->first_name.' Email: '.Auth::user()->email);
+        }
         }else{
             return "error";
         }
