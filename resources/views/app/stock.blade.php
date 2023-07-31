@@ -343,7 +343,7 @@
 @section('scripts')
     <script>
     $(document).ready(function(){
-//Add settings Form
+//Add Stock Form
 $("#addForm").on('submit',(e)=>{
 e.preventDefault();
 var btn=$("#addbtn");
@@ -385,7 +385,7 @@ $.ajax({
 });
 })
 
-//Add settings Form
+//Add Re-stock Form
 $("#restockForm").on('submit',(e)=>{
 e.preventDefault();
 var btn=$("#restockbtn");
@@ -397,7 +397,7 @@ $.ajax({
     type: "POST",
     url: "/stock",
     data: data,
-    success: function (response) {
+    success: function (response) { console.log(response)
 
                     toastr.options = {
                         "closeButton": false,
@@ -419,7 +419,7 @@ $.ajax({
                     toastr["success"]("", "Stock Saved Succesfully.")
         location.href='/stock'
     },
-    error: function(res){
+    error: function(res){ console.log(res)
         btn.show();
         loader.hide();
         Swal.fire("Error!", "Try again later...", "error");

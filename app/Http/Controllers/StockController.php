@@ -86,6 +86,7 @@ class StockController extends Controller
             $product=Product::create([
                 'user_id'=>$id,
                 'name'=>$name,
+                'quantity'=>$request->quantity,
                 'order_level'=>$o_level,
                 'quantity_type'=>$q_type
                 ]);
@@ -98,7 +99,7 @@ class StockController extends Controller
                     'quantity'=>$request->quantity,
                     'quantity_type'=>$q_type,
                     'amount'=>$request->amount,
-                    'type'=>0, //To know whetehr its new(0) or return(1) stock when reading data
+                    'type'=>0, //To know whether its new(0) or return(1) stock when reading data
                     'source'=>$request->source,
                     'remarks'=>$request->remarks,
                     'expiry_date'=>$request->e_date,
@@ -112,18 +113,21 @@ class StockController extends Controller
             }
         }elseif($type==1){//**************************** store restock  ********************************************//
             $id=Auth::id();
+            $product_id=$request->name;
             $name=$request->name;
             $o_level=$request->o_level;
-            $q_type=$request->q_type;
-            $product=Product::create([
-                'user_id'=>$id,
+            $quantity=$request->quantity;
+            //Get product quantity from db and increment
+            $qty=Product::where('id',$product_id)->pluck('quantity')->first();
+            $q_type=Product::where('id',$product_id)->pluck('quantity_type')->first();
+            $product=Product::where('id',$product_id)->update([
                 'name'=>$name,
                 'order_level'=>$o_level,
-                'quantity_type'=>$q_type
+                'quantity'=>$qty+$quantity,
                 ]);
 
             if($product){
-                $product_id=$product->id;
+                $product_id=$product_id;
                 $stock=Stock::create([
                     'user_id'=>$id,
                     'product_id'=>$product_id,

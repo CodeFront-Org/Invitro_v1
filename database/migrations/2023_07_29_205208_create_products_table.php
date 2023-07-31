@@ -17,6 +17,7 @@ class CreateProductsTable extends Migration
             $table->id();
             $table->smallInteger('user_id');
             $table->string('name')->unique();
+            $table->integer('quantity')->default(0);
             $table->smallInteger('order_level');
             $table->string('quantity_type');
             $table->softDeletes();
