@@ -160,6 +160,16 @@ return [
             'path' => storage_path('logs/stock/delete.log'),
             'level' => 'info',
         ],
+        'approve_stock' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/approve/stock.log'),
+            'level' => 'info',
+        ],
+        'approve_order' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/approve/order.log'),
+            'level' => 'info',
+        ],
     ],
 
 ];
