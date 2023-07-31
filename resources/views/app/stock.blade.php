@@ -77,8 +77,12 @@
                                         <input type="text" name="quantity" class="form-control" id="field-2l" placeholder="quantity" required>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="field-2l" class="form-label">Batch Number</label>
+                                        <input type="text" name="batch_no" class="form-control" id="field-2l" placeholder="batch number" required>
+                                    </div>
+                                </div>
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                     <label for="field-11w" class="form-label">Quantity Type</label>
@@ -95,22 +99,18 @@
                                         <input type="number" name="o_level" class="form-control" id="field-2l" placeholder="order level" required>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row">
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label for="field-2n" class="form-label">Source</label>
                                         <input type="text" name="source" class="form-control" id="field-2n" placeholder="source" required>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-12">
                                     <div class="mb-3">
                                         <label for="field-2l" class="form-label">Expiry Date</label>
                                         <input type="date" name="e_date" class="form-control" id="field-2l" placeholder="expiry date" required>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row">
                                 <div class="col-md-12">
                                     <div class="mb-3">
                                         <label for="field-2" class="form-label">Remarks</label>
