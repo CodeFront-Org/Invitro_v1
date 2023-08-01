@@ -215,77 +215,78 @@
 
 
             <!-- View Transaction of Stock Modal -->
-
-            <div id="con-close-modal-txn-1" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
-                <div class="modal-dialog modal-full-width">
-                    <div class="modal-content">
-                        <form id="settiingsForm" method="post">
-                        @csrf
-                        @method('PATCH')
-                        <input type="hidden" name="type" value="0">
-                        <div class="modal-header">
-                            <h4 class="modal-title">Panadol Stock Transactions</h4>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                        <div class="table-responsive">
-                            <table  style="font-family: 'Times New Roman', Times, serif" class="table table-bordered nowrap text-center" id="datatable" class="table table-sm table-bordered dt-responsive nowrap text-center">
-                                <thead class="table-light">
-                                <tr>
-                                    <th>#</th>
-                                    <th>Quantity</th>
-                                    <th>Batch No</th>
-                                    <th>Order Level</th>
-                                    <th>Source</th>
-                                    <th>Staff</th>
-                                    <th>Date In</th>
-                                    <th>Expiry</th>
-                                    <th>Remarks</th>
-                                    <th>Approval</th>
-                                    <th>Actions</th>
-                                </tr>
-                                </thead>
-
-
-                                <tbody>
-                                    <tr>
-                                        <td>1. </td>
-                                        <td>50</td>
-                                        <td>P001</td>
-                                        <td>20</td>
-                                        <td>KEMSA</td>
-                                        <td>Martin Njoroge</td>
-                                        <td>20 August 2023</td>
-                                        <td>20 Aug</td>
-                                        <td>Good</td>
-                                        <td>Pending</td>
-                                        <td style='font-size:10px; text-align: center;'>
-                                            <button type="button" style="background-color: #08228a9f;color: white" class="btn btn-xs" data-bs-toggle="modal" data-bs-target="#con-close-modal-edit-">
-                                                <i class='fas fa-pen' aria-hidden='true'></i>
-                                                </button>
-                                            <button type="button" onclick="del(this)" value="" class="btn btn-danger btn-xs">
-                                                <i class='fa fa-trash' aria-hidden='true'></i>
-                                            </button>
-
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button class="btn p-1" id="editbtn" style="background-color: #08228a9f;color: white" type="submit">
-                                    Submit
-                            </button>
-                            <button class="btn p-1" id="editloader" style="background-color: #08228a9f;color: white;display:none;" type="button">
-                                    <span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
-                                    Saving Data...
-                            </button>
-                        </div>
-                        </form>
-                    </div>
+@foreach ($data as $item)
+    <div id="con-close-modal-txn-{{$item['id']}}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog modal-full-width">
+            <div class="modal-content">
+                <form id="settiingsForm" method="post">
+                @csrf
+                @method('PATCH')
+                <input type="hidden" name="type" value="0">
+                <div class="modal-header">
+                    <h4 class="modal-title">{{$item['name']}} Stock Transactions</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-            </div><!-- /.modal -->
+                <div class="modal-body">
+                <div class="table-responsive">
+                    <table  style="font-family: 'Times New Roman', Times, serif" class="table table-bordered nowrap text-center" id="datatable" class="table table-sm table-bordered dt-responsive nowrap text-center">
+                        <thead class="table-light">
+                        <tr>
+                            <th>#</th>
+                            <th>Quantity</th>
+                            <th>Batch No</th>
+                            <th>Source</th>
+                            <th>Staff</th>
+                            <th>Date In</th>
+                            <th>Expiry</th>
+                            <th>Remarks</th>
+                            <th>Approval</th>
+                            <th>Actions</th>
+                        </tr>
+                        </thead>
+
+
+                        <tbody>
+                        @foreach ($data2 as $item)
+                            <tr>
+                                <td>{{$loop->index+1}}. </td>
+                                <td>{{$item['quantity']}}</td>
+                                <td>{{$item['batch_no']}}</td>
+                                <td>{{$item['source']}}</td>
+                                <td>{{$item['staff']}}</td>
+                                <td>{{$item['date_in']}}</td>
+                                <td>{{$item['expiry']}}</td>
+                                <td>{{$item['remarks']}}</td>
+                                <td>{{$item['approve']==0?'Pending':"approved"}}</td>
+                                <td style='font-size:10px; text-align: center;'>
+                                    <button type="button" style="background-color: #08228a9f;color: white" class="btn btn-xs" data-bs-toggle="modal" data-bs-target="#con-close-modal-edit-{{$item['id']}}">
+                                        <i class='fas fa-pen' aria-hidden='true'></i>
+                                        </button>
+                                    <button type="button" onclick="del(this)" value="{{$item['id']}}" class="btn btn-danger btn-xs">
+                                        <i class='fa fa-trash' aria-hidden='true'></i>
+                                    </button>
+
+                                </td>
+                            </tr>
+                        @endforeach
+                        </tbody>
+                    </table>
+                </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn p-1" id="editbtn" style="background-color: #08228a9f;color: white" type="submit">
+                            Submit
+                    </button>
+                    <button class="btn p-1" id="editloader" style="background-color: #08228a9f;color: white;display:none;" type="button">
+                            <span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
+                            Saving Data...
+                    </button>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div><!-- /.modal -->
+@endforeach
 
 
 @endsection

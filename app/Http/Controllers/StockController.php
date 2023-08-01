@@ -41,19 +41,17 @@ class StockController extends Controller
                 'batch'=>$total_batch,
                 'order_level'=>$order_level
             ]);
-            foreach($batch as $b){
-                $b_id=$b->id;
-                $batch_qty=$b->quantity;
-                $batch_no=$b->batch_no;
                 //get data from stock table
                 $stocks=Stock::all()->where('product_id',$p_id)->where('approve',0);
                 foreach($stocks as $s){
                     $source=$s->source;
                     $date=$s->created_at;
-                    $o_level=$s->order_level;
                     $expiry=$s->expiry_date;
                     $remarks=$s->remarks;
                     $approve=$s->approve;
+                    $b_id=$s->batch_id;
+                    $batch_qty=Batch::where('id',$b_id)->pluck('quantity')->first();
+                    $batch_no=Batch::where('id',$b_id)->pluck('batch_no')->first();
                     //getting user name
                     $ff=$s->user_id;
                     $f=User::where('id',$ff)->pluck('first_name')->first();
@@ -62,9 +60,9 @@ class StockController extends Controller
                     //push data for transaction
                     array_push($data2,[
                         'id'=>$s->id,
+                        'name'=>$product_name,
                         'quantity'=>$batch_qty,
                         'batch_no'=>$batch_no,
-                        'order_level'=>$o_level,
                         'source'=>$source,
                         'staff'=>$staff,
                         'date_in'=>$date,
@@ -74,7 +72,7 @@ class StockController extends Controller
                         ]);
                 }
 
-            }
+
 
         }
         return view('app.stock',compact('label','data','data1','data2'));
