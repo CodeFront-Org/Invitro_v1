@@ -16,7 +16,6 @@ class CreateBatchesTable extends Migration
         Schema::create('batches', function (Blueprint $table) {
             $table->id();
             $table->string('batch_no')->unique();
-            $table->integer('product_id');
             $table->smallInteger('quantity');
             $table->tinyInteger('sold_out')->default(0);
             $table->softDeletes();

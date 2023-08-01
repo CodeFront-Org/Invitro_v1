@@ -321,8 +321,12 @@ $.ajax({
     type: "POST",
     url: "/stock",
     data: data,
-    success: function (response) {
-
+    success: function (response) { console.log(response)
+ if(response==103){
+        swal.fire("Error","Batch or product exist.","error"); btn.show();
+        loader.hide();
+        return;
+    }
                     toastr.options = {
                         "closeButton": false,
                         "debug": false,
@@ -341,13 +345,18 @@ $.ajax({
                         "hideMethod": "fadeOut"
                     }
                     toastr["success"]("", "Stock Saved Succesfully.")
-        location.href='/stock'
+        btn.show();
+        loader.hide();
+       // location.href='/stock'
     },
-    error: function(res){
+    error: function(res){  console.log(res)
     if(res=='101'){
 
-        Swal.fire("Error!", "Batch Number already exists", "error");
-    }else{
+        Swal.fire("Error!", "Product Number already exists", "error");
+    }else if($res==100){
+        swal.fire("Error","Batch number exist.","error");
+    }
+    else{
         Swal.fire("Error!", "Try again later...", "error");}
         btn.show();
         loader.hide();

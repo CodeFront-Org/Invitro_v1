@@ -6,8 +6,10 @@ use Illuminate\Http\Request;
 use App\Models\Stock;
 use App\Models\Product;
 use App\Models\User;
+use App\Models\Batch;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class StockController extends Controller
 {
@@ -81,42 +83,55 @@ class StockController extends Controller
             $name=$request->name;
             $o_level=$request->o_level;
             $q_type=$request->q_type;
-            $product=Product::create([
-                'user_id'=>$id,
-                'name'=>$name,
-                'quantity'=>$request->quantity,
-                'order_level'=>$o_level,
-                'quantity_type'=>$q_type
-                ]);
-
-            if($product){
-            //check if batch number exist
             $batch_no=$request->batch_no;
-            $exists = Stock::where('batch_no', $batch_no)->exists();
-            if ($exists) {
-                $product_id=$product->id;
-                    $stock=Stock::create([
-                        'user_id'=>$id,
-                        'product_id'=>$product_id,
-                        'quantity'=>$request->quantity,
-                        'batch_no'=>$request->batch_no,
-                        'sold'=>0,//indicate that 0 have been sold since its new stock
-                        'quantity_type'=>$q_type,
-                        'type'=>0, //To know whether its new(0) or return(1) stock when reading data
-                        'source'=>$request->source,
-                        'remarks'=>$request->remarks,
-                        'expiry_date'=>$request->e_date,
+            // Start the transaction
+            DB::beginTransaction();
+try {
+        // Create a new Batch instance
+        $batch = new Batch([
+            'batch_no' => $batch_no,
+            'quantity' => $request->quantity,
+        ]);
+        // Save the batch to the database
+        if($batch->save()){
+            $product=Product::create([
+                    'user_id'=>$id,
+                    'name'=>$name,
+                    'quantity'=>$request->quantity,
+                    'order_level'=>$o_level,
+                    'quantity_type'=>$q_type
                     ]);
-                if($stock){
-                    //Log activity to file
-                    Log::channel('add_stock')->notice('New stock added. Name: '.$name.'. Added by '.Auth::user()->first_name.' Email: '.Auth::user()->email);
+                if($product){
+                // Commit the transaction if everything is successful
+                DB::commit();//Save Batch info
+                    $product_id=$product->id;
+                        $stock=Stock::create([
+                            'user_id'=>$id,
+                            'product_id'=>$product_id,
+                            'batch_id'=>$batch->id,
+                            'quantity'=>$request->quantity,
+                            'sold'=>0,//indicate that 0 have been sold since its new stock
+                            'quantity_type'=>$q_type,
+                            'type'=>0, //To know whether its new(0) or return(1) stock when reading data
+                            'source'=>$request->source,
+                            'remarks'=>$request->remarks,
+                            'expiry_date'=>$request->e_date,
+                        ]);
+
+                } else {echo "101";//Error fo duplication for product name
+                    // Handle any exceptions that occurred during the transaction
+                    DB::rollback();
+                    return "101";
                 }
-                }else{
-                    return "error";
+        }else{echo "100";//batch number already exists
                 }
-            } else {
-                return "101";//batch number already exists
-            }
+} catch (\Exception $e) {echo "103";
+    // Handle any exceptions that occurred during the transaction
+    DB::rollback();
+    // Optionally, you can log the error or perform any other necessary actions
+}
+
+
 
         }elseif($type==1){//**************************** store restock  ********************************************//
             $id=Auth::id();
