@@ -18,7 +18,7 @@ class CreateStocksTable extends Migration
             $table->smallInteger('user_id');
             $table->smallInteger('product_id');
             $table->smallInteger('quantity');//number of items
-            $table->string('batch_no')->unique();
+            $table->string('batch_no');
             $table->tinyInteger('sold');//To know how many batches have been sold soo far
             $table->tinyInteger('sold_out')->default(0);//to know if item is sold out already for easier query
             $table->string('quantity_type');// type of e.g cartons, packets etc

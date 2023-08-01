@@ -26,20 +26,18 @@
 
 
                                 <tbody>
-                                @foreach ($data as $item)
                                     <tr>
-                                        <td>{{$loop->index+1}}. </td>
-                                        <td>{{$item['name']}}</td>
-                                        <td>{{$item['quantity']}}</td>
+                                        <td>1. </td>
+                                        <td>Panadol</td>
+                                        <td>10</td>
                                         <td>15</td>
-                                        <td>{{$item['order_level']}}</td>
+                                        <td>2</td>
                                         <td style='font-size:10px; text-align: center;'>
-                                            <button type="button" style="background-color: #08228a9f;color: white" class="btn btn-xs" data-bs-toggle="modal" data-bs-target="#con-close-modal-txn-{{$item['id']}}">
+                                            <button type="button" style="background-color: #08228a9f;color: white" class="btn btn-xs" data-bs-toggle="modal" data-bs-target="#con-close-modal-txn-1">
                                                 <i class='fas fa-newspaper' aria-hidden='true'></i>
                                                 </button>
                                         </td>
                                     </tr>
-                                @endforeach
                                 </tbody>
                             </table>
                         </div>
@@ -214,7 +212,7 @@
 
             <!-- Edit Stock Modal -->
 
-            <div id="con-close-modal-edit-1" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+            <div id="con-close-modal-txn-1" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
                         <form id="settiingsForm" method="post">
@@ -222,7 +220,7 @@
                         @method('PATCH')
                         <input type="hidden" name="type" value="0">
                         <div class="modal-header">
-                            <h4 class="modal-title">Edit Stock</h4>
+                            <h4 class="modal-title">View Transactions</h4>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
@@ -346,9 +344,13 @@ $.ajax({
         location.href='/stock'
     },
     error: function(res){
+    if(res=='101'){
+
+        Swal.fire("Error!", "Batch Number already exists", "error");
+    }else{
+        Swal.fire("Error!", "Try again later...", "error");}
         btn.show();
         loader.hide();
-        Swal.fire("Error!", "Try again later...", "error");
     }
 });
 })

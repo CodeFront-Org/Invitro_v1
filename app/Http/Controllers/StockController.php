@@ -90,24 +90,34 @@ class StockController extends Controller
                 ]);
 
             if($product){
+            //check if batch number exist
+            $batch_no=$request->batch_no;
+            $exists = Stock::where('batch_no', $batch_no)->exists();
+            if ($exists) {
                 $product_id=$product->id;
-                $stock=Stock::create([
-                    'user_id'=>$id,
-                    'product_id'=>$product_id,
-                    'quantity'=>$request->quantity,
-                    'quantity_type'=>$q_type,
-                    'type'=>0, //To know whether its new(0) or return(1) stock when reading data
-                    'source'=>$request->source,
-                    'remarks'=>$request->remarks,
-                    'expiry_date'=>$request->e_date,
-                ]);
-            if($stock){
-                //Log activity to file
-                Log::channel('add_stock')->notice('New stock added. Name: '.$name.'. Added by '.Auth::user()->first_name.' Email: '.Auth::user()->email);
+                    $stock=Stock::create([
+                        'user_id'=>$id,
+                        'product_id'=>$product_id,
+                        'quantity'=>$request->quantity,
+                        'batch_no'=>$request->batch_no,
+                        'sold'=>0,//indicate that 0 have been sold since its new stock
+                        'quantity_type'=>$q_type,
+                        'type'=>0, //To know whether its new(0) or return(1) stock when reading data
+                        'source'=>$request->source,
+                        'remarks'=>$request->remarks,
+                        'expiry_date'=>$request->e_date,
+                    ]);
+                if($stock){
+                    //Log activity to file
+                    Log::channel('add_stock')->notice('New stock added. Name: '.$name.'. Added by '.Auth::user()->first_name.' Email: '.Auth::user()->email);
+                }
+                }else{
+                    return "error";
+                }
+            } else {
+                return "101";//batch number already exists
             }
-            }else{
-                return "error";
-            }
+
         }elseif($type==1){//**************************** store restock  ********************************************//
             $id=Auth::id();
             $product_id=$request->name;
