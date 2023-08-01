@@ -105,6 +105,8 @@ try {
                 if($product){
                 // Commit the transaction if everything is successful
                 DB::commit();//Save Batch info
+                //update product id number in batch file
+                Batch::where('id',$batch->id)->update(['product_id'=>$product->id]);
                     $product_id=$product->id;
                         $stock=Stock::create([
                             'user_id'=>$id,
