@@ -21,43 +21,63 @@ class StockController extends Controller
     public function index()
     {
         $label="Stocks";
-        $data=array();
+        $data=array();//load data in 1st table before viewing transactions
+        $data2=array();//load data to be viewed for transactions
         $data1=Product::all();//to be used to display some product during restocking
-        $approvals=Stock::all()->sortByDesc('id')->where('approve',1);
-        foreach($approvals as $d){
-            //Pick data from products table
-            $name=Product::where('id',$d->product_id)->pluck('name')->first();
-            $order_level=Product::where('id',$d->product_id)->pluck('order_level')->first();
-            $quantity_type=Product::where('id',$d->product_id)->pluck('quantity_type')->first();
-            $quantity=Product::where('id',$d->product_id)->pluck('quantity')->first();
-            if($quantity_type==0){$t='Carton(s)';}elseif($quantity_type==1){$t='Packets';}else{$t='Items';}
-            //pick remainig data from stock table
-            $id=$d->id;
-            $user_id=$d->user_id;
-            $f_name=User::where('id',$user_id)->pluck('first_name')->first();
-            $l_name=User::where('id',$user_id)->pluck('last_name')->first();
-            $staff_name=$f_name.' '.$l_name;
-            $type=$d->type;
-            $source=$d->source;
-            $remarks=$d->remarks;
-            $expiry_date=$d->expiry_date;
-            $created_at=$d->created_at;
-            //Pushing to data array structure
+
+        foreach($data1 as $p){
+            $product_name=$p->name;
+            $p_id=$p->id;
+            $total_qty=$p->quantity;
+            $order_level=$p->order_level;
+            //pick from batches table
+            $batch=Batch::all()->where('product_id',$p_id);
+            $total_batch=count($batch);
+            //Push data for table stock
             array_push($data,[
-                'id'=>$id,
-                'product_id'=>$d->product_id,
-                'name'=>$name,
-                'quantity'=>$quantity.' '.$t,
-                'order_level'=>$order_level,
-                'source'=>$source,
-                'staff_name'=>$staff_name,
-                'date_in'=>$d->created_at,
-                'expiry_date'=>$d->expiry_date,
-                'remarks'=>$remarks
+                'id'=>$p_id,
+                'name'=>$product_name,
+                'qty'=>$total_qty,
+                'batch'=>$total_batch,
+                'order_level'=>$order_level
             ]);
+            foreach($batch as $b){
+                $b_id=$b->id;
+                $batch_qty=$b->quantity;
+                $batch_no=$b->batch_no;
+                //get data from stock table
+                $stocks=Stock::all()->where('product_id',$p_id)->where('approve',0);
+                foreach($stocks as $s){
+                    $source=$s->source;
+                    $date=$s->created_at;
+                    $o_level=$s->order_level;
+                    $expiry=$s->expiry_date;
+                    $remarks=$s->remarks;
+                    $approve=$s->approve;
+                    //getting user name
+                    $ff=$s->user_id;
+                    $f=User::where('id',$ff)->pluck('first_name')->first();
+                    $l=User::where('id',$ff)->pluck('last_name')->first();
+                    $staff=$f." ".$l;
+                    //push data for transaction
+                    array_push($data2,[
+                        'id'=>$s->id,
+                        'quantity'=>$batch_qty,
+                        'batch_no'=>$batch_no,
+                        'order_level'=>$o_level,
+                        'source'=>$source,
+                        'staff'=>$staff,
+                        'date_in'=>$date,
+                        'expiry'=>$expiry,
+                        'remarks'=>$remarks,
+                        'approve'=>$approve
+                        ]);
+                }
+
+            }
 
         }
-        return view('app.stock',compact('label','data','data1'));
+        return view('app.stock',compact('label','data','data1','data2'));
     }
 
     /**

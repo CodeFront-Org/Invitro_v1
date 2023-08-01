@@ -26,18 +26,20 @@
 
 
                                 <tbody>
+                                @foreach ($data as $item)
                                     <tr>
-                                        <td>1. </td>
-                                        <td>Panadol</td>
-                                        <td>10</td>
-                                        <td>15</td>
-                                        <td>2</td>
+                                        <td>{{$loop->index+1}} </td>
+                                        <td>{{$item['name']}}</td>
+                                        <td>{{$item['qty']}}</td>
+                                        <td>{{$item['batch']}}</td>
+                                        <td>{{$item['order_level']}}</td>
                                         <td style='font-size:10px; text-align: center;'>
-                                            <button type="button" style="background-color: #08228a9f;color: white" class="btn btn-xs" data-bs-toggle="modal" data-bs-target="#con-close-modal-txn-1">
+                                            <button type="button" style="background-color: #08228a9f;color: white" class="btn btn-xs" data-bs-toggle="modal" data-bs-target="#con-close-modal-txn-{{$item['id']}}">
                                                 <i class='fas fa-newspaper' aria-hidden='true'></i>
                                                 </button>
                                         </td>
                                     </tr>
+                                @endforeach
                                 </tbody>
                             </table>
                         </div>
@@ -239,6 +241,7 @@
                                     <th>Date In</th>
                                     <th>Expiry</th>
                                     <th>Remarks</th>
+                                    <th>Approval</th>
                                     <th>Actions</th>
                                 </tr>
                                 </thead>
@@ -255,6 +258,7 @@
                                         <td>20 August 2023</td>
                                         <td>20 Aug</td>
                                         <td>Good</td>
+                                        <td>Pending</td>
                                         <td style='font-size:10px; text-align: center;'>
                                             <button type="button" style="background-color: #08228a9f;color: white" class="btn btn-xs" data-bs-toggle="modal" data-bs-target="#con-close-modal-edit-">
                                                 <i class='fas fa-pen' aria-hidden='true'></i>
