@@ -151,8 +151,8 @@
                                     <div class="mb-3">
                                     <label for="field-11w" class="form-label">Product Name</label>
                                     <select name="name" class="form-control form-select" id="field-11w" required>
-                                    @foreach ($data as $item)
-                                        <option value="{{$item['product_id']}}">{{$item['name']}}</option>
+                                    @foreach ($data1 as $item)
+                                        <option value="{{$item->id}}">{{$item->name}}</option>
                                     @endforeach
 
                                         </select>
@@ -164,8 +164,12 @@
                                         <input type="text" name="quantity" class="form-control" id="field-2l" placeholder="quantity" required>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="field-2l" class="form-label">Batch Number</label>
+                                        <input type="text" name="batch_no" class="form-control" id="field-2l" placeholder="batch number" required>
+                                    </div>
+                                </div>
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label for="field-2l" class="form-label">Order Level</label>
@@ -178,14 +182,12 @@
                                         <input type="text" name="source" class="form-control" id="field-2n" placeholder="source" required>
                                     </div>
                                 </div>
-                                <div class="col-md-12">
+                                <div class="col-md-6">
                                     <div class="mb-3">
                                         <label for="field-2l" class="form-label">Expiry Date</label>
                                         <input type="date" name="e_date" class="form-control" id="field-2l" placeholder="expiry date" required>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row">
                                 <div class="col-md-12">
                                     <div class="mb-3">
                                         <label for="field-2" class="form-label">Remarks</label>
@@ -246,8 +248,8 @@
                                     <tr>
                                         <td>1. </td>
                                         <td>50</td>
-                                        <td>20</td>
                                         <td>P001</td>
+                                        <td>20</td>
                                         <td>KEMSA</td>
                                         <td>Martin Njoroge</td>
                                         <td>20 August 2023</td>
@@ -325,7 +327,7 @@ $.ajax({
                     toastr["success"]("", "Stock Saved Succesfully.")
         btn.show();
         loader.hide();
-       // location.href='/stock'
+        location.href='/stock'
     },
     error: function(res){  console.log(res)
     if(res=='101'){

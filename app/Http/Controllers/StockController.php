@@ -22,6 +22,7 @@ class StockController extends Controller
     {
         $label="Stocks";
         $data=array();
+        $data1=Product::all();//to be used to display some product during restocking
         $approvals=Stock::all()->sortByDesc('id')->where('approve',1);
         foreach($approvals as $d){
             //Pick data from products table
@@ -56,7 +57,7 @@ class StockController extends Controller
             ]);
 
         }
-        return view('app.stock',compact('label','data'));
+        return view('app.stock',compact('label','data','data1'));
     }
 
     /**

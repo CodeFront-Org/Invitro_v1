@@ -17,6 +17,7 @@ class CreateBatchesTable extends Migration
             $table->id();
             $table->string('batch_no')->unique();
             $table->smallInteger('quantity');
+            $table->integer('product_id')->nullable();
             $table->tinyInteger('sold_out')->default(0);
             $table->softDeletes();
             $table->timestamps();
