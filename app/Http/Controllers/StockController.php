@@ -141,34 +141,44 @@ try {
             $product_id=$request->name;
             $o_level=$request->o_level;
             $quantity=$request->quantity;
-            //Get product quantity from db and increment
-            $qty=Product::where('id',$product_id)->pluck('quantity')->first();
-            $q_type=Product::where('id',$product_id)->pluck('quantity_type')->first();
-            $product=Product::where('id',$product_id)->update([
-                'order_level'=>$o_level,
-                'quantity'=>$qty+$quantity,
-                ]);
+            $batch_no=$request->batch_no;
+            //Store in batch tables
+            $batch=Batch::create(['batch_no'=>$batch_no,'product_id'=>$product_id,'quantity'=>$quantity]);
+            if($batch){
+                //Get product quantity from db and increment
+                $qty=Product::where('id',$product_id)->pluck('quantity')->first();
+                $q_type=Product::where('id',$product_id)->pluck('quantity_type')->first();
+                $product=Product::where('id',$product_id)->update([
+                    'order_level'=>$o_level,
+                    'quantity'=>$qty+$quantity,
+                    ]);
 
-            if($product){
-                $product_id=$product_id;
-                $stock=Stock::create([
-                    'user_id'=>$id,
-                    'product_id'=>$product_id,
-                    'quantity'=>$request->quantity,
-                    'quantity_type'=>$q_type,
-                    'type'=>0, //To know whetehr its new(0) or return(1) stock when reading data
-                    'source'=>$request->source,
-                    'remarks'=>$request->remarks,
-                    'approve'=>0,
-                    'expiry_date'=>$request->e_date,
-                ]);
-            if($stock){
-                //Log activity to file
-                Log::channel('add_stock')->notice('New stock added. Of Id: '.$product_id.'. Added by '.Auth::user()->first_name.' Email: '.Auth::user()->email);
-            }
+                if($product){
+                    $product_id=$product_id;
+                    $stock=Stock::create([
+                        'user_id'=>$id,
+                        'product_id'=>$product_id,
+                        'batch_id'=>$batch->id,
+                        'quantity'=>$request->quantity,
+                        'quantity_type'=>$q_type,
+                        'sold'=>0,//indicate that 0 have been sold since its new stock
+                        'type'=>0, //To know whetehr its new(0) or return(1) stock when reading data
+                        'source'=>$request->source,
+                        'remarks'=>$request->remarks,
+                        'approve'=>0,
+                        'expiry_date'=>$request->e_date,
+                    ]);
+                if($stock){
+                    //Log activity to file
+                    Log::channel('add_stock')->notice('New stock added. Of Id: '.$product_id.'. Added by '.Auth::user()->first_name.' Email: '.Auth::user()->email);
+                }
+                }else{
+                    return "error";
+                }
             }else{
-                return "error";
+                throw new \Exception('Batch exist');
             }
+
         }
 
 
