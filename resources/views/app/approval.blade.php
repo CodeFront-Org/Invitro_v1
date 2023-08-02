@@ -24,6 +24,7 @@
                                 <tr>
                                     <th>#</th>
                                     <th>Name</th>
+                                    <th>Batch</th>
                                     <th>Quantity</th>
                                     <th>level</th>
                                     <th>Source</th>
@@ -41,6 +42,7 @@
                                     <tr>
                                         <td>{{$loop->index+1}}. </td>
                                         <td>{{$item['name']}}</td>
+                                        <td>{{$item['batch_no']}}</td>
                                         <td>{{$item['quantity']}}</td>
                                         <td>{{$item['order_level']}}</td>
                                         <td>{{$item['source']}}</td>

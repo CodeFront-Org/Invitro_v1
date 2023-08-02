@@ -28,21 +28,23 @@ class StockController extends Controller
         foreach($data1 as $p){
             $product_name=$p->name;
             $p_id=$p->id;
-            $total_qty=$p->quantity;
             $order_level=$p->order_level;
             //pick from batches table
             $batch=Batch::all()->where('product_id',$p_id);
             $total_batch=count($batch);
+            $sa=Stock::where('approve',1)->where('product_id',$p_id)->sum('quantity');//total qty approved
+            $total_qty=$p->quantity-$sa;
             //Push data for table stock
             array_push($data,[
                 'id'=>$p_id,
                 'name'=>$product_name,
                 'qty'=>$total_qty,
+                'qty_approved'=>$sa,
                 'batch'=>$total_batch,
                 'order_level'=>$order_level
             ]);
                 //get data from stock table
-                $stocks=Stock::all()->where('product_id',$p_id)->where('approve',0);
+                $stocks=Stock::all()->where('product_id',$p_id);
                 foreach($stocks as $s){
                     $source=$s->source;
                     $date=$s->created_at;
@@ -60,6 +62,7 @@ class StockController extends Controller
                     //push data for transaction
                     array_push($data2,[
                         'id'=>$s->id,
+                        'product_id'=>$p_id,
                         'name'=>$product_name,
                         'quantity'=>$batch_qty,
                         'batch_no'=>$batch_no,
@@ -75,6 +78,8 @@ class StockController extends Controller
 
 
         }
+
+//return $data2;
         return view('app.stock',compact('label','data','data1','data2'));
     }
 

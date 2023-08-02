@@ -30,7 +30,7 @@
                                     <tr>
                                         <td>{{$loop->index+1}} </td>
                                         <td>{{$item['name']}}</td>
-                                        <td>{{$item['qty']}}</td>
+                                        <td>{{$item['qty']}}  ({{$item['qty_approved']}})</td>
                                         <td>{{$item['batch']}}</td>
                                         <td>{{$item['order_level']}}</td>
                                         <td style='font-size:10px; text-align: center;'>
@@ -215,8 +215,8 @@
 
 
             <!-- View Transaction of Stock Modal -->
-@foreach ($data as $item)
-    <div id="con-close-modal-txn-{{$item['id']}}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+@foreach ($data as $item1)
+    <div id="con-close-modal-txn-{{$item1['id']}}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
         <div class="modal-dialog modal-full-width">
             <div class="modal-content">
                 <form id="settiingsForm" method="post">
@@ -248,26 +248,34 @@
 
                         <tbody>
                         @foreach ($data2 as $item)
-                            <tr>
-                                <td>{{$loop->index+1}}. </td>
-                                <td>{{$item['quantity']}}</td>
-                                <td>{{$item['batch_no']}}</td>
-                                <td>{{$item['source']}}</td>
-                                <td>{{$item['staff']}}</td>
-                                <td>{{$item['date_in']}}</td>
-                                <td>{{$item['expiry']}}</td>
-                                <td>{{$item['remarks']}}</td>
-                                <td>{{$item['approve']==0?'Pending':"approved"}}</td>
-                                <td style='font-size:10px; text-align: center;'>
-                                    <button type="button" style="background-color: #08228a9f;color: white" class="btn btn-xs" data-bs-toggle="modal" data-bs-target="#con-close-modal-edit-{{$item['id']}}">
-                                        <i class='fas fa-pen' aria-hidden='true'></i>
+                        @if ($item1['id']==$item['product_id'])
+                                <tr>
+                                    <td>{{$loop->index+1}}. </td>
+                                    <td>{{$item['quantity']}}</td>
+                                    <td>{{$item['batch_no']}}</td>
+                                    <td>{{$item['source']}}</td>
+                                    <td>{{$item['staff']}}</td>
+                                    <td>{{$item['date_in']}}</td>
+                                    <td>{{$item['expiry']}}</td>
+                                    <td>{{$item['remarks']}}</td>
+                                    <td>
+                                        @if ($item['approve'] == 0)
+                                            <span style="color:red">Pending</span>
+                                        @else
+                                            <span style="color:green">Approved</span>
+                                        @endif
+                                    </td>
+                                    <td style='font-size:10px; text-align: center;'>
+                                        <button type="button" style="background-color: #08228a9f;color: white" class="btn btn-xs" data-bs-toggle="modal" data-bs-target="#con-close-modal-edit-{{$item['id']}}">
+                                            <i class='fas fa-pen' aria-hidden='true'></i>
+                                            </button>
+                                        <button type="button" onclick="del(this)" value="{{$item['id']}}" class="btn btn-danger btn-xs">
+                                            <i class='fa fa-trash' aria-hidden='true'></i>
                                         </button>
-                                    <button type="button" onclick="del(this)" value="{{$item['id']}}" class="btn btn-danger btn-xs">
-                                        <i class='fa fa-trash' aria-hidden='true'></i>
-                                    </button>
 
-                                </td>
-                            </tr>
+                                    </td>
+                                </tr>
+                        @endif
                         @endforeach
                         </tbody>
                     </table>

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Stock;
 use App\Models\Product;
 use App\Models\User;
+use App\Models\Batch;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 
@@ -39,10 +40,13 @@ class ApproveController extends Controller
             $remarks=$d->remarks;
             $expiry_date=$d->expiry_date;
             $created_at=$d->created_at;
+            $b_id=$d->batch_id;
+            $batch_no=Batch::where('id',$b_id)->pluck('batch_no')->first();
             //Pushing to data array structure
             array_push($data,[
                 'id'=>$id,
                 'name'=>$name,
+                'batch_no'=>$batch_no,
                 'quantity'=>$quantity.' '.$t,
                 'order_level'=>$order_level,
                 'source'=>$source,
