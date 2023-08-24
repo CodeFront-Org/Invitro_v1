@@ -1,4 +1,4 @@
-        <div class="navbar-custom" style="background-image: linear-gradient(to left, #0754fa64,#001d919e);">
+        <div class="navbar-custom">
             <ul class="list-unstyled topnav-menu float-end mb-0">
 
                 <li class="d-none d-lg-block">

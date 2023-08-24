@@ -1,4 +1,4 @@
-        <div class="left-side-menu" style="background-size: cover;background-image: linear-gradient(to right, #1b47f721,#001d9154);overflow: hidden;color:white">
+        <div class="left-side-menu">
 
             <div class="h-100" data-simplebar>
 
