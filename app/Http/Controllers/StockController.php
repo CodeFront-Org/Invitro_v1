@@ -108,6 +108,7 @@ class StockController extends Controller
             $o_level=$request->o_level;
             $q_type=$request->q_type;
             $batch_no=$request->batch_no;
+            $e_date=$request->e_date;
             // Start the transaction
             DB::beginTransaction();
 try {
@@ -115,6 +116,7 @@ try {
         $batch = new Batch([
             'batch_no' => $batch_no,
             'quantity' => $request->quantity,
+            'expiry_date'=>$e_date
         ]);
         // Save the batch to the database
         if($batch->save()){
