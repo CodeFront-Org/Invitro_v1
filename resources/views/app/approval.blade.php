@@ -79,6 +79,10 @@
                      Approve Orders
                 </button>
                 <div class="card" style="border-radius:0px 15px 15px 15px;box-shadow: 2px 3px 3px 2px rgba(9, 107, 255, 0.179);">
+                <form action="{{route('approve.store')}}" method="post">
+                    @csrf
+                    @method("POST")
+                    <input type="hidden" name="type" value="1">
                     <div class="card-body">
                         <div class="table-responsive">
                             <table  style="font-family: 'Times New Roman', Times, serif" class="table table-bordered nowrap text-center" id="datatable" class="table table-sm table-bordered dt-responsive nowrap text-center">
@@ -86,8 +90,8 @@
                                 <tr>
                                     <th>#</th>
                                     <th>Product</th>
+                                    <th>Batch</th>
                                     <th>Quantity</th>
-                                    <th>Amount</th>
                                     <th>Destination</th>
                                     <th>Invoice</th>
                                     <th>Reciept</th>
@@ -100,23 +104,25 @@
 
 
                                 <tbody>
+                                @foreach ($orders as $item)
                                     <tr>
-                                        <td>1. </td>
-                                        <td>Panadol</td>
-                                        <td>3 Cartons</td>
-                                        <td>25,000</td>
-                                        <td>KEMSA</td>
-                                        <td>Invoice #34</td>
-                                        <td>Re #43</td>
-                                        <td>Martin Njoroge</td>
-                                        <td>28 July 2023</td>
+                                        <td>{{$loop->index+1}} </td>
+                                        <td>{{$item['product_name']}}</td>
+                                        <td>{{$item['batch']}}</td>
+                                        <td>{{$item['quantity']}}</td>
+                                        <td>{{$item['destination']}}</td>
+                                        <td>{{$item['invoice']}}</td>
+                                        <td>{{$item['receipt']}}</td>
+                                        <td>{{$item['staff']}}</td>
+                                        <td>{{$item['date']}}</td>
                                         <td class="text-left" style="min-width: 130px; max-width: 130px; overflow: hidden; font-size: 12px;">
-                                                My remarks on entry of Order.
+                                                {{$item['rmks']}}
                                         </td>
                                         <td style="color:green">
-                                            <input type="checkbox" class="custom-control-input" name="status[]" value="">
+                                            <input type="checkbox" class="custom-control-input" name="status[]" value="{{$item['id']}}">
                                         </td>
                                     </tr>
+                                @endforeach
                                 </tbody>
                             </table>
                         </div>
@@ -124,6 +130,7 @@
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-info waves-effect waves-light">Save changes</button>
                     </div>
+                    </form>
                 </div>
 
             </div>

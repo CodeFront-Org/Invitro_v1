@@ -14,38 +14,47 @@
                                 <tr>
                                     <th>#</th>
                                     <th>Product</th>
+                                    <th>Batch</th>
                                     <th>Quantity</th>
-                                    <th>Amount</th>
                                     <th>Destination</th>
                                     <th>Invoice</th>
                                     <th>Reciept</th>
                                     <th>Staff Incharge</th>
                                     <th>Date</th>
                                     <th>Remarks</th>
+                                    <th>Approval</th>
                                     <th>Actions</th>
                                 </tr>
                                 </thead>
 
 
                                 <tbody>
+                                @foreach ($orders as $item)
                                     <tr>
-                                        <td>1. </td>
-                                        <td>Panadol</td>
-                                        <td>3 Cartons</td>
-                                        <td>25,000</td>
-                                        <td>KEMSA</td>
-                                        <td>Invoice #34</td>
-                                        <td>Re #43</td>
-                                        <td>Martin Njoroge</td>
-                                        <td>28 July 2023</td>
+                                        <td>{{$loop->index+1}} </td>
+                                        <td>{{$item['product_name']}}</td>
+                                        <td>{{$item['batch']}}</td>
+                                        <td>{{$item['quantity']}}</td>
+                                        <td>{{$item['destination']}}</td>
+                                        <td>{{$item['invoice']}}</td>
+                                        <td>{{$item['receipt']}}</td>
+                                        <td>{{$item['staff']}}</td>
+                                        <td>{{$item['date']}}</td>
                                         <td class="text-left" style="min-width: 130px; max-width: 130px; overflow: hidden; font-size: 12px;">
-                                                My remarks on entry of Order.
+                                                    {{$item['rmks']}}
+                                        </td>
+                                        <td>
+                                        @if ($item['approve'] == 0)
+                                            <span style="color:red">Pending</span>
+                                        @else
+                                            <span style="color:green">Approved</span>
+                                        @endif
                                         </td>
                                         <td style='font-size:10px; text-align: center;'>
                                             <button type="button" style="background-color: #08228a9f;color: white" class="btn btn-xs" data-bs-toggle="modal" data-bs-target="#con-close-modal-edit-1">
                                                 <i class='fas fa-pen' aria-hidden='true'></i>
                                                 </button>
-                                            <button type="button" style="background-color: #006fd6aa;color: white" class="btn btn-xs" data-bs-toggle="modal" data-bs-target="#con-close-modal-return-1">
+                                            <button type="button" style="background-color: #006fd6aa;color: white" class="btn btn-xs" data-bs-toggle="modal" data-bs-target="#con-close-modal-return-{{$item['id']}}">
                                                 <i class='fas fa-minus-circle' aria-hidden='true'></i>
                                                 </button>
                                             <button type="button" onclick="del(this)" value="" class="btn btn-danger btn-xs">
@@ -54,6 +63,7 @@
 
                                         </td>
                                     </tr>
+                                @endforeach
                                 </tbody>
                             </table>
                         </div>
@@ -69,7 +79,7 @@
             <div id="con-close-modal-add-1" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
-                        <form id="settiingsForm" method="post">
+                        <form id="newOrderForm" method="post">
                         @csrf
                         @method('post')
                         <input type="hidden" name="type" value="0">
@@ -82,8 +92,20 @@
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                     <label for="field-11w" class="form-label">Product Name</label>
-                                    <select name="name" class="form-control form-select" id="field-11w" required>
-                                                <option value="0">Panadol</option>
+                                    <select name="product_id" class="form-control form-select" id="field-11w" required>
+                                        @foreach ($products as $item)
+                                            <option value="{{$item['id']}}">{{$item['name']}}</option>
+                                        @endforeach
+                                        </select>
+                                </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                    <label for="field-11w" class="form-label">Batch Number</label>
+                                    <select name="batch_id" class="form-control form-select" id="field-11w" required>
+                                        @foreach ($data as $item)
+                                            <option value="{{$item['batch_id']}}">{{$item['batch_no']}}</option>
+                                        @endforeach
                                         </select>
                                 </div>
                                 </div>
@@ -92,23 +114,19 @@
                                         <label for="field-2l" class="form-label">Quantity</label>
                                         <input type="text" name="quantity" class="form-control" id="field-2l" placeholder="quantity" required>
                                     </div>
-                                </div>
-                            </div>
-                            <div class="row">
+                                </div><!--
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label for="field-2n" class="form-label">Amount</label>
                                         <input type="number" name="amount" class="form-control" id="field-2n" placeholder="amount" required>
                                     </div>
-                                </div>
+                                </div>-->
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label for="field-2l" class="form-label">Destination</label>
                                         <input type="text" name="destination" class="form-control" id="field-2l" placeholder="destination" required>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row">
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label for="field-2n" class="form-label">Invoice Number</label>
@@ -121,14 +139,12 @@
                                         <input type="text" name="receipt" class="form-control" id="field-2l" placeholder="Receipt Number" required>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
+                                <!--<div class="col-md-6">
                                     <div class="mb-3">
                                         <label for="field-2l" class="form-label">Date</label>
                                         <input type="date" name="date" class="form-control" id="field-2l" placeholder="expiry date" required>
                                     </div>
-                                </div>
+                                </div>-->
                                 <div class="col-md-12">
                                     <div class="mb-3">
                                         <label for="field-2" class="form-label">Remarks</label>
@@ -138,10 +154,10 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button class="btn rounded-pill p-1" id="addbtn" style="width: 100%; background-color: #08228a9f;color: white" type="submit">
+                            <button class="btn rounded-pill p-1" id="newbtn" style="width: 100%; background-color: #08228a9f;color: white" type="submit">
                                     Submit
                             </button>
-                            <button class="btn rounded-pill p-1" id="editloader" style="width: 100%; background-color: #08228a9f;color: white;display:none;" type="button">
+                            <button class="btn rounded-pill p-1" id="newloader" style="width: 100%; background-color: #08228a9f;color: white;display:none;" type="button">
                                     <span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
                                     Saving Data...
                             </button>
@@ -152,57 +168,50 @@
             </div><!-- /.modal -->
 
             <!-- Return Stock Modal -->
-
-            <div id="con-close-modal-return-1" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content">
-                        <form id="settiingsForm" method="post">
-                        @csrf
-                        @method('post')
-                        <input type="hidden" name="type" value="0">
-                        <div class="modal-header">
-                            <h4 class="modal-title">Return Stock</h4>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                    <label for="field-11w" class="form-label">Product Name</label>
-                                    <select name="name" class="form-control form-select" id="field-11w" required>
-                                                <option value="0">Panadol</option>
-                                        </select>
-                                </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label for="field-2l" class="form-label">Quantity</label>
-                                        <input type="text" name="quantity" class="form-control" id="field-2l" placeholder="quantity" required>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="mb-3">
-                                        <label for="field-2" class="form-label">Remarks</label>
-                                        <textarea id="textarea" class="form-control" required maxlength="300" rows="3" placeholder="Your Remarks"></textarea>
-                                    </div>
-                                </div>
+@foreach ($orders as $item)    
+    <div id="con-close-modal-return-{{$item['id']}}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <form method="post" action="{{route('/return-stock')}}">
+                @csrf
+                @method('post')
+                <input type="hidden" name="type" value="2">
+                <input type="hidden" name="batch_id" value="{{$item['batch_id']}}">
+                <input type="hidden" name="order_id" value="{{$item['id']}}">
+                <div class="modal-header">
+                    <h4 class="modal-title">Return Stock: Name-> {{$item['product_name']}}  Batch-> {{$item['batch']}}</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="mb-3">
+                                <label for="field-2l" class="form-label">Quantity</label>
+                                <input type="text" name="quantity" class="form-control" id="field-2l" placeholder="quantity" required>
                             </div>
                         </div>
-                        <div class="modal-footer">
-                            <button class="btn rounded-pill p-1" id="addbtn" style="width: 100%; background-color: #08228a9f;color: white" type="submit">
-                                    Submit
-                            </button>
-                            <button class="btn rounded-pill p-1" id="editloader" style="width: 100%; background-color: #08228a9f;color: white;display:none;" type="button">
-                                    <span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
-                                    Saving Data...
-                            </button>
+                        <div class="col-md-12">
+                            <div class="mb-3">
+                                <label for="field-2" class="form-label">Remarks</label>
+                                <textarea id="textarea" class="form-control" required maxlength="300" rows="3" placeholder="Your Remarks"></textarea>
+                            </div>
                         </div>
-                        </form>
                     </div>
                 </div>
-            </div><!-- /.modal -->
+                <div class="modal-footer">
+                    <button class="btn rounded-pill p-1" id="addbtn" style="width: 100%; background-color: #08228a9f;color: white" type="submit">
+                            Submit
+                    </button>
+                    <button class="btn rounded-pill p-1" id="editloader" style="width: 100%; background-color: #08228a9f;color: white;display:none;" type="button">
+                            <span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
+                            Saving Data...
+                    </button>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div><!-- /.modal -->
+@endforeach
 
 
 
@@ -296,20 +305,20 @@
 @section('scripts')
     <script>
     $(document).ready(function(){
-//Add settings Form
-$("#settiingsForm").on('submit',(e)=>{
+//Add newOrderForm
+$("#newOrderForm").on('submit',(e)=>{
 e.preventDefault();
-var btn=$("#addbtn");
-var loader=$("#addloader")
+var btn=$("#newbtn");
+var loader=$("#newloader")
 btn.hide();
 loader.show();
-let data=$("#settiingsForm").serialize();
+let data=$("#newOrderForm").serialize();
 $.ajax({
     type: "POST",
-    url: "#",
+    url: "/order",
     data: data,
     success: function (response) {
-
+console.log(response)
                     toastr.options = {
                         "closeButton": false,
                         "debug": false,
@@ -327,10 +336,14 @@ $.ajax({
                         "showMethod": "fadeIn",
                         "hideMethod": "fadeOut"
                     }
-                    toastr["success"]("", "Settings Saved Succesfully.")
-        location.href='#'
+                    toastr["success"]("", "Order Created Succesfully.")
+        btn.show();
+        loader.hide();
+        //location.href='order'
     },
-    error: function(res){
+    error: function(res){ console.log(res)
+        btn.show();
+        loader.hide();
         Swal.fire("Error!", "Try again later...", "error");
     }
 });

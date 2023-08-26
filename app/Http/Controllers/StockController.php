@@ -44,7 +44,7 @@ class StockController extends Controller
                 'order_level'=>$order_level
             ]);
                 //get data from stock table
-                $stocks=Stock::all()->where('product_id',$p_id);
+                $stocks=Stock::all()->where('product_id',$p_id)->sortByDesc('id');
                 foreach($stocks as $s){
                     $source=$s->source;
                     $date=$s->created_at;

@@ -7,6 +7,7 @@ use App\Models\Stock;
 use App\Models\Product;
 use App\Models\User;
 use App\Models\Batch;
+use App\Models\Order;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 
@@ -20,7 +21,9 @@ class ApproveController extends Controller
     public function index()
     {
         $label="Approvals";
-        $data=array();
+        $data=array();//stores approval for new stocks
+        $orders=array();
+/////////////////////////////// for new stock ////////////////////////////////////////////
         $approvals=Stock::all()->sortByDesc('id')->where('approve',0);
         foreach($approvals as $d){
             //Pick data from products table
@@ -57,8 +60,36 @@ class ApproveController extends Controller
             ]);
 
         }
-
-        return view('app.approval',compact('label','data'));
+/////////////////////////////// for new order ////////////////////////////////////////////
+        $data1=Order::all()->where('approve',0);
+        foreach($data1 as $d){
+            $p_id=$d->product_id;
+            $batch_id=$d->batch_id;
+            $batch_no=Batch::where('id',$batch_id)->pluck('batch_no')->first();
+            $product_name=Product::where('id',$p_id)->pluck('name')->first();
+            $quantity=$d->quantity;
+            $destination=$d->destination;
+            $invoice=$d->invoice;
+            $rct=$d->receipt;
+            $f_name=User::where('id',$d->user_id)->pluck('first_name')->first();
+            $l_name=User::where('id',$d->user_id)->pluck('last_name')->first();
+            $staff=$f_name." ".$l_name;
+            $rmks=$d->remarks;
+            $created_at=$d->created_at;
+            array_push($orders,[
+                'id'=>$d->id,
+                'batch'=>$batch_no,
+                'product_name'=>$product_name,
+                'quantity'=>$quantity,
+                'destination'=>$destination,
+                'invoice'=>$invoice,
+                'receipt'=>$rct,
+                'staff'=>$staff,
+                'rmks'=>$rmks,
+                'date'=>$created_at,
+            ]);
+        }
+        return view('app.approval',compact('label','data','orders'));
     }
 
     /**
@@ -80,7 +111,7 @@ class ApproveController extends Controller
     public function store(Request $request)
     {
         $type=$request->type;
-        if($type==0){//Approve Stocks
+        if($type==0){//////////////////////////////////////////////////////////////////Approve Stocks
             $data=$request->status;
             foreach($data as $item){
             //Approve Stock table
@@ -94,9 +125,65 @@ class ApproveController extends Controller
             }
             session()->flash('message','success');
             return back();
-        }elseif($type==1){//Approve orders
+        }elseif($type==1){///////////////////////////////////////////////////////////////Approve orders
+            $data=$request->status;
+            foreach($data as $item){
+//check if item is below order level
+$qty=Order::where('id',$item)->pluck('quantity')->first();
+$p_id=Order::where('id',$item)->pluck('product_id')->first();
+$p_name=Product::where('id',$p_id)->pluck('name')->first();
+$qty_db=Product::where('id',$p_id)->pluck('quantity')->first();
+$order_level=Product::where('id',$p_id)->pluck('order_level')->first();
+$new_qty=$qty_db-$qty;
+if($new_qty<=$order_level){//below order level
+    //Approve Order and update new product quantity
+    $approve=Order::where('id',$item)->update(['approve'=>1]);
+    Product::where('id',$p_id)->update(['quantity'=>$new_qty]);
+    //send SMS Notification To alert Order Limit
+    $mobile=User::where('id',1)->pluck('contacts')->first();
+    $msg='Order Level for Product: '.$p_name.' has been reached.\n\nPlease Restock\nInvitro';
 
-        }elseif($type==2){//Approve Re-turned stocks
+    $curl = curl_init();
+    curl_setopt_array($curl, array(
+    CURLOPT_URL => env('SMS_URL'),
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_ENCODING => '',
+    CURLOPT_MAXREDIRS => 10,
+    CURLOPT_TIMEOUT => 15,
+    CURLOPT_FOLLOWLOCATION => true,
+    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+    CURLOPT_CUSTOMREQUEST => 'POST',
+    CURLOPT_POSTFIELDS =>'{
+        "mobile":"'.$mobile.'",
+        "response_type": "json",
+        "sender_name":"'.env('SENDER_NAME').'",
+        "service_id": 0,
+        "message": "'.$msg.'"
+    }',
+    CURLOPT_HTTPHEADER => array(
+        'h_api_key:'.env('SMS_KEY'),
+        'Content-Type: application/json'
+    ),
+    ));
+
+    $response = curl_exec($curl);
+    //send Email Notification
+
+}else{//Proceed to approval
+    //Approve Order table
+    $approve=Order::where('id',$item)->update(['approve'=>1]);
+    Product::where('id',$p_id)->update(['quantity'=>$new_qty]);
+}
+        if($approve){
+            //Log activity to file.. First get product name then save it to file
+            $p_id=Order::where('id',$item)->pluck('product_id')->first();
+            $name=Product::where('id',$p_id)->pluck('name')->first();
+            Log::channel('approve_stock')->notice($name.' stock appoved by '.Auth::user()->first_name.' '.Auth::user()->last_name.' Email: '.Auth::user()->email);
+        }
+            }
+            session()->flash('message','success');
+            return back();
+        }elseif($type==2){//////////////////////////////////////////////////////////Approve Re-turned stocks
 
         }
     }

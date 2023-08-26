@@ -18,7 +18,9 @@ class CreateBatchesTable extends Migration
             $table->string('batch_no')->unique();
             $table->smallInteger('quantity');
             $table->integer('product_id')->nullable();
-            $table->tinyInteger('sold_out')->default(0);
+            $table->integer('sold');//to show quantity that has been sold. so as to track and avoid over selling of a batch.
+            $table->tinyInteger('sold_out')->default(0); //when whole batch is sold out then status changes to 1 and not list it for sell.
+            $table->timestamps('expiry_date');
             $table->softDeletes();
             $table->timestamps();
         });

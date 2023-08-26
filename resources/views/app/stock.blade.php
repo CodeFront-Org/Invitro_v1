@@ -30,7 +30,7 @@
                                     <tr>
                                         <td>{{$loop->index+1}} </td>
                                         <td>{{$item['name']}}</td>
-                                        <td>{{$item['qty']}}  ({{$item['qty_approved']}})</td>
+                                        <td>{{$item['qty_approved']}}  ({{$item['qty']}})</td>
                                         <td>{{$item['batch']}}</td>
                                         <td>{{$item['order_level']}}</td>
                                         <td style='font-size:10px; text-align: center;'>

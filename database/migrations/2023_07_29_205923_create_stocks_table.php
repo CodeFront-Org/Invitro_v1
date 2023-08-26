@@ -26,7 +26,6 @@ class CreateStocksTable extends Migration
             $table->string('source');
             $table->tinyInteger('approve')->default(0);
             $table->string('remarks');
-            $table->dateTime('expiry_date');
             $table->softDeletes();
             $table->timestamps();
         });

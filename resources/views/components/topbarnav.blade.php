@@ -64,8 +64,19 @@
 
                         @php
                             use App\Models\Stock;
-                            $approvals = count(Stock::all()->where('approve',0));
-                            if($approvals>0){$count=1;}else{$count=0;}
+                            use App\Models\Order;
+                            $approval1 = count(Stock::all()->where('approve',0));
+                            $approval2 = count(Order::all()->where('approve',0));
+                            if($approval1>0 or $approval2>0){  
+                                $count=1;
+                                if($approval1>0 and $approval2>0){
+                                $count=2;
+                                }
+                            }elseif($approval1>0){
+                            $count=0;
+                            }else{
+                                $count=0;
+                            }
 
                         @endphp
                 <li class="dropdown notification-list topbar-dropdown">
@@ -98,11 +109,19 @@
                                 </p>
                             </a>-->
                             <!-- item-->
-                            @if ($approvals>0)
+                            @if ($approval1>0)
                                 <a href="{{route('approve.index')}}" class="dropdown-item notify-item active">
                                     <p class="notify-details">Approve Stocks</p>
                                     <p class="text-muted mb-0 user-msg">
-                                        <small>Hi, you have <b>{{$approvals}}</b> new stock to approve.</small>
+                                        <small>Hi, you have <b>{{$approval1}}</b> new stocStockk to approve.</small>
+                                    </p>
+                                </a>
+                            @endif
+                            @if ($approval2>0)
+                                <a href="{{route('approve.index')}}" class="dropdown-item notify-item active">
+                                    <p class="notify-details">Approve Stocks</p>
+                                    <p class="text-muted mb-0 user-msg">
+                                        <small>Hi, you have <b>{{$approval2}}</b> new Order to approve.</small>
                                     </p>
                                 </a>
                             @endif

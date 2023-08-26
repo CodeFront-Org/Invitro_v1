@@ -9,6 +9,9 @@ use Illuminate\Support\Facades\Log;
 class SMS extends Controller
 {
     public function send_sms(Request $request){
+
+
+
     $mobile=$request->mobile;
     $msg='Message from Laravel Api.\n\nRegards\nSwerve Tech';
 

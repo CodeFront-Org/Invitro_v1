@@ -88,9 +88,9 @@ class UserController extends Controller
                 Log::channel('user_reg')->notice(Auth::user()->email." of DB id ".Auth::id()." Registered Customer ".$request->email." with role of ".$status);
                 $user=User::where('email',$request->email)->first();
                 if($status=='0'){//add admin role
-                    $user->assignRole('admin');
+                    $user->assignRole('customer');
                 }elseif($status=='1'){//add staff role
-                    $user->assignRole('staff');
+                    $user->assignRole('customer');
                 }
             }
         }
