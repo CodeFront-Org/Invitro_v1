@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
+use Carbon\Carbon;
+
 class StockController extends Controller
 {
     /**
@@ -48,12 +50,15 @@ class StockController extends Controller
                 foreach($stocks as $s){
                     $source=$s->source;
                     $date=$s->created_at;
-                    $expiry=$s->expiry_date;
+                    $date = Carbon::createFromFormat('Y-m-d H:i:s', $date)->format('F jS Y');
                     $remarks=$s->remarks;
                     $approve=$s->approve;
                     $b_id=$s->batch_id;
                     $batch_qty=Batch::where('id',$b_id)->pluck('quantity')->first();
                     $batch_no=Batch::where('id',$b_id)->pluck('batch_no')->first();
+                    $batch_id=Batch::where('id',$b_id)->pluck('id')->first();
+                    $expiry=Batch::where('id',$b_id)->pluck('expiry_date')->first();
+                    $expiry = Carbon::createFromFormat('Y-m-d H:i:s', $expiry)->format('F jS Y');
                     //getting user name
                     $ff=$s->user_id;
                     $f=User::where('id',$ff)->pluck('first_name')->first();
@@ -65,7 +70,9 @@ class StockController extends Controller
                         'product_id'=>$p_id,
                         'name'=>$product_name,
                         'quantity'=>$batch_qty,
+                        'quantity_type'=>$s->quantity_type,
                         'batch_no'=>$batch_no,
+                        'batch_id'=>$batch_id,
                         'source'=>$source,
                         'staff'=>$staff,
                         'date_in'=>$date,
@@ -116,7 +123,7 @@ try {
         $batch = new Batch([
             'batch_no' => $batch_no,
             'quantity' => $request->quantity,
-            'expiry_date'=>$e_date
+            'expiry_date'=>$e_date,
         ]);
         // Save the batch to the database
         if($batch->save()){
@@ -143,7 +150,6 @@ try {
                             'type'=>0, //To know whether its new(0) or return(1) stock when reading data
                             'source'=>$request->source,
                             'remarks'=>$request->remarks,
-                            'expiry_date'=>$request->e_date,
                         ]);
 
                 } else {echo "101";//Error fo duplication for product name
@@ -164,17 +170,16 @@ try {
         }elseif($type==1){//**************************** store restock  ********************************************//
             $id=Auth::id();
             $product_id=$request->name;
-            $o_level=$request->o_level;
             $quantity=$request->quantity;
             $batch_no=$request->batch_no;
+            $e_date=$request->e_date;
             //Store in batch tables
-            $batch=Batch::create(['batch_no'=>$batch_no,'product_id'=>$product_id,'quantity'=>$quantity]);
+            $batch=Batch::create(['batch_no'=>$batch_no,'product_id'=>$product_id,'quantity'=>$quantity,'expiry_date'=>$e_date]);
             if($batch){
                 //Get product quantity from db and increment
                 $qty=Product::where('id',$product_id)->pluck('quantity')->first();
                 $q_type=Product::where('id',$product_id)->pluck('quantity_type')->first();
                 $product=Product::where('id',$product_id)->update([
-                    'order_level'=>$o_level,
                     'quantity'=>$qty+$quantity,
                     ]);
 
@@ -191,7 +196,6 @@ try {
                         'source'=>$request->source,
                         'remarks'=>$request->remarks,
                         'approve'=>0,
-                        'expiry_date'=>$request->e_date,
                     ]);
                 if($stock){
                     //Log activity to file
@@ -205,8 +209,6 @@ try {
             }
 
         }
-
-
     }
 
     /**
@@ -240,7 +242,60 @@ try {
      */
     public function update(Request $request, $id)
     {
-        //
+        $type=$request->type;
+        if($type==0){
+
+        }elseif($type==1){// Edit stock details
+        $e_date = $request->input('e_date');
+        $rmks = $request->input('remarks');
+        $batch_id=$request->batch_id;
+        $batch_no=$request->batch_no;
+        $stock_id=$request->batch_id;
+        $product_id=$request->batch_id;
+        $quantity=$request->quantity;
+        $quantity_type=$request->q_type;
+        $source=$request->source;
+        $product_name=$request->name;
+
+        //Extract Quantity in DB so as to correctly cummulate the all products quantity correctly
+        $quantity_db=Batch::where('id',$batch_id)->pluck('quantity')->first();//initial batch quantity about to be changed 
+        $init_product_qty=Product::where('id',$product_id)->pluck('quantity')->first();//Initial Total product quantity for all thos batches
+        $quantity_change=$init_product_qty-$quantity_db+$quantity;//To be updated in product table
+
+        if (is_null($e_date)) {
+            // expiry_date is null just update batch number
+            $batch=Batch::where('id',$batch_id)->update(['batch_no'=>$batch_no,'quantity'=>$quantity]);
+        } else {
+            // expiry_date has a value. update both
+            $batch=Batch::where('id',$batch_id)->update(['batch_no'=>$batch_no,'quantity'=>$quantity,'expiry_date'=>$e_date]);
+        }
+
+        if($batch){
+        //update Stock Table. first check if remarks is null
+            if(is_null($rmks)){
+                $stock=Stock::where('id',$stock_id)->update(['quantity'=>$quantity,'quantity_type'=>$quantity_type,'source'=>$source]);
+                if($stock){
+                    Product::where('id',$product_id)->update(['name'=>$product_name,'quantity'=>$quantity_change]);
+                }
+            }else{
+                $stock=Stock::where('id',$stock_id)->update(['quantity'=>$quantity,'quantity_type'=>$quantity_type,'source'=>$source,'remarks'=>$rmks]);
+                if($stock){
+                    Product::where('id',$product_id)->update(['name'=>$product_name,'quantity'=>$quantity_change]);
+                }
+            }
+        }else{
+            return "501";//Batch Number should be unique
+        }
+            return "200";
+        }
+        elseif($type==2){// Edit order level of a product
+            $o_level=$request->o_level;
+            $product_id=$request->editorderId;
+            $edit=Product::where("id",$product_id)->update(['order_level'=>$o_level]);
+            if($edit){
+                return "200";
+            }else{return "500";}
+        }
     }
 
     /**
