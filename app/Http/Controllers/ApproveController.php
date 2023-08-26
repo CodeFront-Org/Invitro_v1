@@ -11,6 +11,8 @@ use App\Models\Order;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 
+use Carbon\Carbon;
+
 class ApproveController extends Controller
 {
     /**
@@ -41,10 +43,11 @@ class ApproveController extends Controller
             $type=$d->type;
             $source=$d->source;
             $remarks=$d->remarks;
-            $expiry_date=$d->expiry_date;
             $created_at=$d->created_at;
             $b_id=$d->batch_id;
             $batch_no=Batch::where('id',$b_id)->pluck('batch_no')->first();
+            $expiry_date=Batch::where('id',$b_id)->pluck('expiry_date')->first();
+            $expiry_date = Carbon::createFromFormat('Y-m-d H:i:s', $expiry_date)->format('j F Y');
             //Pushing to data array structure
             array_push($data,[
                 'id'=>$id,
@@ -55,7 +58,7 @@ class ApproveController extends Controller
                 'source'=>$source,
                 'staff_name'=>$staff_name,
                 'date_in'=>$d->created_at,
-                'expiry_date'=>$d->expiry_date,
+                'expiry_date'=>$expiry_date,
                 'remarks'=>$remarks
             ]);
 
@@ -111,7 +114,7 @@ class ApproveController extends Controller
     public function store(Request $request)
     {
         $type=$request->type;
-        if($type==0){//////////////////////////////////////////////////////////////////Approve Stocks
+        if($type==0){//////////////////////////////////////////////////////////////////  Approve Stocks   //////////////////////////////////////////////////
             $data=$request->status;
             foreach($data as $item){
             //Approve Stock table
@@ -125,7 +128,7 @@ class ApproveController extends Controller
             }
             session()->flash('message','success');
             return back();
-        }elseif($type==1){///////////////////////////////////////////////////////////////Approve orders
+        }elseif($type==1){///////////////////////////////////////////////////////////////  Approve orders ////////////////////////////////////////////////////
             $data=$request->status;
             foreach($data as $item){
 //check if item is below order level
@@ -167,7 +170,7 @@ if($new_qty<=$order_level){//below order level
     ));
 
     $response = curl_exec($curl);
-    //send Email Notification
+    ////////////////////////////////////////////////////////send Email Notification  ////////////////////////////////////////////////
 
 }else{//Proceed to approval
     //Approve Order table

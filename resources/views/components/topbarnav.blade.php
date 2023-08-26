@@ -113,7 +113,7 @@
                                 <a href="{{route('approve.index')}}" class="dropdown-item notify-item active">
                                     <p class="notify-details">Approve Stocks</p>
                                     <p class="text-muted mb-0 user-msg">
-                                        <small>Hi, you have <b>{{$approval1}}</b> new stocStockk to approve.</small>
+                                        <small>Hi, you have <b>{{$approval1}}</b> new {{$approval1>1?"Stocks":"Stock"}} to approve.</small>
                                     </p>
                                 </a>
                             @endif
@@ -121,7 +121,7 @@
                                 <a href="{{route('approve.index')}}" class="dropdown-item notify-item active">
                                     <p class="notify-details">Approve Stocks</p>
                                     <p class="text-muted mb-0 user-msg">
-                                        <small>Hi, you have <b>{{$approval2}}</b> new Order to approve.</small>
+                                        <small>Hi, you have <b>{{$approval2}}</b> new  {{$approval2>1?"Orders":"Order"}} to approve.</small>
                                     </p>
                                 </a>
                             @endif

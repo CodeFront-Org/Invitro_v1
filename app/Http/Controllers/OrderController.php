@@ -11,6 +11,8 @@ use App\Models\Batch;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 
+use Carbon\Carbon;
+
 class OrderController extends Controller
 {
     /**
@@ -25,20 +27,20 @@ class OrderController extends Controller
         $orders=array();
         $products=Product::select('id','name')->get();
         $stocks=Stock::all()->where('approve',1);
-        foreach($stocks as $s){
-        //$product_id=$s->product_id;
-        $batch_id=$s->batch_id;
-        $stock_id=$s->id;
-        // $product_name=Product::where('id',$product_id)->pluck('name')->first();
-        // $product_qty=Product::where('id',$product_id)->pluck('quantity')->first();
-        $batch_no=Batch::where('id',$batch_id)->pluck('batch_no')->first();
-        array_push($data,[
-            //'product_id'=>$product_id,
-            //'product_name'=>$product_name,
-            'stock_id'=>$stock_id,
-            'batch_id'=>$batch_id,
-            'batch_no'=>$batch_no
-        ]);
+        //To get data for batches
+        $count=0; //to help filter similar products so as to have the FIFO on batches
+        $batches=Batch::where('sold_out', 0)->orderBy('expiry_date', 'asc')->get();
+        foreach($batches as $b){
+            $p_id=$b->product_id;
+            if($count==$p_id){//Similar product skip
+            continue;
+            }else{
+                array_push($data,[
+                    'batch_id'=>$b->id,
+                    'batch_no'=>$b->batch_no
+                ]);
+            }
+            $count=$p_id;
         }
 /////////////////////////////// for new order ////////////////////////////////////////////
         $data1=Order::all();
@@ -69,7 +71,7 @@ class OrderController extends Controller
                 'staff'=>$staff,
                 'rmks'=>$rmks,
                 'approve'=>$approve,
-                'date'=>$created_at,
+                'date'=>$created_at->format("F j Y"),
             ]);
         }
 //return $products;
@@ -97,27 +99,45 @@ class OrderController extends Controller
         $product_id=$request->product_id;
         $batch_id=$request->batch_id;
         $quantity=$request->quantity;
-        //$amount=$request->amount;
         $destination=$request->destination;
         $invoice=$request->invoice;
         $rct=$request->receipt;
         $rmks=$request->remarks;
-        $order=Order::create([
-        'user_id'=>Auth::id(),
-        'batch_id'=>$batch_id,
-        'product_id'=>$product_id,
-        //'amount'=>$amount,
-        'quantity'=>$quantity,
-        'destination'=>$destination,
-        'invoice'=>$invoice,
-        'receipt'=>$rct,
-        'remarks'=>$rmks,
-        'approve'=>0,
+        //Checking if quantity ordered is enough by using the batch
+        $qty_db=Batch::where('id',$batch_id)->pluck('quantity')->first();//Initial quantity that was placed on recording of product
+        $qty_sold=Batch::where('id',$batch_id)->pluck('sold')->first();// quantity that has been sold
+        $available_qty=$qty_db-$qty_sold;
+        if($quantity>$available_qty){//Order has exceeded limit
+            return response()->json([
+                'quantity' => $available_qty,
+                'status' => 404
         ]);
-        if($order){
-            return "200";
-        }else{
-            return '500';
+        }else{//proceed to complete order
+            $order=Order::create([
+            'user_id'=>Auth::id(),
+            'batch_id'=>$batch_id,
+            'product_id'=>$product_id,
+            'quantity'=>$quantity,
+            'destination'=>$destination,
+            'invoice'=>$invoice,
+            'receipt'=>$rct,
+            'remarks'=>$rmks,
+            'approve'=>0,
+            ]);
+            if($order){
+                //Update batch table
+                $new_qty=$quantity+$qty_sold;//New sold value in batch table
+                $c=$quantity-$available_qty;
+                if($c==0){//meaning everything is sold out
+                Batch::where('id',$batch_id)->update(['sold'=>$new_qty,'sold_out'=>1]);
+                }else{
+                Batch::where('id',$batch_id)->update(['sold'=>$new_qty]);
+                }
+///////////////////////////////////////////////////////////send Email for new Order  /////////////////////////////////////////////////////////////
+                return "200";
+            }else{
+                return '500';
+            }
         }
     }
 

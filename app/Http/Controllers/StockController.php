@@ -34,14 +34,16 @@ class StockController extends Controller
             //pick from batches table
             $batch=Batch::all()->where('product_id',$p_id);
             $total_batch=count($batch);
-            $sa=Stock::where('approve',1)->where('product_id',$p_id)->sum('quantity');//total qty approved
-            $total_qty=$p->quantity-$sa;
+            $total_qty_approved=Stock::where('approve',1)->where('product_id',$p_id)->sum('quantity');//total qty approved
+            $total_qty_not_approved=Stock::where('approve',0)->where('product_id',$p_id)->sum('quantity');//total qty approved
+            $qty_available=Batch::where('product_id',$p_id)->where('sold_out',0)->sum('quantity');
+            //$total_qty=0;
             //Push data for table stock
             array_push($data,[
                 'id'=>$p_id,
                 'name'=>$product_name,
-                'qty'=>$total_qty,
-                'qty_approved'=>$sa,
+                'qty_available'=>$qty_available,
+                'qty_not_approved'=>$total_qty_not_approved,
                 'batch'=>$total_batch,
                 'order_level'=>$order_level
             ]);
@@ -59,27 +61,30 @@ class StockController extends Controller
                     $batch_id=Batch::where('id',$b_id)->pluck('id')->first();
                     $expiry=Batch::where('id',$b_id)->pluck('expiry_date')->first();
                     $expiry = Carbon::createFromFormat('Y-m-d H:i:s', $expiry)->format('F jS Y');
+                    $sold=Batch::where('id',$b_id)->pluck('sold_out')->first();//Help know which batches have been sold out so as to not display them
                     //getting user name
                     $ff=$s->user_id;
                     $f=User::where('id',$ff)->pluck('first_name')->first();
                     $l=User::where('id',$ff)->pluck('last_name')->first();
                     $staff=$f." ".$l;
                     //push data for transaction
-                    array_push($data2,[
-                        'id'=>$s->id,
-                        'product_id'=>$p_id,
-                        'name'=>$product_name,
-                        'quantity'=>$batch_qty,
-                        'quantity_type'=>$s->quantity_type,
-                        'batch_no'=>$batch_no,
-                        'batch_id'=>$batch_id,
-                        'source'=>$source,
-                        'staff'=>$staff,
-                        'date_in'=>$date,
-                        'expiry'=>$expiry,
-                        'remarks'=>$remarks,
-                        'approve'=>$approve
-                        ]);
+                    if($sold==0){
+                        array_push($data2,[
+                            'id'=>$s->id,
+                            'product_id'=>$p_id,
+                            'name'=>$product_name,
+                            'quantity'=>$batch_qty,
+                            'quantity_type'=>$s->quantity_type,
+                            'batch_no'=>$batch_no,
+                            'batch_id'=>$batch_id,
+                            'source'=>$source,
+                            'staff'=>$staff,
+                            'date_in'=>$date,
+                            'expiry'=>$expiry,
+                            'remarks'=>$remarks,
+                            'approve'=>$approve
+                            ]);
+                    }
                 }
 
 
@@ -152,6 +157,8 @@ try {
                             'remarks'=>$request->remarks,
                         ]);
 
+//////////////////////////////////////////////////////    Send Email to notify approval of new Product  //////////////////////////////////////////////////////////
+
                 } else {echo "101";//Error fo duplication for product name
                     // Handle any exceptions that occurred during the transaction
                     DB::rollback();
@@ -200,7 +207,9 @@ try {
                 if($stock){
                     //Log activity to file
                     Log::channel('add_stock')->notice('New stock added. Of Id: '.$product_id.'. Added by '.Auth::user()->first_name.' Email: '.Auth::user()->email);
-                }
+//////////////////////////////////////////////////////    Send Email to notify approval of new Product  //////////////////////////////////////////////////////////
+
+                        }
                 }else{
                     return "error";
                 }

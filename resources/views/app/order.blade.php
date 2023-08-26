@@ -8,8 +8,8 @@
                 </button>
                 <div class="card" style="border-radius:0px 15px 15px 15px;box-shadow: 2px 3px 3px 2px rgba(9, 107, 255, 0.179);">
                     <div class="card-body">
-                        <div class="table-responsive">
-                            <table  style="font-family: 'Times New Roman', Times, serif" class="table table-bordered nowrap text-center" id="datatable" class="table table-sm table-bordered dt-responsive nowrap text-center">
+                    <div class="table-responsive" style="overflow-x: auto;">
+                        <table style="font-family: 'Times New Roman', Times, serif;" class="table table-bordered nowrap text-center" id="datatable">
                                 <thead class="table-light">
                                 <tr>
                                     <th>#</th>
@@ -40,7 +40,7 @@
                                         <td>{{$item['receipt']}}</td>
                                         <td>{{$item['staff']}}</td>
                                         <td>{{$item['date']}}</td>
-                                        <td class="text-left" style="min-width: 130px; max-width: 130px; overflow: hidden; font-size: 12px;">
+                                        <td class="text-left" style="min-width: 110px; max-width: 110px; overflow: hidden; font-size: 12px;">
                                                     {{$item['rmks']}}
                                         </td>
                                         <td>
@@ -51,7 +51,7 @@
                                         @endif
                                         </td>
                                         <td style='font-size:10px; text-align: center;'>
-                                            <button type="button" style="background-color: #08228a9f;color: white" class="btn btn-xs" data-bs-toggle="modal" data-bs-target="#con-close-modal-edit-1">
+                                            <button {{$item['approve']==1?"disabled":''}} type="button" style="background-color: #08228a9f;color: white" class="btn btn-xs" data-bs-toggle="modal" data-bs-target="#con-close-modal-edit-1">
                                                 <i class='fas fa-pen' aria-hidden='true'></i>
                                                 </button>
                                             <button type="button" style="background-color: #006fd6aa;color: white" class="btn btn-xs" data-bs-toggle="modal" data-bs-target="#con-close-modal-return-{{$item['id']}}">
@@ -101,8 +101,8 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="mb-3">
-                                    <label for="field-11w" class="form-label">Batch Number</label>
-                                    <select name="batch_id" class="form-control form-select" id="field-11w" required>
+                                    <label for="field-11w2" class="form-label">Batch Number</label>
+                                    <select name="batch_id" class="form-control form-select" id="field-11w2" required>
                                         @foreach ($data as $item)
                                             <option value="{{$item['batch_id']}}">{{$item['batch_no']}}</option>
                                         @endforeach
@@ -319,27 +319,33 @@ $.ajax({
     data: data,
     success: function (response) {
 console.log(response)
-                    toastr.options = {
-                        "closeButton": false,
-                        "debug": false,
-                        "newestOnTop": false,
-                        "progressBar": true,
-                        "positionClass": "toast-top-right",
-                        "preventDuplicates": false,
-                        "onclick": null,
-                        "showDuration": "300",
-                        "hideDuration": "1000",
-                        "timeOut": "5000",
-                        "extendedTimeOut": "1000",
-                        "showEasing": "swing",
-                        "hideEasing": "linear",
-                        "showMethod": "fadeIn",
-                        "hideMethod": "fadeOut"
-                    }
-                    toastr["success"]("", "Order Created Succesfully.")
+if(response.status===404){//Means quantity exceeded
         btn.show();
         loader.hide();
-        //location.href='order'
+        Swal.fire("Quantity Exceeded!", "Available Qty is: "+response.quantity, "error");
+        return
+}
+    toastr.options = {
+        "closeButton": false,
+        "debug": false,
+        "newestOnTop": false,
+        "progressBar": true,
+        "positionClass": "toast-top-right",
+        "preventDuplicates": false,
+        "onclick": null,
+        "showDuration": "300",
+        "hideDuration": "1000",
+        "timeOut": "5000",
+        "extendedTimeOut": "1000",
+        "showEasing": "swing",
+        "hideEasing": "linear",
+        "showMethod": "fadeIn",
+        "hideMethod": "fadeOut"
+    }
+    toastr["success"]("", "Order Created Succesfully.")
+  
+    location.href='order'
+
     },
     error: function(res){ console.log(res)
         btn.show();
