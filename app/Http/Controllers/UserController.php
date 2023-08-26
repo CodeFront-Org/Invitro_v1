@@ -19,7 +19,7 @@ class UserController extends Controller
     public function index()
     {
         $label="Staff";
-        $data=User::select('id','first_name','last_name','email','contacts','role_type')->where('role_type',2)->latest()->get();
+        $data=User::select('id','first_name','last_name','email','contacts','role_type')->latest()->get();
         return view('app.staff',compact('label','data'));
     }
 
@@ -57,7 +57,7 @@ class UserController extends Controller
                 'contacts' => $request->contacts,
                 'email' => $request->email,
                 'password' => Hash::make($password),
-                'role_type'=>$request->status=='0'?'1':'2',//Role For 2 staff 1 admin
+                'role_type'=>$request->role=='0'?'1':'2',//Role 2 staff 1 admin
             ]);
             //Add Role to the newly added staff Based on create condition
             if($user){

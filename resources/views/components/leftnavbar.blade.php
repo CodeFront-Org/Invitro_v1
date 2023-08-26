@@ -8,7 +8,7 @@
                     <ul id="side-menu">
 
                         <li class="menu-title">Navigation</li>
-@role('admin')
+
 
                             <li>
                                 <a href="{{route('home')}}">
@@ -16,8 +16,15 @@
                                     <span> Dashboard </span>
                                 </a>
                             </li>
-
+@role('admin')
                         <li>
+                            <a href="{{route('users.index')}}">
+                                <i class="fa fa-users"></i>
+                                <span>Users </span>
+                            </a>
+                        </li>
+@endrole
+                       <!-- <li>
                             <a href="#sidebarMultilevel" data-bs-toggle="collapse">
                                 <i class="fa fa-users"></i>
                                 <span> Users</span>
@@ -38,7 +45,7 @@
                                 </ul>
 
                             </div>
-                        </li>
+                        </li>-->
 
                         <li>
                             <a href="{{route('stock.index')}}">
@@ -53,7 +60,7 @@
                                 <span>Orders </span>
                             </a>
                         </li>
-
+@role('admin')
                         <li>
                             <a href="{{route('approve.index')}}">
                                 <i class="fas fa-check-double"></i>
