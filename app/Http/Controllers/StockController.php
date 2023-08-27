@@ -12,6 +12,10 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 use Carbon\Carbon;
+use App\Mail\NewProductAlertMail;
+use App\Mail\OrderLevelAlertMail;
+use App\Mail\ExpiryAlertMail;
+use Illuminate\Support\Facades\Mail;
 
 class StockController extends Controller
 {
@@ -163,14 +167,54 @@ try {
 
                         if ($e_date->lessThan($threeMonthsFromNow)) {
                             // Expiry date is less than 3 months from now
-                            return "send mail";
+                            $user=User::find(Auth::id());
+                            $name=$user->first_name;
+                            $product_name=$request->name;
+                            $recipient=$user->email;
+                            $current_order_qty=Product::where('id',$product_id)->pluck('quantity')->first();
+                            $link=env('APP_URL');
+                            Mail::to($recipient)->send(new ExpiryAlertMail($link, $recipient,$name,$product_name,$batch_no));
+///////////////////////////////////////////  Send SMS Too  //////////////////////////////////////////////////////////////////////
+                            $mobile=$user->contacts;
+                            $msg='The Expiry date for Product: '.$p_name.' is approaching in the next 3 months.\nRegards\nInvitro';
+
+                            $curl = curl_init();
+                            curl_setopt_array($curl, array(
+                            CURLOPT_URL => env('SMS_URL'),
+                            CURLOPT_RETURNTRANSFER => true,
+                            CURLOPT_ENCODING => '',
+                            CURLOPT_MAXREDIRS => 10,
+                            CURLOPT_TIMEOUT => 15,
+                            CURLOPT_FOLLOWLOCATION => true,
+                            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                            CURLOPT_CUSTOMREQUEST => 'POST',
+                            CURLOPT_POSTFIELDS =>'{
+                                "mobile":"'.$mobile.'",
+                                "response_type": "json",
+                                "sender_name":"'.env('SENDER_NAME').'",
+                                "service_id": 0,
+                                "message": "'.$msg.'"
+                            }',
+                            CURLOPT_HTTPHEADER => array(
+                                'h_api_key:'.env('SMS_KEY'),
+                                'Content-Type: application/json'
+                            ),
+                            ));
+
+                            $response = curl_exec($curl);
                         } else {
                             // Expiry date is more than or equal to 3 months from now
-                            return "Dont send mail";
+                            echo "Dont send mail";
                         }
 
 //////////////////////////////////////////////////////    Send Email to notify approval of new Product  //////////////////////////////////////////////////////////
-
+                $user=User::find(Auth::id());
+                $name=$user->first_name;
+                $product_name=$request->name;
+                $recipient=$user->email;
+                $expiry=$e_date;
+                $link=env('APP_URL');
+                Mail::to($recipient)->send(new NewProductAlertMail($link, $recipient,$name,$product_name,$expiry,$batch_no));
                 } else {echo "101";//Error fo duplication for product name
                     // Handle any exceptions that occurred during the transaction
                     DB::rollback();
@@ -226,13 +270,54 @@ try {
 
                         if ($e_date->lessThan($threeMonthsFromNow)) {
                             // Expiry date is less than 3 months from now
-                            return "send mail";
+
+                            $user=User::find(Auth::id());
+                            $name=$user->first_name;
+                            $product_name=$request->name;
+                            $recipient=$user->email;
+                            $link=env('APP_URL');
+                            Mail::to($recipient)->send(new ExpiryAlertMail($link, $recipient,$name,$product_name,$batch_no));
+
+///////////////////////////////////////////  Send SMS   //////////////////////////////////////////////////////////////////////
+    $mobile=$user->contacts;
+    $msg='The Expiry date for Product: '.$product_name.' is approaching in the next 3 months.\nRegards\nInvitro';
+
+    $curl = curl_init();
+    curl_setopt_array($curl, array(
+    CURLOPT_URL => env('SMS_URL'),
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_ENCODING => '',
+    CURLOPT_MAXREDIRS => 10,
+    CURLOPT_TIMEOUT => 15,
+    CURLOPT_FOLLOWLOCATION => true,
+    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+    CURLOPT_CUSTOMREQUEST => 'POST',
+    CURLOPT_POSTFIELDS =>'{
+        "mobile":"'.$mobile.'",
+        "response_type": "json",
+        "sender_name":"'.env('SENDER_NAME').'",
+        "service_id": 0,
+        "message": "'.$msg.'"
+    }',
+    CURLOPT_HTTPHEADER => array(
+        'h_api_key:'.env('SMS_KEY'),
+        'Content-Type: application/json'
+    ),
+    ));
+
+    $response = curl_exec($curl);
                         } else {
                             // Expiry date is more than or equal to 3 months from now
-                            return "Dont send mail";
+                            echo "Dont send mail";
                         }
 //////////////////////////////////////////////////////    Send Email to notify approval of new Product  //////////////////////////////////////////////////////////
-
+                $user=User::find(Auth::id());
+                $name=$user->first_name;
+                $product_name=$request->name;
+                $recipient=$user->email;
+                $expiry=$e_date;
+                $link=env('APP_URL');
+                Mail::to($recipient)->send(new NewProductAlertMail($link, $recipient,$name,$product_name,$expiry,$batch_no));
                         }
                 }else{
                     return "error";

@@ -30,15 +30,21 @@
                                     </tr>
                                     <tr style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
                                         <td class="content-block" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 20px;" valign="top">
-                                            Dear name
+                                            Hello name
                                         </td>
                                     </tr>
                                     <tr style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
                                         <td class="content-block" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 20px;" valign="top">
-                                            <p>
-We want to bring to your attention that the expiry date of <b>[Product Name]</b> for the Batch: <b> P001</b> is approaching within the next <b>3 months</b>. 
-It's important to plan and take appropriate actions to ensure the timely usage or disposal of this product.
-                                            </p>
+
+    <p>We would like to inform you that a new product has been added to the stock and is currently awaiting your approval.</p>
+
+    <h3>Product Details:</h3>
+    <ul>
+        <li><strong>Product Name:</strong> {{$product_name}}</li>
+        <li><strong>Batch No: </strong> {{$batch_no}}</li>
+        <li><strong>Expiry Date:</strong> {{$expiry}}</li>
+        <li><strong>Added By:</strong> {{$staff}}</li>
+    </ul>
                                         </td>
                                     </tr>
                                     <tr style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">

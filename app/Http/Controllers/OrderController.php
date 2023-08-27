@@ -133,7 +133,15 @@ class OrderController extends Controller
                 }else{
                 Batch::where('id',$batch_id)->update(['sold'=>$new_qty]);
                 }
-///////////////////////////////////////////////////////////send Email for new Order  /////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////    Send Email to notify approval of new Order  //////////////////////////////////////////////////////////
+                $user=User::find(Auth::id());
+                $name=$user->first_name;
+                $product_name=$request->name;
+                $recipient=$user->email;
+                $quantity=$quantity;
+                $destination=$destination;
+                $link=env('APP_URL');
+                Mail::to($recipient)->send(new NewOrderAlertMail($link, $recipient,$name,$product_name,$batch_no,$quantity,$destination));
                 return "200";
             }else{
                 return '500';

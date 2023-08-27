@@ -142,10 +142,20 @@ if($new_qty<=$order_level){//below order level
     //Approve Order and update new product quantity
     $approve=Order::where('id',$item)->update(['approve'=>1]);
     Product::where('id',$p_id)->update(['quantity'=>$new_qty]);
-    //send SMS Notification To alert Order Limit
-    $mobile=User::where('id',1)->pluck('contacts')->first();
-    $msg='Order Level for Product: '.$p_name.' has been reached.\n\nPlease Restock\nInvitro';
 
+    ////////////////////////////////////////////////////////send Email Notification  ////////////////////////////////////////////////
+    $user=User::find(Auth::id());
+    $name=$user->first_name;
+    $product_name=$p_name;
+    $recipient=$user->email;
+    $current_order_qty=Product::where('id',$p_id)->pluck('quantity')->first();
+    $link=env('APP_URL');
+    Mail::to($recipient)->send(new ExpiryAlertMail($link, $recipient,$name,$product_name,$current_order_qty));
+
+    //send SMS Notification To alert Order Limit
+    $mobile=User::where('id',Auth::id())->pluck('contacts')->first();
+    //$msg='Order Level for Product: '.$p_name.' has been reached.\n\nPlease Restock\nInvitro';
+    $msg='The order level for '.$p_name.' has been reached. The current order quantity is  '.$current_order_qty.'\n\nPlease Restock\nInvitro';
     $curl = curl_init();
     curl_setopt_array($curl, array(
     CURLOPT_URL => env('SMS_URL'),
@@ -170,8 +180,6 @@ if($new_qty<=$order_level){//below order level
     ));
 
     $response = curl_exec($curl);
-    ////////////////////////////////////////////////////////send Email Notification  ////////////////////////////////////////////////
-
 }else{//Proceed to approval
     //Approve Order table
     $approve=Order::where('id',$item)->update(['approve'=>1]);

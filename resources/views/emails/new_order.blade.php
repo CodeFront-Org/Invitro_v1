@@ -5,7 +5,7 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <title>Invitro - Expiry Alert</title>
+    <title>Invitro - New Order Alert</title>
 
 </head>
 
@@ -36,8 +36,15 @@
                                     <tr style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
                                         <td class="content-block" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 20px;" valign="top">
                                             <p>
-We want to bring to your attention that the expiry date of <b>[Product Name]</b> for the Batch: <b> P001</b> is approaching within the next <b>3 months</b>. 
-It's important to plan and take appropriate actions to ensure the timely usage or disposal of this product.
+We would like to inform you that a new order has been received and is currently awaiting your approval.
+    <h3>Order Details:</h3>
+    <ul>
+        <li><strong>Product:</strong> [Product Name]</li>
+        <li><strong>Batch No::</strong> [Batch]</li>
+        <li><strong>Quantity:</strong> [Quantity]</li>
+        <li><strong>Destination:</strong> [Dest]</li>
+        <li><strong>Added By:</strong> [Order Date]</li>
+    </ul>
                                             </p>
                                         </td>
                                     </tr>

@@ -51,5 +51,5 @@ Route::resource('/approve',App\Http\Controllers\ApproveController::class);
 Route::get('/profile', [App\Http\Controllers\ProfileController::class, 'profileUpdate'])->name('profile');
 //Route to test email blade temp
 Route::get('/test-email',function(){
-return view('emails.expiry');
+return view('emails.new_order');
 });

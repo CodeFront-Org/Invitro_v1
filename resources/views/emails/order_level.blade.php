@@ -5,7 +5,7 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <title>Invitro - Expiry Alert</title>
+    <title>Invitro - Order Level Alert</title>
 
 </head>
 
@@ -36,8 +36,8 @@
                                     <tr style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
                                         <td class="content-block" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 20px;" valign="top">
                                             <p>
-We want to bring to your attention that the expiry date of <b>[Product Name]</b> for the Batch: <b> P001</b> is approaching within the next <b>3 months</b>. 
-It's important to plan and take appropriate actions to ensure the timely usage or disposal of this product.
+We wanted to inform you that the order level for <b>[Product Name]</b> has been reached. The current order quantity is <b>[Current Quantity]</b>. 
+Please take necessary actions to manage the inventory.
                                             </p>
                                         </td>
                                     </tr>
@@ -51,7 +51,7 @@ It's important to plan and take appropriate actions to ensure the timely usage o
                                     </tr>
                                     <tr style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
                                         <td class="content-block" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 20px;" valign="top">
-                                            <p>Thank you for your attention to this matter.</p>
+                                            <p>Thank you for your prompt attention.</p>
                                             <p>Best Regards,</p>
                                             <p>Invitro.</p>
                                         </td>
