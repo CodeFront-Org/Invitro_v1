@@ -156,6 +156,18 @@ try {
                             'source'=>$request->source,
                             'remarks'=>$request->remarks,
                         ]);
+//////////////////////////////////////////////////////    Send Email to check expiry of product and end alert //////////////////////////////////////////////////////////
+                        $e_date = Carbon::parse($e_date); // Convert to a Carbon instance
+
+                        $threeMonthsFromNow = Carbon::now()->addMonths(3);
+
+                        if ($e_date->lessThan($threeMonthsFromNow)) {
+                            // Expiry date is less than 3 months from now
+                            return "send mail";
+                        } else {
+                            // Expiry date is more than or equal to 3 months from now
+                            return "Dont send mail";
+                        }
 
 //////////////////////////////////////////////////////    Send Email to notify approval of new Product  //////////////////////////////////////////////////////////
 
@@ -207,6 +219,18 @@ try {
                 if($stock){
                     //Log activity to file
                     Log::channel('add_stock')->notice('New stock added. Of Id: '.$product_id.'. Added by '.Auth::user()->first_name.' Email: '.Auth::user()->email);
+//////////////////////////////////////////////////////    Send Email to check expiry of product and end alert //////////////////////////////////////////////////////////
+                        $e_date = Carbon::parse($e_date); // Convert to a Carbon instance
+
+                        $threeMonthsFromNow = Carbon::now()->addMonths(3);
+
+                        if ($e_date->lessThan($threeMonthsFromNow)) {
+                            // Expiry date is less than 3 months from now
+                            return "send mail";
+                        } else {
+                            // Expiry date is more than or equal to 3 months from now
+                            return "Dont send mail";
+                        }
 //////////////////////////////////////////////////////    Send Email to notify approval of new Product  //////////////////////////////////////////////////////////
 
                         }

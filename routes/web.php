@@ -49,3 +49,7 @@ Route::resource('/order',App\Http\Controllers\OrderController::class);
 Route::post('/return-stock', [App\Http\Controllers\OrderController::class, 'return_stock'])->name('/return-stock');
 Route::resource('/approve',App\Http\Controllers\ApproveController::class);
 Route::get('/profile', [App\Http\Controllers\ProfileController::class, 'profileUpdate'])->name('profile');
+//Route to test email blade temp
+Route::get('/test-email',function(){
+return view('emails.expiry');
+});
