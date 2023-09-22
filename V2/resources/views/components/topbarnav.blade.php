@@ -65,12 +65,17 @@
                         @php
                             use App\Models\Stock;
                             use App\Models\Order;
+                            use App\Models\Product;
                             $approval1 = count(Stock::all()->where('approve',0));
                             $approval2 = count(Order::all()->where('approve',0));
-                            if($approval1>0 or $approval2>0){  
+                            $approval3 = count(Product::all()->where('approve',0));
+                            if($approval1>0 or $approval2>0 or $approval3>0){
                                 $count=1;
                                 if($approval1>0 and $approval2>0){
                                 $count=2;
+                                    if($approval1>0 and $approval2>0 or $approval3>0){
+                                    $count=2;
+                                    }
                                 }
                             }elseif($approval1>0){
                             $count=0;
@@ -122,6 +127,14 @@
                                     <p class="notify-details">Approve Orders</p>
                                     <p class="text-muted mb-0 user-msg">
                                         <small>Hi, you have <b>{{$approval2}}</b> new  {{$approval2>1?"Orders":"Order"}} to approve.</small>
+                                    </p>
+                                </a>
+                            @endif
+                            @if ($approval3>0)
+                                <a href="{{route('approve.index')}}" class="dropdown-item notify-item active">
+                                    <p class="notify-details">Approve New Product</p>
+                                    <p class="text-muted mb-0 user-msg">
+                                        <small>Hi, you have <b>{{$approval3}}</b> new {{$approval3>1?"Products":"Product"}} to approve.</small>
                                     </p>
                                 </a>
                             @endif

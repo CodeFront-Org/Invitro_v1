@@ -201,8 +201,8 @@
 
 
             <!--View Stock Audit-->
-            @foreach ($data as $item)
-                <div id="con-close-modal-view-audit-1" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+            @foreach ($data as $item1)
+                <div id="con-close-modal-view-audit-{{$item1['id']}}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
                     <div class="modal-dialog modal-lg modal-dialog-centered">
                         <div class="modal-content">
                             <form class="orderlevelForm" method="post">
@@ -211,7 +211,7 @@
                             <input type="hidden" name="type" value="2">
                             <input type="hidden" name="editorderId" id="editorderId" value="{{$item['id']}}">
                             <div class="modal-header">
-                                <h4 class="modal-title">View Stock Audit for {{$item['name']}}</h4>
+                                <h4 class="modal-title">View Stock Audit for {{$item1['name']}}</h4>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
@@ -225,15 +225,23 @@
                             <th>Date</th>
                         </tr>
                         </thead>
-
-
                         <tbody>
-                            <tr>
-                            <td>1.</td>
-                            <td>Balanced</td>
-                            <td>My Comments</td>
-                            <td>20th Sept 2023</td>
-                            </tr>
+                        @foreach ($audits as $item)
+                            @if (empty($item)==0)
+                                @if ($item1['id']==$item['product_id'])
+                                    <tr>
+                                        <td>{{$loop->index+1}}</td>
+                                        <td>{{$item['status']==0?'Balanced':'Not Balanced'}}</td>
+                                        <td>{{$item['comments']}}</td>
+                                        <td>{{$item['created_at']}}</td>
+                                    </tr>
+                                @endif
+                            @else
+                                <tr>
+                                    <td colspan="4" class="text-center">No Data</td>
+                                </tr>
+                            @endif
+                        @endforeach
 
                         </tbody>
                     </table>
@@ -250,7 +258,7 @@
 
             <!--Edit Audit Modal -->
             @foreach ($data as $item)
-                <div id="con-close-modal-edit-audit-1" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                <div id="con-close-modal-edit-audit-{{$item['id']}}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
                     <div class="modal-dialog modal-dialog-sm modal-dialog-centered">
                         <div class="modal-content">
                             <form class="editaudit1" method="post">
@@ -704,7 +712,7 @@ if(response==200){
         "hideMethod": "fadeOut"
     }
     toastr["success"]("", "Data Updated Succesfully.")
-    //location.href='/stock'
+    location.href='/stock'
         btn.show();
         loader.hide();
 }else{

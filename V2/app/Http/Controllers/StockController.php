@@ -103,13 +103,12 @@ class StockController extends Controller
                             ]);
                     }
                 }
-
-
-
         }
 
+    $audits=Audit::all()->sortByDesc('id');
+
 //return $data2;
-        return view('app.stock',compact('label','data','data1','data2'));
+        return view('app.stock',compact('label','data','data1','data2','audits'));
     }
 
     /**
