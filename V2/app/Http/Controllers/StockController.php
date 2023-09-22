@@ -287,7 +287,13 @@ try {
 
         }elseif($type==1){//**************************** store restock  ********************************************//
             $id=Auth::id();
-            $product_id=$request->name;
+            $name=$request->name;
+            //check if product with given name exists
+            $check=Product::where('name',$name)->exists();
+            if(!$check){//Product does not exist
+                return '404';
+            }
+            $product_id=Product::where('name',$name)->pluck('id')->first();
             $quantity=$request->quantity;
             $batch_no=$request->batch_no;
             $invoice=$request->invoice;
