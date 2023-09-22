@@ -21,6 +21,7 @@ class CreateProductsTable extends Migration
             $table->integer('expire_days');
             $table->smallInteger('order_level');
             $table->string('quantity_type')->nullable();
+            $table->tinyInteger('approve')->default(0);// Determine approval of new products
             $table->softDeletes();
             $table->timestamps();
         });

@@ -47,10 +47,10 @@
                                             </button>
                                         </td>
                                         <td>
-                                            <button type="button" style="background-color: #006ca79f;color: white" class="btn btn-xs" data-bs-toggle="modal" data-bs-target="#con-close-modal-view-audit-1">
+                                            <button type="button" style="background-color: #006ca79f;color: white" class="btn btn-xs" data-bs-toggle="modal" data-bs-target="#con-close-modal-view-audit-{{$item['id']}}">
                                                 <i class='fas fa-eye' aria-hidden='true'></i>
                                             </button>
-                                            <button type="button" style="background-color: #006ca79f;color: white" class="btn btn-xs" data-bs-toggle="modal" data-bs-target="#con-close-modal-edit-audit-1">
+                                            <button type="button" style="background-color: #006ca79f;color: white" class="btn btn-xs" data-bs-toggle="modal" data-bs-target="#con-close-modal-edit-audit-{{$item['id']}}">
                                                 <i class='fas fa-pen' aria-hidden='true'></i>
                                             </button>
                                         </td>
@@ -75,10 +75,10 @@
                                             </button>
                                         </td>
                                         <td>
-                                            <button type="button" style="background-color: #006ca79f;color: white" class="btn btn-xs" data-bs-toggle="modal" data-bs-target="#con-close-modal-edit-order-level-{{$item['id']}}">
+                                            <button type="button" style="background-color: #006ca79f;color: white" class="btn btn-xs" data-bs-toggle="modal" data-bs-target="#con-close-modal-view-audit-{{$item['id']}}">
                                                 <i class='fas fa-eye' aria-hidden='true'></i>
                                             </button>
-                                            <button type="button" style="background-color: #006ca79f;color: white" class="btn btn-xs" data-bs-toggle="modal" data-bs-target="#con-close-modal-edit-order-level-{{$item['id']}}">
+                                            <button type="button" style="background-color: #006ca79f;color: white" class="btn btn-xs" data-bs-toggle="modal" data-bs-target="#con-close-modal-edit-audit-{{$item['id']}}">
                                                 <i class='fas fa-pen' aria-hidden='true'></i>
                                             </button>
                                         </td>
@@ -203,7 +203,7 @@
             <!--View Stock Audit-->
             @foreach ($data as $item)
                 <div id="con-close-modal-view-audit-1" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
-                    <div class="modal-dialog modal-dialog-sm modal-dialog-centered">
+                    <div class="modal-dialog modal-lg modal-dialog-centered">
                         <div class="modal-content">
                             <form class="orderlevelForm" method="post">
                             @csrf
@@ -211,7 +211,7 @@
                             <input type="hidden" name="type" value="2">
                             <input type="hidden" name="editorderId" id="editorderId" value="{{$item['id']}}">
                             <div class="modal-header">
-                                <h4 class="modal-title">View Stock Audit for 4-tier</h4>
+                                <h4 class="modal-title">View Stock Audit for {{$item['name']}}</h4>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
@@ -239,15 +239,6 @@
                     </table>
                 </div>
                             </div>
-                            <div class="modal-footer">
-                                <button class="btn rounded-pill p-1" id="editorderbtn{{$item['id']}}" style="width: 100%; background-color: #08228a9f;color: white" type="submit">
-                                        Submit
-                                </button>
-                                <button class="btn rounded-pill p-1" id="editorderloader{{$item['id']}}" style="width: 100%; background-color: #08228a9f;color: white;display:none;" type="button">
-                                        <span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
-                                        Saving Data...
-                                </button>
-                            </div>
                             </form>
                         </div>
                     </div>
@@ -262,21 +253,21 @@
                 <div id="con-close-modal-edit-audit-1" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
                     <div class="modal-dialog modal-dialog-sm modal-dialog-centered">
                         <div class="modal-content">
-                            <form class="orderlevelForm" method="post">
+                            <form class="editaudit1" method="post">
                             @csrf
                             @method('PATCH')
-                            <input type="hidden" name="type" value="2">
+                            <input type="hidden" name="type" value="3">
                             <input type="hidden" name="editorderId" id="editorderId" value="{{$item['id']}}">
                             <div class="modal-header">
-                                <h4 class="modal-title">Edit Audit for 4-tier</h4>
+                                <h4 class="modal-title">Edit Audit for {{$item['name']}} Product</h4>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-12">
                                         <div class="mb-3">
                                         <label for="field-11w" class="form-label">Status</label>
-                                        <select name="q_type" class="form-control form-select" id="field-11w" required>
+                                        <select name="status" class="form-control form-select" id="field-11w" required>
                                                     <option value="1">Balanced</option>
                                                     <option value="0">Not Balanced</option>
                                             </select>
@@ -291,10 +282,10 @@
                                 </div>
                             </div>
                             <div class="modal-footer">
-                                <button class="btn rounded-pill p-1" id="editorderbtn{{$item['id']}}" style="width: 100%; background-color: #08228a9f;color: white" type="submit">
+                                <button class="btn rounded-pill p-1" id="editauditbtn{{$item['id']}}" style="width: 100%; background-color: #08228a9f;color: white" type="submit">
                                         Submit
                                 </button>
-                                <button class="btn rounded-pill p-1" id="editorderloader{{$item['id']}}" style="width: 100%; background-color: #08228a9f;color: white;display:none;" type="button">
+                                <button class="btn rounded-pill p-1" id="editauditloader{{$item['id']}}" style="width: 100%; background-color: #08228a9f;color: white;display:none;" type="button">
                                         <span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
                                         Saving Data...
                                 </button>
@@ -604,7 +595,7 @@ $.ajax({
                         "showMethod": "fadeIn",
                         "hideMethod": "fadeOut"
                     }
-                    toastr["success"]("", "Stock Saved Succesfully.")
+                    toastr["success"]("", "Product Saved Succesfully. Waiting Admin Approval")
         btn.show();
         loader.hide();
         location.href='/stock'
@@ -675,6 +666,61 @@ if(response==200){
     }
 });
 })
+
+
+// Edit Audit Form
+$(".editaudit1").on('submit', function(e) {
+  e.preventDefault();
+
+  const form = $(this);
+  var itemId = form.find('input[name="editorderId"]').val();
+  var btn = $("#editauditbtn" + itemId);
+  var loader = $("#editauditloader" + itemId);
+  btn.hide();
+  loader.show();
+  let data = form.serialize();
+$.ajax({
+    type: 'PATCH',
+    url: '/stock/' + itemId,
+    data: data,
+    success: function (response) {
+if(response==200){
+    toastr.options = {
+        "closeButton": false,
+        "debug": false,
+        "newestOnTop": false,
+        "progressBar": true,
+        "positionClass": "toast-top-right",
+        "preventDuplicates": false,
+        "onclick": null,
+        "showDuration": "300",
+        "hideDuration": "1000",
+        "timeOut": "5000",
+        "extendedTimeOut": "1000",
+        "showEasing": "swing",
+        "hideEasing": "linear",
+        "showMethod": "fadeIn",
+        "hideMethod": "fadeOut"
+    }
+    toastr["success"]("", "Data Updated Succesfully.")
+    //location.href='/stock'
+        btn.show();
+        loader.hide();
+}else{
+        btn.show();
+        loader.hide();
+        Swal.fire("Error!", "Try again later...", "error");
+}
+    },
+    error: function(res){ console.log(res)
+        btn.show();
+        loader.hide();
+        Swal.fire("Error!", "Try again later...", "error");
+    }
+});
+})
+
+
 
 // Edit Stocks Form
 $(".editstockForm").on('submit', function(e) {

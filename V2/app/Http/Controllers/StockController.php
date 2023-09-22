@@ -29,7 +29,7 @@ class StockController extends Controller
         $label="Stocks";
         $data=array();//load data in 1st table before viewing transactions
         $data2=array();//load data to be viewed for transactions
-        $data1=Product::select('id','name','order_level')->take(25)->get();//to be used to display some product during restocking
+        $data1=Product::select('id','name','order_level')->where('approve',1)->take(25)->get();//to be used to display some product during restocking
 
         foreach($data1 as $p){
             $product_name=$p->name;
@@ -143,12 +143,10 @@ class StockController extends Controller
                 'expire_days'=>$e_period,
                 ]);
                 if($product){
+//send email notification to admin for new product creation
                     return "200";
                 }
         }
-
-
-
         if($type==0){//Store new stock
             $id=Auth::id();
             $name=$request->name;
@@ -504,6 +502,10 @@ try {
             if($edit){
                 return "200";
             }else{return "500";}
+        }elseif($type==3){//Store the stock Audit Information
+            $status=$request->status;
+            $comments=$request->comments;
+            return $status."__".$comments;
         }
     }
 

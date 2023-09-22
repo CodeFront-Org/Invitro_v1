@@ -7,6 +7,64 @@
         Approved Successfully.
     </div>
 @endif
+
+
+
+<!-- Approve Returns  -->
+        <div class="row mt-1">
+            <div class="col-12">
+            <button  style="background-color: #08228a9f;color: white" type="button" class="btn right" data-bs-toggle="modal" data-bs-target="#con-close-modal-add-1">
+                     Approve New Product
+                </button>
+                <div class="card" style="border-radius:0px 15px 15px 15px;box-shadow: 2px 3px 3px 2px rgba(9, 107, 255, 0.179);">
+                <form action="{{route('approve.store')}}" method="post">
+                    @csrf
+                    @method("POST")
+                    <input type="hidden" name="type" value="2">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table  style="font-family: 'Times New Roman', Times, serif" class="table table-bordered nowrap text-center" id="datatable" class="table table-sm table-bordered dt-responsive nowrap text-center">
+                                <thead class="table-light">
+                                <tr>
+                                    <th>#</th>
+                                    <th>Name</th>
+                                    <th>Re-Order Level</th>
+                                    <th>Expiry Alert (days)</th>
+                                    <th>Approve</th>
+                                </tr>
+                                </thead>
+
+
+                                <tbody>
+                                @foreach ($products as $item)
+                                    <tr>
+                                        <td>{{$loop->index+1}}</td>
+                                        <td>{{$item['name']}}</td>
+                                        <td>{{$item['order_level']}}</td>
+                                        <td>{{$item['expire_days']}}</td>
+                                        <td style="color:green">
+                                            <input type="checkbox" class="custom-control-input" name="status[]" value="{{$item['id']}}">
+                                        </td>
+                                    </tr>
+                                @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-info waves-effect waves-light">Save changes</button>
+                    </div>
+                </form>
+                </div>
+                </div>
+
+            </div>
+        </div> <!-- end row -->
+
+
+
+
+
         <div class="row mt-1">
             <div class="col-12">
             <button  style="background-color: #08228a9f;color: white" type="button" class="btn right" data-bs-toggle="modal" data-bs-target="#con-close-modal-add-1">

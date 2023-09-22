@@ -98,7 +98,7 @@ class ApproveController extends Controller
                 'rmks'=>$rmks,
                 'date'=>$created_at,
             ]);
-            
+
             //Get data for view data
             $views=Orders::all()->where('order_id',$order_id);
             foreach($views as $v){
@@ -116,10 +116,14 @@ class ApproveController extends Controller
                     'expiry_date'=>$e_date,
                     ]);
             }
-            
+
         }
-        //return $view_data;
-        return view('app.approval',compact('label','data','orders','view_data'));
+
+
+/////////////////////////////// for new Product ////////////////////////////////////////////
+$products=Product::all()->where('approve',0);
+//return $products;
+        return view('app.approval',compact('label','data','orders','view_data','products'));
     }
 
     /**
@@ -171,7 +175,7 @@ class ApproveController extends Controller
                 //Approve Order and update new product quantity
                 $approve=Order::where('id',$item)->update(['approve'=>1]);
                 //Product::where('id',$p_id)->update(['quantity'=>$new_qty]);
-            
+
                 ////////////////////////////////////////////////////////send Email Notification  ////////////////////////////////////////////////
                 //$user=User::find(Auth::id());
                 //$name=$user->first_name;
@@ -188,7 +192,7 @@ class ApproveController extends Controller
                     $recipient=$user->email;
                     Mail::to($recipient)->send(new OrderLevelAlertMail($link, $recipient,$name,$product_name,$current_order_qty));
                  }
-            
+
                 //send SMS Notification To alert Order Limit
                 $users=User::all()->where('role_type',1);
                 foreach($users as $user){
@@ -219,7 +223,7 @@ class ApproveController extends Controller
                         'Content-Type: application/json'
                     ),
                     ));
-                
+
                     $response = curl_exec($curl);
                  }
             }else{//Proceed to approval
@@ -236,8 +240,19 @@ class ApproveController extends Controller
             }
             session()->flash('message','success');
             return back();
-        }elseif($type==2){//////////////////////////////////////////////////////////Approve Re-turned stocks
-
+        }elseif($type==2){//////////////////////////////////////////////////////////Approve New product stocks
+            $data=$request->status;
+            foreach($data as $item){
+            //Approve Product table
+           $approve=Product::where('id',$item)->update(['approve'=>1]);
+        if($approve){
+            //Log activity to file.. First get product name then save it to file
+            $name=Product::where('id',$item)->pluck('name')->first();
+            Log::channel('approve_stock')->notice($name.' Product appoved by '.Auth::user()->first_name.' '.Auth::user()->last_name.' Email: '.Auth::user()->email);
+        }
+            }
+            session()->flash('message','success');
+            return back();
         }
     }
 
