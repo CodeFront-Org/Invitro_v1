@@ -684,6 +684,7 @@ $.ajax({
     url: '/stock/' + itemId,
     data: data,
     success: function (response) {
+console.log(response)
 if(response==200){
     toastr.options = {
         "closeButton": false,

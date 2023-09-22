@@ -7,6 +7,7 @@ use App\Models\Stock;
 use App\Models\Product;
 use App\Models\User;
 use App\Models\Batch;
+use App\Models\Audit;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -505,7 +506,20 @@ try {
         }elseif($type==3){//Store the stock Audit Information
             $status=$request->status;
             $comments=$request->comments;
-            return $status."__".$comments;
+            $product_id=$id;
+            $audit=Audit::create([
+                'user_id'=>Auth::id(),
+                'product_id'=>$product_id,
+                'status'=>$status,
+                'comments'=>$comments
+            ]);
+
+            if($audit){
+                return "200";
+            }else{
+                return "500";
+            }
+
         }
     }
 

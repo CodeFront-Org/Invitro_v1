@@ -19,7 +19,7 @@ class CreateAuditsTable extends Migration
             $table->integer('product_id');
             $table->tinyInteger('status')->default(0);// No whether its balanced or not balanced
             $table->string('comments');
-            $table->dateTime('audit_date');
+            $table->dateTime('audit_date')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });
