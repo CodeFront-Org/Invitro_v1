@@ -22,6 +22,9 @@ class CreateProductsTable extends Migration
             $table->smallInteger('order_level');
             $table->string('quantity_type')->nullable();
             $table->tinyInteger('approve')->default(0);// Determine approval of new products
+            $table->tinyInteger('is_order_level')->default(0);// Determine approval of new products
+            $table->integer('staff_order_level')->nullable();//Staff who requested order to get order limit
+            $table->integer('allowed_qty')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

@@ -191,7 +191,8 @@ class OrderController extends Controller
 
 
     public function place_order(Request $request){
-        $product_id=$request->product_id;
+
+        $name=$request->name;
         $total_quantity=$request->quantity;
         $tot_qty=$request->quantity;
         $destination=$request->destination;
@@ -200,13 +201,17 @@ class OrderController extends Controller
         $d_note=$request->d_note;
         $cash=$request->cash;
         $remarks=$request->remarks;
+        $product_id=Product::where('name',$name)->pluck('id')->first();
+
+        //check if product with given name exists
+        $check=Product::where('name',$name)->exists();
+        if(!$check){//Product does not exist
+            // Error message
+            session()->flash('error', 'Product '.$name.' doses not exists in your stocks. Please Check for typo and try again...');
+            return back();
+        }
         $product_name=Product::where('id',$product_id)->pluck('name')->first();
         $label='Place Order For '.$product_name;
-
-        //Algorithim Starts
-        $count=0;
-        $data=array();//To store all info of the batches to be involved
-        $batches=Batch::select('id','batch_no','quantity','sold','expiry_date')->where('product_id', $product_id)->where('sold_out',0)->where('approved',1)->orderBy('expiry_date', 'asc')->get();
 
         //Check if total quantity orders is enough
         $sum=Product::where('id', $product_id)->sum('quantity');
@@ -215,6 +220,24 @@ class OrderController extends Controller
             session()->flash('error', 'Quantity Exceeded! The available quantity is '.$sum.'.');
             return back();
         }
+
+//check if order level is exceded
+$prod=Product::find($product_id);
+$order_level=$prod->order_level;
+$current_qty=$prod->quantity;
+$qty=$request->quantity;
+$check=$current_qty-$qty;
+if($check<=$order_level){//Order Level has been exceeded
+return "Exc";
+    session()->flash('error','Order Level has been Exceeded. Contact admin for further details.');
+    return back();
+}
+return "Not Exc";
+        //Algorithim Starts
+        $count=0;
+        $data=array();//To store all info of the batches to be involved
+        $batches=Batch::select('id','batch_no','quantity','sold','expiry_date')->where('product_id', $product_id)->where('sold_out',0)->where('approved',1)->orderBy('expiry_date', 'asc')->get();
+
         foreach($batches as $b){
             $batch_id=$b->id;
             $total_batch_qty=$b->quantity-$b->sold;

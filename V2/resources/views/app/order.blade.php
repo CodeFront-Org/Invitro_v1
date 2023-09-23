@@ -114,11 +114,21 @@
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                     <label for="field-11w" class="form-label">Product Name</label>
-                                    <select name="product_id" class="form-control form-select" id="field-11w" required>
-                                        @foreach ($products as $item)
-                                            <option value="{{$item['id']}}">{{$item['name']}}</option>
-                                        @endforeach
-                                        </select>
+                                        @php
+                                            use App\Models\Product;
+                                            $products = Product::select('name')->where('approve',1)->get();
+
+                                        @endphp
+
+                                        <input type="text" list="regnoo" parsley-trigger="change" required class="form-control"
+                                            id="p_name" name='name' autocomplete="off" placeholder="Search Product ..." aria-label="Recipient's username"
+                                        />
+
+                                        <datalist id="regnoo">
+                                            @foreach ($products as $product)
+                                                <option value="{{ $product->name }}">{{ $product->name }}</option>
+                                            @endforeach
+                                        </datalist>
                                 </div>
                                 </div>
                                 <!--
@@ -417,6 +427,12 @@ $.ajax({
     data: data,
     success: function (response) {
 console.log(response)
+if(response==504){
+    btn.show();
+    loader.hide();
+    Swal.fire("Error!", "Product Does not exists", "error");
+    return
+}
 if(response.status===404){//Means quantity exceeded
         btn.show();
         loader.hide();
