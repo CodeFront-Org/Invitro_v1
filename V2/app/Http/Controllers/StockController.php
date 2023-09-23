@@ -16,6 +16,7 @@ use Carbon\Carbon;
 use App\Mail\NewProductAlertMail;
 use App\Mail\OrderLevelAlertMail;
 use App\Mail\ExpiryAlertMail;
+use App\Mail\OrderLevelNotification;
 use Illuminate\Support\Facades\Mail;
 
 class StockController extends Controller
@@ -133,6 +134,7 @@ class StockController extends Controller
         if($type==12){//configured new changes
             $id=Auth::id();
             $name=$request->name;
+            $product_name=$name;
             $o_level=$request->o_level;
             $e_period=$request->e_period;
 
@@ -144,6 +146,13 @@ class StockController extends Controller
                 ]);
                 if($product){
 //send email notification to admin for new product creation
+                $users=User::all()->where('role_type',1);
+                foreach($users as $user){
+                    $user=User::find($user->id);
+                    $name=$user->first_name;
+                    $recipient=$user->email;
+                    Mail::to($recipient)->send(new OrderLevelNotification($link, $recipient,$name,$product_name));
+                }
                     return "200";
                 }
         }

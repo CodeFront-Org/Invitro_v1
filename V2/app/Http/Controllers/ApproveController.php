@@ -29,7 +29,7 @@ class ApproveController extends Controller
         $label="Approvals";
         $data=array();//stores approval for new stocks
         $orders=array();
-/////////////////////////////// for new stock ////////////////////////////////////////////
+        /////////////////////////////// for new stock ////////////////////////////////////////////
         $approvals=Stock::all()->sortByDesc('id')->where('approve',0);
         foreach($approvals as $d){
             //Pick data from products table
@@ -120,10 +120,14 @@ class ApproveController extends Controller
         }
 
 
-/////////////////////////////// for new Product ////////////////////////////////////////////
-$products=Product::all()->where('approve',0);
-//return $products;
-        return view('app.approval',compact('label','data','orders','view_data','products'));
+        /////////////////////////////// for new Product ////////////////////////////////////////////
+        $products=Product::all()->where('approve',0);
+
+        //////////////////////////////// for new stock ////////////////////////////////////////////
+        $approve_orders=Product::all()->where('is_order_level',1);
+
+
+        return view('app.approval',compact('label','data','orders','view_data','products','approve_orders'));
     }
 
     /**
@@ -240,16 +244,37 @@ $products=Product::all()->where('approve',0);
             }
             session()->flash('message','success');
             return back();
-        }elseif($type==2){//////////////////////////////////////////////////////////Approve New product stocks
+        }elseif($type==2){//////////////////////////////////////////////////////////Approve New product stocks//////////////////////////////////////////
             $data=$request->status;
             foreach($data as $item){
             //Approve Product table
            $approve=Product::where('id',$item)->update(['approve'=>1]);
-        if($approve){
-            //Log activity to file.. First get product name then save it to file
-            $name=Product::where('id',$item)->pluck('name')->first();
-            Log::channel('approve_stock')->notice($name.' Product appoved by '.Auth::user()->first_name.' '.Auth::user()->last_name.' Email: '.Auth::user()->email);
-        }
+           if($approve){
+                //Log activity to file.. First get product name then save it to file
+                $name=Product::where('id',$item)->pluck('name')->first();
+                Log::channel('approve_stock')->notice($name.' Product appoved by '.Auth::user()->first_name.' '.Auth::user()->last_name.' Email: '.Auth::user()->email);
+            }
+            }
+            session()->flash('message','success');
+            return back();
+        }elseif($type==3){///////////////////////////////////////////////////////////////  Approve orders Level Limits  ////////////////////////////////////////////////////
+            $get_values=$request->value;
+            $data=$request->status;
+            foreach($get_values as $v){ //taking filled up values only
+            if($v==null){
+                continue;
+            }
+                $values[] = (int)$v;
+            }
+            foreach($data as $key=>$item){
+            //Approve Product table
+           $value=$values[$key];
+           $approve=Product::where('id',$item)->update(['is_order_level'=>2,'allowed_qty'=>$value]);
+           if($approve){
+                //Log activity to file.. First get product name then save it to file
+                $name=Product::where('id',$item)->pluck('name')->first();
+                Log::channel('approve_stock')->notice($name.' Product appoved by '.Auth::user()->first_name.' '.Auth::user()->last_name.' Email: '.Auth::user()->email);
+            }
             }
             session()->flash('message','success');
             return back();

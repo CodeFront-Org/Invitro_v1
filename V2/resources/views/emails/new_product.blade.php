@@ -25,7 +25,7 @@
                                 <table width="100%" cellpadding="0" cellspacing="0" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
                                     <tr>
                                         <td style="text-align: center">
-                                            <a href="#" style="display: block;margin-bottom: 10px;"> <img src="assets/images/Logo/s-white.png" height="44" alt="logo" /></a> <br/>
+                                            <a href="#" style="display: block;margin-bottom: 10px;"> <img src="{{asset('images/Logo/logo.png')}}" height="44" alt="logo" /></a> <br/>
                                         </td>
                                     </tr>
                                     <tr style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">

@@ -25,7 +25,7 @@
                                 <table width="100%" cellpadding="0" cellspacing="0" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
                                     <tr>
                                         <td style="text-align: center">
-                                            <a href="#" style="display: block;margin-bottom: 10px;"> <img src="assets/images/Logo/s-white.png" height="44" alt="logo" /></a> <br/>
+                                            <a href="#" style="display: block;margin-bottom: 10px;"> <img src="{{asset('images/Logo/logo.png')}}" height="44" alt="logo" /></a> <br/>
                                         </td>
                                     </tr>
                                     <tr style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
@@ -36,7 +36,7 @@
                                     <tr style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
                                         <td class="content-block" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 20px;" valign="top">
                                             <p>
-We wanted to inform you that the order level for <b>{{$product_name}}</b> has been reached. The current order quantity is <b>{{$current_order_qty}}</b>. 
+We wanted to inform you that the order level for <b>{{$product_name}}</b> has been reached. The current order quantity is <b>{{$current_order_qty}}</b>.
 Please take necessary actions to manage the inventory.
                                             </p>
                                         </td>

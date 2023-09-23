@@ -29,6 +29,14 @@ Route::get('/registration', function () {//Register customer
 });
 //*******************************end registration */
 
+
+//*******************************Testing Mails */
+Route::get('email-test',function(){
+ return view('emails.order_level_notice');
+});
+
+//*******************************end testing mails */
+
 //***************** Reset Routes ******************/
 Route::post('/reset', [App\Http\Controllers\Auth\ResetController::class,'send_link'])->name('reset');//to send reset link
 Route::get('/reset-password/{id}/{token}', [App\Http\Controllers\Auth\ResetController::class,'index'])->name('reset-password');//to load reset psw page

@@ -65,6 +65,7 @@
 
 
 
+<!-- Approve Stock  -->
         <div class="row mt-1">
             <div class="col-12">
             <button  style="background-color: #08228a9f;color: white" type="button" class="btn right" data-bs-toggle="modal" data-bs-target="#con-close-modal-add-1">
@@ -199,6 +200,65 @@
 
             </div>
         </div> <!-- end row -->
+
+
+
+
+<!-- Approve Order_Level_Limit  -->
+        <div class="row mt-1">
+            <div class="col-12">
+            <button  style="background-color: #08228a9f;color: white" type="button" class="btn right" data-bs-toggle="modal" data-bs-target="#con-close-modal-add-1">
+                     Approve Order-Level Limit
+                </button>
+                <div class="card" style="border-radius:0px 15px 15px 15px;box-shadow: 2px 3px 3px 2px rgba(9, 107, 255, 0.179);">
+                <form action="{{route('approve.store')}}" method="post">
+                    @csrf
+                    @method("POST")
+                    <input type="hidden" name="type" value="3">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table  style="font-family: 'Times New Roman', Times, serif" class="table table-bordered nowrap text-center" id="datatable" class="table table-sm table-bordered dt-responsive nowrap text-center">
+                                <thead class="table-light">
+                                <tr>
+                                    <th>#</th>
+                                    <th>Name</th>
+                                    <th>Order Level</th>
+                                    <th>Ordered Quantity</th>
+                                    <th>Available Quantity</th>
+                                    <th>Value</th>
+                                    <th>Approve</th>
+                                </tr>
+                                </thead>
+
+
+                                <tbody>
+                                @foreach ($approve_orders as $item)
+                                    <tr>
+                                        <td>{{$loop->index+1}}</td>
+                                        <td>{{$item->name}}</td>
+                                        <td>{{$item->order_level}}</td>
+                                        <td>{{$item->ordered_qty}}</td>
+                                        <td>{{$item->quantity}}</td>
+                                        <td><input type="number" name="value[]" data-id=[2] id=""></td>
+                                        <td style="color:green">
+                                            <input type="checkbox" autocomplete="off" class="custom-control-input" name="status[]" value="{{$item->id}}">
+                                        </td>
+                                    </tr>
+                                @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-info waves-effect waves-light">Save changes</button>
+                    </div>
+                </form>
+                </div>
+                </div>
+
+            </div>
+        </div> <!-- end row -->
+
 
 
 

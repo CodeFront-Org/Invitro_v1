@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 
 use App\Mail\NewOrderAlertMail;
+use App\Mail\ProductCreationMail;
 use Illuminate\Support\Facades\Mail;
 
 use Carbon\Carbon;
@@ -207,7 +208,7 @@ class OrderController extends Controller
         $check=Product::where('name',$name)->exists();
         if(!$check){//Product does not exist
             // Error message
-            session()->flash('error', 'Product '.$name.' doses not exists in your stocks. Please Check for typo and try again...');
+            session()->flash('error', 'Product '.$name.' does not exists in your stocks. Please Check for typo and try again...');
             return back();
         }
         $product_name=Product::where('id',$product_id)->pluck('name')->first();
@@ -221,18 +222,56 @@ class OrderController extends Controller
             return back();
         }
 
-//check if order level is exceded
-$prod=Product::find($product_id);
-$order_level=$prod->order_level;
-$current_qty=$prod->quantity;
-$qty=$request->quantity;
-$check=$current_qty-$qty;
-if($check<=$order_level){//Order Level has been exceeded
-return "Exc";
-    session()->flash('error','Order Level has been Exceeded. Contact admin for further details.');
-    return back();
-}
-return "Not Exc";
+        //Check if someone had ordered beyond oreder level and its still in review by admin for approval
+        $check=Product::where('id', $product_id)->pluck('is_order_level')->first();
+        if($check==1){// Product is under review by the admin. Waiting approval.
+            // Error message
+            session()->flash('error', 'Product is under review by the admin. Waiting approval. Contact Admin for more info');
+            return back();
+        }
+
+        //Determine whether admin has approved for below order level so as to raise flag for order_level.
+        $check=Product::where('id',$product_id)->pluck('is_order_level')->first();
+        if($check != 2){
+            //check if order level is exceeded
+            $prod=Product::find($product_id);
+            $order_level=$prod->order_level;
+            $current_qty=$prod->quantity;
+            $qty=$request->quantity;
+            $check=$current_qty-$qty;
+            if($check<=$order_level){//Order Level has been exceeded
+                // Update to product table
+                Product::where('id',$product_id)->update([
+                    'is_order_level'=>1,
+                    'staff_order_level'=>Auth::id(),
+                    'ordered_qty'=>$qty
+                ]);
+
+                // Send email and sms to Admin
+                //send email notification to admin for order level limit alert
+                $users=User::all()->where('role_type',1);
+                $product_name=Product::where('id',$product_id)->pluck('name')->first();
+                foreach($users as $user){
+                    $user=User::find($user->id);
+                    $name=$user->first_name;
+                    $recipient=$user->email;
+                    Mail::to($recipient)->send(new ProductCreationMail($link, $recipient,$name,$product_name));
+                }
+
+                session()->flash('error','Order Level has been Exceeded. A notification has been sent to the admin. Contact admin for further details.');
+                return back();
+            }
+        }
+
+        //check if admin has approved and ensure quantity entered is the one specified by admin
+        $admin_qty=Product::where('id',$product_id)->pluck('allowed_qty')->first();
+        $qty=$request->quantity;
+        if($admin_qty != $qty){// Quantity not equal
+            session()->flash('error','Total quantity allowed for order by the admin is '.$admin_qty);
+            return back();
+        }
+
+
         //Algorithim Starts
         $count=0;
         $data=array();//To store all info of the batches to be involved
