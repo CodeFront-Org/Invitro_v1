@@ -640,7 +640,7 @@ $.ajax({
         if(t.value){
                 $.ajax({
                     type: "DELETE",
-                    url: "stock/"+id,
+                    url: "approve/"+id,
                     data:{
                         _token:"{{csrf_token()}}", id,type
                     },

@@ -373,8 +373,18 @@ class ApproveController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
-    {
-        //
+    public function destroy(Request $request,$id)
+    { 
+        $type=$request->type;
+        if($type==0){//Deleting an approval of stock from approve page
+            $pid=Stock::where("id",$id)->pluck("product_id")->first();
+            $bid=Stock::where("id",$id)->pluck("batch_id")->first();
+            $qty=Batch::where("id",$bid)->pluck("quantity")->first();
+            $db_qty=Product::where("id",$pid)->pluck("quantity")->first();
+            $q=$db_qty-$qty;
+            Product::where("id",$pid)->update(["quantity"=>$q]);
+            Stock::where("id",$id)->delete();
+            Batch::where("id",$bid)->delete();
+        }
     }
 }
