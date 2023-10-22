@@ -16,7 +16,7 @@ use Carbon\Carbon;
 use App\Mail\NewProductAlertMail;
 use App\Mail\OrderLevelAlertMail;
 use App\Mail\ExpiryAlertMail;
-use App\Mail\OrderLevelNotification;
+use App\Mail\ProductCreationMail;
 use Illuminate\Support\Facades\Mail;
 
 class StockController extends Controller
@@ -147,11 +147,12 @@ class StockController extends Controller
                 if($product){
 //send email notification to admin for new product creation
                 $users=User::all()->where('role_type',1);
+                $link=env('APP_URL');
                 foreach($users as $user){
                     $user=User::find($user->id);
                     $name=$user->first_name;
                     $recipient=$user->email;
-                    Mail::to($recipient)->send(new OrderLevelNotification($link, $recipient,$name,$product_name));
+                    Mail::to($recipient)->send(new ProductCreationMail($link, $recipient,$name,$product_name));
                 }
                     return "200";
                 }
@@ -462,7 +463,7 @@ try {
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-    {
+    { return $request;
         $type=$request->type;
         if($type==0){
 
@@ -512,8 +513,9 @@ try {
         elseif($type==2){// Edit order level of a product
             $o_level=$request->o_level;
             $e_period=$request->e_period;
+            $p_name=$request->p_name;
             $product_id=$request->editorderId;
-            $edit=Product::where("id",$product_id)->update(['order_level'=>$o_level,'expire_days'=>$e_period]);
+            $edit=Product::where("id",$product_id)->update(['order_level'=>$o_level,'expire_days'=>$e_period,'name'=>$p_name]);
             if($edit){
                 return "200";
             }else{return "500";}
@@ -534,6 +536,16 @@ try {
                 return "500";
             }
 
+        }elseif($type==4){// Edit product details coming from approve section
+            $o_level=$request->o_level;
+            $e_period=$request->e_period;
+            $p_name=$request->p_name;
+            $product_id=$request->editorderId;
+            $edit=Product::where("id",$product_id)->update(['order_level'=>$o_level,'expire_days'=>$e_period,'name'=>$p_name]);
+            if($edit){
+                return "200";
+            }else{return "500";}
+
         }
     }
 
@@ -545,6 +557,6 @@ try {
      */
     public function destroy($id)
     {
-        //
+        Product::find($id)->delete();
     }
 }

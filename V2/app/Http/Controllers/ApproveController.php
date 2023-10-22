@@ -29,6 +29,7 @@ class ApproveController extends Controller
         $label="Approvals";
         $data=array();//stores approval for new stocks
         $orders=array();
+        $data2=array();
         /////////////////////////////// for new stock ////////////////////////////////////////////
         $approvals=Stock::all()->sortByDesc('id')->where('approve',0);
         foreach($approvals as $d){
@@ -49,24 +50,30 @@ class ApproveController extends Controller
             $remarks=$d->remarks;
             $created_at=$d->created_at;
             $b_id=$d->batch_id;
+            $invoice=$d->invoice;
+            $d_note=$d->delivery_note;
             $batch_no=Batch::where('id',$b_id)->pluck('batch_no')->first();
             $expiry_date=Batch::where('id',$b_id)->pluck('expiry_date')->first();
             $expiry_date = Carbon::createFromFormat('Y-m-d H:i:s', $expiry_date)->format('j F Y');
             //Pushing to data array structure
             array_push($data,[
                 'id'=>$id,
+                'batch_id'=>$b_id,
+                'product_id'=>$d->product_id,
                 'name'=>$name,
                 'batch_no'=>$batch_no,
-                'quantity'=>$quantity.' '.$t,
+                'quantity'=>$quantity,
                 'order_level'=>$order_level,
                 'source'=>$source,
                 'staff_name'=>$staff_name,
                 'date_in'=>$d->created_at,
                 'expiry_date'=>$expiry_date,
-                'remarks'=>$remarks
+                'remarks'=>$remarks,
+                'invoice'=>$invoice,
+                'd_note'=>$d_note
             ]);
 
-        }
+        } 
 /////////////////////////////// for new order ////////////////////////////////////////////
         $data1=Order::all()->where('approve',0);
         $view_data=array();//To store data that will be used to view more info about an order like the batches involved
@@ -125,6 +132,8 @@ class ApproveController extends Controller
 
         //////////////////////////////// for new stock ////////////////////////////////////////////
         $approve_orders=Product::all()->where('is_order_level',1);
+
+        ///////////// Getting data for editing new stock
 
 
         return view('app.approval',compact('label','data','orders','view_data','products','approve_orders'));
@@ -312,7 +321,50 @@ class ApproveController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $e_date=$request->e_date;
+        $qty=$request->quantity;
+        $batch_no=$request->batch_no;
+        $source=$request->source;
+        $inv=$request->invoice;
+        $dnote=$request->d_note;
+        $p_id=$request->product_id;
+        $s_id=$request->stock_id;
+        $b_id=$request->batch_id;
+        $rmks=$request->remarks;
+        /////////////////////////Algorithim _start  ////////////////////
+        //getting current product id
+        $init_qty=Product::where("id",$p_id)->pluck("quantity")->first();
+        $db_qty=Batch::where("id",$b_id)->pluck("quantity")->first();
+        //update stock table
+        Stock::where("id",$s_id)->update([
+            "quantity"=>$qty,
+            "source"=>$source,
+            "invoice"=>$inv,
+            "delivery_note"=>$dnote,
+            "remarks"=>$rmks,
+        ]);
+        //update products table
+        //first getting the prev qty and increment it based on new one from edit
+        $q=$init_qty-$db_qty;
+        $new_qty=$q+$qty;
+        Product::where("id",$p_id)->update([
+            "quantity"=>$new_qty,
+        ]);
+        //update batch table
+        if ($e_date) {//Do an update where the
+            Batch::where("id",$b_id)->update([
+                "batch_no"=>$batch_no,
+                "quantity"=>$qty,
+                "expiry_date"=>$e_date
+            ]);
+        }else{
+            Batch::where("id",$b_id)->update([
+                "batch_no"=>$batch_no,
+                "quantity"=>$qty,
+            ]);
+        }
+        session()->flash('msg','Updated Succesfully');
+        return back();
     }
 
     /**

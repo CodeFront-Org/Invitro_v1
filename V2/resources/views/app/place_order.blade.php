@@ -1,6 +1,12 @@
 @extends('layouts.app')
 
 @section('content')
+@if (session()->has('error'))
+    <div id="toast" class="alert text-center alert-danger alert-dismissible w-100 fade show" role="alert">
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        {{ session('error') }}
+    </div>
+@endif
         <div class="row mt-1">
             <div class="col-12">
                 <div class="card" style="border-radius:0px 15px 15px 15px;box-shadow: 2px 3px 3px 2px rgba(9, 107, 255, 0.179);">

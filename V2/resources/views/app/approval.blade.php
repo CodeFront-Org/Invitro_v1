@@ -8,8 +8,19 @@
     </div>
 @endif
 
+@if (session()->has('error'))
+    <div id="toast" class="alert text-center alert-danger alert-dismissible w-100 fade show" role="alert">
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        {{ session('error') }}
+    </div>
+@endif
 
-
+@if (session()->has('msg'))
+    <div id="toast" class="alert text-center alert-success alert-dismissible w-100 fade show" role="alert">
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        {{ session('msg') }}
+    </div>
+@endif
 <!-- Approve Returns  -->
         <div class="row mt-1">
             <div class="col-12">
@@ -30,6 +41,7 @@
                                     <th>Name</th>
                                     <th>Re-Order Level</th>
                                     <th>Expiry Alert (days)</th>
+                                    <th>Actions</th>
                                     <th>Approve</th>
                                 </tr>
                                 </thead>
@@ -42,6 +54,15 @@
                                         <td>{{$item['name']}}</td>
                                         <td>{{$item['order_level']}}</td>
                                         <td>{{$item['expire_days']}}</td>
+                                        <td style='font-size:10px; text-align: center;'>
+                                            <button type="button" style="background-color: #08228a9f;color: white" class="btn btn-xs" data-bs-toggle="modal" data-bs-target="#con-close-modal-edit-{{$item['id']}}">
+                                                <i class='fas fa-pen' aria-hidden='true'></i>
+                                                </button>
+                                            <button type="button" onclick="del(this)" value="{{$item['id']}}" class="btn btn-danger btn-xs">
+                                                <i class='fa fa-trash' aria-hidden='true'></i>
+                                            </button>
+
+                                        </td>
                                         <td style="color:green">
                                             <input type="checkbox" class="custom-control-input" name="status[]" value="{{$item['id']}}">
                                         </td>
@@ -60,10 +81,6 @@
 
             </div>
         </div> <!-- end row -->
-
-
-
-
 
 <!-- Approve Stock  -->
         <div class="row mt-1">
@@ -91,6 +108,7 @@
                                     <th>Date In</th>
                                     <th>Expiry</th>
                                     <th>Remarks</th>
+                                    <th>Actions</th>
                                     <th>Approve</th>
                                 </tr>
                                 </thead>
@@ -110,6 +128,15 @@
                                         <td>{{$item['expiry_date']}}</td>
                                         <td class="text-left" style="min-width: 100px; max-width: 100px; overflow: hidden; font-size: 12px;">
                                                 {{$item['remarks']}}
+                                        </td>
+                                        <td style='font-size:10px; text-align: center;'>
+                                            <button type="button" style="background-color: #08228a9f;color: white" class="btn btn-xs" data-bs-toggle="modal" data-bs-target="#con-close-modal-edit-stock-{{$item['id']}}">
+                                                <i class='fas fa-pen' aria-hidden='true'></i>
+                                                </button>
+                                            <button type="button" onclick="del(this)" value="{{$item['id']}}" class="btn btn-danger btn-xs">
+                                                <i class='fa fa-trash' aria-hidden='true'></i>
+                                            </button>
+
                                         </td>
                                         <td style="color:green">
                                             <input type="checkbox" class="custom-control-input" name="status[]" value="{{$item['id']}}">
@@ -366,6 +393,142 @@
 
 
 
+
+            <!--Edit OrderLevel Modal -->
+            @foreach ($products as $item)
+                <div id="con-close-modal-edit-{{$item['id']}}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                    <div class="modal-dialog modal-dialog-sm modal-dialog-centered">
+                        <div class="modal-content">
+                            <form class="orderlevelForm" method="post">
+                            @csrf
+                            @method('PATCH')
+                            <input type="hidden" name="type" value="4">
+                            <input type="hidden" name="editorderId" id="editorderId" value="{{$item['id']}}">
+                            <div class="modal-header">
+                                <h4 class="modal-title">Edit Order Level for Product: {{$item['name']}}</h4>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                <div class="col-md-12">
+                                    <div class="mb-3">
+                                        <label for="field-2l" class="form-label">Product Name</label>
+                                        <input type="text" name="p_name" 
+                                        value="{{$item['name']}}" class="form-control" id="field-2l" placeholder="Product Name" required>
+                                    </div>
+                                </div>
+                                    <div class="col-md-12">
+                                        <div class="mb-3">
+                                            <label for="field-2n" class="form-label">Order Level</label>
+                                            <input type="number" name="o_level" value="{{$item['order_level']}}" class="form-control" id="field-2n" placeholder="set new order level" required>
+                                        </div>
+                                    </div>
+                                <div class="col-md-12">
+                                    <div class="mb-3">
+                                        <label for="field-2l" class="form-label">Expiry Alert</label>
+                                        <input type="number" name="e_period" value="{{$item['expire_days']}}" class="form-control" id="field-2l" placeholder="Expiry period in days" required>
+                                    </div>
+                                </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button class="btn rounded-pill p-1" id="editorderbtn{{$item['id']}}" style="width: 100%; background-color: #08228a9f;color: white" type="submit">
+                                        Submit
+                                </button>
+                                <button class="btn rounded-pill p-1" id="editorderloader{{$item['id']}}" style="width: 100%; background-color: #08228a9f;color: white;display:none;" type="button">
+                                        <span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
+                                        Saving Data...
+                                </button>
+                            </div>
+                            </form>
+                        </div>
+                    </div>
+                </div><!-- /.modal -->
+            @endforeach
+
+
+
+
+            <!-- Edit Stock Modal -->
+            @foreach ($data as $item)
+                <div id="con-close-modal-edit-stock-{{$item['id']}}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <form action="{{ route('approve.update', $item['id']) }}" method="post">
+                            @csrf
+                            @method('PATCH') 
+                            <input type="hidden" name="type" value="1">
+                            <input type="hidden" name="batch_id" value="{{$item['batch_id']}}">
+                            <input type="hidden" name="product_id" value="{{$item['product_id']}}">
+                            <input type="hidden" name="stock_id" value="{{$item['id']}}">
+                            <input type="hidden" name="editstockId" id="editstockId" value="{{$item['id']}}">
+                            <div class="modal-header">
+                                <h4 class="modal-title">Edit Stock</h4>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="field-2l" class="form-label">Quantity</label>
+                                            <input type="text" value="{{$item['quantity']}}" name="quantity" class="form-control" id="field-2l" placeholder="quantity" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="field-2l" class="form-label">Batch/Lot Number</label>
+                                            <input type="text" value="{{$item['batch_no']}}" name="batch_no" class="form-control" id="field-2l" placeholder="batch/lot number" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="field-2n" class="form-label">Source</label>
+                                            <input type="text" value="{{$item['source']}}" name="source" class="form-control" id="field-2n" placeholder="source" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="field-2n" class="form-label">Invoice No.</label>
+                                            <input type="text" value="{{$item['invoice']}}" name="invoice" class="form-control" id="field-2n" placeholder="source" >
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="field-2n" class="form-label">Delivery Note</label>
+                                            <input type="text" value="{{$item['d_note']}}" name="d_note" class="form-control" id="field-2n" placeholder="source">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="field-2l" class="form-label">Expiry Date</label>
+                                            <input type="date" value="{{$item['expiry_date']}}" name="e_date" class="form-control" id="field-2l" placeholder="expiry date">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="mb-3">
+                                            <label for="field-2" class="form-label">Remarks</label>
+                                            <textarea id="textarea" name="remarks" class="form-control" maxlength="300" rows="3" placeholder="Your Remarks">{{$item['remarks']}}</textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button class="btn rounded-pill p-1" id="editstockbtn{{$item['id']}}" style="width: 100%; background-color: #08228a9f;color: white" type="submit">
+                                        Submit
+                                </button>
+                                <button class="btn rounded-pill p-1" id="editstockloader{{$item['id']}}" style="width: 100%; background-color: #08228a9f;color: white;display:none;" type="button">
+                                        <span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
+                                        Saving Data...
+                                </button>
+                            </div>
+                            </form>
+                        </div>
+                    </div>
+                </div><!-- /.modal -->
+            @endforeach
+
+
+
 @endsection
 
 @section('scripts')
@@ -414,7 +577,7 @@ $.ajax({
 // Edit settings Form
 $(".settiingsEditForm").on('submit', function(e) {
   e.preventDefault();
-
+alert("Hey")
   const form = $(this);
   var itemId = form.find('input[name="editsettingId"]').val();
   var btn = $("#editbtn" + itemId);
@@ -460,13 +623,13 @@ $.ajax({
 
     <script>
 
-        //Deleting Settings
+//Deleting Product
         function del(e){
         let id=e.value;
         var type=0;//For knowing deletion operation is coming from settings
 
         Swal.fire({
-            title: "Confirm deletion",
+            title: "Confirm Product deletion",
             text: "You won't be able to revert this!",
             type: "error",
             showCancelButton: !0,
@@ -477,14 +640,14 @@ $.ajax({
         if(t.value){
                 $.ajax({
                     type: "DELETE",
-                    url: "settings/"+id,
+                    url: "stock/"+id,
                     data:{
                         _token:"{{csrf_token()}}", id,type
                     },
                     success: function (response) { console.log(response)
 
                         Swal.fire("Deleted", "Successfully.", "success").then(()=>{
-                        location.href='#'})
+                        location.href='/approve'})
                     },
                     error: function(res){console.log(res)
                         Swal.fire("Error!", "Try again later...", "error");
@@ -493,5 +656,62 @@ $.ajax({
             }
             })
         }
+
+
+
+// Edit OrderLevel Form
+$(".orderlevelForm").on('submit', function(e) {
+  e.preventDefault();
+
+  const form = $(this);
+  var itemId = form.find('input[name="editorderId"]').val();
+  var btn = $("#editorderbtn" + itemId);
+  var loader = $("#editorderloader" + itemId);
+  btn.hide();
+  loader.show();
+  let data = form.serialize();
+$.ajax({
+    type: 'PATCH',
+    url: '/stock/' + itemId,
+    data: data,
+    success: function (response) { console.log(response)
+if(response==200){
+    toastr.options = {
+        "closeButton": false,
+        "debug": false,
+        "newestOnTop": false,
+        "progressBar": true,
+        "positionClass": "toast-top-right",
+        "preventDuplicates": false,
+        "onclick": null,
+        "showDuration": "300",
+        "hideDuration": "1000",
+        "timeOut": "5000",
+        "extendedTimeOut": "1000",
+        "showEasing": "swing",
+        "hideEasing": "linear",
+        "showMethod": "fadeIn",
+        "hideMethod": "fadeOut"
+    }
+    toastr["success"]("", "Data Updated Succesfully.")
+    location.href='/approve'
+        btn.show();
+        loader.hide();
+}else{
+        btn.show();
+        loader.hide();
+        Swal.fire("Error!", "Try again later...", "error");
+}
+    },
+    error: function(res){ console.log(res)
+        btn.show();
+        loader.hide();
+        Swal.fire("Error!", "Try again later...", "error");
+    }
+});
+})
+
+
+
     </script>
 @endsection

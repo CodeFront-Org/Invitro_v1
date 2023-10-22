@@ -2,13 +2,31 @@
             <ul class="list-unstyled topnav-menu float-end mb-0">
 
                 <li class="d-none d-lg-block">
-                    <form class="app-search">
+                    <form action="/product-details" method="POST" class="app-search ">
+                        @csrf
+                        @method('GET')
                         <div class="app-search-box">
                             <div class="input-group">
-                                <input type="text" class="form-control" placeholder="Search..." id="top-search">
+                                @php
+                                    use App\Models\Product;
+                                    use App\Models\Stock;
+                                    use App\Models\Order;
+                                    $products = Product::select('name')->where('approve',1)->get();
+
+                                @endphp
+
+                                        <input type="text" list="regnoo" parsley-trigger="change" required class="form-control"
+                                            id="p_name" name='name' autocomplete="off" placeholder="Search Product ..." aria-label="Recipient's username"
+                                        />
+
+                                        <datalist id="regnoo">
+                                            @foreach ($products as $product)
+                                                <option value="{{ $product->name }}">{{ $product->name }}</option>
+                                            @endforeach
+                                        </datalist>
                                 <button class="btn input-group-text" type="submit">
-                                            <i class="fe-search"></i>
-                                        </button>
+                                    <i class="fe-search"></i>
+                                </button>
                             </div>
                             <div class="dropdown-menu dropdown-lg" id="search-dropdown">
                                 <!-- item-->
@@ -63,18 +81,19 @@
                 </li>
 
                         @php
-                            use App\Models\Stock;
-                            use App\Models\Order;
-                            use App\Models\Product;
                             $approval1 = count(Stock::all()->where('approve',0));
                             $approval2 = count(Order::all()->where('approve',0));
                             $approval3 = count(Product::all()->where('approve',0));
-                            if($approval1>0 or $approval2>0 or $approval3>0){
+                            $approval4 = count(Product::all()->where('is_order_level',1));
+                            if($approval1>0 or $approval2>0 or $approval3>0 or $approval4>0){
                                 $count=1;
                                 if($approval1>0 and $approval2>0){
                                 $count=2;
-                                    if($approval1>0 and $approval2>0 or $approval3>0){
-                                    $count=2;
+                                    if($approval1>0 and $approval2>0 and $approval3>0){
+                                    $count=3;
+                                        if($approval1>0 and $approval2>0 and $approval3>0 and $approval4>0){
+                                        $count=4;
+                                        }
                                     }
                                 }
                             }elseif($approval1>0){

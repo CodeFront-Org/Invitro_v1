@@ -186,13 +186,6 @@
                                         <input type="number" name="e_period" value="{{$item['e_period']}}" class="form-control" id="field-2l" placeholder="Expiry period in days" required>
                                     </div>
                                 </div>
-                                <div class="col-md-12">
-                                    <div class="mb-3">
-                                        <label for="field-2l" class="form-label">Product Name</label>
-                                        <input type="text" name="p_name" 
-                                        value="{{$item['name']}}" class="form-control" id="field-2l" placeholder="Product Name" required>
-                                    </div>
-                                </div>
                                 </div>
                             </div>
                             <div class="modal-footer">
@@ -244,7 +237,7 @@
                                 @if ($item1['id']==$item['product_id'])
                                     <tr>
                                         <td>{{$loop->index+1}}</td>
-                                        <td>{{$item['status']==1?'Balanced':'Not Balanced'}}</td>
+                                        <td>{{$item['status']==0?'Balanced':'Not Balanced'}}</td>
                                         <td>{{$item['comments']}}</td>
                                         <td>{{$item['created_at']}}</td>
                                     </tr>

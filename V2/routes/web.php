@@ -63,12 +63,10 @@ Route::resource('/approve',App\Http\Controllers\ApproveController::class);
 Route::resource('/profile',App\Http\Controllers\ProfileController::class);
 Route::Post('/pswUpdate',[App\Http\Controllers\ProfileController::class,'pswUpdate'])->name('pswUpdate');
 
+Route::get('/product-details',[App\Http\Controllers\SearchController::class,'product'])->name('/product-details');
 
 //Route::get('/profile',[App\Http\Controllers\UserController::class,'profile'])->name('profile');
 //Route::POST('/profile-update',[App\Http\Controllers\UserController::class,'updateProfile'])->name('profile-update');
 //Route::POST('/password-update',[App\Http\Controllers\UserController::class,'password'])->name('password-update');
 
-//Route to test email blade temp
-Route::get('/test-email',function(){
-return view('emails.new_order');
-});
+Route::get('cron',[App\Http\Controllers\CronController::class,'cron'])->name('cron');

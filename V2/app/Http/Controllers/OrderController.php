@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 
 use App\Mail\NewOrderAlertMail;
-use App\Mail\ProductCreationMail;
+use App\Mail\OrderLevelNotification;
 use Illuminate\Support\Facades\Mail;
 
 use Carbon\Carbon;
@@ -202,7 +202,6 @@ class OrderController extends Controller
         $d_note=$request->d_note;
         $cash=$request->cash;
         $remarks=$request->remarks;
-        $product_id=Product::where('name',$name)->pluck('id')->first();
 
         //check if product with given name exists
         $check=Product::where('name',$name)->exists();
@@ -211,6 +210,7 @@ class OrderController extends Controller
             session()->flash('error', 'Product '.$name.' does not exists in your stocks. Please Check for typo and try again...');
             return back();
         }
+        $product_id=Product::where('name',$name)->pluck('id')->first();
         $product_name=Product::where('id',$product_id)->pluck('name')->first();
         $label='Place Order For '.$product_name;
 
@@ -248,27 +248,68 @@ class OrderController extends Controller
                 ]);
 
                 // Send email and sms to Admin
+///////////////////////////////////////////  Send SMS //////////////////////////////////////////////////////////////////////
+                $users=User::all()->where('role_type',1);
+                foreach($users as $user){
+                    $user=User::find($user->id);
+                    $mobile=$user->contacts;
+                    //$mobile=User::where('id',Auth::id())->pluck('contacts')->first();
+                    //$msg='Order Level for Product: '.$p_name.' has been reached.\n\nPlease Restock\nInvitro';
+                    //$mobile=$user->contacts;
+                    $msg='The Re-Order level for '.$product_name.' has been exceeded. Visit the Portal for more actions.\nRegards\nInvitro';
+
+                    $curl = curl_init();
+                    curl_setopt_array($curl, array(
+                    CURLOPT_URL => env('SMS_URL'),
+                    CURLOPT_RETURNTRANSFER => true,
+                    CURLOPT_ENCODING => '',
+                    CURLOPT_MAXREDIRS => 10,
+                    CURLOPT_TIMEOUT => 15,
+                    CURLOPT_FOLLOWLOCATION => true,
+                    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                    CURLOPT_CUSTOMREQUEST => 'POST',
+                    CURLOPT_POSTFIELDS =>'{
+                        "mobile":"'.$mobile.'",
+                        "response_type": "json",
+                        "sender_name":"'.env('SENDER_NAME').'",
+                        "service_id": 0,
+                        "message": "'.$msg.'"
+                    }',
+                    CURLOPT_HTTPHEADER => array(
+                        'h_api_key:'.env('SMS_KEY'),
+                        'Content-Type: application/json'
+                    ),
+                    ));
+
+                    $response = curl_exec($curl);
+                 }
                 //send email notification to admin for order level limit alert
                 $users=User::all()->where('role_type',1);
+                $link=env('APP_URL');
                 $product_name=Product::where('id',$product_id)->pluck('name')->first();
                 foreach($users as $user){
                     $user=User::find($user->id);
                     $name=$user->first_name;
                     $recipient=$user->email;
-                    Mail::to($recipient)->send(new ProductCreationMail($link, $recipient,$name,$product_name));
+                    Mail::to($recipient)->send(new OrderLevelNotification($link, $recipient,$name,$product_name));
+
                 }
 
-                session()->flash('error','Order Level has been Exceeded. A notification has been sent to the admin. Contact admin for further details.');
+                session()->flash('error','Re-Order Level has been Exceeded. A notification has been sent to the admin. Contact admin for further details.');
                 return back();
             }
         }
 
-        //check if admin has approved and ensure quantity entered is the one specified by admin
-        $admin_qty=Product::where('id',$product_id)->pluck('allowed_qty')->first();
-        $qty=$request->quantity;
-        if($admin_qty != $qty){// Quantity not equal
-            session()->flash('error','Total quantity allowed for order by the admin is '.$admin_qty);
-            return back();
+        //Determine whether admin has approved for below order level so as to raise flag for order_level.
+        $check=Product::where('id',$product_id)->pluck('is_order_level')->first();
+        if($check == 2){
+            //check if admin has approved and ensure quantity entered is the one specified by admin
+            $admin_qty=Product::where('id',$product_id)->pluck('allowed_qty')->first();
+            $qty=$request->quantity;
+            if($admin_qty != $qty){// Quantity not equal
+                session()->flash('error','Total quantity allowed for order by the admin is '.$admin_qty);
+                return back();
+            }
         }
 
 
