@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Order;
+use App\Models\Product;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -24,6 +27,16 @@ class HomeController extends Controller
     public function index()
     {
         $label='Dashboard';
-        return view('app.home',compact('label'));
+
+        $products=count(Product::all()->where("approve",1));
+        $users=count(User::all());
+        $orders=Order::all()->where("approve",1);
+
+        return view('app.home',compact(
+            'label',
+            'products',
+            'users',
+            'orders',
+        ));
     }
 }
