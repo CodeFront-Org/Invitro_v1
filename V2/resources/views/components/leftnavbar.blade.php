@@ -81,7 +81,7 @@
                             <div class="collapse" id="sidebarMultilevel2">
                                 <ul class="nav-second-level">
                                         <li>
-                                            <a href="#">
+                                            <a href="{{route('/with-batch')}}">
                                                 Stocks
                                             </a>
                                         </li>

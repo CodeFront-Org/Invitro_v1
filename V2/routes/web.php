@@ -48,6 +48,8 @@ Route::post('/new_admin_reg', [App\Http\Controllers\Auth\NewAdminRegister::class
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
+//Test route so as to have several test in the application eg this was first used to test the expiry of products so as to set up cronjobs
+Route::get('/test',[App\Http\Controllers\TestController::class,'test'])->name('/test');
 
 // Application Routes
 Route::resource('/users',App\Http\Controllers\UserController::class);
@@ -64,6 +66,12 @@ Route::resource('/profile',App\Http\Controllers\ProfileController::class);
 Route::Post('/pswUpdate',[App\Http\Controllers\ProfileController::class,'pswUpdate'])->name('pswUpdate');
 
 Route::get('/product-details',[App\Http\Controllers\SearchController::class,'product'])->name('/product-details');
+
+// Reports routes 
+Route::get('/with-batch',[App\Http\Controllers\ReportsController::class,'productsWithBatch'])->name('/with-batch');
+Route::get('/without-batch',[App\Http\Controllers\ReportsController::class,'productsWithoutBatch'])->name('/without-batch');
+
+
 
 //Route::get('/profile',[App\Http\Controllers\UserController::class,'profile'])->name('profile');
 //Route::POST('/profile-update',[App\Http\Controllers\UserController::class,'updateProfile'])->name('profile-update');

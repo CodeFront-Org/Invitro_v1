@@ -53,17 +53,17 @@
                                             </button>
                                         </td>
                                         <td>
-                                            <button type="button" style="background-color: #006ca79f;color: white" class="btn btn-xs" data-bs-toggle="modal" data-bs-target="#con-close-modal-view-audit-{{$item['id']}}">
-                                                <i class='fas fa-eye' aria-hidden='true'></i>
-                                            </button>
-                                            <button type="button" style="background-color: #006ca79f;color: white" class="btn btn-xs" data-bs-toggle="modal" data-bs-target="#con-close-modal-edit-audit-{{$item['id']}}">
-                                                <i class='fas fa-pen' aria-hidden='true'></i>
+                                            <button type="button" onclick="del(this)" value="{{$item['id']}}" class="btn btn-danger btn-xs">
+                                                <i class='fa fa-trash' aria-hidden='true'></i>
                                             </button>
                                         </td>
                                         @endrole
                                         <td style='font-size:10px; text-align: center;'>
                                             <button type="button" style="background-color: #08228a9f;color: white" class="btn btn-xs" data-bs-toggle="modal" data-bs-target="#con-close-modal-txn-{{$item['id']}}">
                                                 <i class='fas fa-newspaper' aria-hidden='true'></i>
+                                            </button>
+                                                <button type="button" onclick="del(this)" value="{{$item['id']}}" class="btn btn-danger btn-xs">
+                                                    <i class='fa fa-trash' aria-hidden='true'></i>
                                                 </button>
                                         </td>
                                     </tr>
@@ -92,6 +92,9 @@
                                         <td style='font-size:10px; text-align: center;'>
                                             <button type="button" style="background-color: #08228a9f;color: white" class="btn btn-xs" data-bs-toggle="modal" data-bs-target="#con-close-modal-txn-{{$item['id']}}">
                                                 <i class='fas fa-newspaper' aria-hidden='true'></i>
+                                                </button>
+                                                <button type="button" onclick="del_product(this)" value="{{$item['id']}}" class="btn btn-danger btn-xs">
+                                                    <i class='fa fa-trash' aria-hidden='true'></i>
                                                 </button>
                                         </td>
                                     </tr>
@@ -903,6 +906,41 @@ $.ajax({
     </script>
 
     <script>
+
+        //Deleting Product
+        function del_product(e){
+        let id=e.value;
+        var type=0;//For knowing deletion operation is coming from settings
+
+        Swal.fire({
+            title: "Confirm deletion",
+            text: "All batches linked to this product will also be deleted. You won't be able to revert this!",
+            type: "error",
+            showCancelButton: !0,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+        }).then((t)=>{
+        if(t.value){
+                $.ajax({
+                    type: "DELETE",
+                    url: "stock/"+id,
+                    data:{
+                        _token:"{{csrf_token()}}", id,type
+                    },
+                    success: function (response) { //alert(response)
+
+                        Swal.fire("Deleted", "Successfully.", "success").then(()=>{
+                        location.href='/stock'})
+                    },
+                    error: function(res){console.log(res)
+                        Swal.fire("Error!", "Try again later...", "error");
+                    }
+                });
+            }
+            })
+        }
+
 
         //Deleting Settings
         function del(e){

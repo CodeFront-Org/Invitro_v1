@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Batch;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\User;
@@ -30,7 +31,10 @@ class HomeController extends Controller
 
         $products=count(Product::all()->where("approve",1));
         $users=count(User::all());
-        $orders=Order::all()->where("approve",1);
+        $orders=count(Order::all()->where("approve",1));
+
+
+
 
         return view('app.home',compact(
             'label',

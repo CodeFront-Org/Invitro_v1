@@ -556,7 +556,7 @@ try {
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
-    {
+    { 
         Product::find($id)->delete();
     }
 }

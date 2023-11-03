@@ -371,6 +371,9 @@ class OrderController extends Controller
                 break;
             }
         }
+        // Resetting the reorder level so that when someone orders again after reaching the limit they just can proceed
+        Product::where("id",$product_id)->update(["is_order_level"=>0]);
+        
         return view('app.place_order',compact(
             'label',
             'data',
