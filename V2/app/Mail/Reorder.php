@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class ExpiryAlertMail extends Mailable
+class Reorder extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -16,21 +16,16 @@ class ExpiryAlertMail extends Mailable
      *
      * @return void
      */
-    public $link; 
+    public $link;
     public $recipient;
     public $name;
-    public $product_name;
-    public $expiry;
-    public $batch_no;
-
-    public function __construct($link, $recipient,$name,$product_name,$expiry,$batch_no)
+    public $table;
+    public function __construct($link, $recipient,$name,$table)
     {
         $this->link = $link;
         $this->recipient = $recipient;
         $this->link = $name;
-        $this->product_name = $product_name;
-        $this->expiry = $expiry;
-        $this->batch_no = $batch_no;
+        $this->table = $table;
     }
 
     /**
@@ -42,9 +37,7 @@ class ExpiryAlertMail extends Mailable
     {
         $link=$this->link;
         $name=$this->name;
-        $product_name=$this->product_name;
-        $expiry=$this->expiry;
-        $batch_no=$this->batch_no;
-        return $this->markdown('emails.expiry',compact('link','name','product_name','expiry','batch_no'));
+        $table=$this->table;
+        return $this->markdown('emails.reorder',compact('link','name','table'));
     }
 }

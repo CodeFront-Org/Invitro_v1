@@ -20,6 +20,9 @@
                         <div class="table-responsive">
                             <table  style="font-family: 'Times New Roman', Times, serif" class="table table-bordered nowrap text-center" id="datatable" class="table table-sm table-bordered dt-responsive nowrap text-center">
                                 <thead class="table-light">
+                                    @php
+                                        $page=$page_number;
+                                    @endphp
                                 <tr>
                                     <th>#</th>
                                     <th>Name</th>
@@ -41,7 +44,7 @@
                                 @foreach ($data as $item)
                                 @if($item['alert']==10)
                                     <tr style="color:red">
-                                        <td>{{$loop->index+1}} </td>
+                                        <td>{{$page}} </td>
                                         <td>{{$item['name']}}</td>
                                         <td>{{$item['qty_available']}}  ({{$item['qty_not_approved']}})</td>
                                         <td>{{$item['batch']}}</td>
@@ -69,7 +72,7 @@
                                     </tr>
                                 @else
                                     <tr>
-                                        <td>{{$loop->index+1}} </td>
+                                        <td>{{$page}} </td>
                                         <td>{{$item['name']}}</td>
                                         <td>{{$item['qty_available']}}  ({{$item['qty_not_approved']}})</td>
                                         <td>{{$item['batch']}}</td>
@@ -100,16 +103,24 @@
                                     </tr>
 
                                 @endif
+                                @php
+                                    $page+=1;
+                                @endphp
                                 @endforeach
                                 </tbody>
                             </table>
+                        </div>
+                        <!-- Pagination links -->
+                        <div class="d-flex justify-content-end" style="margin-top: 20px;height:30%;height:1032%"> <!-- Adjust margin-top as needed -->
+                            <div style="margin-right: 0; text-align: right; font-size: 14px; color: #555;">
+                                {{ $data1->appends(request()->except('page'))->links('vendor.pagination.simple-bootstrap-4')}}
+                            </div>
                         </div>
                     </div>
                 </div>
 
             </div>
         </div> <!-- end row -->
-
 
             <!-- Add New Stock Modal -->
 

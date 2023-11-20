@@ -14,7 +14,6 @@ use Illuminate\Support\Facades\DB;
 
 use Carbon\Carbon;
 use App\Mail\NewProductAlertMail;
-use App\Mail\OrderLevelAlertMail;
 use App\Mail\ExpiryAlertMail;
 use App\Mail\ProductCreationMail;
 use Illuminate\Support\Facades\Mail;
@@ -26,12 +25,20 @@ class StockController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        $page_number=$request->page;
+
+        if($page_number==1){
+            $page_number=1;
+        }else{
+            $page_number=(($page_number-1)*10)+1;
+        }
+
         $label="Stocks";
         $data=array();//load data in 1st table before viewing transactions
         $data2=array();//load data to be viewed for transactions
-        $data1=Product::select('id','name','order_level')->where('approve',1)->take(25)->get();//to be used to display some product during restocking
+        $data1=Product::select('id','name','order_level')->where('approve',1)->paginate(10);//to be used to display some product during restocking
 
         foreach($data1 as $p){
             $product_name=$p->name;
@@ -63,7 +70,7 @@ class StockController extends Controller
                 'batch'=>$total_batch,
                 'order_level'=>$order_level,
                 'e_period'=>$e_period,
-                'alert'=>$alert
+                'alert'=>$alert,
             ]);
                 //get data from stock table
                 $stocks=Stock::all()->where('product_id',$p_id)->sortByDesc('id');
@@ -109,7 +116,7 @@ class StockController extends Controller
     $audits=Audit::all()->sortByDesc('id');
 
 //return $data2;
-        return view('app.stock',compact('label','data','data1','data2','audits'));
+        return view('app.stock',compact('label','data','data1','data2','audits','page_number'));
     }
 
     /**

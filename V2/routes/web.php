@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -32,7 +33,7 @@ Route::get('/registration', function () {//Register customer
 
 //*******************************Testing Mails */
 Route::get('email-test',function(){
- return view('emails.order_level_notice');
+ return view('emails.expired');
 });
 
 //*******************************end testing mails */

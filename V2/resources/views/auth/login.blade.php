@@ -39,9 +39,9 @@
                 <div class="col-md-8 col-lg-6 col-xl-4">
                     <div class="text-center">
                         <a href="index.html">
-                            <img src="{{asset('images/Logo/logo.png')}}" alt="" width="60" class="mx-auto">
+                            <img src="{{asset('images/Logo/logo.png')}}" alt="" height="80" class="mx-auto">
                         </a>
-                        <p class="text-muted mt-0 mb-1">CodeFront</p>
+                        <p class="text-muted mt-0 mb-1">Delta Express</p>
 
                     </div>
                     <div class="card" style="box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);border-radius: 10px;">

@@ -2,15 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Mail\DueExpiry;
-use App\Mail\Expired;
-use App\Mail\Reorder;
 use App\Models\Batch;
 use App\Models\Product;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Mail;
 
 class TestController extends Controller
 {
@@ -42,27 +38,13 @@ class TestController extends Controller
                 $today = Carbon::now();// Get today's date
                 $daysDifference = $today->diffInDays($date_to_expire); // Calculate the difference in days
                 if($daysDifference<$expire_days){
-                    // Check if the parsed date has passed
-                    if ($date_to_expire->isPast()) {                     
-                        //Store Batch details in data array
-                        array_push($data,[
-                            'product_name'=>$product_name,
-                            'batch_no'=>$batch_no,
-                            'expires_in'=>$daysDifference,
-                            'expired'=>1,
-                            'expiry_date'=>$expiry_date_format
-                        ]);
-                    } else { 
-                        //Store Batch details in data array
-                        array_push($data,[
-                            'product_name'=>$product_name,
-                            'batch_no'=>$batch_no,
-                            'expires_in'=>$daysDifference,
-                            'expired'=>0,
-                            'expiry_date'=>$expiry_date_format
-                        ]);
-                    }
-
+                    //Store Batch details in data array
+                    array_push($data,[
+                        'product_name'=>$product_name,
+                        'batch_no'=>$batch_no,
+                        'expires_in'=>$daysDifference,
+                        'expiry_date'=>$expiry_date_format
+                    ]);
                 }else{
                     continue;
                 }
@@ -91,20 +73,19 @@ class TestController extends Controller
 
         /////////////////////////////////// Send Email for Expiry alert  ///////////////////////////////////////////////////////////////////////
         
+
         //store expired products
         foreach($data as $d){
             $x=$d['expires_in'];
-            if($d['expired']==1){ 
+            if($x==0){
                 array_push($expired,[
                     'product_name'=>$d['product_name'],
                     'batch_no'=>$d['batch_no'],
                     'expires_in'=>$d['expires_in'],
-                    'expired'=>$d['expired'],
                     'expiry_date'=>$d['expiry_date']
                 ]);
             }
         }
-        return $expired;
         // Create the table for the email with inline styles for borders and text alignment
         $table = '<table style="border-collapse: collapse; width: 60%;">
             <thead>
@@ -118,7 +99,7 @@ class TestController extends Controller
             <tbody>';
             foreach ($expired as $key => $item) {
                     $table .= '<tr>
-                    <td style="border: 1px solid #000; padding: 5px; text-align: center;">'.($key+1).'</td>
+                    <td style="border: 1px solid #000; padding: 5px; text-align: center;">'.$key+1 .'</td>
                     <td style="border: 1px solid #000; padding: 5px; text-align: center;">' . $item['product_name'] . '</td>
                     <td style="border: 1px solid #000; padding: 5px; text-align: center;">'.$item['batch_no'].'</td>
                     <td style="border: 1px solid #000; padding: 5px; text-align: center;">'.$item['expiry_date'].'</td>
@@ -129,7 +110,7 @@ class TestController extends Controller
             }
     
             // Close the table
-        $table .= '</tbody></table>';
+         $table .= '</tbody></table>';
          $users=User::all()->where('role_type',1);
          $link=env('APP_URL');
          $product_name=Product::where('id',$product_id)->pluck('name')->first();
@@ -137,7 +118,7 @@ class TestController extends Controller
              $user=User::find($user->id);
              $name=$user->first_name;
              $recipient=$user->email;
-             Mail::to($recipient)->send(new Expired($link, $recipient,$name,$table));
+             //Mail::to($recipient)->send(new OrderLevelNotification($link, $recipient,$name,$product_name));
  
          }
 
@@ -174,7 +155,7 @@ class TestController extends Controller
             $user=User::find($user->id);
             $name=$user->first_name;
             $recipient=$user->email;
-            Mail::to($recipient)->send(new DueExpiry($link, $recipient,$name,$table));
+            //Mail::to($recipient)->send(new OrderLevelNotification($link, $recipient,$name,$product_name));
 
         }
 
@@ -258,7 +239,7 @@ class TestController extends Controller
             $user=User::find($user->id);
             $name=$user->first_name;
             $recipient=$user->email;
-            Mail::to($recipient)->send(new Reorder($link, $recipient,$name,$table));
+            //Mail::to($recipient)->send(new OrderLevelNotification($link, $recipient,$name,$product_name));
 
         }
 
