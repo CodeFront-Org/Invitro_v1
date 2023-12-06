@@ -49,17 +49,35 @@ class ReportsController extends Controller
         ));
     }
 
-        //Generate products without batches
-        public function productsWithoutBatch(){
-            $label="Products Batches Report";
-    
-            $productsWithNoBatch=Product::select('id','name', 'quantity', 'expire_days', 'order_level')->where('quantity','=',0)->where('approve',1)->get();
-            $totalWithNoBatch=count($productsWithNoBatch);
-    
-            return view('reports.products-without-batch',compact(
-                'label',
-                'totalWithNoBatch',
-                'productsWithNoBatch'
-            ));
-        }
+
+
+ /////////////////////////////////////////////////////Generate products without batches/////////////////////////////////////////////////////////////////////////////
+    public function productsWithoutBatch(){
+        $label="Products Batches Report";
+
+        $productsWithNoBatch=Product::select('id','name', 'quantity', 'expire_days', 'order_level')->where('quantity','=',0)->where('approve',1)->get();
+        $totalWithNoBatch=count($productsWithNoBatch);
+
+        return view('reports.products-without-batch',compact(
+            'label',
+            'totalWithNoBatch',
+            'productsWithNoBatch'
+        ));
+    }
+
+
+
+ /////////////////////////////////////////////////////Products Due Expiry/////////////////////////////////////////////////////////////////////////////
+    public function due_expiry(){
+
+    }
+
+
+
+ /////////////////////////////////////////////////////Products Due Expiry/////////////////////////////////////////////////////////////////////////////
+    public function expired_products(){
+        
+    }
+
+
 }

@@ -1,0 +1,81 @@
+<?php
+
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
+
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register web routes for your application. These
+| routes are loaded by the RouteServiceProvider within a group which
+| contains the "web" middleware group. Now create something great!
+|
+*/
+
+Route::get('/', function () {
+    return view('auth.login');
+});
+//*****************Routes for registering Roles, Permission and Admin on first creation of the app***//
+Route::get('/Roles_registration_url',[App\Http\Controllers\Auth\RolesRegistration::class,'index'])->name('Roles_Regestration_url');//Registering roles built in app
+
+Route::get('/admin_register_url',function(){//Register admin
+    $label='Admin Register';
+    return view('auth.new_admin_register',compact('label'));
+});
+
+Route::get('/registration', function () {//Register customer
+    return view('auth.register');
+});
+//*******************************end registration */
+
+
+//*******************************Testing Mails */
+Route::get('email-test',function(){
+ return view('emails.expired');
+});
+
+//*******************************end testing mails */
+
+//***************** Reset Routes ******************/
+Route::post('/reset', [App\Http\Controllers\Auth\ResetController::class,'send_link'])->name('reset');//to send reset link
+Route::get('/reset-password/{id}/{token}', [App\Http\Controllers\Auth\ResetController::class,'index'])->name('reset-password');//to load reset psw page
+Route::post('/reset-psw', [App\Http\Controllers\Auth\ResetController::class,'reset'])->name('reset-psw');//to send reset link
+//************* End reset routes *******************/
+
+Auth::routes();
+Route::post('/new_admin_reg', [App\Http\Controllers\Auth\NewAdminRegister::class,'register'])->name('new_admin_reg');
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+//Test route so as to have several test in the application eg this was first used to test the expiry of products so as to set up cronjobs
+Route::get('/test',[App\Http\Controllers\TestController::class,'test'])->name('/test');
+
+// Application Routes
+Route::resource('/users',App\Http\Controllers\UserController::class);
+Route::get('/customers', [App\Http\Controllers\UserController::class, 'customers'])->name('customers');
+Route::resource('/stock',App\Http\Controllers\StockController::class);
+Route::resource('/order',App\Http\Controllers\OrderController::class);
+Route::post('/return-stock', [App\Http\Controllers\OrderController::class, 'return_stock'])->name('/return-stock');
+Route::get('/place-order', [App\Http\Controllers\OrderController::class, 'place_order'])->name('/place-order');
+Route::get('/complete-order', [App\Http\Controllers\OrderController::class, 'complete_order'])->name('/complete-order');
+Route::resource('/approve',App\Http\Controllers\ApproveController::class);
+//Route::get('/profile', [App\Http\Controllers\ProfileController::class, 'profileUpdate'])->name('profile');
+
+Route::resource('/profile',App\Http\Controllers\ProfileController::class);
+Route::Post('/pswUpdate',[App\Http\Controllers\ProfileController::class,'pswUpdate'])->name('pswUpdate');
+
+Route::get('/product-details',[App\Http\Controllers\SearchController::class,'product'])->name('/product-details');
+
+// Reports routes 
+Route::get('/with-batch',[App\Http\Controllers\ReportsController::class,'productsWithBatch'])->name('/with-batch');
+Route::get('/without-batch',[App\Http\Controllers\ReportsController::class,'productsWithoutBatch'])->name('/without-batch');
+
+
+
+//Route::get('/profile',[App\Http\Controllers\UserController::class,'profile'])->name('profile');
+//Route::POST('/profile-update',[App\Http\Controllers\UserController::class,'updateProfile'])->name('profile-update');
+//Route::POST('/password-update',[App\Http\Controllers\UserController::class,'password'])->name('password-update');
+
+Route::get('cron',[App\Http\Controllers\CronController::class,'cron'])->name('cron');

@@ -1,0 +1,175 @@
+<?php
+
+use Monolog\Handler\NullHandler;
+use Monolog\Handler\StreamHandler;
+use Monolog\Handler\SyslogUdpHandler;
+
+return [
+
+    /*
+    |--------------------------------------------------------------------------
+    | Default Log Channel
+    |--------------------------------------------------------------------------
+    |
+    | This option defines the default log channel that gets used when writing
+    | messages to the logs. The name specified in this option should match
+    | one of the channels defined in the "channels" configuration array.
+    |
+    */
+
+    'default' => env('LOG_CHANNEL', 'stack'),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Deprecations Log Channel
+    |--------------------------------------------------------------------------
+    |
+    | This option controls the log channel that should be used to log warnings
+    | regarding deprecated PHP and library features. This allows you to get
+    | your application ready for upcoming major versions of dependencies.
+    |
+    */
+
+    'deprecations' => env('LOG_DEPRECATIONS_CHANNEL', 'null'),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Log Channels
+    |--------------------------------------------------------------------------
+    |
+    | Here you may configure the log channels for your application. Out of
+    | the box, Laravel uses the Monolog PHP logging library. This gives
+    | you a variety of powerful log handlers / formatters to utilize.
+    |
+    | Available Drivers: "single", "daily", "slack", "syslog",
+    |                    "errorlog", "monolog",
+    |                    "custom", "stack"
+    |
+    */
+
+    'channels' => [
+        'stack' => [
+            'driver' => 'stack',
+            'channels' => ['single'],
+            'ignore_exceptions' => false,
+        ],
+
+        'single' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/laravel.log'),
+            'level' => env('LOG_LEVEL', 'debug'),
+        ],
+
+        'daily' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/laravel.log'),
+            'level' => env('LOG_LEVEL', 'debug'),
+            'days' => 14,
+        ],
+
+        'slack' => [
+            'driver' => 'slack',
+            'url' => env('LOG_SLACK_WEBHOOK_URL'),
+            'username' => 'Laravel Log',
+            'emoji' => ':boom:',
+            'level' => env('LOG_LEVEL', 'critical'),
+        ],
+
+        'papertrail' => [
+            'driver' => 'monolog',
+            'level' => env('LOG_LEVEL', 'debug'),
+            'handler' => SyslogUdpHandler::class,
+            'handler_with' => [
+                'host' => env('PAPERTRAIL_URL'),
+                'port' => env('PAPERTRAIL_PORT'),
+            ],
+        ],
+
+        'stderr' => [
+            'driver' => 'monolog',
+            'level' => env('LOG_LEVEL', 'debug'),
+            'handler' => StreamHandler::class,
+            'formatter' => env('LOG_STDERR_FORMATTER'),
+            'with' => [
+                'stream' => 'php://stderr',
+            ],
+        ],
+
+        'syslog' => [
+            'driver' => 'syslog',
+            'level' => env('LOG_LEVEL', 'debug'),
+        ],
+
+        'errorlog' => [
+            'driver' => 'errorlog',
+            'level' => env('LOG_LEVEL', 'debug'),
+        ],
+
+        'null' => [
+            'driver' => 'monolog',
+            'handler' => NullHandler::class,
+        ],
+
+        'emergency' => [
+            'path' => storage_path('logs/laravel.log'),
+        ],
+
+        'sms' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/sms.log'),
+            'level' => 'info',
+        ],
+
+        'mpesa_stk' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/mpesa_stk.log'),
+            'level' => 'info',
+        ],
+        'user_login' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/user/login.log'),
+            'level' => 'info',
+        ],
+        'user_reg' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/user/reg.log'),
+            'level' => 'info',
+        ],
+        'user_edit' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/user/edit.log'),
+            'level' => 'info',
+        ],
+        'user_delete' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/userdelete.log'),
+            'level' => 'info',
+        ],
+        'add_stock' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/stock/add.log'),
+            'level' => 'info',
+        ],
+        'edit_stock' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/stock/delete.log'),
+            'level' => 'info',
+        ],
+        'delete_stock' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/stock/delete.log'),
+            'level' => 'info',
+        ],
+        'approve_stock' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/approve/stock.log'),
+            'level' => 'info',
+        ],
+        'approve_order' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/approve/order.log'),
+            'level' => 'info',
+        ],
+    ],
+
+];
