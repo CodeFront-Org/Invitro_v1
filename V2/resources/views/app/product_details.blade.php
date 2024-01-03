@@ -15,6 +15,11 @@
             <button  style="background-color: #08228a9f;color: white" type="button" class="btn right" data-bs-toggle="modal" data-bs-target="#con-close-modal-restock-1">
                     Re-Stock
                 </button>
+                <a href="{{route('/product-orders',['product_id'=>$product_id])}}">
+                    <button  style="background-color: #08228a9f;color: white" type="button" class="btn right">
+                        View Orders
+                    </button>
+                </a>
                 <div class="card" style="border-radius:0px 15px 15px 15px;box-shadow: 2px 3px 3px 2px rgba(9, 107, 255, 0.179);">
                     <div class="card-body">
                         <div class="table-responsive">

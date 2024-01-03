@@ -41,8 +41,8 @@ class ApproveController extends Controller
             //pick remainig data from stock table
             $id=$d->id;
             $user_id=$d->user_id;
-            $f_name=User::where('id',$user_id)->pluck('first_name')->first();
-            $l_name=User::where('id',$user_id)->pluck('last_name')->first();
+            $f_name=User::withTrashed()->where('id',$user_id)->pluck('first_name')->first();
+            $l_name=User::withTrashed()->where('id',$user_id)->pluck('last_name')->first();
             $staff_name=$f_name.' '.$l_name;
             $quantity=$d->quantity;
             $type=$d->type;
@@ -88,8 +88,8 @@ class ApproveController extends Controller
             $destination=$d->destination;
             $invoice=$d->invoice;
             $rct=$d->receipt;
-            $f_name=User::where('id',$d->user_id)->pluck('first_name')->first();
-            $l_name=User::where('id',$d->user_id)->pluck('last_name')->first();
+            $f_name=User::withTrashed()->where('id',$d->user_id)->pluck('first_name')->first();
+            $l_name=User::withTrashed()->where('id',$d->user_id)->pluck('last_name')->first();
             $staff=$f_name." ".$l_name;
             $rmks=$d->remarks;
             $created_at=$d->created_at;

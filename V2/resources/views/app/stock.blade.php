@@ -36,9 +36,7 @@
                                     @role('staff')
                                     <th>Re-Order level</th>
                                     @endrole
-                                    @role('admin')
                                     <th>Transactions</th>
-                                    @endrole
                                 </tr>
                                 </thead>
 
@@ -95,16 +93,16 @@
                                             </button>
                                         </td>
                                         @endrole
-                                         @role('admin')
                                         <td style='font-size:10px; text-align: center;'>
                                             <button type="button" style="background-color: #08228a9f;color: white" class="btn btn-xs" data-bs-toggle="modal" data-bs-target="#con-close-modal-txn-{{$item['id']}}">
                                                 <i class='fas fa-newspaper' aria-hidden='true'></i>
                                                 </button>
+                                                @role('admin')
                                                 <button type="button" onclick="del_product(this)" value="{{$item['id']}}" class="btn btn-danger btn-xs">
                                                     <i class='fa fa-trash' aria-hidden='true'></i>
                                                 </button>
+                                                @endrole
                                         </td>
-                                    @endrole
                                     </tr>
 
                                 @endif

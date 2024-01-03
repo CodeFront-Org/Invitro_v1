@@ -93,8 +93,8 @@ class StockController extends Controller
                     $sold=Batch::where('id',$b_id)->pluck('sold_out')->first();//Help know which batches have been sold out so as to not display them
                     //getting user name
                     $ff=$s->user_id;
-                    $f=User::where('id',$ff)->pluck('first_name')->first();
-                    $l=User::where('id',$ff)->pluck('last_name')->first();
+                    $f=User::withTrashed()->where('id',$ff)->pluck('first_name')->first();
+                    $l=User::withTrashed()->where('id',$ff)->pluck('last_name')->first();
                     $staff=$f." ".$l;
                     //push data for transaction
                     if($sold==0){

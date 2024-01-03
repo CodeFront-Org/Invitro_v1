@@ -70,13 +70,14 @@ class OrderController extends Controller
             $approve=$d->approve;
             $batch_used=$d->batch_used;
             $rct=$d->receipt;
-            $f_name=User::where('id',$d->user_id)->pluck('first_name')->first();
-            $l_name=User::where('id',$d->user_id)->pluck('last_name')->first();
+            $f_name=User::withTrashed()->where('id',$d->user_id)->pluck('first_name')->first();
+            $l_name=User::withTrashed()->where('id',$d->user_id)->pluck('last_name')->first();
             $staff=$f_name." ".$l_name;
             $rmks=$d->remarks;
             $created_at=$d->created_at;
             array_push($orders,[
                 'id'=>$d->id,
+                'product_id'=>$p_id,
                 'batch_id'=>$batch_id,
                 'order_id'=>$order_id,
                 'batch'=>$batch_no,
@@ -93,7 +94,7 @@ class OrderController extends Controller
             ]);
         }
 
-            //Get data for view data
+            //Get data for view data transactions
             $view_data=array();
             $views=Orders::all();
             foreach($views as $v){
@@ -485,6 +486,72 @@ class OrderController extends Controller
     }
 
 
+    public function product_orders(Request $request){
+        $product_id=$request->product_id;
+        if(!$product_id){//make sure valid product id
+            return back();
+        }
+        $product_name=Product::where('id',$product_id)->pluck('name')->first();
+        $label=$product_name." Orders";
+        $orders=[];
+        $data1=Order::where('product_id',$product_id)->orderByDesc('id')->paginate(30);
+        foreach($data1 as $d){
+            $p_id=$d->product_id;
+            $order_id=$d->id;
+            $batch_id=$d->batch_id;
+            $batch_no=Batch::where('id',$batch_id)->pluck('batch_no')->first();
+            $product_name=Product::where('id',$p_id)->pluck('name')->first();
+            $quantity=$d->quantity;
+            $destination=$d->destination;
+            $invoice=$d->invoice;
+            $approve=$d->approve;
+            $batch_used=$d->batch_used;
+            $rct=$d->receipt;
+            $f_name=User::withTrashed()->where('id',$d->user_id)->pluck('first_name')->first();
+            $l_name=User::withTrashed()->where('id',$d->user_id)->pluck('last_name')->first();
+            $staff=$f_name." ".$l_name;
+            $rmks=$d->remarks;
+            $created_at=$d->created_at;
+            array_push($orders,[
+                'id'=>$d->id,
+                'batch_id'=>$batch_id,
+                'order_id'=>$order_id,
+                'batch'=>$batch_no,
+                'batch_used'=>$batch_used,
+                'product_name'=>$product_name,
+                'quantity'=>$quantity,
+                'destination'=>$destination,
+                'invoice'=>$invoice,
+                'receipt'=>$rct,
+                'staff'=>$staff,
+                'rmks'=>$rmks,
+                'approve'=>$approve,
+                'date'=>$created_at,//->format("F j Y"),
+            ]);
+        }
+
+        
+            //Get data for view data transactions
+            $view_data=array();
+            $views=Orders::all();
+            foreach($views as $v){
+                $batch_no=Batch::where('id',$v->batch_id)->pluck('batch_no')->first();
+                $expiryDate = Batch::where('id', $v->batch_id)->pluck('expiry_date')->first();
+                $e_date = \Carbon\Carbon::parse($expiryDate)->format("jS F Y");
+                array_push($view_data,[
+                    'id'=>$v->order_id,
+                    'product_id'=>$v->product_id,
+                    'batch_id'=>$v->batch_id,
+                    'batch_no'=>$batch_no,
+                    'init_qty'=>$v->init_qty,
+                    'qty_used'=>$v->quantity_used,
+                    'balance'=>$v->balance,
+                    'expiry_date'=>$e_date,
+                    ]);
+            }
+
+        return view('app.product_orders',compact('label', 'orders','data1','view_data'));
+    }
 
 
 

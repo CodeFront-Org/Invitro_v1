@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -56,6 +57,7 @@ Route::resource('/stock',App\Http\Controllers\StockController::class);
 Route::resource('/order',App\Http\Controllers\OrderController::class);
 Route::post('/return-stock', [App\Http\Controllers\OrderController::class, 'return_stock'])->name('/return-stock');
 Route::get('/place-order', [App\Http\Controllers\OrderController::class, 'place_order'])->name('/place-order');
+Route::get('/product-orders', [App\Http\Controllers\OrderController::class, 'product_orders'])->name('/product-orders');
 Route::get('/complete-order', [App\Http\Controllers\OrderController::class, 'complete_order'])->name('/complete-order');
 Route::resource('/approve',App\Http\Controllers\ApproveController::class);
 //Route::get('/profile', [App\Http\Controllers\ProfileController::class, 'profileUpdate'])->name('profile');
@@ -67,6 +69,10 @@ Route::get('/product-details',[App\Http\Controllers\SearchController::class,'pro
 // Reports routes 
 Route::get('/with-batch',[App\Http\Controllers\ReportsController::class,'productsWithBatch'])->name('/with-batch');
 Route::get('/without-batch',[App\Http\Controllers\ReportsController::class,'productsWithoutBatch'])->name('/without-batch');
+
+//  Route to test code before implementing
+Route::get('/code',[App\Http\Controllers\TestController::class,'code'])->name('/code');
+Route::get('/cron',[App\Http\Controllers\CronController::class,'cron'])->name('cron');
 
 
 //Route::get('/profile',[App\Http\Controllers\UserController::class,'profile'])->name('profile');

@@ -42,9 +42,7 @@
                                     <th>Date</th>
                                     <th>Remarks</th>
                                     <th>Approval</th>
-                                    @role('admin')
                                     <th>Actions</th>
-                                    @endrole
                                 </tr>
                                 </thead>
 
@@ -71,7 +69,6 @@
                                             <span style="color:green">Approved</span>
                                         @endif
                                         </td>
-                                        @role('admin')
                                         <td style='font-size:10px; text-align: center;'>
                                             <!--<button {{$item['approve']==1?"disabled":''}} type="button" style="background-color: #08228a9f;color: white" class="btn btn-xs" data-bs-toggle="modal" data-bs-target="#con-close-modal-edit-1">
                                                 <i class='fas fa-pen' aria-hidden='true'></i>
@@ -79,15 +76,18 @@
                                             <button type="button" style="background-color: #08228a9f;color: white" class="btn btn-xs" data-bs-toggle="modal" data-bs-target="#con-close-modal-txn-{{$item['id']}}">
                                                 <i class='fas fa-newspaper' aria-hidden='true'></i>
                                                 </button>
-                                           <!-- <button type="button" style="background-color: #006fd6aa;color: white" class="btn btn-xs" data-bs-toggle="modal" data-bs-target="#con-close-modal-return-{{$item['id']}}">
-                                                <i class='fas fa-minus-circle' aria-hidden='true'></i>
-                                                </button>-->
+                                                <a href="{{route('/product-orders',['product_id'=>$item['product_id']])}}">
+                                           <button type="button" style="background-color: #006fd6aa;color: white" class="btn btn-xs">
+                                                <i class='fas fa-eye' aria-hidden='true'></i>
+                                                </button>
+                                            </a>
+                                            @role('admin')
                                             <button type="button" onclick="del(this)" value="{{$item['order_id']}}" class="btn btn-danger btn-xs">
                                                 <i class='fa fa-trash' aria-hidden='true'></i>
                                             </button>
 
+                                            @endrole
                                         </td>
-                                        @endrole
                                     </tr>
                                 @php
                                     $page+=1;
