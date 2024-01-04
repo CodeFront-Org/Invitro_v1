@@ -86,17 +86,17 @@
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="{{route('/without-batch')}}">
+                                            <a href="{{route('/sales')}}">
                                                 Sales
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="{{route('/without-batch')}}">
+                                            <a href="{{route('/reorder-level')}}">
                                                 Re-Order Levels
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="{{route('/without-batch')}}">
+                                            <a href="{{route('/expired')}}">
                                                 Expiry
                                             </a>
                                         </li>
