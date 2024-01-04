@@ -194,9 +194,10 @@ class ReportsController extends Controller
 
             if($from and $to){
                 $batches=Batch::select('id','batch_no','product_id','quantity','expiry_date')->where('product_id',$product_id)
-                ->where('approved',1)->where('sold_out',0)->whereBetween('expiry_date', [$from, $to])->get();
+                ->where('approved',1)->where('sold_out',0)->orderBy('expiry_date', 'asc')->whereBetween('expiry_date', [$from, $to])->get();
             }else{
-                $batches=Batch::select('id','batch_no','product_id','quantity','expiry_date')->where('product_id',$product_id)->where('approved',1)->where('sold_out',0)->get();
+                $batches=Batch::select('id','batch_no','product_id','quantity','expiry_date')->where('product_id',$product_id)
+                ->where('approved',1)->where('sold_out',0)->get();
             }
         
             foreach($batches as $b){
@@ -279,10 +280,6 @@ class ReportsController extends Controller
             } 
             ///////////////////////////////////////////// End to the Algorithim to get re-order-level limits /////////////////////////////////////////////////////////////
         }        
-
-        /////////////////////////////////// Send Email for Expiry alert  ///////////////////////////////////////////////////////////////////////
-        
-
         //store expired products
         foreach($data as $d){
             $x=$d['check'];
@@ -309,12 +306,17 @@ class ReportsController extends Controller
             }
         }
 
-        if($type==0){
+        if($type==0){// return expired products
             $totalExpired=count($expired);
             return view('reports.expired',compact('label','expired','totalExpired','from','to'));
-        }elseif($type==1){
-            return $due_expiry;
-        }else{
+        }elseif($type==1){ //return due expiry products
+            $totalExpired=count($expired);
+            $label="Due Expiry";
+            return view('reports.due-expiry',compact('label','due_expiry','totalExpired','from','to'));
+        }elseif($type==2){//return order level data
+            r
+        }
+        else{
             return back();
         }
         

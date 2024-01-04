@@ -4,7 +4,7 @@
 <div class="row mt-1">
            
 
-    <form method="GET" action="/expired">
+    <form method="GET" action="/audited">
         <div class="row">
 
         <div class="row">
@@ -29,13 +29,13 @@
 
     <div class="col-12">
     <button  style="color: white" type="button" class="btn btn-secondary right" data-bs-toggle="modal" data-bs-target="#con-close-modal-add-1">
-            Total: {{$totalExpired}}
-        </button><a href="{{route('/expired')}}">
+            Total: {{$totalAudited}}
+        </button><a href="{{route('/audited')}}">
         <button  style="background-color: #08228a9f;color: white" type="button" class="btn right" data-bs-toggle="modal" data-bs-target="#con-close-modal-add-1">
-                Expired
+                Audited
             </button></a>
-            <a href="{{route('/expired',['type'=>1])}}"><button  style="background-color: #08228a9f;color: white" type="button" class="btn right" data-bs-toggle="modal" data-bs-target="#con-close-modal-add-1">
-                    Due Expiry
+            <a href="{{route('/not-audited')}}"><button  style="background-color: #08228a9f;color: white" type="button" class="btn right" data-bs-toggle="modal" data-bs-target="#con-close-modal-add-1">
+                    Not Audited
                 </button></a>
         <button id="excelbtn" type="button" class="btn btn-success"><i class="fa fa-file-excel bg-success"></i> excel </button>
         <div class="card" style="border-radius:0px 15px 15px 15px;box-shadow: 2px 3px 3px 2px rgba(9, 107, 255, 0.179);">
@@ -45,25 +45,29 @@
                         <thead class="table-light">
                             @if ($from and $to)
                             <tr>
-                                <td colspan="6">Expiry dates From: {{$from}}  To: {{$to}} </td>
+                                <td colspan="6">Audit dates From: {{$from}}  To: {{$to}} </td>
                             </tr>
                             @endif
                         <tr>
                             <th>#</th>
-                            <th>Product</th>
-                            <th>Batch Number</th>
-                            <th>Expires In</th>
+                            <th>Name</th>
+                            <th>Status</th>
+                            <th>Comments</th>
+                            <th>Audit Date</th>
+                            <th>Staff Incharge</th>
                         </tr>
                         </thead>
 
 
                         <tbody>
-                            @foreach ($due_expiry as $item)
+                            @foreach ($productsAudited as $item)
                                 <tr>
                                     <td>{{$loop->index+1}}. </td>
-                                    <td>{{$item['product_name']}}</td>
-                                    <td>{{$item['batch_no']}}</td>
-                                    <td>{{$item['expires_in']}} days.</td>
+                                    <td>{{$item['product']}}</td>
+                                    <td>{{$item['status']==1?'Balanced':'Not Balanced'}}</td>
+                                    <td>{{$item['comments']}}</td>
+                                    <td>{{$item['date']}}</td>
+                                    <td>{{$item['staff']}}</td>
                                 </tr>
                             @endforeach
                         </tbody>

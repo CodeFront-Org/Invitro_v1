@@ -91,7 +91,7 @@
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="{{route('/reorder-level')}}">
+                                            <a href="{{route('/reorder-level',['type'=>2])}}">
                                                 Re-Order Levels
                                             </a>
                                         </li>
