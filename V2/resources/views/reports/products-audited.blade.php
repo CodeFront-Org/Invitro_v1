@@ -30,11 +30,11 @@
     <div class="col-12">
     <button  style="color: white" type="button" class="btn btn-secondary right" data-bs-toggle="modal" data-bs-target="#con-close-modal-add-1">
             Total: {{$totalAudited}}
-        </button><a href="{{route('/with-batch')}}">
+        </button><a href="{{route('/audited')}}">
         <button  style="background-color: #08228a9f;color: white" type="button" class="btn right" data-bs-toggle="modal" data-bs-target="#con-close-modal-add-1">
                 Audited
             </button></a>
-            <a href="{{route('/without-batch')}}"><button  style="background-color: #08228a9f;color: white" type="button" class="btn right" data-bs-toggle="modal" data-bs-target="#con-close-modal-add-1">
+            <a href="{{route('/not-audited')}}"><button  style="background-color: #08228a9f;color: white" type="button" class="btn right" data-bs-toggle="modal" data-bs-target="#con-close-modal-add-1">
                     Not Audited
                 </button></a>
         <button id="excelbtn" type="button" class="btn btn-success"><i class="fa fa-file-excel bg-success"></i> excel </button>
@@ -43,9 +43,11 @@
                 <div class="table-responsive">
                     <table id="salestable" class="table table-sm table-bordered dt-responsive nowrap text-center">
                         <thead class="table-light">
+                            @if ($from and $to)
                             <tr>
                                 <td colspan="6">Audit dates From: {{$from}}  To: {{$to}} </td>
                             </tr>
+                            @endif
                         <tr>
                             <th>#</th>
                             <th>Name</th>

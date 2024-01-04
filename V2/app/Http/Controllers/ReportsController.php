@@ -51,19 +51,19 @@ class ReportsController extends Controller
         ));
     }
 
-        //Generate products without batches
-        public function productsWithoutBatch(){
-            $label="Products Batches Report";
-    
-            $productsWithNoBatch=Product::select('id','name', 'quantity', 'expire_days', 'order_level')->where('quantity','=',0)->where('approve',1)->get();
-            $totalWithNoBatch=count($productsWithNoBatch);
-    
-            return view('reports.products-without-batch',compact(
-                'label',
-                'totalWithNoBatch',
-                'productsWithNoBatch'
-            ));
-        }
+    //Generate products without batches
+    public function productsWithoutBatch(){
+        $label="Products Batches Report";
+
+        $productsWithNoBatch=Product::select('id','name', 'quantity', 'expire_days', 'order_level')->where('quantity','=',0)->where('approve',1)->get();
+        $totalWithNoBatch=count($productsWithNoBatch);
+
+        return view('reports.products-without-batch',compact(
+            'label',
+            'totalWithNoBatch',
+            'productsWithNoBatch'
+        ));
+    }
 
     public function productsAudited(Request $request){
         $label="Products Audited";
@@ -110,6 +110,51 @@ class ReportsController extends Controller
     }
 
     public function productsNotAudited(Request $request){
-        
+        $label="Products Not Audited";
+
+        $from=$request->from;
+        $to=$request->to;
+
+        if($from and $to){
+            $data = Audit::select('id', 'user_id', 'product_id', 'status', 'comments', 'created_at')
+            ->whereBetween('created_at', [$from, $to])
+            ->get();
+        }else{
+            $data=Audit::select('id','user_id', 'product_id', 'status', 'comments','created_at')->get();
+        }
+    
+        $productsNotAudited=[];
+
+        //push products id that are audited already so that i can filter those that were not
+        $id_data=[];
+        foreach($data as $d){
+            array_push($id_data,['id'=>$d->product_id]);
+        }
+
+        $productsNotAudited1=Product::whereNotIn('id', $id_data)->orderBy('name', 'asc')->get();
+
+        //get last date audited and store it in the an array
+        foreach($productsNotAudited1 as $p){
+            $date=Audit::where('product_id',$p->id)->pluck('created_at')->first();
+            if($date){
+                $date = $date->format('j, F, Y \a\t g:i A');
+            }else{
+                $date='Not Audited Before';
+            }
+            $product=Product::where('id',$p->id)->pluck('name')->first();
+            array_push($productsNotAudited,[
+                'product'=>$product,
+                'audit'=>$date
+            ]);
+        }
+        $totalNotAudited=count($productsNotAudited);
+
+        return view('reports.products-not-audited',compact(
+            'label',
+            'totalNotAudited',
+            'productsNotAudited',
+            'from',
+            'to'
+        ));
     }
 }
