@@ -72,7 +72,9 @@ Route::get('/without-batch',[App\Http\Controllers\ReportsController::class,'prod
 Route::get('/audited',[App\Http\Controllers\ReportsController::class,'productsAudited'])->name('/audited');
 Route::get('/not-audited',[App\Http\Controllers\ReportsController::class,'productsNotAudited'])->name('/not-audited');
 Route::get('/expired',[App\Http\Controllers\ReportsController::class,'productsExpired'])->name('/expired');
-Route::get('/due-expired',[App\Http\Controllers\ReportsController::class,'productsDueExpired'])->name('/due-expired');
+//Route::get('/due-expiry',[App\Http\Controllers\ReportsController::class,'productsDueExpired'])->name('/due-expiry');
+Route::get('/sales',[App\Http\Controllers\ReportsController::class,'sales'])->name('/sales');
+Route::get('/reorder-level',[App\Http\Controllers\ReportsController::class,'reorderLevels'])->name('/reorder-level');
 
 //  Route to test code before implementing
 Route::get('/code',[App\Http\Controllers\TestController::class,'code'])->name('/code');

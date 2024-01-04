@@ -96,7 +96,7 @@
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="{{route('/expired')}}">
+                                            <a href="{{route('/expired',['type'=>0])}}">
                                                 Expiry
                                             </a>
                                         </li>

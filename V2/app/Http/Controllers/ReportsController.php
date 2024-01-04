@@ -6,10 +6,13 @@ use App\Models\Audit;
 use App\Models\Batch;
 use App\Models\Product;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class ReportsController extends Controller
 {
+
+//////////////////////////////////////////////////////////////// Products With Batches //////////////////////////////////////////////////
     //Generate products with or without batches
     public function productsWithBatch(){
         $label="Products Batches Report";
@@ -51,6 +54,8 @@ class ReportsController extends Controller
         ));
     }
 
+
+//////////////////////////////////////////////////////////////// Products Without Batches //////////////////////////////////////////////////
     //Generate products without batches
     public function productsWithoutBatch(){
         $label="Products Batches Report";
@@ -65,6 +70,8 @@ class ReportsController extends Controller
         ));
     }
 
+
+//////////////////////////////////////////////////////////////// Products Audited ///////////////////////////////////////////////////////////
     public function productsAudited(Request $request){
         $label="Products Audited";
 
@@ -109,6 +116,8 @@ class ReportsController extends Controller
         ));
     }
 
+
+//////////////////////////////////////////////////////////////// Not Audited Products //////////////////////////////////////////////////
     public function productsNotAudited(Request $request){
         $label="Products Not Audited";
 
@@ -157,4 +166,162 @@ class ReportsController extends Controller
             'to'
         ));
     }
+
+    
+//////////////////////////////////////////////////////////////// Products Expired ///////////////////////////////////////////////////////////
+    public function productsExpired(Request $request){
+        $type=$request->type;
+        $label="Expired Products";
+
+        $from=$request->from;
+        $to=$request->to;
+
+        if($from and $to){
+            $data = Audit::select('id', 'user_id', 'product_id', 'status', 'comments', 'created_at')
+            ->whereBetween('created_at', [$from, $to])
+            ->get();
+        }else{
+            $data=Audit::select('id','user_id', 'product_id', 'status', 'comments','created_at')->get();
+        }
+    
+        
+        $expiry_data=array();//To hold data for expiry products
+        $order_level_data=array();//To hold data for Re-order_level
+        $expired=array();
+        $due_expiry=[];
+        $data=[];
+        //Get expired batches
+        $products=Product::select('id','name','quantity','expire_days','order_level')->where('approve',1)->get();
+        foreach($products as $p){
+            //Get the fields for products table
+            $product_name=$p->name;
+            $product_id=$p->id;
+            $product_qty=$p->quantity;
+            $expire_days=$p->expire_days;
+            $order_level=$p->order_level;
+            //Get all batches associated to that product using id
+            $batches=Batch::select('id','batch_no','product_id','quantity','expiry_date')->where('product_id',$product_id)->where('approved',1)->where('sold_out',0)->get();
+            foreach($batches as $b){
+                //Get batch fields
+                $batch_id=$b->id;
+                $batch_no=$b->batch_no;
+                $batch_qty=$b->quantity;
+                $expiry_date=$b->expiry_date;
+                $expiry_date_format=Carbon::createFromFormat('Y-m-d H:i:s', $expiry_date)->format('j F Y');
+                /////////////////////////////////////// Algorithim to Calculating the expiry date ////////////////////////////////////////////
+                $date_to_expire=Carbon::parse($expiry_date);//Convert to carbon instance
+                $today = Carbon::now();// Get today's date
+                $daysDifference = $today->diffInDays($date_to_expire); // Calculate the difference in days
+
+
+
+                
+                ////////////////Injected the new algorithim
+
+                $e_date=$b->expiry_date;
+                $e_date=strtotime($e_date);//converting the expiry date to seconds in unix time
+                $now=time();//getting current time in seconds using unix php time
+                $range=($e_date-$now)/86400; //Getting days due to expire or past expiry and divide by 86400 to convert to days
+                $p_id=$b->product_id;
+                $expire_alert=Product::where('id',$p_id)->pluck('expire_days')->first();
+                $check=$range-strtotime($expire_alert);
+                $days_due_expiry=abs(round($check));
+                //check if product has reached expiry alert level
+                $c=($e_date-$now)/86400;
+                if($c<$expire_alert){// is within the expiry period
+                    if($c>0){
+                        //Store Batch details in data array
+                        array_push($data,[
+                            'product_name'=>$product_name,
+                            'batch_no'=>$batch_no,
+                            'expires_in'=>$daysDifference,
+                            'expiry_date'=>$expiry_date_format,
+                            'check'=>0, //meaning not yet expired
+                        ]);
+                    }
+                   // echo "Expiry Period for batch_no ".$b->batch_no."<br>";
+                }else{//not within the expiry period
+                   // echo "Not Expiry Period for batch_no ".$b->batch_no."<br>";
+                }
+                if($check>0){// Not expired
+                    //echo "Not Expired: in $days_due_expiry batch ".$b->batch_no."<br>";
+                }else{//Expired
+                    //Store Batch details in data array
+                    array_push($data,[
+                        'product_name'=>$product_name,
+                        'batch_no'=>$batch_no,
+                        'expires_in'=>$daysDifference,
+                        'expiry_date'=>$expiry_date_format,
+                        'check'=>1 //meaning it expired
+                    ]);
+                   // echo "Expired: in $days_due_expiry batch  ".$b->batch_no."<br>";
+                }
+
+                ////////////////////////////////////
+
+                ///////////////////////////////////////////// End To Expiry alert Algorithim Data to be stored later ///////////////////////////////////////////////
+            } 
+            
+            // Store all the data to be used for expiry alert
+            //first check if the data submitted is empty so as to skip to the other iteration
+            if(!empty($data)){
+                array_push($expiry_data,[
+                    'product_name'=>$product_name,
+                    'data'=>$data
+                ]);
+            }
+         $expiry_data=$data;
+           // $data=[];
+           ///////////////////////////////////////////// Algorithim to get re-order-level limits /////////////////////////////////////////////////////////////
+           if($product_qty<$order_level){//Order Level has been exceeded
+                array_push($order_level_data,[
+                    'product_name'=>$product_name,
+                    'balance'=>$product_qty,
+                ]);
+            } 
+            ///////////////////////////////////////////// End to the Algorithim to get re-order-level limits /////////////////////////////////////////////////////////////
+        }        
+
+        /////////////////////////////////// Send Email for Expiry alert  ///////////////////////////////////////////////////////////////////////
+        
+
+        //store expired products
+        foreach($data as $d){
+            $x=$d['check'];
+            if($x==1){
+                array_push($expired,[
+                    'product_name'=>$d['product_name'],
+                    'batch_no'=>$d['batch_no'],
+                    'expires_in'=>$d['expires_in'],
+                    'expiry_date'=>$d['expiry_date']
+                ]);
+            }
+        }
+
+        //store Due expiry products
+        foreach($data as $d){
+            $x=$d['check'];
+            if($x==0){
+                array_push($due_expiry,[
+                    'product_name'=>$d['product_name'],
+                    'batch_no'=>$d['batch_no'],
+                    'expires_in'=>$d['expires_in'],
+                    'expiry_date'=>$d['expiry_date']
+                ]);
+            }
+        }
+
+        if($type==0){
+            $totalExpired=count($expired);
+            return view('reports.expired',compact('label','expired','totalExpired','from','to'));
+        }elseif($type==1){
+            return $due_expiry;
+        }else{
+            return back();
+        }
+        
+
+    }
+
+
 }
