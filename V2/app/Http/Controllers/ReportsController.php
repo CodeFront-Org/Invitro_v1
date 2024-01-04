@@ -176,15 +176,6 @@ class ReportsController extends Controller
         $from=$request->from;
         $to=$request->to;
 
-        if($from and $to){
-            $data = Audit::select('id', 'user_id', 'product_id', 'status', 'comments', 'created_at')
-            ->whereBetween('created_at', [$from, $to])
-            ->get();
-        }else{
-            $data=Audit::select('id','user_id', 'product_id', 'status', 'comments','created_at')->get();
-        }
-    
-        
         $expiry_data=array();//To hold data for expiry products
         $order_level_data=array();//To hold data for Re-order_level
         $expired=array();
@@ -200,7 +191,14 @@ class ReportsController extends Controller
             $expire_days=$p->expire_days;
             $order_level=$p->order_level;
             //Get all batches associated to that product using id
-            $batches=Batch::select('id','batch_no','product_id','quantity','expiry_date')->where('product_id',$product_id)->where('approved',1)->where('sold_out',0)->get();
+
+            if($from and $to){
+                $batches=Batch::select('id','batch_no','product_id','quantity','expiry_date')->where('product_id',$product_id)
+                ->where('approved',1)->where('sold_out',0)->whereBetween('expiry_date', [$from, $to])->get();
+            }else{
+                $batches=Batch::select('id','batch_no','product_id','quantity','expiry_date')->where('product_id',$product_id)->where('approved',1)->where('sold_out',0)->get();
+            }
+        
             foreach($batches as $b){
                 //Get batch fields
                 $batch_id=$b->id;
