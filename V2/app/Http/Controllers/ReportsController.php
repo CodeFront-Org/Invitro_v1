@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Audit;
 use App\Models\Batch;
 use App\Models\Product;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class ReportsController extends Controller
@@ -62,4 +64,52 @@ class ReportsController extends Controller
                 'productsWithNoBatch'
             ));
         }
+
+    public function productsAudited(Request $request){
+        $label="Products Audited";
+
+        $from=$request->from;
+        $to=$request->to;
+
+        if($from and $to){
+            $data = Audit::select('id', 'user_id', 'product_id', 'status', 'comments', 'created_at')
+            ->whereBetween('created_at', [$from, $to])
+            ->get();
+        }else{
+            $data=Audit::select('id','user_id', 'product_id', 'status', 'comments','created_at')->get();
+        }
+    
+        $productsAudited=[];
+        
+        foreach($data as $p){
+            $f_name=User::withTrashed()->where('id',$p->user_id)->pluck('first_name')->first();
+            $l_name=User::withTrashed()->where('id',$p->user_id)->pluck('last_name')->first();
+            $staff=$f_name.' '.$l_name;
+            $product=Product::where('id',$p->product_id)->pluck('name')->first();
+            //Converting date to human reaable
+            $date=$p->created_at;
+            $date = $date->format('j, F, Y \a\t g:i A');
+            array_push($productsAudited,[
+                'id'=>$p->id,
+                'staff'=>$staff,
+                'product'=>$product,
+                'status'=>$p->status,
+                'comments'=>$p->comments,
+                'date'=>$date,
+            ]);
+        }
+        $totalAudited=count($productsAudited);
+
+        return view('reports.products-audited',compact(
+            'label',
+            'totalAudited',
+            'productsAudited',
+            'from',
+            'to'
+        ));
+    }
+
+    public function productsNotAudited(Request $request){
+        
+    }
 }

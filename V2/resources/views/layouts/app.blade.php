@@ -64,6 +64,15 @@
         <script src="{{asset('js/app.min.js')}}"></script>
 
 
+        <!-- Plugins js-->
+        <script src="{{asset('libs/flatpickr/flatpickr.min.js')}}"></script>
+        <script src="{{asset('libs/spectrum-colorpicker2/spectrum.min.js')}}"></script>
+        <script src="{{asset('libs/clockpicker/bootstrap-clockpicker.min.js')}}"></script>
+        <script src="{{asset('libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js')}}"></script>
+
+        <!-- Init js-->
+        <script src="{{asset('js/pages/form-pickers.init.js')}}"></script>
+
         <!-- Sweet Alerts js -->
         <script src="{{asset('libs/sweetalert2/sweetalert2.all.min.js')}}"></script>
 

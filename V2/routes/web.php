@@ -69,6 +69,8 @@ Route::get('/product-details',[App\Http\Controllers\SearchController::class,'pro
 // Reports routes 
 Route::get('/with-batch',[App\Http\Controllers\ReportsController::class,'productsWithBatch'])->name('/with-batch');
 Route::get('/without-batch',[App\Http\Controllers\ReportsController::class,'productsWithoutBatch'])->name('/without-batch');
+Route::get('/audited',[App\Http\Controllers\ReportsController::class,'productsAudited'])->name('/audited');
+Route::get('/not-audited',[App\Http\Controllers\ReportsController::class,'productsNotAudited'])->name('/not-audited');
 
 //  Route to test code before implementing
 Route::get('/code',[App\Http\Controllers\TestController::class,'code'])->name('/code');

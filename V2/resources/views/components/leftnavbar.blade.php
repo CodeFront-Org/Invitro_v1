@@ -81,13 +81,28 @@
                             <div class="collapse" id="sidebarMultilevel2">
                                 <ul class="nav-second-level">
                                         <li>
-                                            <a href="{{route('/with-batch')}}">
-                                                Products With Batch
+                                            <a href="{{route('/audited')}}">
+                                                Audit
                                             </a>
                                         </li>
                                         <li>
                                             <a href="{{route('/without-batch')}}">
-                                                Products Without Batch
+                                                Sales
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="{{route('/without-batch')}}">
+                                                Re-Order Levels
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="{{route('/without-batch')}}">
+                                                Expiry
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="{{route('/with-batch')}}">
+                                                Stocks
                                             </a>
                                         </li>
                                 </ul>
