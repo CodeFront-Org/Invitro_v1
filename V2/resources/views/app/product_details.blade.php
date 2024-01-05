@@ -33,6 +33,7 @@
                                     @role('admin')
                                     <th colspan="2">Re-Order level</th>
                                     <th>Stock Audit</th>
+                                    <th>Sales</th>
                                     @endrole
                                     @role('staff')
                                     <th>Re-Order level</th>
@@ -65,6 +66,7 @@
                                             </button>
                                         </td>
                                         @endrole
+                                        
                                         <td style='font-size:10px; text-align: center;'>
                                             <button type="button" style="background-color: #08228a9f;color: white" class="btn btn-xs" data-bs-toggle="modal" data-bs-target="#con-close-modal-txn-{{$item['id']}}">
                                                 <i class='fas fa-newspaper' aria-hidden='true'></i>
@@ -94,6 +96,14 @@
                                             <button type="button" style="background-color: #006ca79f;color: white" class="btn btn-xs" data-bs-toggle="modal" data-bs-target="#con-close-modal-edit-audit-{{$item['id']}}">
                                                 <i class='fas fa-pen' aria-hidden='true'></i>
                                             </button>
+                                        </td>
+                                        <td>
+
+                                            <a href="{{route('/product-orders',['product_id'=>$item['id']])}}">
+                                                <button type="button" style="background-color: #006fd6aa;color: white" class="btn btn-xs">
+                                                     <i class='fas fa-eye' aria-hidden='true'></i>
+                                                     </button>
+                                                 </a>
                                         </td>
                                         @endrole
                                          @role('admin')

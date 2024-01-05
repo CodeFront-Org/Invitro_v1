@@ -2,72 +2,31 @@
 
 @section('content')
 <div class="row mt-1">
-           
-
-    <form method="GET" action="/audited">
-        <div class="row">
-
-        <div class="row">
-            <div class="mb-3 col-md-4">
-                <label for="from">From:</label>
-                <input type="date" class="form-control" name="from" data-provide="w" placeholder="From: ">
-            </div>
-            <div class="mb-3 col-md-4">
-                <label for="To">To:</label>
-                <input type="date" class="form-control" name="to" data-provide="datepicker1" placeholder="To: ">
-            </div>
-            <div class="mb-3 col-md-3" style="margin-top: 2%">
-                <button type="submit" class="btn btn-primary waves-effect waves-light">Submit</button>
-            </div>
-            
-        </div>
-
-
-    </form>
-
-
-
+        
     <div class="col-12">
     <button  style="color: white" type="button" class="btn btn-secondary right" data-bs-toggle="modal" data-bs-target="#con-close-modal-add-1">
-            Total: {{$totalAudited}}
-        </button><a href="{{route('/audited')}}">
-        <button  style="background-color: #08228a9f;color: white" type="button" class="btn right" data-bs-toggle="modal" data-bs-target="#con-close-modal-add-1">
-                Audited
-            </button></a>
-            <a href="{{route('/not-audited')}}"><button  style="background-color: #08228a9f;color: white" type="button" class="btn right" data-bs-toggle="modal" data-bs-target="#con-close-modal-add-1">
-                    Not Audited
-                </button></a>
+            Total: {{$totalReorders}}
+        </button>
         <button id="excelbtn" type="button" class="btn btn-success"><i class="fa fa-file-excel bg-success"></i> excel </button>
         <div class="card" style="border-radius:0px 15px 15px 15px;box-shadow: 2px 3px 3px 2px rgba(9, 107, 255, 0.179);">
             <div class="card-body">
                 <div class="table-responsive">
                     <table id="salestable" class="table table-sm table-bordered dt-responsive nowrap text-center">
                         <thead class="table-light">
-                            @if ($from and $to)
-                            <tr>
-                                <td colspan="6">Audit dates From: {{$from}}  To: {{$to}} </td>
-                            </tr>
-                            @endif
                         <tr>
                             <th>#</th>
                             <th>Name</th>
-                            <th>Status</th>
-                            <th>Comments</th>
-                            <th>Audit Date</th>
-                            <th>Staff Incharge</th>
+                            <th>Balance</th>
                         </tr>
                         </thead>
 
 
                         <tbody>
-                            @foreach ($productsAudited as $item)
+                            @foreach ($order_level_data as $item)
                                 <tr>
                                     <td>{{$loop->index+1}}. </td>
-                                    <td>{{$item['product']}}</td>
-                                    <td>{{$item['status']==1?'Balanced':'Not Balanced'}}</td>
-                                    <td>{{$item['comments']}}</td>
-                                    <td>{{$item['date']}}</td>
-                                    <td>{{$item['staff']}}</td>
+                                    <td>{{$item['product_name']}}</td>
+                                    <td>{{$item['balance']}}</td>
                                 </tr>
                             @endforeach
                         </tbody>

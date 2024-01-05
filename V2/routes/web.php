@@ -74,6 +74,7 @@ Route::get('/not-audited',[App\Http\Controllers\ReportsController::class,'produc
 Route::get('/expired',[App\Http\Controllers\ReportsController::class,'productsExpired'])->name('/expired');
 Route::get('/due-expiry',[App\Http\Controllers\ReportsController::class,'productsExpired'])->name('/due-expiry');
 Route::get('/sales',[App\Http\Controllers\ReportsController::class,'sales'])->name('/sales');
+Route::get('/sales-details',[App\Http\Controllers\ReportsController::class,'sales_details'])->name('/sales-details');//to narrow down to one product sales report
 Route::get('/reorder-level',[App\Http\Controllers\ReportsController::class,'productsExpired'])->name('/reorder-level');
 
 //  Route to test code before implementing
