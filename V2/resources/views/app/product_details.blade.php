@@ -103,7 +103,7 @@
                                                 <button type="button" style="background-color: #006fd6aa;color: white" class="btn btn-xs">
                                                      <i class='fas fa-eye' aria-hidden='true'></i>
                                                      </button>
-                                                 </a>
+                                                 </a> 
                                         </td>
                                         @endrole
                                          @role('admin')
