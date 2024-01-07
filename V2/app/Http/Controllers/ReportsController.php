@@ -346,23 +346,16 @@ class ReportsController extends Controller
         $orders=array();
         $products=Product::select('id','name')->get();
         $stocks=Stock::all()->where('approve',1);
-        //To get data for batches
-        $count=0; //to help filter similar products so as to have the FIFO on batches
-        $batches=Batch::where('sold_out', 0)->orderBy('expiry_date', 'asc')->get();
-        foreach($batches as $b){
-            $p_id=$b->product_id;
-            if($count==$p_id){//Similar product skip
-            continue;
-            }else{
-                array_push($data,[
-                    'batch_id'=>$b->id,
-                    'batch_no'=>$b->batch_no
-                ]);
-            }
-            $count=$p_id;
-        }
+
         /////////////////////////////// for new order ////////////////////////////////////////////
-        $data1=Order::orderByDesc('id')->paginate(30);
+        if($from and $to){ 
+            $data1=Order::orderByDesc('id')->whereBetween('created_at', [$from, $to])->paginate(30);
+            $totalSales=$data1->total();
+        }else{
+            $data1=Order::orderByDesc('id')->paginate(30);
+            $totalSales=count(Order::orderByDesc('id')->get());
+        }
+        
         foreach($data1 as $d){
             $p_id=$d->product_id;
             $order_id=$d->id;
@@ -418,7 +411,7 @@ class ReportsController extends Controller
                     ]);
             }
         //return $view_data;
-        return view('reports.sales',compact('label','data','products','orders','view_data','page_number','data1'));
+        return view('reports.sales',compact('label','data','products','orders','view_data','page_number','data1','totalSales'));
     }
 
     public function sales_details(Request $request){

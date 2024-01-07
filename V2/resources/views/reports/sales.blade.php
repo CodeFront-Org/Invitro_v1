@@ -17,10 +17,32 @@
 
 
         <div class="row mt-1">
+
+    <form method="GET" action="/sales">
+        <div class="row">
+
+        <div class="row">
+            <div class="mb-3 col-md-4">
+                <label for="from">From:</label>
+                <input type="date" class="form-control" name="from" data-provide="w" placeholder="From: ">
+            </div>
+            <div class="mb-3 col-md-4">
+                <label for="To">To:</label>
+                <input type="date" class="form-control" name="to" data-provide="datepicker1" placeholder="To: ">
+            </div>
+            <div class="mb-3 col-md-3" style="margin-top: 2%">
+                <button type="submit" class="btn btn-primary waves-effect waves-light">Submit</button>
+            </div>
+            
+        </div>
+
+
+    </form>
+
             <div class="col-12">
-            <button  style="background-color: #08228a9f;color: white" type="button" class="btn right" data-bs-toggle="modal" data-bs-target="#con-close-modal-add-1">
-                    <i class='fa fa-plus' aria-hidden='true'></i>  New
-                </button>
+                <button  style="color: white" type="button" class="btn btn-secondary right" data-bs-toggle="modal" data-bs-target="#con-close-modal-add-1">
+                        Total: {{$totalSales}}
+                    </button>
                 <button id="excelbtn" type="button" class="btn btn-success"><i class="fa fa-file-excel bg-success"></i> excel </button>
                 <div class="card" style="border-radius:0px 15px 15px 15px;box-shadow: 2px 3px 3px 2px rgba(9, 107, 255, 0.179);">
                     <div class="card-body">
