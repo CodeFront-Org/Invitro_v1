@@ -267,31 +267,35 @@ class OrderController extends Controller
                     //$msg='Order Level for Product: '.$p_name.' has been reached.\n\nPlease Restock\nInvitro';
                     //$mobile=$user->contacts;
                     $msg='The Re-Order level for '.$product_name.' has been exceeded. Visit the Portal for more actions.\nRegards\nInvitro';
-
                     $curl = curl_init();
+                                
                     curl_setopt_array($curl, array(
-                    CURLOPT_URL => env('SMS_URL'),
-                    CURLOPT_RETURNTRANSFER => true,
-                    CURLOPT_ENCODING => '',
-                    CURLOPT_MAXREDIRS => 10,
-                    CURLOPT_TIMEOUT => 15,
-                    CURLOPT_FOLLOWLOCATION => true,
-                    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                    CURLOPT_CUSTOMREQUEST => 'POST',
-                    CURLOPT_POSTFIELDS =>'{
-                        "mobile":"'.$mobile.'",
-                        "response_type": "json",
-                        "sender_name":"'.env('SENDER_NAME').'",
-                        "service_id": 0,
-                        "message": "'.$msg.'"
-                    }',
-                    CURLOPT_HTTPHEADER => array(
-                        'h_api_key:'.env('SMS_KEY'),
-                        'Content-Type: application/json'
-                    ),
+                      CURLOPT_URL => env('TEXT_SMS_URL'),
+                      CURLOPT_RETURNTRANSFER => true,
+                      CURLOPT_ENCODING => '',
+                      CURLOPT_MAXREDIRS => 10,
+                      CURLOPT_TIMEOUT => 0,
+                      CURLOPT_FOLLOWLOCATION => true,
+                      CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                      CURLOPT_CUSTOMREQUEST => 'POST',
+                      CURLOPT_POSTFIELDS => json_encode([
+                        "apikey" => env('TEXT_SMS_KEY'),
+                        "partnerID" => env('TEXT_SMS_PARTNERID'),
+                        "mobile" => $mobile,
+                        "message" => $msg,
+                        "shortcode" => env('TEXT_SMS_SHORTCODE'),
+                        "pass_type" => "plain",
+                    ]),
+                      CURLOPT_HTTPHEADER => array(
+                        'Content-Type: application/json',
+                        'Cookie: PHPSESSID=tv20bebn1qa6m9u57aa8du200c'
+                      ),
                     ));
-
+                    
                     $response = curl_exec($curl);
+                    
+                    curl_close($curl);
+
                  }
                 //send email notification to admin for order level limit alert
                 $users=User::all()->where('role_type',1);
