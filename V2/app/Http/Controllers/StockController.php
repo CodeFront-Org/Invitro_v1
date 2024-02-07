@@ -97,7 +97,7 @@ class StockController extends Controller
                     $l=User::withTrashed()->where('id',$ff)->pluck('last_name')->first();
                     $staff=$f." ".$l;
                     //push data for transaction
-                    if($sold==0){
+                    if($sold==0 or $sold==1){
                         array_push($data2,[
                             'id'=>$s->id,
                             'batch_id'=>$batch_id,
@@ -126,7 +126,7 @@ class StockController extends Controller
 
     /**
      * Show the form for creating a new resource.
-     *
+     * 
      * @return \Illuminate\Http\Response
      */
     public function create()

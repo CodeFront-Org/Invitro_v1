@@ -83,7 +83,7 @@ class SearchController extends Controller
                         $l=User::withTrashed()->where('id',$ff)->pluck('last_name')->first();
                         $staff=$f." ".$l;
                         //push data for transaction
-                        if($sold==0){
+                        if($sold==0 or $sold==1){
                             array_push($data2,[
                                 'id'=>$s->id,
                                 'product_id'=>$p_id,

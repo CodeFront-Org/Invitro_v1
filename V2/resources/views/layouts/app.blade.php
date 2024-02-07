@@ -43,7 +43,7 @@
 
     </div>
     <!-- END wrapper -->
-           <!-- Vendor -->
+        <!-- Vendor -->
         <script src="{{asset('libs/jquery/jquery.min.js')}}"></script>
         <script src="{{asset('libs/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
         <script src="{{asset('libs/simplebar/simplebar.min.js')}}"></script>
@@ -69,6 +69,26 @@
         <script src="{{asset('libs/spectrum-colorpicker2/spectrum.min.js')}}"></script>
         <script src="{{asset('libs/clockpicker/bootstrap-clockpicker.min.js')}}"></script>
         <script src="{{asset('libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js')}}"></script>
+
+
+        <script src="{{('asset/libs/datatables.net/js/jquery.dataTables.min.js')}}"></script>
+        <script src="{{('asset/libs/datatables.net-bs5/js/dataTables.bootstrap5.min.js')}}"></script>
+        <script src="{{('asset/libs/datatables.net-responsive/js/dataTables.responsive.min.js')}}"></script>
+        <script src="{{('asset/libs/datatables.net-responsive-bs5/js/responsive.bootstrap5.min.js')}}"></script>
+        <script src="{{('asset/libs/datatables.net-buttons/js/dataTables.buttons.min.js')}}"></script>
+        <script src="{{('asset/libs/datatables.net-buttons-bs5/js/buttons.bootstrap5.min.js')}}"></script>
+        <script src="{{('asset/libs/datatables.net-buttons/js/buttons.html5.min.js')}}"></script>
+        <script src="{{('asset/libs/datatables.net-buttons/js/buttons.flash.min.js')}}"></script>
+        <script src="{{('asset/libs/datatables.net-buttons/js/buttons.print.min.js')}}"></script>
+        <script src="{{('asset/libs/datatables.net-keytable/js/dataTables.keyTable.min.js')}}"></script>
+        <script src="{{('asset/libs/datatables.net-select/js/dataTables.select.min.js')}}"></script>
+        <script src="{{('asset/libs/pdfmake/build/pdfmake.min.js')}}"></script>
+        <script src="{{('asset/libs/pdfmake/build/vfs_fonts.js')}}"></script>
+        <!-- third party js ends -->
+
+        <!-- Datatables init -->
+        <script src="{{('asset/js/pages/datatables.init.js')}}"></script>
+
 
         <!-- Init js-->
         <script src="{{asset('js/pages/form-pickers.init.js')}}"></script>

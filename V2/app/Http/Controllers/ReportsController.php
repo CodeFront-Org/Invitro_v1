@@ -275,9 +275,26 @@ class ReportsController extends Controller
            // $data=[];
            ///////////////////////////////////////////// Algorithim to get re-order-level limits /////////////////////////////////////////////////////////////
            if($product_qty<$order_level){//Order Level has been exceeded
+            if(($order_level-$product_qty)==0 or $order_level==0){
+                $status=0;
+                $color='red';
+            }else{
+                $status=(($product_qty)/($order_level)*100);
+                $status=round($status);
+                if($status<50){
+                    $color='red';
+                }elseif($status<70){
+                    $color='rgb(255, 183, 0)';
+                }elseif($status<=100){
+                    $color='green';
+                }
+            }
                 array_push($order_level_data,[
                     'product_name'=>$product_name,
                     'balance'=>$product_qty,
+                    'reorder'=>$order_level,
+                    'status'=>$status.' %',
+                    'color'=>$color
                 ]);
             } 
             ///////////////////////////////////////////// End to the Algorithim to get re-order-level limits /////////////////////////////////////////////////////////////
