@@ -389,7 +389,7 @@ class ApproveController extends Controller
             $db_qty=Product::where("id",$pid)->pluck("quantity")->first();
             $q=$db_qty-$qty;
 
-            Product::where("id",$pid)->update(["quantity"=>$q]);
+            Product::where("id",$pid)->update(["quantity"=>$q]); 
             Stock::where("id",$id)->delete();
             Batch::where("id",$bid)->delete();
             if($request->type_p==12){//ensure seletion of product. coming from approval product deletion request
