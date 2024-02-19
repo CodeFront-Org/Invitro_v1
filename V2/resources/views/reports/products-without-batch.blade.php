@@ -15,8 +15,8 @@
         <button id="excelbtn" type="button" class="btn btn-success"><i class="fa fa-file-excel bg-success"></i> excel </button>
         <div class="card" style="border-radius:0px 15px 15px 15px;box-shadow: 2px 3px 3px 2px rgba(9, 107, 255, 0.179);">
             <div class="card-body">
-                <div class="table-responsive">
-                    <table id="salestable" class="table table-sm table-bordered dt-responsive nowrap text-center">
+                <div class="table-responsive" id="salestable">
+                        <table id="datatable" class="table table-sm table-bordered dt-responsive table-responsive nowrap text-center">
                         <thead class="table-light">
                         <tr>
                             <th>#</th>
@@ -88,4 +88,24 @@ html2pdf(el,opt);
 }
 
 </script>
+
+
+<script src="{{asset('libs/datatables.net/js/jquery.dataTables.min.js')}}"></script>
+<script src="{{asset('libs/datatables.net-bs5/js/dataTables.bootstrap5.min.js')}}"></script>
+<script src="{{asset('libs/datatables.net-responsive/js/dataTables.responsive.min.js')}}"></script>
+<script src="{{asset('libs/datatables.net-responsive-bs5/js/responsive.bootstrap5.min.js')}}"></script>
+<script src="{{asset('libs/datatables.net-buttons/js/dataTables.buttons.min.js')}}"></script>
+<script src="{{asset('libs/datatables.net-buttons-bs5/js/buttons.bootstrap5.min.js')}}"></script>
+<script src="{{asset('libs/datatables.net-buttons/js/buttons.html5.min.js')}}"></script>
+<script src="{{asset('libs/datatables.net-buttons/js/buttons.flash.min.js')}}"></script>
+<script src="{{asset('libs/datatables.net-buttons/js/buttons.print.min.js')}}"></script>
+<script src="{{asset('libs/datatables.net-keytable/js/dataTables.keyTable.min.js')}}"></script>
+<script src="{{asset('libs/datatables.net-select/js/dataTables.select.min.js')}}"></script>
+<script src="{{asset('libs/pdfmake/build/pdfmake.min.js')}}"></script>
+<script src="{{asset('libs/pdfmake/build/vfs_fonts.js')}}"></script>
+<!-- third party js ends -->
+
+<!-- Datatables init -->
+<script src="{{asset('js/pages/datatables.init.js')}}"></script>
+
 @endsection
