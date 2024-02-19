@@ -496,7 +496,16 @@
                                         <input type="text" name="d_note" class="form-control" id="field-2l" placeholder="Delivery Note">
                                     </div>
                                 </div>
-                                <div class="col-md-12">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="field-2n" class="form-label">Does Expire?</label>
+                                        <select name="role" class="form-control form-select" id="field-11" required>
+                                                    <option value="1">Yes</option>
+                                                    <option value="0">No</option>
+                                            </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
                                     <div class="mb-3">
                                         <label for="field-2l" class="form-label">Expiry Date</label>
                                         <input type="date" name="e_date" class="form-control" id="field-2l" placeholder="expiry date" required>
