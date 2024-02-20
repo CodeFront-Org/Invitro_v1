@@ -499,7 +499,7 @@
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label for="field-2n" class="form-label">Does Expire?</label>
-                                        <select name="role" class="form-control form-select" id="field-11" required>
+                                        <select name="expires" class="form-control form-select" id="field-11" required>
                                                     <option value="1">Yes</option>
                                                     <option value="0">No</option>
                                             </select>
