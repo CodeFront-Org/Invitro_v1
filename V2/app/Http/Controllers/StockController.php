@@ -324,8 +324,14 @@ try {
             $invoice=$request->invoice;
             $d_note=$request->d_note;
             $e_date=$request->e_date;
+            $expires=$request->expires;
             //Store in batch tables
-            $batch=Batch::create(['batch_no'=>$batch_no,'product_id'=>$product_id,'quantity'=>$quantity,'expiry_date'=>$e_date]);
+            $batch=Batch::create([
+                'batch_no'=>$batch_no,
+                'product_id'=>$product_id,
+                'quantity'=>$quantity,
+                'expiry_date'=>$expires==1?$e_date:'3024-11-01 00:00:00',
+            ]);
             if($batch){
                 //Get product quantity from db and increment
                 $qty=Product::where('id',$product_id)->pluck('quantity')->first();

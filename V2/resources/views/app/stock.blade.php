@@ -508,7 +508,7 @@
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label for="field-2l" class="form-label">Expiry Date</label>
-                                        <input type="date" name="e_date" class="form-control" id="field-2l" placeholder="expiry date" required>
+                                        <input type="date" name="e_date" class="form-control" id="field-2l" placeholder="expiry date">
                                     </div>
                                 </div>
                                 <div class="col-md-12">
