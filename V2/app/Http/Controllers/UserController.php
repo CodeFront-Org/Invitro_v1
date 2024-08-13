@@ -50,6 +50,13 @@ class UserController extends Controller
         if($type==0){//Store staff
             $password="staff123";
             $status=$request->role;
+            if($status==0){
+                $role_type=1;
+            }elseif($status==1){
+                $role_type=2;
+            }elseif($status==2){
+                $role_type=3;
+            }
             // Create new user
             $user = User::create([
                 'first_name' => $request->f_name,
@@ -57,7 +64,7 @@ class UserController extends Controller
                 'contacts' => $request->contacts,
                 'email' => $request->email,
                 'password' => Hash::make($password),
-                'role_type'=>$request->role=='0'?'1':'2',//Role 2 staff 1 admin
+                'role_type'=>$role_type,//Role 2 staff 1 admin
             ]);
             //Add Role to the newly added staff Based on create condition
             if($user){
@@ -68,6 +75,8 @@ class UserController extends Controller
                     $user->assignRole('admin');
                 }elseif($status=='1'){//add staff role
                     $user->assignRole('staff');
+                }elseif($status=='2'){//add stock card role
+                    $user->assignRole('card');
                 }
             }
         }elseif($type==1){//store customer

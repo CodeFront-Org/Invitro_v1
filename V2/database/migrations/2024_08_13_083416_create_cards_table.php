@@ -22,7 +22,7 @@ class CreateCardsTable extends Migration
             $table->integer('out');
             $table->integer('in');
             $table->integer('balance');
-            $table->integer('signature');
+            $table->string('signature');
             $table->text('remarks');
             $table->softDeletes();
             $table->timestamps();

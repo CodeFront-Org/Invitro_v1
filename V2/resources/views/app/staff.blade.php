@@ -107,6 +107,7 @@
                                     <select name="role" class="form-control form-select" id="field-11" required>
                                                 <option value="0">Admin</option>
                                                 <option value="1">Store Keeper</option>
+                                                <option value="2">Stock Card</option>
                                         </select>
                                 </div>
                             </div>

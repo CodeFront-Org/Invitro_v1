@@ -10,12 +10,14 @@
                         <li class="menu-title">Navigation</li>
 
 
+                        @role(['admin','staff'])
                             <li>
                                 <a href="{{route('home')}}">
                                     <i class="mdi mdi-view-dashboard-outline"></i>
                                     <span> Dashboard </span>
                                 </a>
                             </li>
+                            @endrole
 @role('admin')
                         <li>
                             <a href="{{route('users.index')}}">
@@ -47,6 +49,7 @@
                             </div>
                         </li>-->
 
+                        @role(['admin','staff'])
                         <li>
                             <a href="{{route('stock.index')}}">
                                 <i class="fas fa-truck-moving"></i>
@@ -60,6 +63,7 @@
                                 <span>Orders </span>
                             </a>
                         </li>
+                        @endrole
 @role('admin')
                         <li>
                             <a href="{{route('approve.index')}}">
@@ -109,6 +113,15 @@
 
                             </div>
                         </li>
+@endrole
+
+@role('card')
+    <li>
+        <a href="{{route('cards.index')}}">
+            <i class="fa fa-id-card"></i>
+            <span>Stock-cards </span>
+        </a>
+    </li>
 @endrole
                         <li>
                             <a href="{{route('profile.index')}}">

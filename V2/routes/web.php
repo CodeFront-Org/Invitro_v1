@@ -60,6 +60,9 @@ Route::get('/place-order', [App\Http\Controllers\OrderController::class, 'place_
 Route::get('/product-orders', [App\Http\Controllers\OrderController::class, 'product_orders'])->name('/product-orders');
 Route::get('/complete-order', [App\Http\Controllers\OrderController::class, 'complete_order'])->name('/complete-order');
 Route::resource('/approve',App\Http\Controllers\ApproveController::class);
+
+Route::resource('/cards',App\Http\Controllers\CardsController::class);
+
 //Route::get('/profile', [App\Http\Controllers\ProfileController::class, 'profileUpdate'])->name('profile');
 
 Route::resource('/profile',App\Http\Controllers\ProfileController::class);
