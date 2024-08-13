@@ -28,14 +28,17 @@ class CardsController extends Controller
         $to=$request->to;
         if(!empty($product_filter)){//get data for that product
             $product_id=Product::where('name',$product_filter)->pluck('id')->first();
-            $cards=Card::where('product_id',$product_id)->whereBetween('created_at', [$from, $to])->get();
+            $cards=Card::where('product_id',$product_id)->whereBetween('created_at', [$from, $to])->paginate(10);
             $data1=Card::where('product_id',$product_id)->whereBetween('created_at', [$from, $to])->orderBy('id', 'desc')->paginate(10);
+            $data1=Card::where('product_id',$product_id)->whereBetween('created_at', [$from, $to])->orderBy('id', 'desc')->get();
         }elseif($from and $to){//Get data for all products within the range
-            $cards=Card::whereBetween('created_at', [$from, $to])->get();
+            $cards=Card::whereBetween('created_at', [$from, $to])->paginate(10);
             $data1=Card::whereBetween('created_at', [$from, $to])->orderBy('id', 'desc')->paginate(10);
+            $data2=Card::whereBetween('created_at', [$from, $to])->orderBy('id', 'desc')->get();
         }else{//get all data 
-            $cards = Card::latest()->get();
+            $cards = Card::latest()->paginate(10);
             $data1=Card::orderBy('id', 'desc')->paginate(10);
+            $data2=Card::orderBy('id', 'desc')->get();
         }
 
 
@@ -51,6 +54,7 @@ class CardsController extends Controller
 
         $label="Stock Card";
         $data=array();//load data to be displayed in stoc cards
+        $data3=[];// to be used for data in the excel sheet
         foreach($cards as $card){
             //Get The product name
             $product_name=Product::where('id',$card->product_id)->pluck('name')->first();
@@ -68,7 +72,24 @@ class CardsController extends Controller
             ]);
         }
 
-        return view('app.stock_card',compact('label','data','data1','page_number'));
+        foreach($data2 as $card){
+            //Get The product name
+            $product_name=Product::where('id',$card->product_id)->pluck('name')->first();
+            array_push($data3,[
+                'item'=>$product_name,
+                'size'=>$card->size,
+                'at_hand'=>$card->at_hand,
+                'out'=>$card->out,
+                'in'=>$card->in,
+                'balance'=>$card->balance,
+                'user'=>$card->user,
+                'remarks'=>$card->remarks,
+                'date' => \Carbon\Carbon::parse($card->created_at)->format('jS F Y'),
+                'id'=>$card->id,
+            ]);
+        }
+
+        return view('app.stock_card',compact('label','data','data1','data3','page_number'));
     }
 
     /**

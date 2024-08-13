@@ -323,7 +323,38 @@
                 
             @endforeach
 
-
+            <table id="salestable1" style="display: none">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Item</th>
+                        <th>Size</th>
+                        <th>At Hand</th>
+                        <th>Out</th>
+                        <th>In</th>
+                        <th>Balance</th>
+                        <th>Staff Incharge</th>
+                        <th>Date</th>
+                        <th>Remarks</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($data3 as $item)
+                        <tr>
+                            <td>{{$loop->index+1}} </td>
+                            <td>{{$item['item']}}</td>
+                            <td>{{$item['size']}}</td>
+                            <td>{{$item['at_hand']}}</td>
+                            <td>{{$item['out']}}</td>
+                            <td>{{$item['in']}}</td>
+                            <td>{{$item['balance']}}</td>
+                            <td>{{$item['user']}}</td>
+                            <td>{{$item['date']}}</td>
+                            <td>{{$item['remarks']}}</td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
 @endsection
 
 @section('scripts')
@@ -333,7 +364,7 @@
 <script type="text/javascript">
 $(document).ready(function () {
     $("#excelbtn").click(function(){
-        TableToExcel.convert(document.getElementById("salestable"), {
+        TableToExcel.convert(document.getElementById("salestable1"), {
             name: "Invitro Stock Cards.xlsx",
             sheet: {
             name: "Sheet1"
