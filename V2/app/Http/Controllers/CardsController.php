@@ -109,9 +109,11 @@ class CardsController extends Controller
             ]);
 
             if($store){
-                return "ok";
+                session()->flash('message','Added successfully');
+                return back();
             }else{
-                return "error";
+                session()->flash('error','An Error Occurred. Please try again later.');
+                return back();
             }
 
 
