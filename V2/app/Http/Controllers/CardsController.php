@@ -22,6 +22,23 @@ class CardsController extends Controller
      */
     public function index(Request $request)
     {
+        //Apply filter if there 
+        $product_filter=$request->product_filter;// means user is filtering a specific product
+        $from=$request->from;
+        $to=$request->to;
+        if(!empty($product_filter)){//get data for that product
+            $product_id=Product::where('name',$product_filter)->pluck('id')->first();
+            $cards=Card::where('product_id',$product_id)->whereBetween('created_at', [$from, $to])->get();
+            $data1=Card::where('product_id',$product_id)->whereBetween('created_at', [$from, $to])->orderBy('id', 'desc')->paginate(10);
+        }elseif($from and $to){//Get data for all products within the range
+            $cards=Card::whereBetween('created_at', [$from, $to])->get();
+            $data1=Card::whereBetween('created_at', [$from, $to])->orderBy('id', 'desc')->paginate(10);
+        }else{//get all data 
+            $cards = Card::latest()->get();
+            $data1=Card::orderBy('id', 'desc')->paginate(10);
+        }
+
+
         $page_number=$request->page;
 
         if($page_number==1){
@@ -34,9 +51,6 @@ class CardsController extends Controller
 
         $label="Stock Card";
         $data=array();//load data to be displayed in stoc cards
-        $data1=Card::orderBy('id', 'desc')->paginate(10);
-
-        $cards = Card::latest()->get();
         foreach($cards as $card){
             //Get The product name
             $product_name=Product::where('id',$card->product_id)->pluck('name')->first();

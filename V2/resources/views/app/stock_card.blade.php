@@ -14,7 +14,7 @@
     </div>
 @endif
 
-<form method="GET" action="/audited">
+<form method="GET" action="{{route('cards.index')}}">
     <div class="row">
 
     <div class="row">
@@ -27,8 +27,8 @@
 
             @endphp
 
-            <input type="text" list="regnoo" parsley-trigger="change" required class="form-control"
-                id="p_name" name='name' autocomplete="off" placeholder="Search Product ..." aria-label="Recipient's username"
+            <input type="text" list="regnoo" parsley-trigger="change"  class="form-control"
+                id="p1_name" name='product_filter' autocomplete="off" placeholder="Search Product ..." aria-label="#"
             />
 
             <datalist id="regnoo">
@@ -39,11 +39,11 @@
         </div>
         <div class="mb-3 col-md-3">
             <label for="from">From:</label>
-            <input type="date" class="form-control" name="from" data-provide="w" placeholder="From: ">
+            <input type="date" class="form-control" name="from" data-provide="w" required placeholder="From: ">
         </div>
         <div class="mb-3 col-md-3">
             <label for="To">To:</label>
-            <input type="date" class="form-control" name="to" data-provide="datepicker1" placeholder="To: ">
+            <input type="date" class="form-control" name="to" required data-provide="datepicker1" placeholder="To: ">
         </div>
         <div class="mb-3 col-md-3" style="margin-top: 2%">
             <button type="submit" class="btn btn-primary waves-effect waves-light">Submit</button>
