@@ -24,6 +24,7 @@ class CreateCardsTable extends Migration
             $table->integer('balance');
             $table->integer('signature');
             $table->text('remarks');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
