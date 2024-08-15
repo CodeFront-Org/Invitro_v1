@@ -140,7 +140,7 @@ class UserController extends Controller
         $type=$request->type;
         if($type==0){//edit staff
             $status=$request->role;
-            if($status==0){$status='admin';}elseif($status==1){$status='staff';}
+            if($status==0){$status='admin';}elseif($status==1){$status='staff';}elseif($status==2){$status='card';}
             $email=$request->email;
             //Add staff details to db
             $userUpdate=User::where('id',$id)->update([

@@ -1,0 +1,34 @@
+****************************** Migration *********************************
+You can import the card.sql inside this zip folder or use the migration with name 2024_08_13_083416_create_cards_table
+
+
+****************************** Model *********************************
+Add the model (Card.php) in App/Models/
+
+
+****************************** Route *********************************
+copy the below route and paste it inside routes/web.php 
+Route::resource('/cards',App\Http\Controllers\CardsController::class);
+
+****************************** Role *********************************
+Add role inside the roles table in the existing database as shown in the role.png 
+Ensure the id is 3
+
+
+****************************** CardController *********************************
+Add the CardController.php in app/http/controlles 
+
+
+****************************** User Controller cahnges *********************************
+1. This are changes for adding a new user with the new user role of a stock_card.
+2. Copy and paste to replace the two existing function  of public function store and public function update
+3. add the step 2 to app/http/controllers
+
+
+****************************** Staff View  *********************************
+Copy and paste the view staff.blade in this zip file to replace the resources/views/app/staff.blade.php 
+
+
+****************************** Stock_card View blade *********************************
+This is the view for the newly created ui for stock_card
+Copy in this zop file ( stock_blade.php) and paste it inside resources/views/app/
