@@ -26,11 +26,12 @@ class CardsController extends Controller
         $product_filter=$request->product_filter;// means user is filtering a specific product
         $from=$request->from;
         $to=$request->to;
+        $to = Carbon::parse($to)->addDay()->toDateString();
         if(!empty($product_filter)){//get data for that product
             $product_id=Product::where('name',$product_filter)->pluck('id')->first();
             $cards=Card::where('product_id',$product_id)->whereBetween('created_at', [$from, $to])->paginate(10);
             $data1=Card::where('product_id',$product_id)->whereBetween('created_at', [$from, $to])->orderBy('id', 'desc')->paginate(10);
-            $data1=Card::where('product_id',$product_id)->whereBetween('created_at', [$from, $to])->orderBy('id', 'desc')->get();
+            $data2=Card::where('product_id',$product_id)->whereBetween('created_at', [$from, $to])->orderBy('id', 'desc')->get();
         }elseif($from and $to){//Get data for all products within the range
             $cards=Card::whereBetween('created_at', [$from, $to])->paginate(10);
             $data1=Card::whereBetween('created_at', [$from, $to])->orderBy('id', 'desc')->paginate(10);
