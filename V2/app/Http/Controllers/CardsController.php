@@ -61,6 +61,7 @@ class CardsController extends Controller
             $product_name=Product::where('id',$card->product_id)->pluck('name')->first();
             array_push($data,[
                 'item'=>$product_name,
+                'product_id'=>$card->product_id,
                 'size'=>$card->size,
                 'at_hand'=>$card->at_hand,
                 'out'=>$card->out,
@@ -90,7 +91,9 @@ class CardsController extends Controller
             ]);
         }
 
-        return view('app.stock_card',compact('label','data','data1','data3','page_number'));
+        $product_prices=Product::select('id','name','quantity')->get();
+
+        return view('app.stock_card',compact('label','data','data1','data3','page_number','product_prices'));
     }
 
     /**
@@ -111,6 +114,7 @@ class CardsController extends Controller
      */
     public function store(Request $request)
     { 
+        try {
             //Get product ID and Name of the user
             $product_id=Product::where('name',$request->name)->pluck('id')->first();
             $f_name=User::where('id',Auth::id())->pluck('first_name')->first();
@@ -121,7 +125,7 @@ class CardsController extends Controller
             $store=Card::create([
                 'product_id'=>$product_id,
                 'user'=>$user,
-                'size'=>$request->size,
+                //'size'=>$request->size,
                 'at_hand'=>$request->at_hand,
                 'out'=>$request->out,
                 'in'=>$request->in,
@@ -131,13 +135,16 @@ class CardsController extends Controller
             ]);
 
             if($store){
-                session()->flash('message','Added successfully');
-                return back();
+                return "ok";
             }else{
                 session()->flash('error','An Error Occurred. Please try again later.');
                 return back();
             }
-
+        } catch (\Throwable $th) {
+            session()->flash('error',$th->getMessage());
+            return back();
+            
+        }
 
     }
 

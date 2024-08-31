@@ -72,7 +72,7 @@
                                 <tr>
                                     <th>#</th>
                                     <th>Item</th>
-                                    <th>Size</th>
+                                    {{-- <th>Size</th> --}}
                                     <th>At Hand</th>
                                     <th>Out</th>
                                     <th>In</th>
@@ -91,7 +91,7 @@
                                     <tr>
                                         <td>{{$page}} </td>
                                         <td>{{$item['item']}}</td>
-                                        <td>{{$item['size']}}</td>
+                                        {{-- <td>{{$item['size']}}</td> --}}
                                         <td>{{$item['at_hand']}}</td>
                                         <td>{{$item['out']}}</td>
                                         <td>{{$item['in']}}</td>
@@ -148,35 +148,33 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="mb-3">
-                                    <label for="field-11w" class="form-label">Product Name</label>
-
-                                @php
-                                    $products = Product::all();
-
-                                @endphp
-
-                                <input type="text" list="regnoo" parsley-trigger="change" required class="form-control"
-                                    id="p_name" name='name' autocomplete="off" placeholder="Search Product ..." aria-label="Recipient's username"
-                                />
-
-                                <datalist id="regnoo">
-                                    @foreach ($products as $product)
-                                        <option value="{{ $product->name }}">{{ $product->name }}</option>
-                                    @endforeach
-                                </datalist>
+                                        <label for="field-11w" class="form-label">Product Name</label>
+                                    
+                                        @php
+                                            $products = Product::all();
+                                        @endphp
+                                    
+                                        <input type="text" list="regnoo" parsley-trigger="change" required class="form-control"
+                                               id="p_name2" name='name' autocomplete="off" placeholder="Search Product ..." 
+                                               aria-label="Recipient's username" />
+                                    
+                                        <datalist id="regnoo">
+                                            @foreach ($products as $product)
+                                                <option value="{{ $product->name }}" data-id="{{ $product->id }}">{{ $product->name }}</option>
+                                            @endforeach
+                                        </datalist>
+                                    </div>
                                 </div>
-                                </div>
-                                <div class="col-md-6">
+                                {{-- <div class="col-md-6">
                                     <div class="mb-3">
                                         <label for="field-2l" class="form-label">Size</label>
                                         <input type="number" name="size" class="form-control" id="field-2l" placeholder="size" required>
                                     </div>
-                                </div>
-
+                                </div> --}}
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label for="field-2l" class="form-label">At-hand</label>
-                                        <input type="number" name="at_hand" class="form-control" id="field-2l" placeholder="at hand" required>
+                                        <input type="number" readonly name="at_hand" class="form-control" id="fieldAtHand" placeholder="at hand" required>
                                     </div>
                                 </div>
 
@@ -195,7 +193,7 @@
                                 </div>
 
 
-                                <div class="col-md-6">
+                                <div class="col-md-12">
                                     <div class="mb-3">
                                         <label for="field-2l" class="form-label">Balance</label>
                                         <input type="number" name="balance" class="form-control" id="field-2l" placeholder="balance" required>
@@ -224,7 +222,6 @@
                     </div>
                 </div>
             </div><!-- /.modal -->
-
 
             <!-- Edit  Stock Modal -->
             @foreach ($data as $item)
@@ -262,17 +259,17 @@
                                     </datalist>
                                     </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    {{-- <div class="col-md-6">
                                         <div class="mb-3">
                                             <label for="field-2l" class="form-label">Size</label>
                                             <input type="number" name="size"value="{{$item['size']}}" class="form-control" id="field-2l" placeholder="size" required>
                                         </div>
-                                    </div>
+                                    </div> --}}
 
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label for="field-2l" class="form-label">At-hand</label>
-                                            <input type="number" name="at_hand" value="{{$item['at_hand']}}" class="form-control" id="field-2l" placeholder="at hand" required>
+                                            <input type="number" name="at_hand" value="{{$item['at_hand']}}" class="form-control" id="priceInput11" placeholder="at hand" required>
                                         </div>
                                     </div>
 
@@ -355,6 +352,12 @@
                     @endforeach
                 </tbody>
             </table>
+
+
+            @foreach ($product_prices as $item)
+                <input type="hidden" id="price11{{ preg_replace('/[^a-zA-Z0-9]/', '', $item->name) }}" value="{{$item->quantity}}">
+            @endforeach
+
 @endsection
 
 @section('scripts')
@@ -388,7 +391,7 @@ $.ajax({
     type: "POST",
     url: "/cards",
     data: data,
-    success: function (response) { console.log(response)
+    success: function (response) { console.log(response) 
 
         if(response=='ok'){
                     toastr.options = {
@@ -424,6 +427,35 @@ $.ajax({
         loader.hide();
     }
 });
+})
+
+// Function to sanitize the string for use in IDs
+function sanitizeStringForID(input) {
+    // Replace all non-alphanumeric characters with an empty string
+    return input.replace(/[^a-zA-Z0-9]/g, ''); // Keeps only letters and numbers
+}
+
+//Process input 
+$('#p_name2').on('input', function() {
+    // Get the selected product name from the datalist input
+    const selectedProduct = $(this).val();
+    const options = $('#regnoo option');
+
+    // Find the corresponding option element with the matching value
+    let selectedId = null;
+    let n = selectedProduct;
+    //let productName = "price11" + n.replace(/\s+/g, '');
+    let productName = "price11" + sanitizeStringForID(n);
+    const qty = $(`#${productName}`).val(); // Correctly fetching the value of the element
+
+    if (qty) {
+        $('#fieldAtHand').val(qty); // Correct way to set the value
+    } else {
+        $('#fieldAtHand').val(''); // Setting the value to an empty string if qty is undefined or empty
+    }
+
+})
+
 })
 </script>
 
@@ -463,4 +495,5 @@ if(t.value){
     })
 }
     </script>
+
 @endsection

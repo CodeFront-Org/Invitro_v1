@@ -17,7 +17,7 @@ class CreateCardsTable extends Migration
             $table->id();
             $table->integer('product_id');
             $table->string('user');
-            $table->integer('size');
+            $table->integer('size')->nullable();
             $table->integer('at_hand');
             $table->integer('out');
             $table->integer('in');
