@@ -9,12 +9,14 @@
 @endif
         <div class="row mt-1">
             <div class="col-12">
+                @role('staff')
             <button  style="background-color: #08228a9f;color: white" type="button" class="btn right" data-bs-toggle="modal" data-bs-target="#con-close-modal-add-1">
                      New
                 </button>
             <button  style="background-color: #08228a9f;color: white" type="button" class="btn right" data-bs-toggle="modal" data-bs-target="#con-close-modal-restock-1">
                     Re-Stock
                 </button>
+                @endrole
                 <div class="card" style="border-radius:0px 15px 15px 15px;box-shadow: 2px 3px 3px 2px rgba(9, 107, 255, 0.179);">
                     <div class="card-body">
                         <div class="table-responsive">
@@ -209,7 +211,7 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="mb-3">
-                                            <label for="field-2n" class="form-label">Order Level</label>
+                                            <label for="field-2n" class="form-label">Re order Level</label>
                                             <input type="number" name="o_level" value="{{$item['order_level']}}" class="form-control" id="field-2n" placeholder="set new order level" required>
                                         </div>
                                     </div>
@@ -261,8 +263,9 @@
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
+                    <button id="excelbtn" type="button" class="btn btn-success"><i class="fa fa-file-excel bg-success"></i> excel </button>
                 <div class="table-responsive">
-                    <table  style="font-family: 'Times New Roman', Times, serif" class="table table-bordered nowrap text-center" id="datatable" class="table table-sm table-bordered dt-responsive nowrap text-center">
+                    <table  style="font-family: 'Times New Roman', Times, serif" class="table table-bordered nowrap text-center" id="salestable" class="table table-sm table-bordered dt-responsive nowrap text-center">
                         <thead class="table-light">
                         <tr>
                             <th>#</th>
@@ -272,21 +275,31 @@
                         </tr>
                         </thead>
                         <tbody>
+                            @php
+                            $i=1;
+                            @endphp
                         @foreach ($audits as $item)
                             @if (empty($item)==0)
                                 @if ($item1['id']==$item['product_id'])
                                     <tr>
-                                        <td>{{$loop->index+1}}</td>
+                                        <td>{{$i}}.</td>
                                         <td>{{$item['status']==1?'Balanced':'Not Balanced'}}</td>
                                         <td>{{$item['comments']}}</td>
                                         <td>{{$item['created_at']}}</td>
                                     </tr>
+                            @php
+                            $i+=1;
+                            @endphp
                                 @endif
                             @else
                                 <tr>
                                     <td colspan="4" class="text-center">No Data</td>
                                 </tr>
+                            @php
+                            $i+=1;
+                            @endphp
                             @endif
+                            
                         @endforeach
 
                         </tbody>
@@ -570,10 +583,13 @@
 
 
                         <tbody>
+                            @php
+                            $i=1;
+                            @endphp
                         @foreach ($data2 as $item)
                         @if ($item1['id']==$item['product_id'])
                                 <tr>
-                                    <td>{{$loop->index+1}}. </td>
+                                    <td>{{$i}}. </td>
                                     <td>{{$item['quantity']}}</td>
                                     <td>{{$item['batch_no']}}</td>
                                     <td>{{$item['source']}}</td>
@@ -600,7 +616,11 @@
                                     </td>
                                     @endrole
                                 </tr>
+                            @php
+                            $i+=1;
+                            @endphp
                         @endif
+                        
                         @endforeach
                         </tbody>
                     </table>
@@ -1067,4 +1087,19 @@ if(response==200){
             })
         }
     </script>
+    
+    
+<script src="https://cdn.jsdelivr.net/gh/linways/table-to-excel@v1.0.4/dist/tableToExcel.js"></script>
+<script type="text/javascript">
+$(document).ready(function () {
+    $("#excelbtn").click(function(){
+        TableToExcel.convert(document.getElementById("salestable"), {
+            name: "Invitro Products without batches.xlsx",
+            sheet: {
+            name: "Sheet1"
+            }
+        });
+        });
+});
+</script>
 @endsection

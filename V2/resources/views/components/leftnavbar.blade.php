@@ -9,15 +9,30 @@
 
                         <li class="menu-title">Navigation</li>
 
+	
+@role(['staff','admin'])
 
-                        @role(['admin','staff'])
                             <li>
                                 <a href="{{route('home')}}">
                                     <i class="mdi mdi-view-dashboard-outline"></i>
-                                    <span> Dashboard </span>
+                                    <span> Dashboard 
+								
+									</span>
                                 </a>
                             </li>
-                            @endrole
+   	
+@endrole
+	
+	
+@role('stock')
+                         <li>
+                            <a href="/cards">
+                                <i class="fas fa-calendar-check"></i>
+                                <span>Stock Card</span>
+                            </a>
+                        </li>	
+@endrole							
+							
 @role('admin')
                         <li>
                             <a href="{{route('users.index')}}">
@@ -49,8 +64,8 @@
                             </div>
                         </li>-->
 
-                        @role(['admin','staff'])
-                        <li>
+@role('staff')            
+						<li>
                             <a href="{{route('stock.index')}}">
                                 <i class="fas fa-truck-moving"></i>
                                 <span>Stocks </span>
@@ -58,13 +73,35 @@
                         </li>
 
                         <li>
+                            <a href="/batch-edit">
+                                <i class="fas fa-truck-moving"></i>
+                                <span>Edit Batch Expiry Dates </span>
+                            </a>
+                        </li>
+
+                        
+                     
+
+
+
+                        <li>
                             <a href="{{route('order.index')}}">
                                 <i class="fas fa-shopping-cart"></i>
                                 <span>Orders </span>
                             </a>
                         </li>
-                        @endrole
+
+
+@endrole
+
 @role('admin')
+
+                        <li>
+                            <a href="/batch-view">
+                                <i class="fas fa-truck-moving"></i>
+                                <span>View Batches </span>
+                            </a>
+                        </li>
                         <li>
                             <a href="{{route('approve.index')}}">
                                 <i class="fas fa-check-double"></i>
@@ -75,6 +112,11 @@
 
                             </a>
                         </li>
+
+
+
+
+
 
                         <li>
                             <a href="#sidebarMultilevel2" data-bs-toggle="collapse">
@@ -114,16 +156,14 @@
                             </div>
                         </li>
 @endrole
+                       
 
-@role('card')
-    <li>
-        <a href="{{route('cards.index')}}">
-            <i class="fa fa-id-card"></i>
-            <span>Stock-cards </span>
-        </a>
-    </li>
-@endrole
-                        <li>
+
+
+
+
+
+					   <li>
                             <a href="{{route('profile.index')}}">
                                 <i class="fas fa-user-circle"></i>
                                 <span> Profile </span>

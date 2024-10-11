@@ -50,19 +50,31 @@ Route::post('/new_admin_reg', [App\Http\Controllers\Auth\NewAdminRegister::class
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 
+//Card controller
+Route::resource('/cards',App\Http\Controllers\CardsController::class);
+
 // Application Routes
 Route::resource('/users',App\Http\Controllers\UserController::class);
 Route::get('/customers', [App\Http\Controllers\UserController::class, 'customers'])->name('customers');
 Route::resource('/stock',App\Http\Controllers\StockController::class);
+Route::resource('/batch-edit',App\Http\Controllers\BatchController::class);
+
+Route::resource('/stock-card',App\Http\Controllers\StockcardsController::class);
+
+Route::get('/batch-view',[App\Http\Controllers\BatchController::class, 'viewBatches']);
+
+Route::post('/save_ExpiryDate',[App\Http\Controllers\BatchController::class,'changeExpiryDate']);
+
 Route::resource('/order',App\Http\Controllers\OrderController::class);
 Route::post('/return-stock', [App\Http\Controllers\OrderController::class, 'return_stock'])->name('/return-stock');
 Route::get('/place-order', [App\Http\Controllers\OrderController::class, 'place_order'])->name('/place-order');
 Route::get('/product-orders', [App\Http\Controllers\OrderController::class, 'product_orders'])->name('/product-orders');
+
 Route::get('/complete-order', [App\Http\Controllers\OrderController::class, 'complete_order'])->name('/complete-order');
+
+
+
 Route::resource('/approve',App\Http\Controllers\ApproveController::class);
-
-Route::resource('/cards',App\Http\Controllers\CardsController::class);
-
 //Route::get('/profile', [App\Http\Controllers\ProfileController::class, 'profileUpdate'])->name('profile');
 
 Route::resource('/profile',App\Http\Controllers\ProfileController::class);

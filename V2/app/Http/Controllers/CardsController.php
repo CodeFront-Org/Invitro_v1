@@ -69,10 +69,11 @@ class CardsController extends Controller
                 'balance'=>$card->balance,
                 'user'=>$card->user,
                 'remarks'=>$card->remarks,
-                'date' => \Carbon\Carbon::parse($card->created_at)->format('jS F Y'),
+                'date' => $card->created_at,
                 'id'=>$card->id,
             ]);
         }
+		
 
         foreach($data2 as $card){
             //Get The product name
@@ -86,7 +87,7 @@ class CardsController extends Controller
                 'balance'=>$card->balance,
                 'user'=>$card->user,
                 'remarks'=>$card->remarks,
-                'date' => \Carbon\Carbon::parse($card->created_at)->format('jS F Y'),
+                'date' =>$card->created_at,
                 'id'=>$card->id,
             ]);
         }

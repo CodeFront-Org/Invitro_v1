@@ -43,7 +43,8 @@ class NewOrderAlertMail extends Mailable
     public function build()
     {
         $link = $this->link;
-        $name = $this->name; // Fix: Assign value to $name
+        //$name = $this->name; // Fix: Assign value to $name
+        $name="New Order.";
         $product_name = $this->product_name;
         $batch_no = $this->batch_no;
         $quantity = $this->quantity;

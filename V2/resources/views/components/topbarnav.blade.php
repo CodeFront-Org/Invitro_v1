@@ -2,7 +2,7 @@
             <ul class="list-unstyled topnav-menu float-end mb-0">
 
                 <li class="d-none d-lg-block">
-                    <form action="/product-details" method="POST" class="app-search ">
+                    <form action="/product-details" method="POST" class="app-search row">
                         @csrf
                         @method('GET')
                         <div class="app-search-box">
@@ -15,9 +15,8 @@
 
                                 @endphp
 
-                                        <input type="text" list="regnoo" parsley-trigger="change" required class="form-control"
-                                            id="p_name" name='name' autocomplete="off" placeholder="Search Product ..." aria-label="Recipient's username"
-                                        />
+                                        <input type="text" list="regnoo" parsley-trigger="change" required class="form-control "
+                                            id="p_name" name='name' autocomplete="off" placeholder="Search Product ..." aria-label="Recipient's username" />
 
                                         <datalist id="regnoo">
                                             @foreach ($products as $product)
@@ -57,7 +56,7 @@
                                         <div class="d-flex align-items-start">
                                             <img class="d-flex me-2 rounded-circle" src="{{asset('images/users/profile/default.jpg')}} alt="user image" height="32">
                                             <div class="w-100">
-                                                <h5 class="m-0 font-14">Martin</h5>
+                                                <h5 class="m-0 font-14">Dev</h5>
                                                 <span class="font-12 mb-0">Developer</span>
                                             </div>
                                         </div>

@@ -18,10 +18,11 @@
 
         <div class="row mt-1">
             <div class="col-12">
+        <button id="excelbtn" type="button" class="btn btn-success"><i class="fa fa-file-excel bg-success"></i> excel </button>
                 <div class="card" style="border-radius:0px 15px 15px 15px;box-shadow: 2px 3px 3px 2px rgba(9, 107, 255, 0.179);">
                     <div class="card-body">
                     <div class="table-responsive" style="overflow-x: auto;">
-                        <table style="font-family: 'Times New Roman', Times, serif;" class="table table-bordered nowrap text-center" id="datatable">
+                        <table style="font-family: 'Times New Roman', Times, serif;" class="table table-bordered nowrap text-center" id="salestable">
                                 <thead class="table-light">
                                     
                                     @php
@@ -34,6 +35,7 @@
                                     <th>Destination</th>
                                     <th>Invoice</th>
                                     <th>Reciept</th>
+                                    <th>Cash</th>
                                     <th>Staff Incharge</th>
                                     <th>Date</th>
                                     <th>Remarks</th>
@@ -52,6 +54,7 @@
                                         <td>{{$item['destination']}}</td>
                                         <td>{{$item['invoice']}}</td>
                                         <td>{{$item['receipt']}}</td>
+                                        <td>{{$item['cash']}}</td>
                                         <td>{{$item['staff']}}</td>
                                         <td>{{$item['date']}}</td>
                                         <td class="text-left" style="min-width: 110px; max-width: 110px; overflow: hidden; font-size: 12px;">
@@ -136,7 +139,7 @@
                     @foreach ($view_data as $item)
                         @if ($item1['id'] == $item['id'])
                             <tr>
-                                <td>{{ $count }}.</td>
+                                <td>{{ $item['id'] }}.</td>
                                 <td>{{ $item['batch_no'] }}</td>
                                 <td>{{ $item['qty_used'] }}</td>
                                 <td>{{ $item['balance'] }}</td>
@@ -161,6 +164,23 @@
 @endsection
 
 @section('scripts')
+
+<script src="https://cdn.jsdelivr.net/gh/linways/table-to-excel@v1.0.4/dist/tableToExcel.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function () {
+    $("#excelbtn").click(function(){
+        TableToExcel.convert(document.getElementById("salestable"), {
+            name: "Invitro product sales report.xlsx",
+            sheet: {
+            name: "Sheet1"
+            }
+        });
+        });
+});
+</script>
+
+
     <script>
     $(document).ready(function(){
 //Add newOrderForm

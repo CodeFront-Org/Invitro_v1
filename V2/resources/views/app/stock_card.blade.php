@@ -78,10 +78,10 @@
                                     <th>In</th>
                                     <th>Balance</th>
                                     <th>Name</th>
-                                    <th>Signature</th>
+                              
                                     <th>Date</th>
                                     <th>Remarks</th>
-                                    <th>Actions</th>
+                                
                                 </tr>
                                 </thead>
 
@@ -97,19 +97,10 @@
                                         <td>{{$item['in']}}</td>
                                         <td>{{$item['balance']}}</td>
                                         <td>{{$item['user']}}</td>
-                                        <td>{{$item['user']}}</td>
+                                    
                                         <td>{{$item['date']}}</td>
                                         <td>{{$item['remarks']}}</td>
-                                         @role('card')
-                                        <td>
-                                            <button type="button" style="background-color: #08228a9f;color: white" class="btn btn-xs" data-bs-toggle="modal" data-bs-target="#con-close-modal-edit-{{$item['id']}}">
-                                                <i class='fas fa-pen' aria-hidden='true'></i>
-                                            </button>
-                                            <button type="button" onclick="del_product(this)" value="{{$item['id']}}" class="btn btn-danger btn-xs">
-                                                <i class='fa fa-trash' aria-hidden='true'></i>
-                                            </button>
-                                        </td>
-                                        @endrole
+                                    
                                     </tr>
                                     @php
                                         $page+=1;
@@ -178,17 +169,27 @@
                                     </div>
                                 </div>
 
-                                <div class="col-md-6">
+                                <div class="col-md-12">
+                                    <div class="mb-3">Stock In/out</label>
+                                          <select class="form-control"  id="stock_card_option" oninput='ChangeCard();' required>
+											  <option value="IN">In</option>
+											  <option value="OUT">Out</option>
+									
+											</select>
+                                    </div>
+                                </div> 
+							
+							<div class="col-md-12" id='stock_out'>
                                     <div class="mb-3">
                                         <label for="field-2l" class="form-label">Out</label>
-                                        <input type="number" name="out" class="form-control" id="field-2l" placeholder="out" required>
+                                        <input type="number" oninput='updateBalanceOut();' name="out" class="form-control" id="fieldOut" placeholder="out" >
                                     </div>
                                 </div>
 
-                                <div class="col-md-6">
+                                <div class="col-md-12" id='stock_in'>
                                     <div class="mb-3">
                                         <label for="field-2l" class="form-label">In</label>
-                                        <input type="number" name="in" class="form-control" id="field-2l" placeholder="in" required>
+                                        <input type="number" oninput='updateBalanceIN();' name="in" class="form-control" id="fieldIN" placeholder="in" >
                                     </div>
                                 </div>
 
@@ -196,7 +197,7 @@
                                 <div class="col-md-12">
                                     <div class="mb-3">
                                         <label for="field-2l" class="form-label">Balance</label>
-                                        <input type="number" name="balance" class="form-control" id="field-2l" placeholder="balance" required>
+                                        <input type="number" name="balance" class="form-control balanceinput" id="field-2l" placeholder="balance" readonly>
                                     </div>
                                 </div>
 
@@ -276,14 +277,14 @@
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label for="field-2l" class="form-label">Out</label>
-                                            <input type="number" name="out" value="{{$item['out']}}" class="form-control" id="field-2l" placeholder="out" required>
+                                            <input type="number" name="out" value="{{$item['out']}}"  min=0 class="form-control stocksvalue" id="field-2l" placeholder="out" required hidden>
                                         </div>
                                     </div>
 
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label for="field-2l" class="form-label">In</label>
-                                            <input type="number" name="in" value="{{$item['in']}}" class="form-control" id="field-2l" placeholder="in" required>
+                                            <input type="number" name="in" value="{{$item['in']}}" min=0 class="form-control stocksvalue" id="field-2l" placeholder="in" required hidden>
                                         </div>
                                     </div>
 
@@ -291,7 +292,7 @@
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label for="field-2l" class="form-label">Balance</label>
-                                            <input type="number" name="balance" value="{{$item['balance']}}" class="form-control" id="field-2l" placeholder="balance" required>
+                                            <input type="number" name="balance" value="{{$item['balance']}}" min=0 class="form-control" id="field-2l" placeholder="balance" required readonly>
                                         </div>
                                     </div>
 
@@ -379,6 +380,7 @@ $(document).ready(function () {
 
     <script>
     $(document).ready(function(){
+
 //Add Stock Form
 $("#addForm").on('submit',(e)=>{
 e.preventDefault();
@@ -435,6 +437,11 @@ function sanitizeStringForID(input) {
     return input.replace(/[^a-zA-Z0-9]/g, ''); // Keeps only letters and numbers
 }
 
+
+
+
+
+
 //Process input 
 $('#p_name2').on('input', function() {
     // Get the selected product name from the datalist input
@@ -456,8 +463,49 @@ $('#p_name2').on('input', function() {
 
 })
 
+
+
+ChangeCard();
+
+
 })
 </script>
+
+
+
+<script>
+
+function ChangeCard(){
+	/*	*/
+	$(".stocksvalue").val("");
+	$(".balanceinput").val("");
+	
+	
+	if ($("#stock_card_option").val()=='IN'){
+		$("#stock_out").hide();
+		$("#stock_out").val("");
+		$("#stock_in").show();
+	}else{
+		$("#stock_out").show();
+		$("#stock_in").hide();
+		
+	}
+	
+
+}
+
+//updateBalance
+function updateBalanceOut(){
+
+	$(".balanceinput").val($("#fieldAtHand").val()*1 - $("#fieldOut").val()*1);
+}
+function updateBalanceIN(){
+
+	
+	$(".balanceinput").val($("#fieldAtHand").val()*1 + $("#fieldIN").val()*1);
+}
+</script>
+
 
 <script>
 

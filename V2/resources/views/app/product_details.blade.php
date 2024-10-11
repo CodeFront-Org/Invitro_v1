@@ -9,12 +9,14 @@
 @endif
         <div class="row mt-1">
             <div class="col-12">
+                @role('staff')
             <button  style="background-color: #08228a9f;color: white" type="button" class="btn right" data-bs-toggle="modal" data-bs-target="#con-close-modal-add-1">
                      New
                 </button>
             <button  style="background-color: #08228a9f;color: white" type="button" class="btn right" data-bs-toggle="modal" data-bs-target="#con-close-modal-restock-1">
                     Re-Stock
                 </button>
+                @endrole
                 <a href="{{route('/product-orders',['product_id'=>$product_id])}}">
                     <button  style="background-color: #08228a9f;color: white" type="button" class="btn right">
                         View Orders
@@ -26,8 +28,10 @@
                             <table  style="font-family: 'Times New Roman', Times, serif" class="table table-bordered nowrap text-center" id="datatable" class="table table-sm table-bordered dt-responsive nowrap text-center">
                                 <thead class="table-light">
                                 <tr>
-                                    <th>#</th>
+                                    <th>Id</th>
                                     <th>Name</th>
+                                    <th>a_available</th>
+                         
                                     <th>Quantity</th>
                                     <th>Batches</th>
                                     @role('admin')
@@ -41,6 +45,7 @@
                                     @role('admin')
                                     <th>Transactions</th>
                                     @endrole
+									
                                 </tr>
                                 </thead>
 
@@ -49,9 +54,11 @@
                                 @foreach ($data as $item)
                                 @if($item['alert']==10)
                                     <tr style="color:red">
-                                        <td>{{$loop->index+1}} </td>
+                                
+                                        <td>{{$item['id']}}</td>
                                         <td>{{$item['name']}}</td>
-                                        <td>{{$item['qty_available']}}  ({{$item['qty_not_approved']}})</td>
+                                        <td>{{$item['a_available']}}</td>
+										<td>{{$item['qty_available']}}  ({{$item['qty_not_approved']}})</td>
                                         <td>{{$item['batch']}}</td>
                                         <td>{{$item['order_level']}}</td>
                                          @role('admin')
@@ -78,8 +85,11 @@
                                     </tr>
                                 @else
                                     <tr>
-                                        <td>{{$loop->index+1}} </td>
+                            
+                                        <td>{{$item['id']}}</td>
                                         <td>{{$item['name']}}</td>
+                                        <td>{{$item['a_available']}}</td>
+								
                                         <td>{{$item['qty_available']}}  ({{$item['qty_not_approved']}})</td>
                                         <td>{{$item['batch']}}</td>
                                         <td>{{$item['order_level']}}</td>
@@ -250,31 +260,41 @@
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
+                    <button id="excelbtn" type="button" class="btn btn-success"><i class="fa fa-file-excel bg-success"></i> excel </button>
                 <div class="table-responsive">
-                    <table  style="font-family: 'Times New Roman', Times, serif" class="table table-bordered nowrap text-center" id="datatable" class="table table-sm table-bordered dt-responsive nowrap text-center">
+                    <table  style="font-family: 'Times New Roman', Times, serif" class="table table-bordered nowrap text-center" id="salestable" class="table table-sm table-bordered dt-responsive nowrap text-center">
                         <thead class="table-light">
                         <tr>
-                            <th>#</th>
+                            <th>ID</th>
                             <th>Status</th>
                             <th>Comments</th>
                             <th>Date</th>
                         </tr>
                         </thead>
                         <tbody>
+                            @php
+                            $i=1;
+                            @endphp
                         @foreach ($audits as $item)
                             @if (empty($item)==0)
                                 @if ($item1['id']==$item['product_id'])
                                     <tr>
-                                        <td>{{$loop->index+1}}</td>
+                                        <td>{{$item1['id']}}.</td>
                                         <td>{{$item['status']==1?'Balanced':'Not Balanced'}}</td>
                                         <td>{{$item['comments']}}</td>
                                         <td>{{$item['created_at']}}</td>
                                     </tr>
+                            @php
+                            $i+=1;
+                            @endphp
                                 @endif
                             @else
                                 <tr>
                                     <td colspan="4" class="text-center">No Data</td>
                                 </tr>
+                            @php
+                            $i+=1;
+                            @endphp
                             @endif
                         @endforeach
 
@@ -997,4 +1017,17 @@ $.ajax({
             })
         }
     </script>
+    <script src="https://cdn.jsdelivr.net/gh/linways/table-to-excel@v1.0.4/dist/tableToExcel.js"></script>
+<script type="text/javascript">
+$(document).ready(function () {
+    $("#excelbtn").click(function(){
+        TableToExcel.convert(document.getElementById("salestable"), {
+            name: "Invitro Products without batches.xlsx",
+            sheet: {
+            name: "Sheet1"
+            }
+        });
+        });
+});
+</script>
 @endsection

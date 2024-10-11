@@ -18,9 +18,11 @@
 
         <div class="row mt-1">
             <div class="col-12">
+                @role('staff')
             <button  style="background-color: #08228a9f;color: white" type="button" class="btn right" data-bs-toggle="modal" data-bs-target="#con-close-modal-add-1">
                     <i class='fa fa-plus' aria-hidden='true'></i>  New
                 </button>
+                @endrole
                 <div class="card" style="border-radius:0px 15px 15px 15px;box-shadow: 2px 3px 3px 2px rgba(9, 107, 255, 0.179);">
                     <div class="card-body">
                     <div class="table-responsive" style="overflow-x: auto;">
@@ -38,6 +40,7 @@
                                     <th>Destination</th>
                                     <th>Invoice</th>
                                     <th>Reciept</th>
+                                    <th>Cash</th>
                                     <th>Staff Incharge</th>
                                     <th>Date</th>
                                     <th>Remarks</th>
@@ -57,6 +60,7 @@
                                         <td>{{$item['destination']}}</td>
                                         <td>{{$item['invoice']}}</td>
                                         <td>{{$item['receipt']}}</td>
+                                        <td>{{$item['cash']}}</td>
                                         <td>{{$item['staff']}}</td>
                                         <td>{{$item['date']}}</td>
                                         <td class="text-left" style="min-width: 110px; max-width: 110px; overflow: hidden; font-size: 12px;">
@@ -181,10 +185,18 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="mb-3">
-                                        <label for="field-2l" class="form-label">Receipt / Cash Sale</label>
+                                        <label for="field-2l" class="form-label">Reciept</label>
                                         <input type="text" name="receipt" class="form-control" id="field-2l" placeholder="Receipt Number">
                                     </div>
                                 </div>
+
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="field-2l" class="form-label">Cash Sale</label>
+                                        <input type="text" name="cash" class="form-control" id="field-2l" placeholder="Sales Number">
+                                    </div>
+                                </div>
+
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label for="field-2l" class="form-label">Delivery Note</label>

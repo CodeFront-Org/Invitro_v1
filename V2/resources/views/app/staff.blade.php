@@ -107,7 +107,6 @@
                                     <select name="role" class="form-control form-select" id="field-11" required>
                                                 <option value="0">Admin</option>
                                                 <option value="1">Store Keeper</option>
-                                                <option value="2">Stock Card</option>
                                         </select>
                                 </div>
                             </div>
@@ -176,7 +175,6 @@
                             <select name="role" class="form-control form-select" id="field-11" required>
                                         <option {{$item['role_type']==1?'selected':''}} value="0">Admin</option>
                                         <option {{$item['role_type']==2?'selected':''}} value="1">Store Keeper</option>
-                                        <option {{$item['role_type']==3?'selected':''}} value="2">Stock Card</option>
                                 </select>
                         </div>
                     </div>

@@ -38,6 +38,7 @@ class OrderLevelNotification extends Mailable
     {
         $link = $this->link;
         $name = $this->name; // Fix: Assign value to $name
+        $name="Order Level Notification.";
         $product_name = $this->product_name;
         return $this->markdown('emails.order_level_notice',compact('link','name','product_name'));
     }

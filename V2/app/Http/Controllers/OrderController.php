@@ -12,6 +12,8 @@ use App\Models\Batch;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 
+use Illuminate\Support\Facades\DB;
+
 use App\Mail\NewOrderAlertMail;
 use App\Mail\OrderLevelNotification;
 use Illuminate\Support\Facades\Mail;
@@ -32,15 +34,15 @@ class OrderController extends Controller
         if($page_number==1){
             $page_number=1;
         }elseif($page_number>1){
-            $page_number=(($page_number-1)*30)+1;
+            $page_number=(($page_number-1)*5)+1;
         }else{
             $page_number=1;
         }
-        $label="Orders";
+        $label="Orders.";
         $data=array();
         $orders=array();
         $products=Product::select('id','name')->get();
-        $stocks=Stock::all()->where('approve',1);
+        $stocks=Stock::all()->where('approve',1)->take(5);
         //To get data for batches
         $count=0; //to help filter similar products so as to have the FIFO on batches
         $batches=Batch::where('sold_out', 0)->orderBy('expiry_date', 'asc')->get();
@@ -56,8 +58,9 @@ class OrderController extends Controller
             }
             $count=$p_id;
         }
-/////////////////////////////// for new order ////////////////////////////////////////////
-        $data1=Order::orderByDesc('id')->paginate(30);
+            /////////////////////////////// for new order ////////////////////////////////////////////
+      
+            $data1=Order::orderByDesc('id')->paginate(5);
         foreach($data1 as $d){
             $p_id=$d->product_id;
             $order_id=$d->id;
@@ -69,6 +72,7 @@ class OrderController extends Controller
             $invoice=$d->invoice;
             $approve=$d->approve;
             $batch_used=$d->batch_used;
+            $cash=$d->cash;
             $rct=$d->receipt;
             $f_name=User::withTrashed()->where('id',$d->user_id)->pluck('first_name')->first();
             $l_name=User::withTrashed()->where('id',$d->user_id)->pluck('last_name')->first();
@@ -86,6 +90,7 @@ class OrderController extends Controller
                 'quantity'=>$quantity,
                 'destination'=>$destination,
                 'invoice'=>$invoice,
+                'cash'=>$cash,
                 'receipt'=>$rct,
                 'staff'=>$staff,
                 'rmks'=>$rmks,
@@ -96,7 +101,7 @@ class OrderController extends Controller
 
             //Get data for view data transactions
             $view_data=array();
-            $views=Orders::all();
+            $views=Orders::all()->take(5);
             foreach($views as $v){
                 $batch_no=Batch::where('id',$v->batch_id)->pluck('batch_no')->first();
                 $expiryDate = Batch::where('id', $v->batch_id)->pluck('expiry_date')->first();
@@ -112,7 +117,8 @@ class OrderController extends Controller
                     'expiry_date'=>$e_date,
                     ]);
             }
-//return $view_data;
+            
+        //return $view_data;
         return view('app.order',compact('label','data','products','orders','view_data','page_number','data1'));
     }
 
@@ -176,22 +182,27 @@ class OrderController extends Controller
                 Batch::where('id',$batch_id)->update(['sold'=>$new_qty]);
                 }
 //////////////////////////////////////////////////////    Send Email to notify approval of new Order  //////////////////////////////////////////////////////////
-                $user=User::find(Auth::id());
-                $name=$user->first_name;
-                $product_name=Product::where('id',$product_id)->pluck('name')->first();
-                $recipient=$user->email;
-                $quantity=$quantity;
-                $destination=$destination;
-                $batch_no=Batch::where('id',$batch_id)->pluck('batch_no')->first();
-                $link=env('APP_URL');
-                //get all admin to be sent the mail
-                $users=User::all()->where('role_type',1);
-                foreach($users as $user){
-                    $user=User::find($user->id);
+                
+                //PAUSE EMAIL SENDING
+                /*
+                    $user=User::find(Auth::id());
                     $name=$user->first_name;
+                    $product_name=Product::where('id',$product_id)->pluck('name')->first();
                     $recipient=$user->email;
-                    Mail::to($recipient)->send(new NewOrderAlertMail($link, $recipient,$name,$product_name,$batch_no,$quantity,$destination));
-                 }
+                    $quantity=$quantity;
+                    $destination=$destination;
+                    $batch_no=Batch::where('id',$batch_id)->pluck('batch_no')->first();
+                    $link=env('APP_URL');
+                    //get all admin to be sent the mail
+                    $users=User::all()->where('role_type',1);
+                    foreach($users as $user){
+                        $user=User::find($user->id);
+                        $name=$user->first_name;
+                        $recipient=$user->email;
+                        Mail::to($recipient)->send(new NewOrderAlertMail($link, $recipient,$name,$product_name,$batch_no,$quantity,$destination));
+                    }
+                */
+
 
                 return "200";
             }else{
@@ -225,10 +236,14 @@ class OrderController extends Controller
         $label='Place Order For '.$product_name;
 
         //Check if total quantity orders is enough
-        $sum=Product::where('id', $product_id)->sum('quantity');
+        //$sum=Product::where('id', $product_id)->sum('quantity');
+        $a_available_array=DB::select("SELECT SUM(quantity)-SUM(sold) as 'available_items' FROM batches where product_id=$product_id and deleted_at IS NULL AND sold_out=0 LIMIT 1;");
+        $sum= $a_available_array[0]->available_items;
+
+
         if($sum<$total_quantity){//alert that the total available quantity is below ordered quantity
             // Error message
-            session()->flash('error', 'Quantity Exceeded! The available quantity is '.$sum.'.');
+            session()->flash('error', 'Quantity Exceeded! The available quantity is '.$sum.'. you ordered '.$total_quantity);
             return back();
         }
 
@@ -429,7 +444,7 @@ class OrderController extends Controller
             'invoice'=>$invoice,
             'receipt'=>$rct,
             'delivery_note'=>$d_note,
-            'cash'=>0,
+            'cash'=>$cash,
             'remarks'=>$rmks,
             'approve'=>0,
             ]);
@@ -468,6 +483,8 @@ class OrderController extends Controller
             Product::where('id',$product_id)->update(['quantity'=>$new_qty]);
 
         //////////////////////////////////////////////////////    Send Email to notify approval of new Order  //////////////////////////////////////////////////////////
+            //PAUSE EMAIL SENDING
+            /*
             $product_name=Product::where('id',$product_id)->pluck('name')->first();
             $quantity=$qty_used;
             $destination=$destination;
@@ -481,7 +498,10 @@ class OrderController extends Controller
                 $recipient=$user->email;
                 Mail::to($recipient)->send(new NewOrderAlertMail($link, $recipient,$name,$product_name,$batch_no,$quantity,$destination));
              }
+             */
+
             }
+
         }
             session()->flash('message','Order Completed Successfully. Waiting for admin approval.');
             // Call the index() function so as to load the order page
@@ -498,7 +518,7 @@ class OrderController extends Controller
         $product_name=Product::where('id',$product_id)->pluck('name')->first();
         $label=$product_name." Orders";
         $orders=[];
-        $data1=Order::where('product_id',$product_id)->orderByDesc('id')->paginate(30);
+        $data1=Order::where('product_id',$product_id)->orderByDesc('id')->paginate(10);
         foreach($data1 as $d){
             $p_id=$d->product_id;
             $order_id=$d->id;
@@ -511,6 +531,7 @@ class OrderController extends Controller
             $approve=$d->approve;
             $batch_used=$d->batch_used;
             $rct=$d->receipt;
+            $cash=$d->receipt;
             $f_name=User::withTrashed()->where('id',$d->user_id)->pluck('first_name')->first();
             $l_name=User::withTrashed()->where('id',$d->user_id)->pluck('last_name')->first();
             $staff=$f_name." ".$l_name;
@@ -527,6 +548,7 @@ class OrderController extends Controller
                 'destination'=>$destination,
                 'invoice'=>$invoice,
                 'receipt'=>$rct,
+                'cash'=>$cash,
                 'staff'=>$staff,
                 'rmks'=>$rmks,
                 'approve'=>$approve,
