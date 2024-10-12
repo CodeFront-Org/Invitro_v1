@@ -106,6 +106,7 @@ class CardsController extends Controller
         $product_prices=[];
         foreach($ps as $p){
             $c=Card::where('product_id',$p->id)->where('is_at_hand',1)->pluck('at_hand')->first();
+            $isAtHand=Card::where('product_id',$p->id)->pluck('is_at_hand')->first();
             $s=Card::where('product_id',$p->id)->sum('in');
             $o=Card::where('product_id',$p->id)->sum('out');
             $sum=$c+$s-$o;
@@ -114,6 +115,7 @@ class CardsController extends Controller
                 'name'=>$p->name,
                 'quantity'=>$p->quantity,
                 'at_hand'=>$sum,
+                'is_at_hand'=>$isAtHand
             ]);
         }
 
@@ -161,6 +163,11 @@ class CardsController extends Controller
             ]);
 
             if($store){
+                //Check if IsAtHand is inserted
+                $check=Card::where('product_id',$product_id)->where('is_at_hand',1)->exists();
+                if(!$check){
+                    Card::where('id',$store->id)->update(['is_at_hand'=>1]);   
+                }
                 return "ok";
             }else{
                 session()->flash('error','An Error Occurred. Please try again later.');

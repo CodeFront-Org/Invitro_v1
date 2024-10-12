@@ -357,7 +357,7 @@
 
 
             @foreach ($product_prices as $item)
-                <input type="hidden" id="price11{{ preg_replace('/[^a-zA-Z0-9]/', '', $item['name']) }}" value="{{$item['at_hand']}}">
+                <input type="hidden" id="price11{{ preg_replace('/[^a-zA-Z0-9]/', '', $item['name']) }}" value="{{$item['at_hand']}}"  data-is-at-hand="{{ $item['is_at_hand'] }}">
             @endforeach
 
 @endsection
@@ -455,6 +455,17 @@ $('#p_name2').on('input', function() {
     //let productName = "price11" + n.replace(/\s+/g, '');
     let productName = "price11" + sanitizeStringForID(n);
     const qty = $(`#${productName}`).val(); // Correctly fetching the value of the element
+
+    const isAtHand = $(`#${productName}`).data('is-at-hand'); // Correctly fetching the value of the element
+
+    // Assuming isAtHand is already defined
+    if (isAtHand == 1) {
+        // Make the input field read-only
+        $('#fieldAtHand').attr('readonly', true);
+    } else {
+        // Ensure the input is editable if isAtHand is not 1
+        $('#fieldAtHand').removeAttr('readonly');
+    }
 
     if (qty) {
         $('#fieldAtHand').val(qty); // Correct way to set the value
