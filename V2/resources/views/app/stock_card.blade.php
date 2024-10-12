@@ -73,10 +73,10 @@
                                     <th>#</th>
                                     <th>Item</th>
                                     {{-- <th>Size</th> --}}
-                                    <th>At Hand</th>
+                                    <th>Initial Qty</th>
                                     <th>Out</th>
                                     <th>In</th>
-                                    <th>Balance</th>
+                                    <th>At Hand</th>
                                     <th>Name</th>
                               
                                     <th>Date</th>
@@ -165,7 +165,8 @@
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label for="field-2l" class="form-label">At-hand</label>
-                                        <input type="number" readonly name="at_hand" class="form-control" id="fieldAtHand" placeholder="at hand" required>
+                                        
+                                        <input type="number" name="at_hand" class="form-control" id="fieldAtHand" placeholder="at hand" required>
                                     </div>
                                 </div>
 
@@ -326,7 +327,7 @@
                     <tr>
                         <th>#</th>
                         <th>Item</th>
-                        <th>Size1</th>
+                        <th>Size</th>
                         <th>At Hand</th>
                         <th>Out</th>
                         <th>In</th>
@@ -356,7 +357,7 @@
 
 
             @foreach ($product_prices as $item)
-                <input type="hidden" id="price11{{ preg_replace('/[^a-zA-Z0-9]/', '', $item->name) }}" value="{{$item->quantity}}">
+                <input type="hidden" id="price11{{ preg_replace('/[^a-zA-Z0-9]/', '', $item['name']) }}" value="{{$item['at_hand']}}">
             @endforeach
 
 @endsection

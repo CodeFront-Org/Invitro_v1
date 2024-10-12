@@ -26,6 +26,7 @@ class CardsController extends Controller
         $product_filter=$request->product_filter;// means user is filtering a specific product
         $from=$request->from;
         $to=$request->to;
+        $check=[];//check is_atHand
         $to = Carbon::parse($to)->addDay()->toDateString();
         if(!empty($product_filter)){//get data for that product
             $product_id=Product::where('name',$product_filter)->pluck('id')->first();
@@ -72,6 +73,14 @@ class CardsController extends Controller
                 'date' => $card->created_at,
                 'id'=>$card->id,
             ]);
+            //Check if atHand
+            $isCheck=$card->is_at_hand;
+            if($isCheck==1){
+                array_push($check,[
+                    'product_id'=>$card->product_id,
+                    'status'=>true,
+                ]);
+            }
         }
 		
 
@@ -92,9 +101,25 @@ class CardsController extends Controller
             ]);
         }
 
-        $product_prices=Product::select('id','name','quantity')->get();
+        //$product_prices=Product::select('id','name','quantity')->get();
+        $ps=Product::select('id','name','quantity')->get();
+        $product_prices=[];
+        foreach($ps as $p){
+            $c=Card::where('product_id',$p->id)->where('is_at_hand',1)->pluck('at_hand')->first();
+            $s=Card::where('product_id',$p->id)->sum('in');
+            $o=Card::where('product_id',$p->id)->sum('out');
+            $sum=$c+$s-$o;
+            array_push($product_prices,[
+                'id'=>$p->id,
+                'name'=>$p->name,
+                'quantity'=>$p->quantity,
+                'at_hand'=>$sum,
+            ]);
+        }
 
-        return view('app.stock_card',compact('label','data','data1','data3','page_number','product_prices'));
+        //return $product_prices;
+
+        return view('app.stock_card',compact('label','data','data1','data3','page_number','product_prices','check'));
     }
 
     /**
