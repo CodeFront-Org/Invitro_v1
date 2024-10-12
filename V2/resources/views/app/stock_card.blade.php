@@ -326,7 +326,7 @@
                     <tr>
                         <th>#</th>
                         <th>Item</th>
-                        <th>Size</th>
+                        <th>Size1</th>
                         <th>At Hand</th>
                         <th>Out</th>
                         <th>In</th>

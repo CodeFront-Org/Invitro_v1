@@ -31,7 +31,7 @@
                                 <span>Stock Card</span>
                             </a>
                         </li>	
-@endrole							
+@endrole
 							
 @role('admin')
                         <li>

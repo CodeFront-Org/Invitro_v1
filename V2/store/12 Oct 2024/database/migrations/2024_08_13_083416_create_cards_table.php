@@ -19,6 +19,8 @@ class CreateCardsTable extends Migration
             $table->string('user');
             $table->integer('size')->nullable();
             $table->integer('at_hand');
+            $table->tinyInteger('is_at_hand')->default(0);
+            $table->date('init_date')->nullable();//Date in which the first atHand quantity was added
             $table->integer('out');
             $table->integer('in');
             $table->integer('balance');
