@@ -183,14 +183,14 @@
 							<div class="col-md-12" id='stock_out'>
                                     <div class="mb-3">
                                         <label for="field-2l" class="form-label">Out</label>
-                                        <input type="number" oninput='updateBalanceOut();' name="out" class="form-control" id="fieldOut" placeholder="out" >
+                                        <input type="number" min="1" oninput='updateBalanceOut();' name="out" class="form-control" id="fieldOut" placeholder="out" >
                                     </div>
                                 </div>
 
                                 <div class="col-md-12" id='stock_in'>
                                     <div class="mb-3">
                                         <label for="field-2l" class="form-label">In</label>
-                                        <input type="number" oninput='updateBalanceIN();' name="in" class="form-control" id="fieldIN" placeholder="in" >
+                                        <input type="number" min="1" oninput='updateBalanceIN();' name="in" class="form-control" id="fieldIN" placeholder="in" >
                                     </div>
                                 </div>
 
@@ -455,7 +455,7 @@ $('#p_name2').on('input', function() {
     //let productName = "price11" + n.replace(/\s+/g, '');
     let productName = "price11" + sanitizeStringForID(n);
     const qty = $(`#${productName}`).val(); // Correctly fetching the value of the element
-
+    
     const isAtHand = $(`#${productName}`).data('is-at-hand'); // Correctly fetching the value of the element
 
     // Assuming isAtHand is already defined
