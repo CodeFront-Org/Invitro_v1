@@ -81,6 +81,22 @@ class CardsController extends Controller
                     'status'=>true,
                 ]);
             }
+
+            //To control product qty display when entering new field
+            $product_prices=[];
+            $c=Card::where('product_id',$card->product_id)->where('is_at_hand',1)->pluck('at_hand')->first();
+            $isAtHand=Card::where('product_id',$card->product_id)->pluck('is_at_hand')->first();
+            $s=Card::where('product_id',$card->product_id)->sum('in');
+            $o=Card::where('product_id',$card->product_id)->sum('out');
+            $sum=$c+$s-$o;
+            array_push($product_prices,[
+                'id'=>$card->product_id,
+                'name'=>Product::where('id',$card->product_id)->pluck('name')->first(),
+                'quantity'=>Product::where('id',$card->product_id)->pluck('quantity')->first(),
+                'at_hand'=>$sum,
+                'is_at_hand'=>$isAtHand
+            ]);
+
         }
 		
 
@@ -101,25 +117,24 @@ class CardsController extends Controller
             ]);
         }
 
-        //$product_prices=Product::select('id','name','quantity')->get();
-        $ps=Product::select('id','name','quantity')->get();
-        $product_prices=[];
-        foreach($ps as $p){
-            $c=Card::where('product_id',$p->id)->where('is_at_hand',1)->pluck('at_hand')->first();
-            $isAtHand=Card::where('product_id',$p->id)->pluck('is_at_hand')->first();
-            $s=Card::where('product_id',$p->id)->sum('in');
-            $o=Card::where('product_id',$p->id)->sum('out');
-            $sum=$c+$s-$o;
-            array_push($product_prices,[
-                'id'=>$p->id,
-                'name'=>$p->name,
-                'quantity'=>$p->quantity,
-                'at_hand'=>$sum,
-                'is_at_hand'=>$isAtHand
-            ]);
-        }
+        // //$product_prices=Product::select('id','name','quantity')->get();
+        // $ps=Product::select('id','name','quantity')->get();
+        // $product_prices=[];
+        // foreach($ps as $p){
+        //     $c=Card::where('product_id',$p->id)->where('is_at_hand',1)->pluck('at_hand')->first();
+        //     $isAtHand=Card::where('product_id',$p->id)->pluck('is_at_hand')->first();
+        //     $s=Card::where('product_id',$p->id)->sum('in');
+        //     $o=Card::where('product_id',$p->id)->sum('out');
+        //     $sum=$c+$s-$o;
+        //     array_push($product_prices,[
+        //         'id'=>$p->id,
+        //         'name'=>$p->name,
+        //         'quantity'=>$p->quantity,
+        //         'at_hand'=>$sum,
+        //         'is_at_hand'=>$isAtHand
+        //     ]);
+        // }
 
-        //return $product_prices;
 
         return view('app.stock_card',compact('label','data','data1','data3','page_number','product_prices','check'));
     }
