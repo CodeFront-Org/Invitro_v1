@@ -66,6 +66,7 @@ Route::get('/batch-view',[App\Http\Controllers\BatchController::class, 'viewBatc
 Route::post('/save_ExpiryDate',[App\Http\Controllers\BatchController::class,'changeExpiryDate']);
 
 Route::resource('/order',App\Http\Controllers\OrderController::class);
+Route::resource('/audits',App\Http\Controllers\AuditController::class);
 Route::post('/return-stock', [App\Http\Controllers\OrderController::class, 'return_stock'])->name('/return-stock');
 Route::get('/place-order', [App\Http\Controllers\OrderController::class, 'place_order'])->name('/place-order');
 Route::get('/product-orders', [App\Http\Controllers\OrderController::class, 'product_orders'])->name('/product-orders');

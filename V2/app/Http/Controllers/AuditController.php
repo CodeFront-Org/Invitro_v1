@@ -13,7 +13,9 @@ class AuditController extends Controller
      */
     public function index()
     {
-        //
+        $label="Audits";
+
+        return view('audits.audits',compact('label'));
     }
 
     /**
