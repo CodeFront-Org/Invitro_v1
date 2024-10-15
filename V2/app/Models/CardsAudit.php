@@ -12,6 +12,6 @@ class CardsAudit extends Model
 
     protected $guarded=[];
 
-    protected $table="cards_audit";
+    protected $table="cards_audits";
 
 }
