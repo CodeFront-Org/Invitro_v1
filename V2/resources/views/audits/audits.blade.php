@@ -15,7 +15,7 @@
 @endif
 
 
-<form method="GET" action="{{route('cards.index')}}">
+<form method="GET" action="{{route('audits.index')}}">
     <div class="row">
 
     <div class="row">
@@ -62,7 +62,7 @@
     <button  style="background-color: #08228a9f;color: white" type="button" class="btn right" data-bs-toggle="modal" data-bs-target="#con-close-modal-add-1">
              New
         </button>
-        <button id="excelbtn" type="button" class="btn btn-success"><i class="fa fa-file-excel bg-success"></i> excel </button>
+        {{-- <button id="excelbtn" type="button" class="btn btn-success"><i class="fa fa-file-excel bg-success"></i> excel </button> --}}
         <div class="card" style="border-radius:0px 15px 15px 15px;box-shadow: 2px 3px 3px 2px rgba(9, 107, 255, 0.179);">
             <div class="card-body">
                 <div class="table-responsive">
@@ -91,7 +91,11 @@
                                 <td>{{$page}} </td>
                                 <td>{{$item['product']}}</td>
                                 <td>{{$item['qty']}}</td>
-                                <td>{{$item['status']}}</td>
+                                @if ($item['status']==1)
+                                    <td class="text-success">Balanced</td>
+                                @else
+                                    <td class="text-danger">Balanced</td>
+                                @endif
                                 <td>{{$item['date']}}</td>
                                 <td>{{$item['staff']}}</td>
                                 <td>{{$item['rmks']}}</td>
@@ -138,7 +142,7 @@
                             @endphp
                         
                             <input type="text" list="regnoo" parsley-trigger="change" required class="form-control"
-                                    id="p_name2" name='name' autocomplete="off" placeholder="Search Product ..." 
+                                    id="p_name2" name='product_name' autocomplete="off" placeholder="Search Product ..." 
                                     aria-label="Recipient's username" />
                         
                             <datalist id="regnoo">
@@ -215,7 +219,7 @@
                 type: "POST",
                 url: "/audits",
                 data: data,
-                success: function (response) { console.log(response) 
+                success: function (response) { //console.log(response)  
 
                     if(response=='ok'){
                                 toastr.options = {
@@ -235,7 +239,7 @@
                                     "showMethod": "fadeIn",
                                     "hideMethod": "fadeOut"
                                 }
-                                toastr["success"]("", "Product Saved Succesfully.")
+                                toastr["success"]("", "Data Saved Succesfully.")
                             }else{
                             Swal.fire("Error!", "An Error occured. Please try again later", "error");
                                 
@@ -244,7 +248,7 @@
                     loader.hide();
                     location.href='/audits'
                 },
-                error: function(res){  console.log(res)
+                error: function(res){  //console.log(res) return
 
                     Swal.fire("Error!", "An Error occured. Please try again later", "error");
                     btn.show();
