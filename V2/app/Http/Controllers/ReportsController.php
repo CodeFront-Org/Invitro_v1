@@ -362,7 +362,7 @@ class ReportsController extends Controller
         $data=array();
         $orders=array();
         $products=Product::select('id','name')->get();
-        $stocks=Stock::all()->where('approve',1);
+        //$stocks=Stock::all()->where('approve',1);
 
         /////////////////////////////// for new order ////////////////////////////////////////////
         if($from and $to){ 
@@ -411,23 +411,23 @@ class ReportsController extends Controller
 
             //Get data for view data transactions
             $view_data=array();
-            $views=Order::all();
-            foreach($views as $v){
-                $batch_no=Batch::where('id',$v->batch_id)->pluck('batch_no')->first();
-                $expiryDate = Batch::where('id', $v->batch_id)->pluck('expiry_date')->first();
-                $e_date = \Carbon\Carbon::parse($expiryDate)->format("jS F Y");
-                array_push($view_data,[
-                    'id'=>$v->order_id,
-                    'product_id'=>$v->product_id,
-                    'batch_id'=>$v->batch_id,
-                    'batch_no'=>$batch_no,
-                    'init_qty'=>$v->init_qty,
-                    'qty_used'=>$v->quantity_used,
-                    'balance'=>$v->balance,
-                    'expiry_date'=>$e_date,
-                    ]);
-            }
-        //return $view_data;
+            // $views=Order::all();
+            // foreach($views as $v){
+            //     $batch_no=Batch::where('id',$v->batch_id)->pluck('batch_no')->first();
+            //     $expiryDate = Batch::where('id', $v->batch_id)->pluck('expiry_date')->first();
+            //     $e_date = \Carbon\Carbon::parse($expiryDate)->format("jS F Y");
+            //     array_push($view_data,[
+            //         'id'=>$v->order_id,
+            //         'product_id'=>$v->product_id,
+            //         'batch_id'=>$v->batch_id,
+            //         'batch_no'=>$batch_no,
+            //         'init_qty'=>$v->init_qty,
+            //         'qty_used'=>$v->quantity_used,
+            //         'balance'=>$v->balance,
+            //         'expiry_date'=>$e_date,
+            //         ]);
+            // }
+        $view_data=[];
         return view('reports.sales',compact('label','data','products','orders','view_data','page_number','data1','totalSales'));
     }
 
@@ -474,11 +474,10 @@ class ReportsController extends Controller
                 'date'=>$created_at,//->format("F j Y"),
             ]);
         }
-
         
             //Get data for view data transactions
             $view_data=array();
-            $views=Order::all();
+            $views=Order::all()->where('product_id',$product_id);
             foreach($views as $v){
                 $batch_no=Batch::where('id',$v->batch_id)->pluck('batch_no')->first();
                 $expiryDate = Batch::where('id', $v->batch_id)->pluck('expiry_date')->first();
