@@ -166,7 +166,7 @@
                                     <div class="mb-3">
                                         <label for="field-2l" class="form-label">At-hand</label>
                                         
-                                        <input type="number" name="at_hand" class="form-control" id="fieldAtHand" placeholder="at hand" required>
+                                        <input type="number" min="1" name="at_hand" class="form-control" id="fieldAtHand" placeholder="at hand" required>
                                     </div>
                                 </div>
 
@@ -190,7 +190,7 @@
                                 <div class="col-md-12" id='stock_in'>
                                     <div class="mb-3">
                                         <label for="field-2l" class="form-label">In</label>
-                                        <input type="number" min="1" oninput='updateBalanceIN();' name="in" class="form-control" id="fieldIN" placeholder="in" >
+                                        <input type="number" oninput='updateBalanceIN();' name="in" class="form-control" id="fieldIN" placeholder="in" >
                                     </div>
                                 </div>
 
