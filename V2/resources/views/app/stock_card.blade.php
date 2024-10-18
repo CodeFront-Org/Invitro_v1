@@ -166,7 +166,7 @@
                                     <div class="mb-3">
                                         <label for="field-2l" class="form-label">At-hand</label>
                                         
-                                        <input type="number" min="1" name="at_hand" class="form-control" id="fieldAtHand" placeholder="at hand" required>
+                                        <input type="number" name="at_hand" class="form-control" id="fieldAtHand" placeholder="at hand" required>
                                     </div>
                                 </div>
 

@@ -57,6 +57,8 @@ class CardsController extends Controller
         $label="Stock Card";
         $data=array();//load data to be displayed in stoc cards
         $data3=[];// to be used for data in the excel sheet
+
+        $product_prices=[];
         foreach($cards as $card){
             //Get The product name
             $product_name=Product::where('id',$card->product_id)->pluck('name')->first();
@@ -83,7 +85,6 @@ class CardsController extends Controller
             }
 
             //To control product qty display when entering new field
-            $product_prices=[];
             $c=Card::where('product_id',$card->product_id)->where('is_at_hand',1)->pluck('at_hand')->first();
             $isAtHand=Card::where('product_id',$card->product_id)->pluck('is_at_hand')->first();
             $s=Card::where('product_id',$card->product_id)->sum('in');
@@ -97,8 +98,8 @@ class CardsController extends Controller
                 'is_at_hand'=>$isAtHand
             ]);
 
+
         }
-		
 
         foreach($data2 as $card){
             //Get The product name
@@ -134,7 +135,6 @@ class CardsController extends Controller
         //         'is_at_hand'=>$isAtHand
         //     ]);
         // }
-
 
         return view('app.stock_card',compact('label','data','data1','data3','page_number','product_prices','check'));
     }
