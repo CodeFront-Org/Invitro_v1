@@ -47,6 +47,7 @@
                                     <th>Name</th>
                                    <!-- <th>Quantity</th> -->
                                     <th>Batches</th>
+                                    <th>Landing Cost</th>
                                     
                                     <th colspan="2">Expiry Date</th>
               
@@ -61,6 +62,7 @@
                                             <td>{{$item['product_name']}}</td>
                                             <!-- <td>{{$item['quantity']}} </td> -->
                                             <td>{{$item['batch_no']}}</td>
+                                            <td>{{$item['cost']}}</td>
                                             <td>{{$item['expiry_date']}}</td>
                                           
                                             <td>
@@ -117,6 +119,8 @@
                                         <input type="date" name="e_period" value="{{$item['expiry_date']}}" class="form-control" id="field-2l" placeholder="Expiry period in days" required>
                                         <label for="field-22" class="form-label">Batch No</label>
                                         <input type="text" name="batch_no" value="{{$item['batch_no']}}" class="form-control" id="field-22" placeholder="Batch no" required>
+                                        <label for="field-22" class="form-label">Landing Cost</label>
+                                        <input type="number" name="cost" value="{{$item['cost']}}" class="form-control" id="field-22" placeholder="Landing Cost" required>
                                         
                                         <input type='hidden' name='batch_id' value="{{$item['id']}}" hidden/>
                                     </div>

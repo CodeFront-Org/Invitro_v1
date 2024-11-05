@@ -60,6 +60,7 @@ class BatchController extends Controller
                               'id'=>$b->id,
                               'product_name'=>$b->name,
                               'batch_no'=>$b->batch_no,
+                              'cost'=>$b->cost,
                               'quantity'=>$b->quantity,
                             'expiry_date'=>date('m/d/y',strtotime($b->expiry_date)) 
                           ]);
@@ -93,7 +94,7 @@ class BatchController extends Controller
 
 
                 }else{
-                 $batch_entry = DB::select("SELECT products.name,products.id ,batches.expiry_date,batches.batch_no, batches.quantity 'Stocked',batches.sold,(batches.quantity-batches.sold) 'Balance'FROM `batches` left JOIN products on products.id=batches.product_id WHERE batches.sold_out=0 limit 5;");
+                 $batch_entry = DB::select("SELECT products.name,products.id ,batches.expiry_date,batches.batch_no,batches.cost, batches.quantity 'Stocked',batches.sold,(batches.quantity-batches.sold) 'Balance'FROM `batches` left JOIN products on products.id=batches.product_id WHERE batches.sold_out=0 limit 5;");
 
                 }
 
@@ -106,6 +107,7 @@ class BatchController extends Controller
                               'product_name'=>$b->name,
                               'batch_no'=>$b->batch_no,
                               'Stocked'=>$b->Stocked,
+                              'cost'=>$b->cost,
                                'sold'=>$b->sold,
                               'Balance'=>$b->Balance,
                               'expiry_date'=>$b->expiry_date
@@ -128,10 +130,11 @@ class BatchController extends Controller
         $batch_id=$_REQUEST['batch_id'];
         $new_expiry_date=$_REQUEST['e_period'];
         $batch_no=$_REQUEST['batch_no'];
+        $cost=$_REQUEST['cost'];
       //  $e_period=$request->e_period;
        // $new_expiry_date=$request->e_period;
       // $batch_entry = DB::table('batches')->p
-        if(DB::table('batches')->where('id',$batch_id)->update(['expiry_date'=>$new_expiry_date,'batch_no'=>$batch_no])){
+        if(DB::table('batches')->where('id',$batch_id)->update(['expiry_date'=>$new_expiry_date,'batch_no'=>$batch_no,'cost'=>$cost])){
             return "200";
         }
         //batches::where('id',$batch_id)->update(['expiry_date'=>$new_expiry_date]);

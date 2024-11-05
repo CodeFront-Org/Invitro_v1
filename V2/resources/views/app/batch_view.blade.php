@@ -46,6 +46,7 @@
                                     <th>#</th>
                                     <th>Name</th>
                                     <th>Batch no</th> 
+                                    <th>Cost</th> 
                                     <th>Stocked</th> 
                                     <th>Sold</th> 
                                     <th>Balance</th>
@@ -61,6 +62,7 @@
                                             <td>{{$item['id']}} </td>
                                             <td>{{$item['product_name']}}</td>
                                             <td>{{$item['batch_no']}}</td>
+                                            <td>{{$item['cost']}}</td>
                                             <td>{{$item['Stocked']}} </td> 
                                             <td>{{$item['sold']}}</td>
                                             <td>{{$item['Balance']}}</td>

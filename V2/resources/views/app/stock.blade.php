@@ -499,6 +499,12 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="mb-3">
+                                        <label for="field-2n" class="form-label">Landing Cost</label>
+                                        <input type="number" name="cost" class="form-control" id="field-2n" required placeholder="landing cost" >
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
                                         <label for="field-2n" class="form-label">Invoice Number</label>
                                         <input type="text" name="invoice" class="form-control" id="field-2n" placeholder="invoice number" >
                                     </div>
@@ -518,7 +524,7 @@
                                             </select>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-12">
                                     <div class="mb-3">
                                         <label for="field-2l" class="form-label">Expiry Date</label>
                                         <input type="date" name="e_date" class="form-control" id="field-2l" placeholder="expiry date">

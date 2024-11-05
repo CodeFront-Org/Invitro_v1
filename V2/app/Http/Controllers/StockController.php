@@ -328,10 +328,12 @@ try {
             $d_note=$request->d_note;
             $e_date=$request->e_date;
             $expires=$request->expires;
+            $cost=$request->cost;
             //Store in batch tables
             $batch=Batch::create([
                 'batch_no'=>$batch_no,
                 'product_id'=>$product_id,
+                'cost'=>$cost,
                 'quantity'=>$quantity,
                 'expiry_date'=>$expires==1?$e_date:'3024-11-01 00:00:00',
             ]);
