@@ -122,7 +122,7 @@
 
 @endrole
 
-@role(['admin','staff'])
+@role(['admin'])
 
 
 

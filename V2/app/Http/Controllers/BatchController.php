@@ -88,15 +88,30 @@ class BatchController extends Controller
 
         $label="VIEW BATCHES";
        
-                if(isset($_REQUEST['item_search'])){
-                    $search=$_REQUEST['item_search'];
-                  $batch_entry = DB::select("SELECT products.name,products.id  ,batches.expiry_date,batches.batch_no, batches.quantity 'Stocked',batches.sold,(batches.quantity-batches.sold) 'Balance' FROM `batches`left JOIN products on products.id=batches.product_id WHERE (products.name like '%".$search."%'  || batches.batch_no like '%".$search."%') AND batches.sold_out=0   limit 100;");
+if (isset($_REQUEST['item_search'])) {
+    $search = $_REQUEST['item_search'];
+    $batch_entry = DB::select("
+        SELECT products.name, products.id, batches.expiry_date, batches.batch_no, batches.cost, 
+               batches.quantity AS 'Stocked', batches.sold, (batches.quantity - batches.sold) AS 'Balance' 
+        FROM batches 
+        LEFT JOIN products ON products.id = batches.product_id 
+        WHERE (products.name LIKE ? OR batches.batch_no LIKE ?) 
+          AND batches.sold_out = 0 
+          AND batches.deleted_at IS NULL 
+        LIMIT 100;
+    ", ["%$search%", "%$search%"]);
+} else {
+    $batch_entry = DB::select("
+        SELECT products.name, products.id, batches.expiry_date, batches.batch_no, batches.cost, 
+               batches.quantity AS 'Stocked', batches.sold, (batches.quantity - batches.sold) AS 'Balance' 
+        FROM batches 
+        LEFT JOIN products ON products.id = batches.product_id 
+        WHERE batches.sold_out = 0 
+          AND batches.deleted_at IS NULL 
+        LIMIT 5;
+    ");
+}
 
-
-                }else{
-                 $batch_entry = DB::select("SELECT products.name,products.id ,batches.expiry_date,batches.batch_no,batches.cost, batches.quantity 'Stocked',batches.sold,(batches.quantity-batches.sold) 'Balance'FROM `batches` left JOIN products on products.id=batches.product_id WHERE batches.sold_out=0 limit 5;");
-
-                }
 
                         $stock_array=array();
       

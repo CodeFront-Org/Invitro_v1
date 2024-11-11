@@ -52,6 +52,7 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 //Card controller
 Route::resource('/cards',App\Http\Controllers\CardsController::class);
+Route::get('/fetch-qty',[App\Http\Controllers\CardsController::class,'fetch_qty'])->name('fetch-qty');
 
 // Application Routes
 Route::resource('/users',App\Http\Controllers\UserController::class);

@@ -139,6 +139,30 @@ class CardsController extends Controller
         return view('app.stock_card',compact('label','data','data1','data3','page_number','product_prices','check'));
     }
 
+
+
+    public function fetch_qty(Request $request){
+        $p_name=$request->selectedProduct;
+        //check if product exists
+        $check=Product::where('name',$p_name)->exists();
+        if($check){
+            $product_id=Product::where('name',$p_name)->pluck('id')->first();
+            $c=Card::where('product_id',$product_id)->where('is_at_hand',1)->pluck('at_hand')->first();
+            $isAtHand=Card::where('product_id',$product_id)->pluck('is_at_hand')->first();
+            $s=Card::where('product_id',$product_id)->sum('in');
+            $o=Card::where('product_id',$product_id)->sum('out');
+            $sum=$c+$s-$o;
+            return response()->json([
+                'qty'=>$sum,
+                'isAtHand'=>$isAtHand
+            ]);
+        }else{
+            return "404";
+        }
+
+
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -168,7 +192,7 @@ class CardsController extends Controller
             $store=Card::create([
                 'product_id'=>$product_id,
                 'user'=>$user,
-                //'size'=>$request->size,
+                'size'=>0,
                 'at_hand'=>$request->at_hand,
                 'out'=>$request->out,
                 'in'=>$request->in,
@@ -176,7 +200,6 @@ class CardsController extends Controller
                 'signature'=>$user,
                 'remarks'=>$request->remarks,
             ]);
-
             if($store){
                 //Check if IsAtHand is inserted
                 $check=Card::where('product_id',$product_id)->where('is_at_hand',1)->exists();

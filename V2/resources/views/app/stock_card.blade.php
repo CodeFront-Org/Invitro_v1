@@ -416,7 +416,7 @@ $.ajax({
                     }
                     toastr["success"]("", "Product Saved Succesfully.")
                 }else{
-                 Swal.fire("Error!", "An Error occured. Please try again later", "error");
+                 Swal.fire("Error!", "An Error occured. Please try again later1", "error");
                     
                 }
         btn.show();
@@ -449,6 +449,37 @@ $('#p_name2').on('input', function() {
     const selectedProduct = $(this).val();
     const options = $('#regnoo option');
 
+    //alert(selectedProduct)
+    //Fetch product qty live
+    $.ajax({
+            type: "GET",
+            url: "/fetch-qty",
+            data:{
+                _token:"{{csrf_token()}}",selectedProduct
+            },
+            success: function (response) { 
+                if(response.isAtHand==1){
+                 $('#fieldAtHand').attr('readonly', true);
+                $('#fieldAtHand').val(response.qty); 
+                    return;
+                }else{
+                $('#fieldAtHand').removeAttr('readonly');
+                $('#fieldAtHand').val(''); 
+                    return
+                }
+
+               // Swal.fire("Deleted", "Successfully.", "success").then(()=>{
+                //location.href='/cards'})
+            },
+            error: function(res){console.log(res)
+
+                $('#fieldAtHand').removeAttr('readonly');
+                $('#fieldAtHand').val(''); 
+                return
+                //Swal.fire("Error!", "Try again later...", "error");
+            }
+        });
+return
     // Find the corresponding option element with the matching value
     let selectedId = null;
     let n = selectedProduct;
