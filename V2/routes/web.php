@@ -18,6 +18,10 @@ Route::get('/', function () {
     return view('auth.login');
 });
 
+Route::post('/reset',function(){
+    return 200;
+})->name('reset');
+
 Auth::routes();
 Route::post('/new_admin_reg', [App\Http\Controllers\Auth\NewAdminRegister::class,'register'])->name('new_admin_reg');
 
