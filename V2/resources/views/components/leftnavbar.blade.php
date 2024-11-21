@@ -24,7 +24,7 @@
 @endrole
 	
 	
-@role('stock')
+@role('card')
                          <li>
                             <a href="/cards">
                                 <i class="fas fa-calendar-check"></i>
@@ -85,10 +85,6 @@
                             </a>
                         </li>
 
-                        
-                     
-
-
 
                         <li>
                             <a href="{{route('order.index')}}">
@@ -97,10 +93,10 @@
                             </a>
                         </li>
 
-
 @endrole
 
 @role('admin')
+
 
                         <li>
                             <a href="/batch-view">
@@ -122,7 +118,7 @@
 
 @endrole
 
-@role(['admin'])
+@role(['admin','staff'])
 
 
 

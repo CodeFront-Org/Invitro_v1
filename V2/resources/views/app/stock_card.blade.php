@@ -23,7 +23,9 @@
 
             @php
                 use App\Models\Product;
+                use App\Models\Card;
                 $products = Product::all();
+                $cards=Card::select('id','remarks')->get();
 
             @endphp
 
@@ -38,14 +40,26 @@
             </datalist>
         </div>
         <div class="mb-3 col-md-3">
+            <label for="from">Destination:</label>
+            <input type="text" list="regnoo123" parsley-trigger="change"  class="form-control"
+                id="p1_name" name='destination_filter' autocomplete="off" placeholder="Search Destination ..." aria-label="#"
+            />
+
+            <datalist id="regnoo123">
+                @foreach ($cards as $card)
+                    <option value="{{ $card->remarks }}">{{ $card->remarks }}</option>
+                @endforeach
+            </datalist>
+        </div>
+        <div class="mb-3 col-md-2">
             <label for="from">From:</label>
             <input type="date" class="form-control" name="from" data-provide="w" required placeholder="From: ">
         </div>
-        <div class="mb-3 col-md-3">
+        <div class="mb-3 col-md-2">
             <label for="To">To:</label>
             <input type="date" class="form-control" name="to" required data-provide="datepicker1" placeholder="To: ">
         </div>
-        <div class="mb-3 col-md-3" style="margin-top: 2%">
+        <div class="mb-3 col-md-1" style="margin-top: 2%">
             <button type="submit" class="btn btn-primary waves-effect waves-light">Submit</button>
         </div>
         

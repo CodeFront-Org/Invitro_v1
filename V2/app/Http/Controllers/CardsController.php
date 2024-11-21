@@ -24,16 +24,30 @@ class CardsController extends Controller
     {
         //Apply filter if there 
         $product_filter=$request->product_filter;// means user is filtering a specific product
+        $destination_filter=$request->destination_filter;// means user is filtering a specific destination for a product
         $from=$request->from;
         $to=$request->to;
         $check=[];//check is_atHand
         $to = Carbon::parse($to)->addDay()->toDateString();
-        if(!empty($product_filter)){//get data for that product
+        if(!empty($product_filter) and !empty($destination_filter)){
+            $product_id=Product::where('name',$product_filter)->pluck('id')->first();
+            $cards=Card::where('product_id',$product_id)->where('remarks',$destination_filter)->whereBetween('created_at', [$from, $to])->paginate(10);
+            $data1=Card::where('product_id',$product_id)->where('remarks',$destination_filter)->whereBetween('created_at', [$from, $to])->orderBy('id', 'desc')->paginate(10);
+            $data2=Card::where('product_id',$product_id)->where('remarks',$destination_filter)->whereBetween('created_at', [$from, $to])->orderBy('id', 'desc')->get();
+        }
+        elseif(!empty($product_filter)){//get data for that product
             $product_id=Product::where('name',$product_filter)->pluck('id')->first();
             $cards=Card::where('product_id',$product_id)->whereBetween('created_at', [$from, $to])->paginate(10);
             $data1=Card::where('product_id',$product_id)->whereBetween('created_at', [$from, $to])->orderBy('id', 'desc')->paginate(10);
             $data2=Card::where('product_id',$product_id)->whereBetween('created_at', [$from, $to])->orderBy('id', 'desc')->get();
-        }elseif($from and $to){//Get data for all products within the range
+        }elseif(!empty($destination_filter)){//Filter for destination only
+            //$product_id=Product::where('name',$product_filter)->pluck('id')->first();
+            $cards=Card::where('remarks',$destination_filter)->whereBetween('created_at', [$from, $to])->paginate(10);
+            $data1=Card::where('remarks',$destination_filter)->whereBetween('created_at', [$from, $to])->orderBy('id', 'desc')->paginate(10);
+            $data2=Card::where('remarks',$destination_filter)->whereBetween('created_at', [$from, $to])->orderBy('id', 'desc')->get();
+            //return 3;
+        }
+        elseif($from and $to){//Get data for all products within the range
             $cards=Card::whereBetween('created_at', [$from, $to])->paginate(10);
             $data1=Card::whereBetween('created_at', [$from, $to])->orderBy('id', 'desc')->paginate(10);
             $data2=Card::whereBetween('created_at', [$from, $to])->orderBy('id', 'desc')->get();
@@ -138,10 +152,9 @@ class CardsController extends Controller
 
         return view('app.stock_card',compact('label','data','data1','data3','page_number','product_prices','check'));
     }
-
-
-
-    public function fetch_qty(Request $request){
+    
+    
+        public function fetch_qty(Request $request){
         $p_name=$request->selectedProduct;
         //check if product exists
         $check=Product::where('name',$p_name)->exists();
@@ -192,7 +205,7 @@ class CardsController extends Controller
             $store=Card::create([
                 'product_id'=>$product_id,
                 'user'=>$user,
-                'size'=>0,
+                //'size'=>$request->size,
                 'at_hand'=>$request->at_hand,
                 'out'=>$request->out,
                 'in'=>$request->in,
@@ -200,6 +213,7 @@ class CardsController extends Controller
                 'signature'=>$user,
                 'remarks'=>$request->remarks,
             ]);
+
             if($store){
                 //Check if IsAtHand is inserted
                 $check=Card::where('product_id',$product_id)->where('is_at_hand',1)->exists();

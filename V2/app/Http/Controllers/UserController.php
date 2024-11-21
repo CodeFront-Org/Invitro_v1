@@ -124,7 +124,7 @@ class UserController extends Controller
          $type=$request->type;
          if($type==0){//edit staff
              $status=$request->role;
-             if($status==0){$status='admin';$myrole=1;}elseif($status==1){$status='staff';$myrole=2;}elseif($status==2){$status='card';$myrole=3;}
+             if($status==0){$status='admin';}elseif($status==1){$status='staff';}elseif($status==2){$status='card';}
              $email=$request->email;
              //Add staff details to db
              $userUpdate=User::where('id',$id)->update([
@@ -132,7 +132,7 @@ class UserController extends Controller
                  'last_name' => $request->l_name,
                  'contacts' => $request->contacts,
                  'email' => $request->email,
-                 'role_type'=>$myrole,//Role For 2 staff 1 admin
+                 'role_type'=>$request->role=='0'?'1':'2',//Role For 2 staff 1 admin
              ]);
              //Update Role to the newly added staff Based on create condition
              if($userUpdate){

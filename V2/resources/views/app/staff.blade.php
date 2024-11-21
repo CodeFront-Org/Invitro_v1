@@ -36,18 +36,7 @@
                                         <td>{{$item['first_name']}} {{$item['last_name']}}</td>
                                         <td>{{$item['contacts']}}</td>
                                         <td>{{$item['email']}}</td>
-                                        @if ($item['role_type']==1)
-                                            <td>Admin</td>
-                                        @endif
-                                        @if ($item['role_type']==2)
-                                            <td>Store Keeper</td>
-                                        @endif
-                                        @if ($item['role_type']==3)
-                                            <td>Stock Card</td>
-                                        @endif
-                                        @if ($item['role_type']==4)
-                                            <td>Staff</td>
-                                        @endif
+                                        <td>{{$item['role_type']==1?'Admin':'Store Keeper'}}</td>
                                         <td style='font-size:10px; text-align: center;'>
                                             <button type="button" style="background-color: #08228a9f;color: white" class="btn btn-xs" data-bs-toggle="modal" data-bs-target="#con-close-modal-edit-{{$item['id']}}">
                                                 <i class='fas fa-pen' aria-hidden='true'></i>
@@ -118,7 +107,6 @@
                                     <select name="role" class="form-control form-select" id="field-11" required>
                                                 <option value="0">Admin</option>
                                                 <option value="1">Store Keeper</option>
-                                                <option value="2">Stock Card</option>
                                         </select>
                                 </div>
                             </div>
@@ -187,7 +175,6 @@
                             <select name="role" class="form-control form-select" id="field-11" required>
                                         <option {{$item['role_type']==1?'selected':''}} value="0">Admin</option>
                                         <option {{$item['role_type']==2?'selected':''}} value="1">Store Keeper</option>
-                                        <option {{$item['role_type']==3?'selected':''}} value="2">Stock Card</option>
                                 </select>
                         </div>
                     </div>
