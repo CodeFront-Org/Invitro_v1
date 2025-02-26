@@ -42,12 +42,9 @@ class CardsController extends Controller
             $data2=Card::where('product_id',$product_id)->whereBetween('created_at', [$from, $to])->orderBy('id', 'desc')->get();
         }elseif(!empty($destination_filter)){//Filter for destination only
             //$product_id=Product::where('name',$product_filter)->pluck('id')->first();
-            
-            $cards=Card::where('remarks','LIKE', '%' . $destination_filter . '%')->whereBetween('created_at', [$from, $to])->paginate(10);
-            $data1=Card::where('remarks','LIKE', '%' . $destination_filter . '%')->whereBetween('created_at', [$from, $to])->orderBy('id', 'desc')->paginate(10);
-
-
-            $data2=Card::where('remarks','LIKE', '%'.$destination_filter.'%')->whereBetween('created_at', [$from, $to])->orderBy('id', 'desc')->get();
+            $cards=Card::where('remarks',$destination_filter)->whereBetween('created_at', [$from, $to])->paginate(10);
+            $data1=Card::where('remarks',$destination_filter)->whereBetween('created_at', [$from, $to])->orderBy('id', 'desc')->paginate(10);
+            $data2=Card::where('remarks',$destination_filter)->whereBetween('created_at', [$from, $to])->orderBy('id', 'desc')->get();
             //return 3;
         }
         elseif($from and $to){//Get data for all products within the range

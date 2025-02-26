@@ -349,6 +349,7 @@ class ReportsController extends Controller
     public function sales(Request $request){
         $from=$request->from;
         $to=$request->to;
+        $destination_filter=$request->destination_filter;
         $page_number=$request->page;
 
         if($page_number==1){
@@ -365,8 +366,16 @@ class ReportsController extends Controller
         //$stocks=Stock::all()->where('approve',1);
 
         /////////////////////////////// for new order ////////////////////////////////////////////
-        if($from and $to){ 
+        if($from and $to and !$destination_filter){ 
             $data1=Order::orderByDesc('id')->whereBetween('created_at', [$from, $to])->paginate(30);
+            $totalSales=$data1->total();
+        }elseif($from and $to and $destination_filter){
+            $data1=Order::query()
+            ->where('destination', 'LIKE', '%' . $destination_filter . '%') // Wildcard search for destination
+            ->whereBetween('created_at', [$from, $to]) // Filter by date range
+            ->orderByDesc('id') // Order by descending ID
+            ->paginate(30); // Paginate results
+        
             $totalSales=$data1->total();
         }else{
             $data1=Order::orderByDesc('id')->paginate(30);
@@ -428,7 +437,13 @@ class ReportsController extends Controller
             //         ]);
             // }
         $view_data=[];
-        return view('reports.sales',compact('label','data','products','orders','view_data','page_number','data1','totalSales'));
+        $destinations=Order::select('id','destination')->get();
+        $uniqueDestinations = $destinations->map(function ($destination) {
+            $destination->normalized_destination = strtolower(trim(str_replace('.', '', $destination->destination)));
+            return $destination;
+        })->unique('normalized_destination');
+        $destinations=$uniqueDestinations;
+        return view('reports.sales',compact('label','data','products','orders','view_data','page_number','data1','totalSales','destinations'));
     }
 
     public function sales_details(Request $request){

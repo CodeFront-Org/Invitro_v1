@@ -148,10 +148,12 @@ class StockController extends Controller
             $product_name=$name;
             $o_level=$request->o_level;
             $e_period=$request->e_period;
+            $ref_no=$request->ref_no;
 
             $product=Product::create([
                 'user_id'=>$id,
                 'name'=>$name,
+                'ref_no'=>$ref_no,
                 'order_level'=>$o_level,
                 'expire_days'=>$e_period,
                 ]);
@@ -189,6 +191,7 @@ try {
             $product=Product::create([
                     'user_id'=>$id,
                     'name'=>$name,
+                    'ref_no'=>$request->ref_no ?? Null,
                     'quantity'=>$request->quantity,
                     'order_level'=>$o_level,
                     'quantity_type'=>$q_type

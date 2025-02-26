@@ -22,11 +22,25 @@
         <div class="row">
 
         <div class="row">
-            <div class="mb-3 col-md-4">
+
+        <div class="mb-3 col-md-3">
+            <label for="from">Destination:</label>
+            <input type="text" list="regnoo123" parsley-trigger="change"  class="form-control"
+                id="p1_name" name='destination_filter' autocomplete="off" placeholder="Search Destination ..." aria-label="#"
+            />
+
+            <datalist id="regnoo123">
+                @foreach ($destinations as $d)
+                    <option value="{{ $d->destination }}">{{ $d->destination }}</option>
+                @endforeach
+            </datalist>
+        </div>
+
+            <div class="mb-3 col-md-3">
                 <label for="from">From:</label>
                 <input type="date" class="form-control" name="from" data-provide="w" placeholder="From: ">
             </div>
-            <div class="mb-3 col-md-4">
+            <div class="mb-3 col-md-3">
                 <label for="To">To:</label>
                 <input type="date" class="form-control" name="to" data-provide="datepicker1" placeholder="To: ">
             </div>

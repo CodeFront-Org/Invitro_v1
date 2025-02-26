@@ -25,7 +25,7 @@
                 use App\Models\Product;
                 use App\Models\Card;
                 $products = Product::all();
-                $cards=Card::select('id','remarks')->get();
+                //$cards = Card::select('id', 'remarks')->distinct('remarks')->get();
 
             @endphp
 
