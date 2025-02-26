@@ -700,10 +700,10 @@
                                 </div>
                             </div>
                             <div class="modal-footer">
-                                <button class="btn rounded-pill p-1" id="addbtn" style="width: 100%; background-color: #08228a9f;color: white" type="submit">
+                                <button class="btn rounded-pill p-1" id="addrefbtn" style="width: 100%; background-color: #08228a9f;color: white" type="submit">
                                         Submit
                                 </button>
-                                <button class="btn rounded-pill p-1" id="addloader" style="width: 100%; background-color: #08228a9f;color: white;display:none;" type="button">
+                                <button class="btn rounded-pill p-1" id="addrefloader" style="width: 100%; background-color: #08228a9f;color: white;display:none;" type="button">
                                         <span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
                                         Saving Data...
                                 </button>
@@ -769,6 +769,62 @@ $.ajax({
     }
     else{
         Swal.fire("Error!", "Product exist.", "error");}
+        btn.show();
+        loader.hide();
+    }
+});
+})
+
+
+//Add Reference Number Form
+$("#addRefForm").on('submit',(e)=>{
+e.preventDefault();
+var btn=$("#addrefbtn");
+var loader=$("#addrefloader")
+btn.hide();
+loader.show();
+let data=$("#addRefForm").serialize();
+$.ajax({
+    type: "POST",
+    url: "{{route('store-ref')}}",
+    data: data,
+    success: function (response) { //console.log(response)
+ if(response==500){
+        swal.fire("Error","An error occurred","error"); btn.show();
+        loader.hide();
+        return;
+    }
+                    toastr.options = {
+                        "closeButton": false,
+                        "debug": false,
+                        "newestOnTop": false,
+                        "progressBar": true,
+                        "positionClass": "toast-top-right",
+                        "preventDuplicates": false,
+                        "onclick": null,
+                        "showDuration": "300",
+                        "hideDuration": "1000",
+                        "timeOut": "3000",
+                        "extendedTimeOut": "1000",
+                        "showEasing": "swing",
+                        "hideEasing": "linear",
+                        "showMethod": "fadeIn",
+                        "hideMethod": "fadeOut"
+                    }
+                    toastr["success"]("", response)
+        btn.show();
+        loader.hide();
+        //location.href='/stock'
+    },
+    error: function(res){  //console.log(res)
+    if(res=='101'){
+
+        Swal.fire("Error!", "Product already exists", "error");
+    }else if(res==100){
+        swal.fire("Error","Product exist.","error");
+    }
+    else{
+        Swal.fire("Error!", 'An Error Occurred', "error");}
         btn.show();
         loader.hide();
     }

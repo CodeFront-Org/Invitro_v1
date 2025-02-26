@@ -610,4 +610,16 @@ try {
         }
         
     }
+
+
+
+    public function store_ref(Request $request){
+        $name=$request->name;
+            $update=Product::where('name',$name)->update(['ref_no'=>$request->ref_no]);
+            if($update){
+                return "Reference Number Updated Successfully.";
+            }else{
+                return "500";
+            }
+    }
 }

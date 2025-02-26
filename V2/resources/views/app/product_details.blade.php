@@ -30,6 +30,7 @@
                                 <tr>
                                     <th>Id</th>
                                     <th>Name</th>
+                                    <th>Reference No</th>
                                     <th>a_available</th>
                          
                                     <th>Quantity</th>
@@ -57,6 +58,7 @@
                                 
                                         <td>{{$item['id']}}</td>
                                         <td>{{$item['name']}}</td>
+                                        <td>{{$item['ref_no']}}</td>
                                         <td>{{$item['a_available']}}</td>
 										<td>{{$item['qty_available']}}  ({{$item['qty_not_approved']}})</td>
                                         <td>{{$item['batch']}}</td>
@@ -88,6 +90,7 @@
                             
                                         <td>{{$item['id']}}</td>
                                         <td>{{$item['name']}}</td>
+                                        <td>{{$item['ref_no']}}</td>
                                         <td>{{$item['a_available']}}</td>
 								
                                         <td>{{$item['qty_available']}}  ({{$item['qty_not_approved']}})</td>

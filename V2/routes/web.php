@@ -94,6 +94,8 @@ Route::get('/sales',[App\Http\Controllers\ReportsController::class,'sales'])->na
 Route::get('/sales-details',[App\Http\Controllers\ReportsController::class,'sales_details'])->name('/sales-details');//to narrow down to one product sales report
 Route::get('/reorder-level',[App\Http\Controllers\ReportsController::class,'productsExpired'])->name('/reorder-level');
 
+Route::post('/store-ref',[App\Http\Controllers\StockController::class,'store_ref'])->name('store-ref');
+
 //  Route to test code before implementing
 Route::get('/code',[App\Http\Controllers\TestController::class,'code'])->name('/code');
 Route::get('/cron',[App\Http\Controllers\CronController::class,'cron'])->name('cron');

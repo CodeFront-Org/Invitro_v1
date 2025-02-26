@@ -76,6 +76,7 @@ class SearchController extends Controller
 				array_push($data,[
                     'id'=>$p_id,
                     'name'=>$product_name,
+                    'ref_no'=>Product::find($p_id)->ref_no,
                   'a_available'=>$a_available,
                   'qty_available'=>$a_available,
                    'qty_not_approved'=>$total_qty_not_approved,
