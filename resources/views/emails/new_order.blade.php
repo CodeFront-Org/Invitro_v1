@@ -25,12 +25,12 @@
                                 <table width="100%" cellpadding="0" cellspacing="0" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
                                     <tr>
                                         <td style="text-align: center">
-                                            <a href="#" style="display: block;margin-bottom: 10px;"> <img src="assets/images/Logo/s-white.png" height="44" alt="logo" /></a> <br/>
+                                            <a href="#" style="display: block;margin-bottom: 10px;"> <img src="{{asset('images/Logo/logo.png')}}" height="44" alt="logo" /></a> <br/>
                                         </td>
                                     </tr>
                                     <tr style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
                                         <td class="content-block" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 20px;" valign="top">
-                                            Dear name
+                                            Dear {{$name}}
                                         </td>
                                     </tr>
                                     <tr style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
@@ -39,11 +39,10 @@
 We would like to inform you that a new order has been received and is currently awaiting your approval.
     <h3>Order Details:</h3>
     <ul>
-        <li><strong>Product:</strong> [Product Name]</li>
-        <li><strong>Batch No::</strong> [Batch]</li>
-        <li><strong>Quantity:</strong> [Quantity]</li>
-        <li><strong>Destination:</strong> [Dest]</li>
-        <li><strong>Added By:</strong> [Order Date]</li>
+        <li><strong>Product: </strong>{{$product_name}}</li>
+        <li><strong>Batch No: </strong> {{$batch_no}}</li>
+        <li><strong>Quantity: </strong>{{$quantity}}</li>
+        <li><strong>Destination: </strong> {{$destination}}</li>
     </ul>
                                             </p>
                                         </td>
@@ -52,15 +51,14 @@ We would like to inform you that a new order has been received and is currently 
                                         <td class="content-block" itemprop="handler" itemscope itemtype="http://schema.org/HttpActionHandler" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 20px;"
                                             valign="top">
                                             <p>Click the button below to proceed to the portal</p>
-                                            <a href="#" class="btn-primary" itemprop="url" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; color: #FFF; text-decoration: none; line-height: 2em; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; border-radius: 5px; text-transform: capitalize; background-color:  #001d91f5; margin: 0; border-color: #001d91f5; border-style: solid; border-width: 8px 16px;">
+                                            <a href="{{$link}}" class="btn-primary" itemprop="url" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; color: #FFF; text-decoration: none; line-height: 2em; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; border-radius: 5px; text-transform: capitalize; background-color:  #001d91f5; margin: 0; border-color: #001d91f5; border-style: solid; border-width: 8px 16px;">
                                     Go to Dashboard</a>
                                         </td>
                                     </tr>
                                     <tr style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
                                         <td class="content-block" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 20px;" valign="top">
                                             <p>Thank you for your attention to this matter.</p>
-                                            <p>Best Regards,</p>
-                                            <p>Invitro.</p>
+                                           
                                         </td>
                                     </tr>
                                 </table>

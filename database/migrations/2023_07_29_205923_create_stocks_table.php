@@ -21,7 +21,7 @@ class CreateStocksTable extends Migration
             $table->string('batch_id');
             $table->tinyInteger('sold');//To know how many batches have been sold soo far
             $table->tinyInteger('sold_out')->default(0);//to know if item is sold out already for easier query
-            $table->string('quantity_type');// type of e.g cartons, packets etc.... Summarized as below
+            $table->string('quantity_type')->nullable();// type of e.g cartons, packets etc.... Summarized as below
             /**
             * 0 - carton
             *1 - Packets
@@ -29,8 +29,10 @@ class CreateStocksTable extends Migration
             */
             $table->tinyInteger('type')->default(0);// 0 for returned stocks and 1 for new stocks
             $table->string('source');
+            $table->string('invoice')->nullable();
+            $table->string('delivery_note')->nullable();
             $table->tinyInteger('approve')->default(0);
-            $table->string('remarks');
+            $table->string('remarks')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

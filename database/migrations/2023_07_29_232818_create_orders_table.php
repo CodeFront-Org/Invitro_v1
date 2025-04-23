@@ -17,12 +17,14 @@ class CreateOrdersTable extends Migration
             $table->id();
             $table->smallInteger('user_id');
             $table->Integer('product_id');
-            $table->Integer('batch_id');
+            $table->Integer('batch_used');
             $table->string('destination');
             $table->string('quantity');
-            $table->string('remarks');
-            $table->string('invoice');
-            $table->string('receipt');
+            $table->string('remarks')->nullable();
+            $table->string('invoice')->nullable();
+            $table->string('delivery_note')->nullable();
+            $table->string('receipt')->nullable();
+            $table->tinyInteger('cash')->default(0); //Tell if the product was paid by cash
             $table->tinyInteger('approve')->default(0);
             $table->softDeletes();
             $table->timestamps();

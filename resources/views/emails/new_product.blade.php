@@ -25,12 +25,12 @@
                                 <table width="100%" cellpadding="0" cellspacing="0" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
                                     <tr>
                                         <td style="text-align: center">
-                                            <a href="#" style="display: block;margin-bottom: 10px;"> <img src="assets/images/Logo/s-white.png" height="44" alt="logo" /></a> <br/>
+                                            <a href="#" style="display: block;margin-bottom: 10px;"> <img src="{{asset('images/Logo/logo.png')}}" height="44" alt="logo" /></a> <br/>
                                         </td>
                                     </tr>
                                     <tr style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
                                         <td class="content-block" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 20px;" valign="top">
-                                            Hello name
+                                            Hello {{$name}}
                                         </td>
                                     </tr>
                                     <tr style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
@@ -42,8 +42,6 @@
     <ul>
         <li><strong>Product Name:</strong> {{$product_name}}</li>
         <li><strong>Batch No: </strong> {{$batch_no}}</li>
-        <li><strong>Expiry Date:</strong> {{$expiry}}</li>
-        <li><strong>Added By:</strong> {{$staff}}</li>
     </ul>
                                         </td>
                                     </tr>
@@ -51,7 +49,7 @@
                                         <td class="content-block" itemprop="handler" itemscope itemtype="http://schema.org/HttpActionHandler" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 20px;"
                                             valign="top">
                                             <p>Click the button below to proceed to the portal</p>
-                                            <a href="#" class="btn-primary" itemprop="url" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; color: #FFF; text-decoration: none; line-height: 2em; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; border-radius: 5px; text-transform: capitalize; background-color:  #001d91f5; margin: 0; border-color: #001d91f5; border-style: solid; border-width: 8px 16px;">
+                                            <a href="{{$link}}" class="btn-primary" itemprop="url" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; color: #FFF; text-decoration: none; line-height: 2em; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; border-radius: 5px; text-transform: capitalize; background-color:  #001d91f5; margin: 0; border-color: #001d91f5; border-style: solid; border-width: 8px 16px;">
                                     Go to Dashboard</a>
                                         </td>
                                     </tr>

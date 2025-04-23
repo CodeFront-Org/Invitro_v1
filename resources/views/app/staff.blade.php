@@ -1,6 +1,12 @@
 @extends('layouts.app')
 
 @section('content')
+@if (session()->has('error'))
+    <div id="toast" class="alert text-center alert-danger alert-dismissible w-100 fade show" role="alert">
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        {{ session('error') }}
+    </div>
+@endif
         <div class="row mt-1">
             <div class="col-12">
             <button  style="background-color: #08228a9f;color: white" type="button" class="btn right" data-bs-toggle="modal" data-bs-target="#con-close-modal-add-1">

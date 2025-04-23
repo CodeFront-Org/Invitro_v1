@@ -2,13 +2,30 @@
             <ul class="list-unstyled topnav-menu float-end mb-0">
 
                 <li class="d-none d-lg-block">
-                    <form class="app-search">
+                    <form action="/product-details" method="POST" class="app-search row">
+                        @csrf
+                        @method('GET')
                         <div class="app-search-box">
                             <div class="input-group">
-                                <input type="text" class="form-control" placeholder="Search..." id="top-search">
+                                @php
+                                    use App\Models\Product;
+                                    use App\Models\Stock;
+                                    use App\Models\Order;
+                                    $products = Product::select('name')->where('approve',1)->get();
+
+                                @endphp
+
+                                        <input type="text" list="regnoo" parsley-trigger="change" required class="form-control "
+                                            id="p_name" name='name' autocomplete="off" placeholder="Search Product ..." aria-label="Recipient's username" />
+
+                                        <datalist id="regnoo">
+                                            @foreach ($products as $product)
+                                                <option value="{{ $product->name }}">{{ $product->name }}</option>
+                                            @endforeach
+                                        </datalist>
                                 <button class="btn input-group-text" type="submit">
-                                            <i class="fe-search"></i>
-                                        </button>
+                                    <i class="fe-search"></i>
+                                </button>
                             </div>
                             <div class="dropdown-menu dropdown-lg" id="search-dropdown">
                                 <!-- item-->
@@ -39,7 +56,7 @@
                                         <div class="d-flex align-items-start">
                                             <img class="d-flex me-2 rounded-circle" src="{{asset('images/users/profile/default.jpg')}} alt="user image" height="32">
                                             <div class="w-100">
-                                                <h5 class="m-0 font-14">Martin</h5>
+                                                <h5 class="m-0 font-14">Dev</h5>
                                                 <span class="font-12 mb-0">Developer</span>
                                             </div>
                                         </div>
@@ -63,14 +80,16 @@
                 </li>
 
                         @php
-                            use App\Models\Stock;
-                            use App\Models\Order;
                             $approval1 = count(Stock::all()->where('approve',0));
                             $approval2 = count(Order::all()->where('approve',0));
-                            if($approval1>0 or $approval2>0){  
+                            $approval3 = count(Product::all()->where('approve',0));
+                            if($approval1>0 or $approval2>0 or $approval3>0){
                                 $count=1;
                                 if($approval1>0 and $approval2>0){
                                 $count=2;
+                                    if($approval1>0 and $approval2>0 or $approval3>0){
+                                    $count=2;
+                                    }
                                 }
                             }elseif($approval1>0){
                             $count=0;
@@ -119,9 +138,17 @@
                             @endif
                             @if ($approval2>0)
                                 <a href="{{route('approve.index')}}" class="dropdown-item notify-item active">
-                                    <p class="notify-details">Approve Stocks</p>
+                                    <p class="notify-details">Approve Orders</p>
                                     <p class="text-muted mb-0 user-msg">
                                         <small>Hi, you have <b>{{$approval2}}</b> new  {{$approval2>1?"Orders":"Order"}} to approve.</small>
+                                    </p>
+                                </a>
+                            @endif
+                            @if ($approval3>0)
+                                <a href="{{route('approve.index')}}" class="dropdown-item notify-item active">
+                                    <p class="notify-details">Approve New Product</p>
+                                    <p class="text-muted mb-0 user-msg">
+                                        <small>Hi, you have <b>{{$approval3}}</b> new {{$approval3>1?"Products":"Product"}} to approve.</small>
                                     </p>
                                 </a>
                             @endif
@@ -154,7 +181,7 @@
                         </div>
 
                         <!-- item-->
-                        <a href="{{route('profile')}}" class="dropdown-item notify-item">
+                        <a href="{{route('profile.index')}}" class="dropdown-item notify-item">
                             <i class="fe-user"></i>
                             <span>My Account</span>
                         </a>
