@@ -156,7 +156,7 @@
                     <div class="col-md-6">
                         <div class="mb-3">
                             <label for="field-2l" class="form-label">Quantity</label>
-                            <input type="number" min="1" name="qty" class="form-control" placeholder="Quanity" required>
+                            <input type="number" min="1"  id="qty" name="qty" class="form-control" placeholder="Quanity" required>
                         </div>
                     </div>
 
@@ -284,12 +284,13 @@
                             console.log(response);
                             if(response.isAtHand==1){
                                 $('#qty').val(response.qty); 
-                            $('#fieldAtHand').attr('readonly', true);
-                            $('#fieldAtHand').val(response.qty); 
+                            //$('#fieldAtHand').attr('readonly', true);
+                            //$('#fieldAtHand').val(response.qty); 
                                 return;
                             }else{
-                            $('#fieldAtHand').removeAttr('readonly');
-                            $('#fieldAtHand').val(''); 
+                                $('#qty').val(''); 
+                           // $('#fieldAtHand').removeAttr('readonly');
+                           // $('#fieldAtHand').val(''); 
                                 return
                             }
 
@@ -297,36 +298,35 @@
                         },
                         error: function(res){console.log(res)
 
-                            $('#fieldAtHand').removeAttr('readonly');
-                            $('#fieldAtHand').val(''); 
+                            $('#qty').val(''); 
                             return
                             //Swal.fire("Error!", "Try again later...", "error");
                         }
                     });
-            return
-                // Find the corresponding option element with the matching value
-                let selectedId = null;
-                let n = selectedProduct;
-                //let productName = "price11" + n.replace(/\s+/g, '');
-                let productName = "price11" + sanitizeStringForID(n);
-                const qty = $(`#${productName}`).val(); // Correctly fetching the value of the element
+           // return
+                // // Find the corresponding option element with the matching value
+                // let selectedId = null;
+                // let n = selectedProduct;
+                // //let productName = "price11" + n.replace(/\s+/g, '');
+                // let productName = "price11" + sanitizeStringForID(n);
+                // const qty = $(`#${productName}`).val(); // Correctly fetching the value of the element
                 
-                const isAtHand = $(`#${productName}`).data('is-at-hand'); // Correctly fetching the value of the element
+                // const isAtHand = $(`#${productName}`).data('is-at-hand'); // Correctly fetching the value of the element
 
-                // Assuming isAtHand is already defined
-                if (isAtHand == 1) {
-                    // Make the input field read-only
-                    $('#fieldAtHand').attr('readonly', true);
-                } else {
-                    // Ensure the input is editable if isAtHand is not 1
-                    $('#fieldAtHand').removeAttr('readonly');
-                }
+                // // Assuming isAtHand is already defined
+                // if (isAtHand == 1) {
+                //     // Make the input field read-only
+                //     $('#fieldAtHand').attr('readonly', true);
+                // } else {
+                //     // Ensure the input is editable if isAtHand is not 1
+                //     $('#fieldAtHand').removeAttr('readonly');
+                // }
 
-                if (qty) {
-                    $('#fieldAtHand').val(qty); // Correct way to set the value
-                } else {
-                    $('#fieldAtHand').val(''); // Setting the value to an empty string if qty is undefined or empty
-                }
+                // if (qty) {
+                //     $('#fieldAtHand').val(qty); // Correct way to set the value
+                // } else {
+                //     $('#fieldAtHand').val(''); // Setting the value to an empty string if qty is undefined or empty
+                // }
 
             });
 
