@@ -272,6 +272,7 @@
 
                 //alert(selectedProduct)
                 //Fetch product qty live
+                console.log("seaerch in progress...");
                 $.ajax({
                         type: "GET",
                         url: "/fetch-qty",
@@ -279,7 +280,9 @@
                             _token:"{{csrf_token()}}",selectedProduct
                         },
                         success: function (response) { 
+                            console.log("seaerch success!!");
                             if(response.isAtHand==1){
+                                $('#qty').val(response.qty); 
                             $('#fieldAtHand').attr('readonly', true);
                             $('#fieldAtHand').val(response.qty); 
                                 return;
@@ -289,8 +292,7 @@
                                 return
                             }
 
-                        // Swal.fire("Deleted", "Successfully.", "success").then(()=>{
-                            //location.href='/cards'})
+                        console.log("seaerch in progress...");
                         },
                         error: function(res){console.log(res)
 
