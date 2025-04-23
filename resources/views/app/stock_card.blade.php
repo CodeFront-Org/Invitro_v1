@@ -239,6 +239,7 @@
                 </div>
             </div><!-- /.modal -->
 
+            {{-- 
             <!-- Edit  Stock Modal -->
             @foreach ($data as $item)
                 <div id="con-close-modal-edit-{{$item['id']}}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
@@ -275,12 +276,7 @@
                                     </datalist>
                                     </div>
                                     </div>
-                                    {{-- <div class="col-md-6">
-                                        <div class="mb-3">
-                                            <label for="field-2l" class="form-label">Size</label>
-                                            <input type="number" name="size"value="{{$item['size']}}" class="form-control" id="field-2l" placeholder="size" required>
-                                        </div>
-                                    </div> --}}
+                          
 
                                     <div class="col-md-6">
                                         <div class="mb-3">
@@ -332,9 +328,11 @@
                             </form>
                         </div>
                     </div>
-                </div><!-- /.modal -->
+                </div>
+                <!-- /.modal -->
                 
-            @endforeach
+            @endforeach 
+            --}}
 
             <table id="salestable1" style="display: none">
                 <thead>
@@ -518,7 +516,7 @@ return
         $('#fieldAtHand').val(''); // Setting the value to an empty string if qty is undefined or empty
     }
 
-})
+  });
 
 
 
