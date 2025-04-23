@@ -281,6 +281,7 @@
                         },
                         success: function (response) { 
                             console.log("seaerch success!!");
+                            console.log(response);
                             if(response.isAtHand==1){
                                 $('#qty').val(response.qty); 
                             $('#fieldAtHand').attr('readonly', true);
