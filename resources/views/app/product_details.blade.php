@@ -13,9 +13,11 @@
             <button  style="background-color: #08228a9f;color: white" type="button" class="btn right" data-bs-toggle="modal" data-bs-target="#con-close-modal-add-1">
                      New
                 </button>
-            <button  style="background-color: #08228a9f;color: white" type="button" class="btn right" data-bs-toggle="modal" data-bs-target="#con-close-modal-restock-1">
+
+                 {{-- <button  style="background-color: #08228a9f;color: white" type="button" class="btn right" data-bs-toggle="modal" data-bs-target="#con-close-modal-restock-1">
                     Re-Stock
-                </button>
+                </button> --}}
+
                 @endrole
                 <a href="{{route('/product-orders',['product_id'=>$product_id])}}">
                     <button  style="background-color: #08228a9f;color: white" type="button" class="btn right">

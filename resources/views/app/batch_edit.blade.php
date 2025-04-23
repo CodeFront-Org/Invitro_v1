@@ -49,7 +49,7 @@
                                     <th>Batches</th>
                                     <th>Landing Cost</th>
                                     
-                                   <!-- <th colspan="2">Expiry Date</th> -->
+                                  <th colspan="2">Edit</th>  <!-- -->
               
                                 </tr>
                                 </thead>
@@ -65,11 +65,11 @@
                                             <td>{{$item['cost']}}</td>
                                             <!-- <td>{{$item['expiry_date']}}</td> -->
                                           
-                                           <!-- <td>
+                                           <!----> <td>
                                                 <button type="button" style="background-color: #08228a9f;color: white" class="btn btn-xs" data-bs-toggle="modal" data-bs-target="#modal-expiry-{{$item['id']}}">
                                                     <i class='fas fa-pen' aria-hidden='true'></i>
                                                 </button>
-                                            </td> -->
+                                            </td> 
                                   
                                       
                                             
@@ -106,7 +106,7 @@
                             <input type="hidden" name="Methodtype" value="2">
                             <input type="hidden" name="changeExpiryDate" id="changeExpiryDate" value="{{$item['id']}}">
                             <div class="modal-header">
-                                <h4 class="modal-title">Edit expiry date: {{$item['product_name']}}</h4>
+                                <h4 class="modal-title">Edit : {{$item['product_name']}}</h4>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
@@ -114,11 +114,14 @@
               
                                 <div class="col-md-12">
                                     <div class="mb-3">
+                                        
+                                        {{-- 
                                         Current expiry date:<b> {{$item['expiry_date']}} </b> <br>
                                         <label for="field-2l" class="form-label">Expiry Date</label>
                                         <input type="date" name="e_period" value="{{$item['expiry_date']}}" class="form-control" id="field-2l" placeholder="Expiry period in days" required>
                                         <label for="field-22" class="form-label">Batch No</label>
                                         <input type="text" name="batch_no" value="{{$item['batch_no']}}" class="form-control" id="field-22" placeholder="Batch no" required>
+                                         --}}
                                         <label for="field-22" class="form-label">Landing Cost</label>
                                         <input type="number" name="cost" value="{{$item['cost']}}" class="form-control" id="field-22" placeholder="Landing Cost" required>
                                         
