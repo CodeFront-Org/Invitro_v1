@@ -156,7 +156,7 @@
                     <div class="col-md-6">
                         <div class="mb-3">
                             <label for="field-2l" class="form-label">Quantity</label>
-                            <input type="number" min="1"  id="qty" name="qty" class="form-control" placeholder="Quanity" required>
+                            <input type="number" min="1"  id="qty" name="qty" class="form-control" placeholder="Quanity" required readonly>
                         </div>
                     </div>
 
