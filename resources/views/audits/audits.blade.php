@@ -254,8 +254,84 @@
                     btn.show();
                     loader.hide();
                 }
+              })
             });
-            })
+
+
+
+
+
+
+
+                        //Process input 
+            $('#p_name2').on('input', function() {
+                // Get the selected product name from the datalist input
+                const selectedProduct = $(this).val();
+                const options = $('#regnoo option');
+
+                //alert(selectedProduct)
+                //Fetch product qty live
+                $.ajax({
+                        type: "GET",
+                        url: "/fetch-qty",
+                        data:{
+                            _token:"{{csrf_token()}}",selectedProduct
+                        },
+                        success: function (response) { 
+                            if(response.isAtHand==1){
+                            $('#fieldAtHand').attr('readonly', true);
+                            $('#fieldAtHand').val(response.qty); 
+                                return;
+                            }else{
+                            $('#fieldAtHand').removeAttr('readonly');
+                            $('#fieldAtHand').val(''); 
+                                return
+                            }
+
+                        // Swal.fire("Deleted", "Successfully.", "success").then(()=>{
+                            //location.href='/cards'})
+                        },
+                        error: function(res){console.log(res)
+
+                            $('#fieldAtHand').removeAttr('readonly');
+                            $('#fieldAtHand').val(''); 
+                            return
+                            //Swal.fire("Error!", "Try again later...", "error");
+                        }
+                    });
+            return
+                // Find the corresponding option element with the matching value
+                let selectedId = null;
+                let n = selectedProduct;
+                //let productName = "price11" + n.replace(/\s+/g, '');
+                let productName = "price11" + sanitizeStringForID(n);
+                const qty = $(`#${productName}`).val(); // Correctly fetching the value of the element
+                
+                const isAtHand = $(`#${productName}`).data('is-at-hand'); // Correctly fetching the value of the element
+
+                // Assuming isAtHand is already defined
+                if (isAtHand == 1) {
+                    // Make the input field read-only
+                    $('#fieldAtHand').attr('readonly', true);
+                } else {
+                    // Ensure the input is editable if isAtHand is not 1
+                    $('#fieldAtHand').removeAttr('readonly');
+                }
+
+                if (qty) {
+                    $('#fieldAtHand').val(qty); // Correct way to set the value
+                } else {
+                    $('#fieldAtHand').val(''); // Setting the value to an empty string if qty is undefined or empty
+                }
+
+            });
+
+
+
+
+
+
+
         });
 
 
@@ -273,68 +349,6 @@
 
 
         
-//Process input 
-$('#p_name2').on('input', function() {
-    // Get the selected product name from the datalist input
-    const selectedProduct = $(this).val();
-    const options = $('#regnoo option');
-
-    //alert(selectedProduct)
-    //Fetch product qty live
-    $.ajax({
-            type: "GET",
-            url: "/fetch-qty",
-            data:{
-                _token:"{{csrf_token()}}",selectedProduct
-            },
-            success: function (response) { 
-                if(response.isAtHand==1){
-                 $('#fieldAtHand').attr('readonly', true);
-                $('#fieldAtHand').val(response.qty); 
-                    return;
-                }else{
-                $('#fieldAtHand').removeAttr('readonly');
-                $('#fieldAtHand').val(''); 
-                    return
-                }
-
-               // Swal.fire("Deleted", "Successfully.", "success").then(()=>{
-                //location.href='/cards'})
-            },
-            error: function(res){console.log(res)
-
-                $('#fieldAtHand').removeAttr('readonly');
-                $('#fieldAtHand').val(''); 
-                return
-                //Swal.fire("Error!", "Try again later...", "error");
-            }
-        });
-return
-    // Find the corresponding option element with the matching value
-    let selectedId = null;
-    let n = selectedProduct;
-    //let productName = "price11" + n.replace(/\s+/g, '');
-    let productName = "price11" + sanitizeStringForID(n);
-    const qty = $(`#${productName}`).val(); // Correctly fetching the value of the element
-    
-    const isAtHand = $(`#${productName}`).data('is-at-hand'); // Correctly fetching the value of the element
-
-    // Assuming isAtHand is already defined
-    if (isAtHand == 1) {
-        // Make the input field read-only
-        $('#fieldAtHand').attr('readonly', true);
-    } else {
-        // Ensure the input is editable if isAtHand is not 1
-        $('#fieldAtHand').removeAttr('readonly');
-    }
-
-    if (qty) {
-        $('#fieldAtHand').val(qty); // Correct way to set the value
-    } else {
-        $('#fieldAtHand').val(''); // Setting the value to an empty string if qty is undefined or empty
-    }
-
-  });
 
 
     </script>
