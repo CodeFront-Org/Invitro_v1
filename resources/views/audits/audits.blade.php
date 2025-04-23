@@ -265,6 +265,7 @@
 
                         //Process input 
             $('#p_name2').on('input', function() {
+                console.log('Input changed:', $(this).val());
                 // Get the selected product name from the datalist input
                 const selectedProduct = $(this).val();
                 const options = $('#regnoo option');
