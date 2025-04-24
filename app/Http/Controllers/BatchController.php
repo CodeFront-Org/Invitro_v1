@@ -142,9 +142,9 @@ if (isset($_REQUEST['item_search'])) {
     public function changeExpiryDate(Request $request)
     {
          
-        $batch_id=$_REQUEST['batch_id'];
-        $new_expiry_date=$_REQUEST['e_period'];
-        $batch_no=$_REQUEST['batch_no'];
+        // $batch_id=$_REQUEST['batch_id'];
+        // $new_expiry_date=$_REQUEST['e_period'];
+        // $batch_no=$_REQUEST['batch_no'];
         $cost=$_REQUEST['cost'];
       //  $e_period=$request->e_period;
        // $new_expiry_date=$request->e_period;
