@@ -142,14 +142,17 @@ if (isset($_REQUEST['item_search'])) {
     public function changeExpiryDate(Request $request)
     {
          
-        // $batch_id=$_REQUEST['batch_id'];
+         $batch_id=$_REQUEST['batch_id'];
         // $new_expiry_date=$_REQUEST['e_period'];
         // $batch_no=$_REQUEST['batch_no'];
         $cost=$_REQUEST['cost'];
       //  $e_period=$request->e_period;
        // $new_expiry_date=$request->e_period;
       // $batch_entry = DB::table('batches')->p
-        if(DB::table('batches')->where('id',$batch_id)->update(['expiry_date'=>$new_expiry_date,'batch_no'=>$batch_no,'cost'=>$cost])){
+        // if(DB::table('batches')->where('id',$batch_id)->update(['expiry_date'=>$new_expiry_date,'batch_no'=>$batch_no,'cost'=>$cost])){
+        //     return "200";
+        // }
+        if(DB::table('batches')->where('id',$batch_id)->update(['cost'=>$cost])){
             return "200";
         }
         //batches::where('id',$batch_id)->update(['expiry_date'=>$new_expiry_date]);
