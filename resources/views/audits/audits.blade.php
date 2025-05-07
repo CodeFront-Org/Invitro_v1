@@ -73,7 +73,7 @@
                                 $page=$page_number;
                             @endphp
                         <tr>
-                            <th>#</th>
+                            <th>Log id</th>
                             <th>Product</th>
                             <th>Quantity</th>
                             <th>Status</th>
