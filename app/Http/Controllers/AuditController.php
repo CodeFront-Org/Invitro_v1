@@ -18,7 +18,7 @@ class AuditController extends Controller
      */
     public function index(Request $request)
     {
-        $label="Audits";
+        $label="Audits::Tab";
 
         //Apply filter if there 
         $product_filter=$request->product_filter;// means user is filtering a specific product
@@ -36,7 +36,7 @@ class AuditController extends Controller
             $data2=CardsAudit::whereBetween('created_at', [$from, $to])->paginate(10);
         }else{//get all data 
             $data1=CardsAudit::all();
-            $data2=CardsAudit::orderBy('id', 'desc')->paginate(10);
+            $data2=CardsAudit::orderBy('id', 'asc')->paginate(10);
         }
 
         $page_number=$request->page;
