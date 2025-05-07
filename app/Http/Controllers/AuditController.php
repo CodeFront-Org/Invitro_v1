@@ -53,13 +53,16 @@ class AuditController extends Controller
         foreach($data1 as $d){
             $date=Carbon::parse($d->audit_date);
             $date=$date->format('j F Y');
+            $usr_obj=User::where('id',$d->user_id);
+           $usr_name=$usr_obj->pluck('first_name')->first()." ".$usr_obj->pluck('last_name')->first();
+
             array_push($data,[
                 'product_id'=>$d->product_id,
                 'product'=>Product::where('id',$d->product_id)->pluck('name')->first(),
                 'qty'=>$d->qty,
                 'status'=>$d->status,
                 'date'=>$date,
-                'staff'=>User::where('id',$d->user_id)->pluck('first_name')->first()." ".User::where('id',$d->user_id)->pluck('last_name')->first(),
+                'staff'=>$usr_name,
                 'rmks'=>$d->comments
             ]);
         }
