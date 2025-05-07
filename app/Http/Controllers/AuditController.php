@@ -29,7 +29,7 @@ class AuditController extends Controller
         if(!empty($product_filter)){//get data for that product
             $product_id=Product::where('name',$product_filter)->pluck('id')->first();
             $data1=CardsAudit::all()->where('product_id',$product_id);
-            $data2=CardsAudit::where('product_id',$product_id)->orderBy('id', 'desc')->paginate(10);
+            $data2=CardsAudit::where('product_id',$product_id)->orderBy('id', 'asc')->paginate(10);
         }elseif($from and $to){//Get data for all products within the range
             $product_id=Product::where('name',$product_filter)->pluck('id')->first();
             $data1=CardsAudit::whereBetween('created_at', [$from, $to])->get();
