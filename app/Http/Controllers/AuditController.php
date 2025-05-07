@@ -28,7 +28,7 @@ class AuditController extends Controller
         $to = Carbon::parse($to)->addDay()->toDateString();
         if(!empty($product_filter)){//get data for that product
             $product_id=Product::where('name',$product_filter)->pluck('id')->first();
-            $data1=CardsAudit::orderBy('id', 'desc')->where('product_id',$product_id);
+            $data1=CardsAudit::where('product_id',$product_id)->orderBy('id', 'desc')->get();
             $data2=CardsAudit::where('product_id',$product_id)->orderBy('id', 'desc')->paginate(10);
         }elseif($from and $to){//Get data for all products within the range
             $product_id=Product::where('name',$product_filter)->pluck('id')->first();
