@@ -35,8 +35,8 @@ class AuditController extends Controller
             $data1=CardsAudit::whereBetween('created_at', [$from, $to])->get();
             $data2=CardsAudit::whereBetween('created_at', [$from, $to])->paginate(10);
         }else{//get all data 
-            $data1=CardsAudit::orderBy('id', 'asc')->get();
-            $data2=CardsAudit::orderBy('id', 'asc')->paginate(10);
+            $data1=CardsAudit::orderBy('id', 'desc')->get();
+            $data2=CardsAudit::orderBy('id', 'desc')->paginate(10);
         }
 
         $page_number=$request->page;
