@@ -57,6 +57,7 @@ class AuditController extends Controller
            $usr_name=$usr_obj->pluck('first_name')->first()." ".$usr_obj->pluck('last_name')->first();
 
             array_push($data,[
+                'id'=>$d->id,
                 'product_id'=>$d->product_id,
                 'product'=>Product::where('id',$d->product_id)->pluck('name')->first(),
                 'qty'=>$d->qty,
