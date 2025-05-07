@@ -74,7 +74,6 @@
                             @endphp
                         <tr>
                             <th>#</th>
-                            <th>id</th>
                             <th>Product</th>
                             <th>Quantity</th>
                             <th>Status</th>
@@ -89,14 +88,13 @@
                         <tbody>
                         @foreach ($data as $item)
                             <tr>
-                                <td>{{$page}} </td>
                                 <td>{{$item['id']}}</td>
                                 <td>{{$item['product']}}</td>
                                 <td>{{$item['qty']}}</td>
                                 @if ($item['status']==1)
                                     <td class="text-success">Balanced</td>
                                 @else
-                                    <td class="text-danger">Balanced</td>
+                                    <td class="text-danger">Not Balanced</td>
                                 @endif
                                 <td>{{$item['date']}}</td>
                                 <td>{{$item['staff']}}</td>
