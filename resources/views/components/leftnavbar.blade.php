@@ -29,8 +29,8 @@
    	
 @endrole
 	
-	
-@role('card','card_view_only')
+
+@role(['card','card_view_only'])
                          <li>
                             <a href="/cards">
                                 <i class="fas fa-calendar-check"></i>
