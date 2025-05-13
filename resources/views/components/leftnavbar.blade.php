@@ -30,13 +30,16 @@
 @endrole
 	
 	
-@role('card')
+@role('card','card_view_only')
                          <li>
                             <a href="/cards">
                                 <i class="fas fa-calendar-check"></i>
                                 <span>Stock Card</span>
                             </a>
                         </li>
+
+@endrole
+@role('card')
                         <li>
                             <a href="{{route('audits.index')}}">
                                 <i class="fas fa-credit-card"></i>
