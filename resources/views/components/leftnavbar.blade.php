@@ -6,7 +6,13 @@
                 <div id="sidebar-menu">
 
                     <ul id="side-menu">
-
+@php
+//display user roles
+    $user = auth()->user();
+    $userRole = $user->roles();
+   echo "Role: " . implode(', ', $userRole->pluck('name')->toArray());
+    //dd($userRole);
+@endphp
                         <li class="menu-title">Navigation</li>
 
 	
