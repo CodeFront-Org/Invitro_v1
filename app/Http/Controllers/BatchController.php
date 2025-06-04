@@ -153,18 +153,21 @@ if (isset($_REQUEST['item_search'])) {
         //     return "200";
         // }
         if(DB::table('batches')->where('id',$batch_id)->update(['cost'=>$cost])){
-            return "200";
+
+                    $batch=Batch::find($batch_id);
+        $prodproduct_name=Product::find($batch->product_id)->name;
+        $recipient=User::where('role_type',4)->pluck('email')->first();
+        $link=env('APP_URL');
+        Mail::to($recipient)->send(new LandingCostMail($link, $recipient,$product_name));
+            //return "200";
+            back()->with('success', "Email alert sent to $recipient ,Batch expiry date updated successfully.");
         }
         //batches::where('id',$batch_id)->update(['expiry_date'=>$new_expiry_date]);
         //return $batch_id;
         //
         //return ("ATTEMPTING TO SAVE!! $request");
         //send email to admin for price change
-        $batch=Batch::find($batch_id);
-        $prodproduct_name=Product::find($batch->product_id)->name;
-        $recipient=User::where('role_type',4)->pluck('email')->first();
-        $link=env('APP_URL');
-        Mail::to($recipient)->send(new LandingCostMail($link, $recipient,$product_name));
+
 
     }
 
