@@ -153,6 +153,7 @@ if (isset($_REQUEST['item_search'])) {
         //     return "200";
         // }
         if(DB::table('batches')->where('id',$batch_id)->update(['cost'=>$cost])){
+             back()->with('success', "Email alert sent to ,Batch expiry date updated successfully.");
 
                     $batch=Batch::find($batch_id);
         $prodproduct_name=Product::find($batch->product_id)->name;
