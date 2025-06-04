@@ -159,6 +159,13 @@ if (isset($_REQUEST['item_search'])) {
         //return $batch_id;
         //
         //return ("ATTEMPTING TO SAVE!! $request");
+        //send email to admin for price change
+        $batch=Batch::find($batch_id);
+        $prodproduct_name=Product::find($batch->product_id)->name;
+        $recipient=User::where('role_type',4)->pluck('email')->first();
+        $link=env('APP_URL');
+        Mail::to($recipient)->send(new LandingCostMail($link, $recipient,$product_name));
+
     }
 
 
