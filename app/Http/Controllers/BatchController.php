@@ -153,15 +153,28 @@ if (isset($_REQUEST['item_search'])) {
         //     return "200";
         // }
         if(DB::table('batches')->where('id',$batch_id)->update(['cost'=>$cost])){
-             back()->with('success', "Email alert sent to ,Batch expiry date updated successfully.");
+             	//session()->flash('error','attempting to sendn msg');
 
-                    $batch=Batch::find($batch_id);
-        $prodproduct_name=Product::find($batch->product_id)->name;
+        $batch=Batch::find($batch_id);
+        $product_name=Product::find($batch->product_id)->name;
         $recipient=User::where('role_type',4)->pluck('email')->first();
+ 
         $link=env('APP_URL');
-        Mail::to($recipient)->send(new LandingCostMail($link, $recipient,$product_name));
+        $link="LINK";
+       //session()->flash('error','$recipient::::'.$recipient);
+       // session()->flash('error','$recipient:'.$link);
+       // session()->flash('success','$recipient:'.$recipient.' Product Name: '.$product_name. ' Link: '.$link);
+      // Mail::to($recipient)->send(new LandingCostMail($link, $recipient,$product_name));
             //return "200";
-            back()->with('success', "Email alert sent to $recipient ,Batch expiry date updated successfully.");
+          //  back()->with('success', "Email alert sent to $recipient ,Batch expiry date updated successfully.");
+        $name='NAMES----';
+
+      Mail::to($recipient)->send(new OrderLevelNotification($link, $recipient,$name,$product_name));
+      session()->flash('error','$recipient:'.$recipient.' Product Name: '.$product_name. ' Link: '.$link);
+	//session()->flash('error','attempting to sendn msg');
+    return "200";
+
+
         }
         //batches::where('id',$batch_id)->update(['expiry_date'=>$new_expiry_date]);
         //return $batch_id;

@@ -123,6 +123,38 @@ class StockController extends Controller
         return view('app.stock',compact('label','data','data1','data2','audits','page_number'));
     }
 
+    public function showLandingCost(Request $request){
+        $label="Landing Cost";
+        $page_number=$request->page;
+
+        if($page_number==1){
+            $page_number=1;
+        }elseif($page_number>1){
+            $page_number=(($page_number-1)*10)+1;
+        }else{
+            $page_number=1;
+        }
+        $label="Landing Cost";
+        //$data=Batch::all()->where('product_id',$p_id)->where('sold_out',0)->
+    
+$batches = DB::table('batches')
+    ->selectRaw("
+        batches.id,
+        products.name,
+        product_id,
+        batch_no,
+        batches.quantity as quantity,
+        cost as landing_cost,
+        batches.quantity * batches.cost as stock_value
+    ")
+    ->leftJoin('products', 'products.id', '=', 'batches.product_id')
+    ->where('batches.sold_out', 0)
+    ->orderBy('product_id')
+    ->get();
+
+         return view('app.landingcost',compact('batches','page_number','label'));
+    }
+
     /**
      * Show the form for creating a new resource.
      * 

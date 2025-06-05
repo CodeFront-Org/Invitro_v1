@@ -39,6 +39,8 @@
                         </li>
 
 @endrole
+
+
 @role('card')
                         <li>
                             <a href="{{route('audits.index')}}">
@@ -86,6 +88,13 @@
                                 <span>Stocks </span>
                             </a>
                         </li>
+                        <li>
+                            <a href="/landingCost">
+                                <i class="fas fa-truck-moving"></i>
+                                <span>Landing Cost </span>
+                            </a>
+                        </li>
+
 
                         <li>
                             <a href="/batch-edit">
