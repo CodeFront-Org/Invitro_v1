@@ -17,7 +17,7 @@
                                         if (data.length > 0) {
                                             results += '<ul class="list-unstyled">';
                                             $.each(data, function(index, product) {
-                                                results += '<li class="product-item"><a href="#" onclick="selectProduct(\'' + product.name + '\',\'' + resultsid + '\')">' + product.name + '</a></li>';
+                                                results += '<li class="product-item"><a href="#" onclick="selectProduct(\'' + btoa(product.name) + '\',\'' + resultsid + '\')">' + product.name + '</a></li>';
                                             });
                                             results += '</ul>';
                                         } else {
@@ -36,7 +36,7 @@
                     function selectProduct(productName, resultsid) {
                         //alert("000");
                       //  console.log("Selected product: " + productName);
-                        $(resultsid).prev().val(productName).trigger("change");
+                        $(resultsid).prev().val(atob(productName)).trigger("change");
                         $(resultsid).empty();
                     }
                 </script>
