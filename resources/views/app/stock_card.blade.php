@@ -151,7 +151,8 @@
 
 
 
-                                     <input type='text'  id='p_name2' name='name' class='product-search form-control' value='' placeholder="Search Product ..." >
+                                     <input type='text' id='p_name2' name='name' class='product-search form-control' value='' placeholder="Search Product ..." >
+                                     
                                      <div class='p_name2' id='results-dropdown'></div>
 
                                         {{-- <input type="text" list="regnoo" parsley-trigger="change" required class="form-control"
@@ -164,6 +165,7 @@
                                             @endforeach
                                         </datalist> --}}
                                     </div>
+                                    
                                 </div>
                                 {{-- <div class="col-md-6">
                                     <div class="mb-3">
