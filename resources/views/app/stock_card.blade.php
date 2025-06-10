@@ -23,21 +23,15 @@
 
             @php
                 use App\Models\Product;
-                use App\Models\Card;
+                //use App\Models\Card;
                 $products = Product::all();
                 //$cards = Card::select('id', 'remarks')->distinct('remarks')->get();
 
             @endphp
 
-            <input type="text" list="regnoo" parsley-trigger="change"  class="form-control"
-                id="p1_name" name='product_filter' autocomplete="off" placeholder="Search Product ..." aria-label="#"
-            />
+           <input type='text'  id='search_id3' name='name' class='product-search form-control' value='' placeholder="Search Product ..." >
+          <div class='search_id3' id='results-dropdown'></div>
 
-            <datalist id="regnoo">
-                @foreach ($products as $product)
-                    <option value="{{ $product->name }}">{{ $product->name }}</option>
-                @endforeach
-            </datalist>
         </div>
         <div class="mb-3 col-md-3">
             <label for="from">Destination:</label>
@@ -45,11 +39,11 @@
                 id="p1_name" name='destination_filter' autocomplete="off" placeholder="Search Destination ..." aria-label="#"
             />
 
-            <datalist id="regnoo123">
+            {{-- <datalist id="regnoo123">
                 @foreach ($cards as $card)
                     <option value="{{ $card->remarks }}">{{ $card->remarks }}</option>
                 @endforeach
-            </datalist>
+            </datalist> --}}
         </div>
         <div class="mb-3 col-md-2">
             <label for="from">From:</label>
@@ -62,7 +56,7 @@
         <div class="mb-3 col-md-1" style="margin-top: 2%">
             <button type="submit" class="btn btn-primary waves-effect waves-light">Submit</button>
         </div>
-        
+
     </div>
 
 
@@ -92,10 +86,10 @@
                                     <th>In</th>
                                     <th>At Hand</th>
                                     <th>Name</th>
-                              
+
                                     <th>Date</th>
                                     <th>Remarks</th>
-                                
+
                                 </tr>
                                 </thead>
 
@@ -111,10 +105,10 @@
                                         <td>{{$item['in']}}</td>
                                         <td>{{$item['balance']}}</td>
                                         <td>{{$item['user']}}</td>
-                                    
+
                                         <td>{{$item['date']}}</td>
                                         <td>{{$item['remarks']}}</td>
-                                    
+
                                     </tr>
                                     @php
                                         $page+=1;
@@ -154,20 +148,21 @@
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label for="field-11w" class="form-label">Product Name</label>
-                                    
-                                        @php
-                                            $products = Product::all();
-                                        @endphp
-                                    
-                                        <input type="text" list="regnoo" parsley-trigger="change" required class="form-control"
-                                               id="p_name2" name='name' autocomplete="off" placeholder="Search Product ..." 
-                                               aria-label="Recipient's username" />
-                                    
-                                        <datalist id="regnoo">
+
+
+
+                                     <input type='text'  id='p_name2' name='name' class='product-search form-control' value='' placeholder="Search Product ..." >
+                                     <div class='p_name2' id='results-dropdown'></div>
+
+                                        {{-- <input type="text" list="regnoo" parsley-trigger="change" required class="form-control"
+                                               id="p_name2x" name='name' autocomplete="off" placeholder="Search Product ..."
+                                               aria-label="Recipient's username" /> --}}       
+
+                                        {{-- <datalist id="regnoo">
                                             @foreach ($products as $product)
                                                 <option value="{{ $product->name }}" data-id="{{ $product->id }}">{{ $product->name }}</option>
                                             @endforeach
-                                        </datalist>
+                                        </datalist> --}}
                                     </div>
                                 </div>
                                 {{-- <div class="col-md-6">
@@ -179,7 +174,7 @@
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label for="field-2l" class="form-label">At-hand</label>
-                                        
+
                                         <input type="number" name="at_hand" class="form-control" id="fieldAtHand" placeholder="at hand" required>
                                     </div>
                                 </div>
@@ -189,11 +184,11 @@
                                           <select class="form-control"  id="stock_card_option" oninput='ChangeCard();' required>
 											  <option value="IN">In</option>
 											  <option value="OUT">Out</option>
-									
+
 											</select>
                                     </div>
-                                </div> 
-							
+                                </div>
+
 							<div class="col-md-12" id='stock_out'>
                                     <div class="mb-3">
                                         <label for="field-2l" class="form-label">Out</label>
@@ -239,7 +234,7 @@
                 </div>
             </div><!-- /.modal -->
 
-            {{-- 
+            {{--
             <!-- Edit  Stock Modal -->
             @foreach ($data as $item)
                 <div id="con-close-modal-edit-{{$item['id']}}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
@@ -276,7 +271,7 @@
                                     </datalist>
                                     </div>
                                     </div>
-                          
+
 
                                     <div class="col-md-6">
                                         <div class="mb-3">
@@ -330,8 +325,8 @@
                     </div>
                 </div>
                 <!-- /.modal -->
-                
-            @endforeach 
+
+            @endforeach
             --}}
 
             <table id="salestable1" style="display: none">
@@ -406,7 +401,7 @@ $.ajax({
     type: "POST",
     url: "/cards",
     data: data,
-    success: function (response) { console.log(response) 
+    success: function (response) { console.log(response)
 
         if(response=='ok'){
                     toastr.options = {
@@ -429,7 +424,7 @@ $.ajax({
                     toastr["success"]("", "Product Saved Succesfully.")
                 }else{
                  Swal.fire("Error!", "An Error occured. Please try again later1", "error");
-                    
+
                 }
         btn.show();
         loader.hide();
@@ -455,8 +450,9 @@ function sanitizeStringForID(input) {
 
 
 
-//Process input 
-$('#p_name2').on('input', function() {
+//Process input
+$('#p_name2').change(function() {
+   console.log('Input changed...');
     // Get the selected product name from the datalist input
     const selectedProduct = $(this).val();
     const options = $('#regnoo option');
@@ -469,14 +465,14 @@ $('#p_name2').on('input', function() {
             data:{
                 _token:"{{csrf_token()}}",selectedProduct
             },
-            success: function (response) { 
+            success: function (response) {
                 if(response.isAtHand==1){
                  $('#fieldAtHand').attr('readonly', true);
-                $('#fieldAtHand').val(response.qty); 
+                $('#fieldAtHand').val(response.qty);
                     return;
                 }else{
                 $('#fieldAtHand').removeAttr('readonly');
-                $('#fieldAtHand').val(''); 
+                $('#fieldAtHand').val('');
                     return
                 }
 
@@ -486,7 +482,7 @@ $('#p_name2').on('input', function() {
             error: function(res){console.log(res)
 
                 $('#fieldAtHand').removeAttr('readonly');
-                $('#fieldAtHand').val(''); 
+                $('#fieldAtHand').val('');
                 return
                 //Swal.fire("Error!", "Try again later...", "error");
             }
@@ -498,7 +494,7 @@ return
     //let productName = "price11" + n.replace(/\s+/g, '');
     let productName = "price11" + sanitizeStringForID(n);
     const qty = $(`#${productName}`).val(); // Correctly fetching the value of the element
-    
+
     const isAtHand = $(`#${productName}`).data('is-at-hand'); // Correctly fetching the value of the element
 
     // Assuming isAtHand is already defined
@@ -534,8 +530,8 @@ function ChangeCard(){
 	/*	*/
 	$(".stocksvalue").val("");
 	$(".balanceinput").val("");
-	
-	
+
+
 	if ($("#stock_card_option").val()=='IN'){
 		$("#stock_out").hide();
 		$("#stock_out").val("");
@@ -543,9 +539,9 @@ function ChangeCard(){
 	}else{
 		$("#stock_out").show();
 		$("#stock_in").hide();
-		
+
 	}
-	
+
 
 }
 
@@ -556,7 +552,7 @@ function updateBalanceOut(){
 }
 function updateBalanceIN(){
 
-	
+
 	$(".balanceinput").val($("#fieldAtHand").val()*1 + $("#fieldIN").val()*1);
 }
 </script>

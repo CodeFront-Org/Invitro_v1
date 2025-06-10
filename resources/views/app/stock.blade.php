@@ -148,23 +148,10 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="mb-3">
-                                    <label for="field-11w" class="form-label">Product Name</label>
-
-                                @php
-                                    use App\Models\Product;
-                                    $products = Product::all();
-
-                                @endphp
-
-                                <input type="text" list="regnoo" parsley-trigger="change" required class="form-control"
-                                    id="p_name" name='name' autocomplete="off" placeholder="Search Product ..." aria-label="Recipient's username"
-                                />
-
-                                <datalist id="regnoo">
-                                    @foreach ($products as $product)
-                                        <option value="{{ $product->name }}">{{ $product->name }}</option>
-                                    @endforeach
-                                </datalist>
+                                    <label for="field-11w" class="form-label">Product Name</label> 
+                                    <input type='text'  id='search_id3' name='name' class='product-search form-control' value='' placeholder="Search Product ..." >
+                                   <div class='search_id3' id='results-dropdown'></div>
+                      
                                 </div>
                                 </div>
                                 <div class="col-md-6">
@@ -202,7 +189,7 @@
             </div><!-- /.modal -->
 
 
-            <!--Edit OrderLevel Modal -->
+            {{-- <!--Edit OrderLevel Modal -->
             @foreach ($data as $item)
                 <div id="con-close-modal-edit-order-level-{{$item['id']}}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
                     <div class="modal-dialog modal-dialog-sm modal-dialog-centered">
@@ -253,11 +240,11 @@
                     </div>
                 </div><!-- /.modal -->
             @endforeach
+ --}}
 
 
 
-
-            <!--View Stock Audit-->
+            {{-- <!--View Stock Audit-->
             @foreach ($data as $item1)
                 <div id="con-close-modal-view-audit-{{$item1['id']}}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
                     <div class="modal-dialog modal-lg modal-dialog-centered">
@@ -319,12 +306,12 @@
                         </div>
                     </div>
                 </div><!-- /.modal -->
-            @endforeach
+            @endforeach --}}
 
 
 
 
-            <!--Edit Audit Modal -->
+            {{-- <!--Edit Audit Modal -->
             @foreach ($data as $item)
                 <div id="con-close-modal-edit-audit-{{$item['id']}}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
                     <div class="modal-dialog modal-dialog-sm modal-dialog-centered">
@@ -370,11 +357,11 @@
                         </div>
                     </div>
                 </div><!-- /.modal -->
-            @endforeach
+            @endforeach --}}
 
 
 
-            <!-- Edit Stock Modal -->
+            {{-- <!-- Edit Stock Modal -->
             @foreach ($data2 as $item)
                 <div id="con-close-modal-edit-stock-{{$item['id']}}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
                     <div class="modal-dialog modal-dialog-centered">
@@ -449,7 +436,7 @@
                     </div>
                 </div><!-- /.modal -->
             @endforeach
-
+ --}}
 
 
             <!-- REstock Stock Modal -->
@@ -471,21 +458,10 @@
                                     <div class="mb-3">
                                     <label for="field-11w" class="form-label">Product Name</label>
 
-                                @php
-                                    //use App\Models\Product;
-                                    $products = Product::all();
+                            
 
-                                @endphp
-
-                                <input type="text" list="regnoo" parsley-trigger="change" required class="form-control"
-                                    id="p_name" name='name' autocomplete="off" placeholder="Search Product ..." aria-label="Recipient's username"
-                                />
-
-                                <datalist id="regnoo">
-                                    @foreach ($products as $product)
-                                        <option value="{{ $product->name }}">{{ $product->name }}</option>
-                                    @endforeach
-                                </datalist>
+                               <input type='text'  id='search_id4' name='name' class='product-search form-control' value='' placeholder="Search Product ..." >
+                                   <div class='search_id4' id='results-dropdown'></div>
                                 </div>
                                 </div>
                                 <div class="col-md-6">
@@ -563,7 +539,7 @@
 
 
 
-            <!-- View Transaction of Stock Modal -->
+            {{-- <!-- View Transaction of Stock Modal -->
 @foreach ($data as $item1)
     <div id="con-close-modal-txn-{{$item1['id']}}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
         <div class="modal-dialog modal-full-width">
@@ -654,11 +630,11 @@
             </div>
         </div>
     </div><!-- /.modal -->
-
+@endforeach --}}
 
                 <!-- Add Reference Number Modal -->
 
-                <div id="con-close-modal-add-ref" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+    <div id="con-close-modal-add-ref" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
                     <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content">
                             <form id="addRefForm" method="post">
@@ -675,20 +651,8 @@
                                         <div class="mb-3">
                                         <label for="field-11w" class="form-label">Product Name</label>
     
-                                    @php
-                                        $products = Product::all();
-    
-                                    @endphp
-    
-                                    <input type="text" list="regnoo" parsley-trigger="change" required class="form-control"
-                                        id="p_name" name='name' autocomplete="off" placeholder="Search Product ..." aria-label="Recipient's username"
-                                    />
-    
-                                    <datalist id="regnoo">
-                                        @foreach ($products as $product)
-                                            <option value="{{ $product->name }}">{{ $product->name }}</option>
-                                        @endforeach
-                                    </datalist>
+                                   <input type='text'  id='search_id4' name='name' class='product-search form-control' value='' placeholder="Search Product ..." >
+                                   <div class='search_id4' id='results-dropdown'></div>
                                     </div>
                                     </div>
                                     <div class="col-md-6">
@@ -712,7 +676,7 @@
                         </div>
                     </div>
                 </div><!-- /.modal -->
-@endforeach
+
 
 
 @endsection

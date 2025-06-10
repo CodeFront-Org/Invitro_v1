@@ -1,4 +1,58 @@
-        <div class="navbar-custom">
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+                <script>
+                    $(document).ready(function() {
+                      //  console.log("ready!");
+                        $('.product-search').on('keyup', function() {
+
+                            var resultsid='.'+this.id;
+                            var search = $(this).val();
+                            if (search.length > 0) {
+                                $.ajax({
+                                    url: '/autocomplete',
+                                    type: 'GET',
+                                    data: { search: search },
+                                    success: function(data) {
+                                        console.log(data);
+                                        var results = '';
+                                        if (data.length > 0) {
+                                            results += '<ul class="list-unstyled">';
+                                            $.each(data, function(index, product) {
+                                                results += '<li class="product-item"><a href="#" onclick="selectProduct(\'' + product.name + '\',\'' + resultsid + '\')">' + product.name + '</a></li>';
+                                            });
+                                            results += '</ul>';
+                                        } else {
+                                            results = '<p>No products found</p>';
+                                        }
+                                       //the key word -this- should not be used inside the loop as it will refer to the last element
+                                      $(resultsid).html(results);
+                                    }
+                                });
+                            } else {
+                              
+                                $(resultsid).empty();
+                            }
+                        });
+                    });
+                    function selectProduct(productName, resultsid) {
+                        //alert("000");
+                      //  console.log("Selected product: " + productName);
+                        $(resultsid).prev().val(productName).trigger("change");
+                        $(resultsid).empty();
+                    }
+                </script>
+                <style>
+                    #results-dropdown {
+                        position:fixed;
+                        max-height: 300px;
+                        overflow-y: auto;
+                        z-index: 1000;
+                        background-color: #fff;
+                        display: block;
+                    }
+                    
+
+            </style>
+     <div class="navbar-custom">
             <ul class="list-unstyled topnav-menu float-end mb-0">
 
                 <li class="d-none d-lg-block">
@@ -15,18 +69,15 @@
 
                                 @endphp
 
-                                        <input type="text" list="regnoo" parsley-trigger="change" required class="form-control "
-                                            id="p_name" name='name' autocomplete="off" placeholder="Search Product ..." aria-label="Recipient's username" />
-
-                                        <datalist id="regnoo">
-                                            @foreach ($products as $product)
-                                                <option value="{{ $product->name }}">{{ $product->name }}</option>
-                                            @endforeach
-                                        </datalist>
+                    <input type='text' name='search' id='search_id1' class='product-search form-control' value='' >
+                    <div class='search_id1' style='position: relative; z-index: 1000; display: block;'></div>
+                                     
                                 <button class="btn input-group-text" type="submit">
                                     <i class="fe-search"></i>
                                 </button>
                             </div>
+
+              
                             <div class="dropdown-menu dropdown-lg" id="search-dropdown">
                                 <!-- item-->
                                 <div class="dropdown-header noti-title">
@@ -67,6 +118,12 @@
                         </div>
                     </form>
                 </li>
+
+
+                
+            
+          
+
 
                 <li class="dropdown d-inline-block d-lg-none">
                     <a class="nav-link dropdown-toggle arrow-none waves-effect waves-light" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">

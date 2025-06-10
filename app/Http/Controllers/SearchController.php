@@ -147,4 +147,12 @@ class SearchController extends Controller
             //return $data2;
             return view('app.product_details',compact('label','data','data1','data2','audits','product_id'));
         }
+
+
+        function autocomplete(Request $request)
+        {
+            $term = $request->search;
+           return Product::where('name', 'LIKE', '%' . $term . '%')->where('approve',1)->take(10)->get();
+           
+        }
 }

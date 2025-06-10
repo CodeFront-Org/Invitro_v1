@@ -84,6 +84,7 @@ Route::resource('/profile',App\Http\Controllers\ProfileController::class);
 Route::Post('/pswUpdate',[App\Http\Controllers\ProfileController::class,'pswUpdate'])->name('pswUpdate');
 
 Route::get('/product-details',[App\Http\Controllers\SearchController::class,'product'])->name('/product-details');
+Route::get('autocomplete', [App\Http\Controllers\SearchController::class, 'autocomplete'])->name('autocomplete');//for searching products
 // Reports routes 
 Route::get('/with-batch',[App\Http\Controllers\ReportsController::class,'productsWithBatch'])->name('/with-batch');
 Route::get('/without-batch',[App\Http\Controllers\ReportsController::class,'productsWithoutBatch'])->name('/without-batch');
