@@ -22,7 +22,7 @@ class SearchController extends Controller
             $check=Product::where('name',$name)->exists();
             if(!$check){//Product does not exist
                 // Error message
-                session()->flash('error', 'Product '.$name.' does not exists in your stocks. Please Check for typo and try again...');
+                session()->flash('error', 'Product '.$name.' - does not exists in your stocks. Please Check for typo and try again...');
                 return back();
             }
             $label='Product Details';

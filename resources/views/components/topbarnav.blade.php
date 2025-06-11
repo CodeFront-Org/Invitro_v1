@@ -1,8 +1,10 @@
  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+ 
                 <script>
                     $(document).ready(function() {
                       //  console.log("ready!");
-                        $('.product-search').on('keyup', function() {
+                        $('.product-search').on('change', function() {
 
                             var resultsid='.'+this.id;
                             var search = $(this).val();
@@ -35,9 +37,11 @@
                     });
                     function selectProduct(productName, resultsid) {
                         //alert("000");
-                      //  console.log("Selected product: " + productName);
+                       console.log("Selected b64: " + productName);
+                       console.log("Selected product: " + atob(productName));
+                       console.log("Results ID: " + resultsid);
                         $(resultsid).prev().val(atob(productName)).trigger("change");
-                        $(resultsid).empty();
+                      //  $(resultsid).empty();
                     }
                 </script>
                 <style>
@@ -65,11 +69,11 @@
                                     use App\Models\Product;
                                     use App\Models\Stock;
                                     use App\Models\Order;
-                                    $products = Product::select('name')->where('approve',1)->get();
+                                   // $products = Product::select('name')->where('approve',1)->get();
 
                                 @endphp
 
-                    <input type='text' name='search' id='search_id1' class='product-search form-control' value='' >
+                    <input type='text' name='name' id='search_id1' class='product-search form-control' value='' >
                     <div class='search_id1' style='position: relative; z-index: 1000; display: block;'></div>
                                      
                                 <button class="btn input-group-text" type="submit">

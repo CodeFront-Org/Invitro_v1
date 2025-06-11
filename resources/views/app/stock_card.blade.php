@@ -149,21 +149,18 @@
                                     <div class="mb-3">
                                         <label for="field-11w" class="form-label">Product Name</label>
 
+                                <div class="input-group mb-3">
+                                     <input type="text" id='p_name7' class='product-search form-control' placeholder="Search..." value=''  name='name' >
+                                      
+                                        <div class="input-group-append">
+                                            <span class="input-group-text "><i class="bi bi-search"></i>search</span>
+                                        </div>
 
+                                        <div class='p_name7' id='results-dropdown'></div>
+                                </div>
 
-                                     <input type='text' id='p_name2' name='name' class='product-search form-control' value='' placeholder="Search Product ..." >
-                                     
-                                     <div class='p_name2' id='results-dropdown'></div>
-
-                                        {{-- <input type="text" list="regnoo" parsley-trigger="change" required class="form-control"
-                                               id="p_name2x" name='name' autocomplete="off" placeholder="Search Product ..."
-                                               aria-label="Recipient's username" /> --}}       
-
-                                        {{-- <datalist id="regnoo">
-                                            @foreach ($products as $product)
-                                                <option value="{{ $product->name }}" data-id="{{ $product->id }}">{{ $product->name }}</option>
-                                            @endforeach
-                                        </datalist> --}}
+                                      <input type='text'  id='search_id9' name='name' class='product-search form-control' value='' placeholder="Search Product ..." >
+                                   <div class='search_id9' id='results-dropdown'></div>
                                     </div>
                                     
                                 </div>
