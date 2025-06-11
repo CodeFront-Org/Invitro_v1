@@ -24,7 +24,7 @@
             @php
                 use App\Models\Product;
                 //use App\Models\Card;
-                $products = Product::all();
+               // $products = Product::all();
                 //$cards = Card::select('id', 'remarks')->distinct('remarks')->get();
 
             @endphp
@@ -150,19 +150,14 @@
                                         <label for="field-11w" class="form-label">Product Name</label>
 
                                 <div class="input-group mb-3">
-                                     <input type="text" id='p_name7' class='product-search form-control' placeholder="Search..." value=''  name='name' >
-                                      
+                                     <input type="text" name='name' id='search_id10' class='product-search form-control' placeholder="Search..." value=''  >
+                                      <div class='search_id10' id='results-dropdown'></div>
+
                                         <div class="input-group-append">
                                             <span class="input-group-text "><i class="bi bi-search"></i>search</span>
                                         </div>
 
-                                        <div class='p_name7' id='results-dropdown'></div>
-                                </div>
-
-                                      <input type='text'  id='search_id9' name='name' class='product-search form-control' value='' placeholder="Search Product ..." >
-                                   <div class='search_id9' id='results-dropdown'></div>
                                     </div>
-                                    
                                 </div>
                                 {{-- <div class="col-md-6">
                                     <div class="mb-3">
@@ -450,7 +445,7 @@ function sanitizeStringForID(input) {
 
 
 //Process input
-$('#p_name2').change(function() {
+$('#search_id10').change(function() {
    console.log('Input changed...');
     // Get the selected product name from the datalist input
     const selectedProduct = $(this).val();

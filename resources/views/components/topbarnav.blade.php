@@ -4,9 +4,9 @@
                 <script>
                     $(document).ready(function() {
                       //  console.log("ready!");
-                        $('.product-search').on('change', function() {
+                        $('.product-search').on('focusout', function() {
 
-                            var resultsid='.'+this.id;
+                            var resultsid=this.id;
                             var search = $(this).val();
                             if (search.length > 0) {
                                 $.ajax({
@@ -26,22 +26,24 @@
                                             results = '<p>No products found</p>';
                                         }
                                        //the key word -this- should not be used inside the loop as it will refer to the last element
-                                      $(resultsid).html(results);
+                                      $("." + resultsid).html(results);
                                     }
                                 });
                             } else {
                               
-                                $(resultsid).empty();
+                                $("." + resultsid).empty();
                             }
                         });
                     });
                     function selectProduct(productName, resultsid) {
                         //alert("000");
-                       console.log("Selected b64: " + productName);
-                       console.log("Selected product: " + atob(productName));
+                  
                        console.log("Results ID: " + resultsid);
-                        $(resultsid).prev().val(atob(productName)).trigger("change");
-                      //  $(resultsid).empty();
+                       console.log("try trigger change");
+                        $('#' + resultsid).val(atob(productName)).trigger("change");
+                       // $(resultsid).prev().val(atob(productName)).trigger("change");
+                       $('.' + resultsid).html('');
+                       //$('.results-dropdown').empty();
                     }
                 </script>
                 <style>
