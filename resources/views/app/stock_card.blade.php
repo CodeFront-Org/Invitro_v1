@@ -22,7 +22,7 @@
             <label for="from">Product:</label>
 
             @php
-                use App\Models\Product;
+                //se App\Models\Product;
                 //use App\Models\Card;
                // $products = Product::all();
                 //$cards = Card::select('id', 'remarks')->distinct('remarks')->get();
@@ -80,7 +80,6 @@
                                 <tr>
                                     <th>#</th>
                                     <th>Item</th>
-                                    {{-- <th>Size</th> --}}
                                     <th>Initial Qty</th>
                                     <th>Out</th>
                                     <th>In</th>
@@ -88,7 +87,7 @@
                                     <th>Name</th>
 
                                     <th>Date</th>
-                                    <th>Remarks</th>
+                                    <th>Remarks-00</th>
 
                                 </tr>
                                 </thead>
@@ -99,7 +98,6 @@
                                     <tr>
                                         <td>{{$page}} </td>
                                         <td>{{$item['item']}}</td>
-                                        {{-- <td>{{$item['size']}}</td> --}}
                                         <td>{{$item['at_hand']}}</td>
                                         <td>{{$item['out']}}</td>
                                         <td>{{$item['in']}}</td>
@@ -127,7 +125,9 @@
                 </div>
 
             </div>
-        </div> <!-- end row -->
+        </div>
+        
+        <!-- end row -->
 
 
             <!-- Add New Stock Modal -->
@@ -157,6 +157,7 @@
                                             <span class="input-group-text "><i class="bi bi-search"></i>search</span>
                                         </div>
 
+                                    </div>
                                     </div>
                                 </div>
                                 {{-- <div class="col-md-6">
@@ -323,7 +324,7 @@
             @endforeach
             --}}
 
-            <table id="salestable1" style="display: none">
+            {{-- <table id="salestable1" style="display: none">
                 <thead>
                     <tr>
                         <th>#</th>
@@ -335,7 +336,7 @@
                         <th>Balance</th>
                         <th>Staff Incharge</th>
                         <th>Date</th>
-                        <th>Remarks</th>
+                        <th>Remarks-11</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -354,12 +355,12 @@
                         </tr>
                     @endforeach
                 </tbody>
-            </table>
+            </table> --}}
 
-
+{{-- 
             @foreach ($product_prices as $item)
                 <input type="hidden" id="price11{{ preg_replace('/[^a-zA-Z0-9]/', '', $item['name']) }}" value="{{$item['at_hand']}}"  data-is-at-hand="{{ $item['is_at_hand'] }}">
-            @endforeach
+            @endforeach --}}
 
 @endsection
 

@@ -55,9 +55,13 @@ class CardsController extends Controller
             $data1=Card::whereBetween('created_at', [$from, $to])->orderBy('id', 'desc')->paginate(10);
             $data2=Card::whereBetween('created_at', [$from, $to])->orderBy('id', 'desc')->get();
         }else{//get all data 
-            $cards = Card::latest()->paginate(10);
-            $data1=Card::orderBy('id', 'desc')->paginate(10);
-            $data2=Card::orderBy('id', 'desc')->get();
+           // $cards = Card::latest()->take(10)->paginate(10);
+            $data1=Card::orderBy('id', 'desc')->latest()->take(10)->paginate(10);
+            $cards=$data1;
+            $data2=$data1;
+
+           // $data2=Card::orderBy('id', 'desc')->latest()->take(10)->get();
+
         }
 
 
@@ -101,19 +105,19 @@ class CardsController extends Controller
                 ]);
             }
 
-            //To control product qty display when entering new field
-            $c=Card::where('product_id',$card->product_id)->where('is_at_hand',1)->pluck('at_hand')->first();
-            $isAtHand=Card::where('product_id',$card->product_id)->pluck('is_at_hand')->first();
-            $s=Card::where('product_id',$card->product_id)->sum('in');
-            $o=Card::where('product_id',$card->product_id)->sum('out');
-            $sum=$c+$s-$o;
-            array_push($product_prices,[
-                'id'=>$card->product_id,
-                'name'=>Product::where('id',$card->product_id)->pluck('name')->first(),
-                'quantity'=>Product::where('id',$card->product_id)->pluck('quantity')->first(),
-                'at_hand'=>$sum,
-                'is_at_hand'=>$isAtHand
-            ]);
+            // //To control product qty display when entering new field
+            // $c=Card::where('product_id',$card->product_id)->where('is_at_hand',1)->pluck('at_hand')->first();
+            // $isAtHand=Card::where('product_id',$card->product_id)->pluck('is_at_hand')->first();
+            // $s=Card::where('product_id',$card->product_id)->sum('in');
+            // $o=Card::where('product_id',$card->product_id)->sum('out');
+            // $sum=$c+$s-$o;
+            // array_push($product_prices,[
+            //     'id'=>$card->product_id,
+            //     'name'=>Product::where('id',$card->product_id)->pluck('name')->first(),
+            //     'quantity'=>Product::where('id',$card->product_id)->pluck('quantity')->first(),
+            //     'at_hand'=>$sum,
+            //     'is_at_hand'=>$isAtHand
+            // ]);
 
 
         }
@@ -123,15 +127,15 @@ class CardsController extends Controller
             $product_name=Product::where('id',$card->product_id)->pluck('name')->first();
             array_push($data3,[
                 'item'=>$product_name,
-                'size'=>$card->size,
+                //'size'=>$card->size,
                 'at_hand'=>$card->at_hand,
                 'out'=>$card->out,
                 'in'=>$card->in,
                 'balance'=>$card->balance,
-                'user'=>$card->user,
+                //'user'=>$card->user,
                 'remarks'=>$card->remarks,
                 'date' =>$card->created_at,
-                'id'=>$card->id,
+               // 'id'=>$card->id,
             ]);
         }
 
