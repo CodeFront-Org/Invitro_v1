@@ -6,6 +6,8 @@
                       //  console.log("ready!");
                         $('.product-search').on('focusout', function() {
 
+                            $('#loading-spinner').show();
+
                             var resultsid=this.id;
                             var search = $(this).val();
                             if (search.length > 0) {
@@ -27,11 +29,13 @@
                                         }
                                        //the key word -this- should not be used inside the loop as it will refer to the last element
                                       $("." + resultsid).html(results);
+                                        $('#loading-spinner').hide();
                                     }
                                 });
                             } else {
                               
                                 $("." + resultsid).empty();
+                                $('#loading-spinner').hide();
                             }
                         });
                     });
@@ -62,6 +66,18 @@
                     
 
             </style>
+            <div id='loading-spinner' class='text-primary h4' style='position: absolute;top: 10%;
+    left: 50%;
+    z-index: 9999;
+    display: none;
+    margin-top: -50px;
+    margin-left: -50px;'>
+              <div class="spinner-border text-primary bg-light" >
+    </div><br>
+    Loading...
+    </div>
+
+</div>
      <div class="navbar-custom">
             <ul class="list-unstyled topnav-menu float-end mb-0">
 
