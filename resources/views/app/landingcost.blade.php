@@ -37,8 +37,9 @@
                                  
                                     <tr>
                                         <td>{{$item->id}}</td>
+                                         <td>{{$item->name}}</td>
                                         <td>{{$item->product_id}}</td>
-                                        <td>{{$item->name}}</td>
+                                       
                                         <td>{{$item->batch_no}}</td>
                                         <td>{{$item->quantity}}</td>
                                         <td>{{$item->landing_cost}}</td>

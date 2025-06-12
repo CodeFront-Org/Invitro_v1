@@ -138,20 +138,34 @@ class StockController extends Controller
         $label="Landing Cost";
         //$data=Batch::all()->where('product_id',$p_id)->where('sold_out',0)->
     
-$batches = DB::table('batches')
-    ->selectRaw("
-        batches.id,
-        products.name,
-        product_id,
-        batch_no,
-        batches.quantity as quantity,
-        cost as landing_cost,
-        batches.quantity * batches.cost as stock_value
-    ")
-    ->leftJoin('products', 'products.id', '=', 'batches.product_id')
-    ->where('batches.sold_out', 0)
-    ->orderBy('product_id')
-    ->get();
+// $batches = DB::table('batches')
+//     ->selectRaw("
+//         batches.id,
+//         products.name,
+//         product_id,
+//         batch_no,
+//         (batches.quantity-batches.sold) as quantity,
+//         cost as landing_cost,
+//         ((batches.quantity-batches.sold) * batches.cost) as stock_value
+//     ")
+//     ->leftJoin('products', 'products.id', '=', 'batches.product_id')
+//     ->where('batches.sold_out', 0)
+//     ->where('batches.approved', 1)
+//     ->orderBy('product_id')
+//     ->get();
+
+    $batches =DB::select('SELECT 
+    batches.id,
+    products.name,
+    product_id,
+    batch_no,
+    (batches.quantity-batches.sold) as quantity,
+    cost as landing_cost,
+    ((batches.quantity-batches.sold) * batches.cost) as stock_value FROM `batches` 
+    left join products on products.id=batches.product_id
+    where sold_out=0 and approved=1  
+ORDER BY `stock_value` DESC,product_id');
+//dd($batches);
 
          return view('app.landingcost',compact('batches','page_number','label'));
     }

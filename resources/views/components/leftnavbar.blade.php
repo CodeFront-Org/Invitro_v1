@@ -90,8 +90,8 @@
                         </li>
                         <li>
                             <a href="/landingCost">
-                                <i class="fas fa-truck-moving"></i>
-                                <span>Landing Cost </span>
+                                <i class="fas fa-dollar"></i>
+                                <span>Stock Value </span>
                             </a>
                         </li>
 
