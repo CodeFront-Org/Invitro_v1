@@ -90,7 +90,7 @@
                         </li>
                         <li>
                             <a href="/landingCost">
-                                <i class="fas fa-dollar"></i>
+                                <i class="fas fa-dollar-sign"></i>
                                 <span>Stock Value </span>
                             </a>
                         </li>
@@ -137,6 +137,8 @@
 @endrole
 
 @role(['admin','staff'])
+
+                    
 
 
 

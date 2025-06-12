@@ -76,53 +76,59 @@ class StockController extends Controller
                 'e_period'=>$e_period,
                 'alert'=>$alert
             ]);
-                //get data from stock table
-                //$stocks=Stock::all()->where('product_id',$p_id)->sortByDesc('id')->take(10);
-                // foreach($stocks as $s){
-                //     $source=$s->source;
-                //     $date=$s->created_at;
-                //     //$date=Carbon::createFromFormat('Y-m-d H:i:s', $date)->format('F jS Y');
-                //     $remarks=$s->remarks;
-                //     $approve=$s->approve;
-                //     $b_id=$s->batch_id;
-                //     $batch_qty=Batch::where('id',$b_id)->pluck('quantity')->first();
-                //     $batch_no=Batch::where('id',$b_id)->pluck('batch_no')->first();
-                //     $batch_id=Batch::where('id',$b_id)->pluck('id')->first();
-                //     $expiry=Batch::where('id',$b_id)->pluck('expiry_date')->first();
-                //     $expiry = Carbon::createFromFormat('Y-m-d H:i:s', $expiry)->format('F jS Y');
-                //     $sold=Batch::where('id',$b_id)->pluck('sold_out')->first();//Help know which batches have been sold out so as to not display them
-                //     //getting user name
-                //     $ff=$s->user_id;
-                //     $f=User::withTrashed()->where('id',$ff)->pluck('first_name')->first();
-                //     $l=User::withTrashed()->where('id',$ff)->pluck('last_name')->first();
-                //     $staff=$f." ".$l;
-                //     //push data for transaction
-                //     if($sold==0 or $sold==1){
-                //         array_push($data2,[
-                //             'id'=>$s->id,
-                //             'batch_id'=>$batch_id,
-                //             'product_id'=>$p_id,
-                //             'name'=>$product_name,
-                //             'quantity'=>$batch_qty,
-                //             'quantity_type'=>$s->quantity_type,
-                //             'batch_no'=>$batch_no,
-                //             'batch_id'=>$batch_id,
-                //             'source'=>$source,
-                //             'staff'=>$staff,
-                //             'date_in'=>$date,
-                //             'expiry'=>$expiry,
-                //             'remarks'=>$remarks,
-                //             'approve'=>$approve
-                //             ]);
-                //     }
-                // }
+               //get data from stock table
+                $stocks=Stock::all()->where('product_id',$p_id)->sortByDesc('id')->take(10);
+                foreach($stocks as $s){
+                    $source=$s->source;
+                    $date=$s->created_at;
+                    //$date=Carbon::createFromFormat('Y-m-d H:i:s', $date)->format('F jS Y');
+                    $remarks=$s->remarks;
+                    $approve=$s->approve;
+                    $b_id=$s->batch_id;
+                    $batch_qty=Batch::where('id',$b_id)->pluck('quantity')->first();
+                    $batch_no=Batch::where('id',$b_id)->pluck('batch_no')->first();
+                    $batch_id=Batch::where('id',$b_id)->pluck('id')->first();
+                    $expiry=Batch::where('id',$b_id)->pluck('expiry_date')->first();
+                    $expiry = Carbon::createFromFormat('Y-m-d H:i:s', $expiry)->format('F jS Y');
+                    $sold=Batch::where('id',$b_id)->pluck('sold_out')->first();//Help know which batches have been sold out so as to not display them
+                    //getting user name
+                    $ff=$s->user_id;
+                    $f=User::withTrashed()->where('id',$ff)->pluck('first_name')->first();
+                    $l=User::withTrashed()->where('id',$ff)->pluck('last_name')->first();
+                    $staff=$f." ".$l;
+                    //push data for transaction
+                    if($sold==0 or $sold==1){
+                        array_push($data2,[
+                            'id'=>$s->id,
+                            'batch_id'=>$batch_id,
+                            'product_id'=>$p_id,
+                            'name'=>$product_name,
+                            'quantity'=>$batch_qty,
+                            'quantity_type'=>$s->quantity_type,
+                            'batch_no'=>$batch_no,
+                            'batch_id'=>$batch_id,
+                            'source'=>$source,
+                            'staff'=>$staff,
+                            'date_in'=>$date,
+                            'expiry'=>$expiry,
+                            'remarks'=>$remarks,
+                            'approve'=>$approve
+                            ]);
+                    }
+                }
         }
 
-    //$audits=Audit::all()->sortByDesc('id');
-    $audits='';
+    $audits=Audit::all()->sortByDesc('id');
+   // $audits='';
 //return $data2;
         return view('app.stock',compact('label','data','data1','data2','audits','page_number'));
     }
+
+
+
+
+
+
 
     public function showLandingCost(Request $request){
         $label="Landing Cost";
