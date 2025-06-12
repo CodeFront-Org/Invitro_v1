@@ -44,16 +44,20 @@ class CardsController extends Controller
             //$product_id=Product::where('name',$product_filter)->pluck('id')->first();
             
             $cards=Card::where('remarks','LIKE', '%' . $destination_filter . '%')->whereBetween('created_at', [$from, $to])->paginate(10);
-            $data1=Card::where('remarks','LIKE', '%' . $destination_filter . '%')->whereBetween('created_at', [$from, $to])->orderBy('id', 'desc')->paginate(10);
+            // $data1=Card::where('remarks','LIKE', '%' . $destination_filter . '%')->whereBetween('created_at', [$from, $to])->orderBy('id', 'desc')->paginate(10);
 
 
-            $data2=Card::where('remarks','LIKE', '%'.$destination_filter.'%')->whereBetween('created_at', [$from, $to])->orderBy('id', 'desc')->get();
+            // $data2=Card::where('remarks','LIKE', '%'.$destination_filter.'%')->whereBetween('created_at', [$from, $to])->orderBy('id', 'desc')->get();
+            $cards=$data1;
+            $data2=$data1;
             //return 3;
         }
         elseif($from and $to){//Get data for all products within the range
             $cards=Card::whereBetween('created_at', [$from, $to])->paginate(10);
-            $data1=Card::whereBetween('created_at', [$from, $to])->orderBy('id', 'desc')->paginate(10);
-            $data2=Card::whereBetween('created_at', [$from, $to])->orderBy('id', 'desc')->get();
+            // $data1=Card::whereBetween('created_at', [$from, $to])->orderBy('id', 'desc')->paginate(10);
+            // $data2=Card::whereBetween('created_at', [$from, $to])->orderBy('id', 'desc')->get();
+               $cards=$data1;
+            $data2=$data1;
         }else{//get all data 
            // $cards = Card::latest()->take(10)->paginate(10);
             $data1=Card::orderBy('id', 'desc')->latest()->take(10)->paginate(10);
@@ -164,7 +168,7 @@ class CardsController extends Controller
         })->unique('normalized_remarks');
         $cards=$uniqueCards;
 
-        return view('app.stock_card',compact('label','data','data1','data3','page_number','product_prices','check','cards'));
+        return view('app.stock_card',compact('label','data','data1','page_number','product_prices','check','cards'));
     }
     
     

@@ -149,8 +149,17 @@
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                     <label for="field-11w" class="form-label">Product Name</label> 
-                                    <input type='text'  id='search_id3' name='name' class='product-search form-control' value='' placeholder="Search Product ..." >
-                                   <div class='search_id3' id='results-dropdown'></div>
+
+                                    <div class="input-group mb-3">
+                                     <input type="text" name='name' id='search_newstock' class='product-search form-control' placeholder="Search..." value=''  >
+                                      <div class='search_newstock' id='results-dropdown'></div>
+
+                                        <div class="input-group-append">
+                                            <span class="input-group-text "><i class="bi bi-search"></i>search</span>
+                                        </div>
+
+                                    </div>
+                                        
                       
                                 </div>
                                 </div>
@@ -456,13 +465,20 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="mb-3">
-                                    <label for="field-11w" class="form-label">Product Name</label>
+                                    <label for="field-11w" class="form-label">Product Name:</label>
 
                             
 
-                               <input type='text'  id='search_id4' name='name' class='product-search form-control' value='' placeholder="Search Product ..." >
-                                   <div class='search_id4' id='results-dropdown'></div>
-                                </div>
+                                        <div class="input-group mb-3">
+                                            <input type="text" name='name' id='search_restock' class='product-search form-control' placeholder="Search..." value=''  >
+                                            <div class='search_restock' id='results-dropdown'></div>
+
+                                                <div class="input-group-append">
+                                                    <span class="input-group-text "><i class="bi bi-search"></i>search</span>
+                                        </div>
+
+                                      </div>
+                                    </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="mb-3">
@@ -539,7 +555,7 @@
 
 
 
-            {{-- <!-- View Transaction of Stock Modal -->
+            <!-- View Transaction of Stock Modal -->
 @foreach ($data as $item1)
     <div id="con-close-modal-txn-{{$item1['id']}}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
         <div class="modal-dialog modal-full-width">
@@ -630,7 +646,7 @@
             </div>
         </div>
     </div><!-- /.modal -->
-@endforeach --}}
+@endforeach
 
                 <!-- Add Reference Number Modal -->
 
@@ -649,11 +665,19 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="mb-3">
-                                        <label for="field-11w" class="form-label">Product Name</label>
+                                        <label for="field-11w" class="form-label">Product Name:</label>
     
-                                   <input type='text'  id='search_id4' name='name' class='product-search form-control' value='' placeholder="Search Product ..." >
-                                   <div class='search_id4' id='results-dropdown'></div>
+                                  
+                                  <div class="input-group mb-3">
+                                     <input type="text" name='name' id='search_ref_no' class='product-search form-control' placeholder="Search..." value=''  >
+                                      <div class='search_ref_no' id='results-dropdown'></div>
+
+                                        <div class="input-group-append">
+                                            <span class="input-group-text "><i class="bi bi-search"></i>search</span>
+                                        </div>
+
                                     </div>
+
                                     </div>
                                     <div class="col-md-6">
                                         <div class="mb-3">

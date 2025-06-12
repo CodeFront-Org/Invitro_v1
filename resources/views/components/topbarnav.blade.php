@@ -23,7 +23,7 @@
                                             });
                                             results += '</ul>';
                                         } else {
-                                            results = '<p>No products found</p>';
+                                            results = '<p onclick="clearSearchResults(\'' + resultsid + '\')">No products found</p>';
                                         }
                                        //the key word -this- should not be used inside the loop as it will refer to the last element
                                       $("." + resultsid).html(results);
@@ -45,11 +45,15 @@
                        $('.' + resultsid).html('');
                        //$('.results-dropdown').empty();
                     }
+                    function clearSearchResults(resultsid) {
+                        $('.product-search').val('');
+                        $('.' + resultsid).empty();
+                    }
                 </script>
                 <style>
                     #results-dropdown {
                         position:fixed;
-                        max-height: 300px;
+                        top: 3em;
                         overflow-y: auto;
                         z-index: 1000;
                         background-color: #fff;
@@ -62,66 +66,23 @@
             <ul class="list-unstyled topnav-menu float-end mb-0">
 
                 <li class="d-none d-lg-block">
-                    <form action="/product-details" method="POST" class="app-search row">
+                    <form action="/product-details" method="POST" class="app-searchx rowx">
                         @csrf
                         @method('GET')
-                        <div class="app-search-box">
-                            <div class="input-group">
-                                @php
-                                    use App\Models\Product;
-                                    use App\Models\Stock;
-                                    use App\Models\Order;
-                                   // $products = Product::select('name')->where('approve',1)->get();
+                   
+                              <div class="input-group mb-3">
+                                     <input type="text" name='name' id='search_id_topsearch' class='product-search form-control' placeholder="Search..." value=''  >
+                                      <div class='search_id_topsearch' id='results-dropdown'></div>
 
-                                @endphp
-
-                    <input type='text' name='name' id='search_id1' class='product-search form-control' value='' >
-                    <div class='search_id1' style='position: relative; z-index: 1000; display: block;'></div>
-                                     
-                                <button class="btn input-group-text" type="submit">
-                                    <i class="fe-search"></i>
-                                </button>
-                            </div>
-
-              
-                            <div class="dropdown-menu dropdown-lg" id="search-dropdown">
-                                <!-- item-->
-                                <div class="dropdown-header noti-title">
-                                    <h5 class="text-overflow mb-2">Found 3 results</h5>
-                                </div>
-
-                                <!-- item-->
-                                <a href="javascript:void(0);" class="dropdown-item notify-item">
-                                    <i class="fe-home me-1"></i>
-                                    <span>Analytics Report</span>
-                                </a>
-
-                                <!-- item-->
-                                <a href="javascript:void(0);" class="dropdown-item notify-item">
-                                    <i class="fe-settings me-1"></i>
-                                    <span>User profile settings</span>
-                                </a>
-
-                                <!-- item-->
-                                <div class="dropdown-header noti-title">
-                                    <h6 class="text-overflow mb-2 text-uppercase">Users</h6>
-                                </div>
-
-                                <div class="notification-list">
-                                    <!-- item-->
-                                    <a href="javascript:void(0);" class="dropdown-item notify-item">
-                                        <div class="d-flex align-items-start">
-                                            <img class="d-flex me-2 rounded-circle" src="{{asset('images/users/profile/default.jpg')}} alt="user image" height="32">
-                                            <div class="w-100">
-                                                <h5 class="m-0 font-14">Dev</h5>
-                                                <span class="font-12 mb-0">Developer</span>
-                                            </div>
+                                        <div class="input-group-append">
+                                            <span class="input-group-text "><i class="bi bi-search"></i>search</span>
                                         </div>
-                                    </a>
-                                </div>
 
-                            </div>
-                        </div>
+                                        <button class="btn btn-success input-group-append" type="submit">
+                                   Load
+                                </button>
+
+                             </div>
                     </form>
                 </li>
 
@@ -142,7 +103,7 @@
                     </div>
                 </li>
 
-                        @php
+                        {{-- @php
                             $approval1 = count(Stock::all()->where('approve',0));
                             $approval2 = count(Order::all()->where('approve',0));
                             $approval3 = count(Product::all()->where('approve',0));
@@ -224,7 +185,7 @@
                                 </a>-->
 
                     </div>
-                </li>
+                </li> --}}
 
                 <li class="dropdown notification-list topbar-dropdown">
                     <a class="nav-link dropdown-toggle nav-user me-0 waves-effect waves-light" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">

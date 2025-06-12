@@ -19,18 +19,17 @@
 
     <div class="row">
         <div class="mb-3 col-md-3">
-            <label for="from">Product:</label>
+            <label for="from">Product:</label>  
 
-            @php
-                //se App\Models\Product;
-                //use App\Models\Card;
-               // $products = Product::all();
-                //$cards = Card::select('id', 'remarks')->distinct('remarks')->get();
+                                <div class="input-group mb-3">
+                                     <input type="text" name='name' id='search_id3' class='product-search form-control' placeholder="Search..." value=''  >
+                                      <div class='search_id3' id='results-dropdown'></div>
 
-            @endphp
+                                        <div class="input-group-append">
+                                            <span class="input-group-text "><i class="bi bi-search"></i>search</span>
+                                        </div>
 
-           <input type='text'  id='search_id3' name='name' class='product-search form-control' value='' placeholder="Search Product ..." >
-          <div class='search_id3' id='results-dropdown'></div>
+                                    </div>
 
         </div>
         <div class="mb-3 col-md-3">
@@ -149,7 +148,7 @@
                                     <div class="mb-3">
                                         <label for="field-11w" class="form-label">Product Name</label>
 
-                                <div class="input-group mb-3">
+                                   <div class="input-group mb-3">
                                      <input type="text" name='name' id='search_id10' class='product-search form-control' placeholder="Search..." value=''  >
                                       <div class='search_id10' id='results-dropdown'></div>
 
