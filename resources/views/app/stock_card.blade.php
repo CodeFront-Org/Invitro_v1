@@ -19,7 +19,7 @@
 
     <div class="row">
         <div class="mb-3 col-md-3">
-            <label for="from">Product:</label>  
+            <label for="from">Product:rop</label>  
 
                                 <div class="input-group mb-3">
                                      <input type="text" name='name' id='search_id3' class='product-search form-control' placeholder="Search..." value=''  >

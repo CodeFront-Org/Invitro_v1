@@ -23,7 +23,7 @@ class CardsController extends Controller
     public function index(Request $request)
     {
         //Apply filter if there 
-        $product_filter=$request->product_filter;// means user is filtering a specific product
+        $product_filter=$request->name;// means user is filtering a specific product
         $destination_filter=$request->destination_filter;// means user is filtering a specific destination for a product
         $from=$request->from;
         $to=$request->to;
@@ -44,20 +44,20 @@ class CardsController extends Controller
             //$product_id=Product::where('name',$product_filter)->pluck('id')->first();
             
             $cards=Card::where('remarks','LIKE', '%' . $destination_filter . '%')->whereBetween('created_at', [$from, $to])->paginate(10);
-            // $data1=Card::where('remarks','LIKE', '%' . $destination_filter . '%')->whereBetween('created_at', [$from, $to])->orderBy('id', 'desc')->paginate(10);
+             //$data1=Card::where('remarks','LIKE', '%' . $destination_filter . '%')->whereBetween('created_at', [$from, $to])->orderBy('id', 'desc')->paginate(10);
 
 
             // $data2=Card::where('remarks','LIKE', '%'.$destination_filter.'%')->whereBetween('created_at', [$from, $to])->orderBy('id', 'desc')->get();
-            $cards=$data1;
-            $data2=$data1;
+            $data1=$cards;
+            $data2=$cards;
             //return 3;
         }
         elseif($from and $to){//Get data for all products within the range
             $cards=Card::whereBetween('created_at', [$from, $to])->paginate(10);
             // $data1=Card::whereBetween('created_at', [$from, $to])->orderBy('id', 'desc')->paginate(10);
-            // $data2=Card::whereBetween('created_at', [$from, $to])->orderBy('id', 'desc')->get();
-               $cards=$data1;
-            $data2=$data1;
+            //$data2=Card::whereBetween('created_at', [$from, $to])->orderBy('id', 'desc')->get();
+               $data1=$cards;
+            $data2=$cards;
         }else{//get all data 
            // $cards = Card::latest()->take(10)->paginate(10);
             $data1=Card::orderBy('id', 'desc')->latest()->take(10)->paginate(10);
