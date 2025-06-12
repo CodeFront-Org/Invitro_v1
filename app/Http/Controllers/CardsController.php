@@ -45,8 +45,6 @@ class CardsController extends Controller
             
             $cards=Card::where('remarks','LIKE', '%' . $destination_filter . '%')->whereBetween('created_at', [$from, $to])->paginate(10);
              //$data1=Card::where('remarks','LIKE', '%' . $destination_filter . '%')->whereBetween('created_at', [$from, $to])->orderBy('id', 'desc')->paginate(10);
-
-
             // $data2=Card::where('remarks','LIKE', '%'.$destination_filter.'%')->whereBetween('created_at', [$from, $to])->orderBy('id', 'desc')->get();
             $data1=$cards;
             $data2=$cards;
@@ -56,7 +54,7 @@ class CardsController extends Controller
             $cards=Card::whereBetween('created_at', [$from, $to])->paginate(10);
             // $data1=Card::whereBetween('created_at', [$from, $to])->orderBy('id', 'desc')->paginate(10);
             //$data2=Card::whereBetween('created_at', [$from, $to])->orderBy('id', 'desc')->get();
-               $data1=$cards;
+            $data1=$cards;
             $data2=$cards;
         }else{//get all data 
            // $cards = Card::latest()->take(10)->paginate(10);
