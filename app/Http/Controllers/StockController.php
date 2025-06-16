@@ -126,10 +126,6 @@ class StockController extends Controller
 
 
 
-
-
-
-
     public function showLandingCost(Request $request){
         $label="Landing Cost";
         $page_number=$request->page;

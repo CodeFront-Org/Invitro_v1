@@ -46,22 +46,25 @@
 
 
                                 <tbody>
-                                @foreach ($orders as $item)
+
+    
+                                @foreach ($data1 as $item)
                                     <tr>
                                         <td>{{$page}} </td>
-                                        <td>{{$item['batch_used']}}</td>
-                                        <td>{{$item['quantity']}}</td>
-                                        <td>{{$item['destination']}}</td>
-                                        <td>{{$item['invoice']}}</td>
-                                        <td>{{$item['receipt']}}</td>
-                                        <td>{{$item['cash']}}</td>
-                                        <td>{{$item['staff']}}</td>
-                                        <td>{{$item['date']}}</td>
+                                        <td>{{$item->batch_used}}</td>
+
+                                        <td>{{$item->quantity}}</td>
+                                        <td>{{$item->destination}}</td>
+                                        <td>{{$item->invoice}}</td>
+                                        <td>{{$item->receipt}}</td>
+                                        <td>{{$item->cash}}</td>
+                                        <td>{{$item->staff}}</td>
+                                        <td>{{$item->date}}</td>
                                         <td class="text-left" style="min-width: 110px; max-width: 110px; overflow: hidden; font-size: 12px;">
-                                                    {{$item['rmks']}}
+                                                    {{ $item->rmks }}
                                         </td>
                                         <td>
-                                        @if ($item['approve'] == 0)
+                                        @if ($item->approve == 0)
                                             <span style="color:red">Pending</span>
                                         @else
                                             <span style="color:green">Approved</span>
@@ -71,10 +74,10 @@
                                             <!--<button {{$item['approve']==1?"disabled":''}} type="button" style="background-color: #08228a9f;color: white" class="btn btn-xs" data-bs-toggle="modal" data-bs-target="#con-close-modal-edit-1">
                                                 <i class='fas fa-pen' aria-hidden='true'></i>
                                                 </button>-->
-                                            <button type="button" style="background-color: #08228a9f;color: white" class="btn btn-xs" data-bs-toggle="modal" data-bs-target="#con-close-modal-txn-{{$item['id']}}">
+                                            <button type="button" style="background-color: #08228a9f;color: white" class="btn btn-xs" data-bs-toggle="modal" data-bs-target="#con-close-modal-txn-{{$item->id}}">
                                                 <i class='fas fa-newspaper' aria-hidden='true'></i>
                                                 </button>
-                                           <!-- <button type="button" style="background-color: #006fd6aa;color: white" class="btn btn-xs" data-bs-toggle="modal" data-bs-target="#con-close-modal-return-{{$item['id']}}">
+                                           <!-- <button type="button" style="background-color: #006fd6aa;color: white" class="btn btn-xs" data-bs-toggle="modal" data-bs-target="#con-close-modal-return-{{$item->id}}">
                                                 <i class='fas fa-minus-circle' aria-hidden='true'></i>
                                                 </button>-->
 
@@ -105,9 +108,35 @@
             </div>
         </div> <!-- end row -->
 
+    {{-- <table>
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Batch/Lot No:</th>
+                <th>Qty Used</th>
+                <th>Balance</th>
+                <th>Expiry Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach ($view_data as $item)
+           
+                <tr>
+                    <td>{{ $item['id'] }}.</td>
+                    <td>{{ $item['batch_no'] }}</td>
+                    <td>{{ $item['qty_used'] }}</td>
+                    <td>{{ $item['balance'] }}</td>
+                    <td>{{ $item['expiry_date'] }}</td>
+                </tr>
+               
+         
+              @endforeach
+        </tbody>
+    </table> --}}
+                  
 
                     <!-- View Transaction of Stock Modal -->
-@foreach ($orders as $item1)
+@foreach ($data1 as $item1)
 <div id="con-close-modal-txn-{{$item1['id']}}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
