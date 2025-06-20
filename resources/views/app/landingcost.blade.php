@@ -9,8 +9,13 @@
 @endif
 
 <div class="row mt-1">
+    
     <div class="card" style="border-radius:0px 15px 15px 15px;box-shadow: 2px 3px 3px 2px rgba(9, 107, 255, 0.179);">
         <div class="card-body">
+            <a href="{{ route('landing.cost.export', request()->query()) }}" class="btn btn-success mb-3">
+    Export to Excel
+</a>
+
 
             <!-- Filter Form -->
             <form method="GET" action="{{ route('landing.cost') }}" class="row g-3 mb-3">

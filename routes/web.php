@@ -14,6 +14,20 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+use App\Exports\LandingCostExport;
+use Maatwebsite\Excel\Facades\Excel;
+
+Route::get('/landing-cost/export', function (\Illuminate\Http\Request $request) {
+    $filters = [
+        'product_name' => $request->input('product_name'),
+        'batch_no'     => $request->input('batch_no'),
+        'product_id'   => $request->input('product_id'),
+    ];
+
+    return Excel::download(new LandingCostExport($filters), 'landing_cost_report.xlsx');
+})->name('landing.cost.export');
+
+
 Route::get('/', function () {
     return view('auth.login');
 });
