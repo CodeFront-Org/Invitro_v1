@@ -58,10 +58,10 @@
                                         <td>{{$item->invoice}}</td>
                                         <td>{{$item->receipt}}</td>
                                         <td>{{$item->cash}}</td>
-                                        <td>{{$item->staff}}</td>
-                                        <td>{{$item->date}}</td>
+                                        <td>{{$item->user_id}}</td>
+                                        <td>{{$item->created_at}}</td>
                                         <td class="text-left" style="min-width: 110px; max-width: 110px; overflow: hidden; font-size: 12px;">
-                                                    {{ $item->rmks }}
+                                                    {{ $item->remarks }}
                                         </td>
                                         <td>
                                         @if ($item->approve == 0)
@@ -108,7 +108,7 @@
             </div>
         </div> <!-- end row -->
 
-    {{-- <table>
+    <table>
         <thead>
             <tr>
                 <th>#</th>
@@ -132,7 +132,7 @@
          
               @endforeach
         </tbody>
-    </table> --}}
+    </table>
                   
 
                     <!-- View Transaction of Stock Modal -->

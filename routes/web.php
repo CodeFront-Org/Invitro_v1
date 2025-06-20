@@ -58,7 +58,9 @@ Route::get('/fetch-qty',[App\Http\Controllers\CardsController::class,'fetch_qty'
 Route::resource('/users',App\Http\Controllers\UserController::class);
 Route::get('/customers', [App\Http\Controllers\UserController::class, 'customers'])->name('customers');
 Route::resource('/stock',App\Http\Controllers\StockController::class);
-Route::get('/landingCost',[App\Http\Controllers\StockController::class,'showLandingCost']);
+Route::get('/landingCost',[App\Http\Controllers\StockController::class,'showLandingCost'])->name('landing.cost');
+//Route::get('/landing-cost', [App\Http\Controllers\StockController::class,'showLandingCost'])->name('landing.cost');
+
 Route::resource('/batch-edit',App\Http\Controllers\BatchController::class);
 
 Route::resource('/stock-card',App\Http\Controllers\StockcardsController::class);

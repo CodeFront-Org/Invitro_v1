@@ -11,4 +11,11 @@ class Product extends Model
     use HasFactory,SoftDeletes;
 
     protected $guarded=[];
+
+
+            public function batches() {
+            return $this->hasMany(Batch::class);
+        }
+
 }
+

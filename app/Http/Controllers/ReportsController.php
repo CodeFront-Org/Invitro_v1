@@ -16,51 +16,52 @@ class ReportsController extends Controller
 
 //////////////////////////////////////////////////////////////// Products With Batches //////////////////////////////////////////////////
     //Generate products with or without batches
+  
     public function productsWithBatch(){
-        $label="Products Batches Report";
+    $label = "Products Batches Report-2";
+    $data = [];
 
-        $data=array();
+    // Get products with no stock
+    $productsWithNoBatch = Product::select('id','name', 'quantity', 'expire_days', 'order_level')
+        ->where('quantity', '=', 0)
+        ->where('approve', 1)
+        ->get();
 
-        $productsWithNoBatch=Product::select('id','name', 'quantity', 'expire_days', 'order_level')->where('quantity','=',0)->where('approve',1)->get();
+    // Get products with stock and count batches efficiently
+    $productsWithBatch = Product::select('id','name', 'quantity', 'expire_days', 'order_level')
+        ->where('approve', 1)
+        ->where('quantity', '>', 0)
+        ->withCount('batches')  // This adds `batches_count` column
+        ->get();
 
-        $productsWithBatch = Product::select('id','name', 'quantity', 'expire_days', 'order_level')
-                    ->where('approve', 1)
-                    ->where('quantity', '>', 0)
-                    ->get();
-        $totalWithBatch=count($productsWithBatch);
-        $totalWithNoBatch=count($productsWithNoBatch);
+    $totalWithBatch = $productsWithBatch->count();
+    $totalWithNoBatch = $productsWithNoBatch->count();
 
-        foreach($productsWithBatch as $p){
-            $pid=$p->id;
-            $batches=count(Batch::all()->where('product_id',$pid));
-            $qty=$p->quantity;
-            $expire=$p->expire_days;
-            $order_level=$p->order_level;
-            $name=$p->name;
-
-            array_push($data,[
-                "name"=>$name,
-                "batches"=>$batches,
-                "qty"=>$qty,
-                "expire"=>$expire,
-                "order_level"=>$order_level
-            ]);
-        }
-
-        return view('reports.products-with-batch',compact(
-            'label',
-            'totalWithBatch',
-            'totalWithNoBatch',
-            'data',
-            'productsWithNoBatch'
-        ));
+    foreach($productsWithBatch as $p){
+        $data[] = [
+            "name" => $p->name,
+            "batches" => $p->batches_count,
+            "qty" => $p->quantity,
+            "expire" => $p->expire_days,
+            "order_level" => $p->order_level
+        ];
     }
+
+    return view('reports.products-with-batch', compact(
+        'label',
+        'totalWithBatch',
+        'totalWithNoBatch',
+        'data',
+        'productsWithNoBatch'
+    ));
+}
+
 
 
 //////////////////////////////////////////////////////////////// Products Without Batches //////////////////////////////////////////////////
     //Generate products without batches
     public function productsWithoutBatch(){
-        $label="Products Batches Report";
+        $label="Products Batches Report -1";
 
         $productsWithNoBatch=Product::select('id','name', 'quantity', 'expire_days', 'order_level')->where('quantity','=',0)->where('approve',1)->get();
         $totalWithNoBatch=count($productsWithNoBatch);

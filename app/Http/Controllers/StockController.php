@@ -126,7 +126,7 @@ class StockController extends Controller
 
 
 
-    public function showLandingCost(Request $request){
+    public function showLandingCostOLD(Request $request){
         $label="Landing Cost";
         $page_number=$request->page;
 
@@ -141,23 +141,71 @@ class StockController extends Controller
        
      //  $a_available=DB::select("SELECT SUM(quantity)-SUM(sold) as 'available' FROM batches where product_id=$p_id and deleted_at IS NULL AND sold_out <> 1;")[0]->available;
 
-    $batches =DB::select('SELECT 
-    batches.id,
-    products.name,
-    product_id,
-    batch_no,
-    (batches.quantity-batches.sold) as quantity,
-    cost as landing_cost,
-    (batches.quantity-batches.sold) * batches.cost as stock_value FROM `batches` 
-    left join products on products.id=batches.product_id
-    where sold_out<>1
-    AND batches.deleted_at IS NULL
-    AND products.approve=1
-ORDER BY `product_id` DESC');
-//dd($batches);
+        $batches =DB::select('SELECT 
+        batches.id,
+        products.name,
+        product_id,
+        batch_no,
+        (batches.quantity-batches.sold) as quantity,
+        cost as landing_cost,
+        (batches.quantity-batches.sold) * batches.cost as stock_value FROM `batches` 
+        left join products on products.id=batches.product_id
+        where sold_out<>1
+        AND batches.deleted_at IS NULL
+        AND products.approve=1
+        ORDER BY `product_id` DESC');
+        //dd($batches);
 
-         return view('app.landingcost',compact('batches','page_number','label'));
+            return view('app.landingcost',compact('batches','page_number','label'));
     }
+
+    public function showLandingCost(Request $request)
+    {
+        $label = "Landing Cost";
+        $perPage = 10;
+
+    // Filters
+    $productName = $request->input('product_name');
+    $batchNo = $request->input('batch_no');
+    $productId = $request->input('product_id');
+
+    // Build query
+    $query = DB::table('batches')
+        ->select(
+            'batches.id',
+            'products.name',
+            'batches.product_id',
+            'batch_no',
+            DB::raw('(batches.quantity - batches.sold) as quantity'),
+            DB::raw('batches.cost as landing_cost'),
+            DB::raw('(batches.quantity - batches.sold) * batches.cost as stock_value')
+        )
+        ->leftJoin('products', 'products.id', '=', 'batches.product_id')
+        ->where('batches.sold_out', '<>', 1)
+        ->whereNull('batches.deleted_at')
+        ->where('products.approve', 1)
+        ->orderByDesc('batches.product_id');
+
+    // Apply filters
+    if ($productName) {
+        $query->where('products.name', 'LIKE', "%$productName%");
+    }
+
+    if ($batchNo) {
+        $query->where('batches.batch_no', 'LIKE', "%$batchNo%");
+    }
+
+    if ($productId) {
+        $query->where('batches.product_id', $productId);
+    }
+
+    // Paginate
+    $batches = $query->paginate($perPage)->withQueryString();
+    
+
+    return view('app.landingcost', compact('batches', 'label'));
+}
+
 
     /**
      * Show the form for creating a new resource.
