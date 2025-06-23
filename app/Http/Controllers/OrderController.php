@@ -596,7 +596,7 @@ class OrderController extends Controller
     }
 
 
-    public function product_ordersOLD(Request $request){
+    public function product_orders(Request $request){
         $product_id=$request->product_id;
         if(!$product_id){//make sure valid product id
             return back();
@@ -646,7 +646,7 @@ class OrderController extends Controller
     }
 
 
-    public function product_orders(Request $request)
+    public function product_ordersNEW(Request $request)
 {
     $product_id = $request->product_id;
 

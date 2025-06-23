@@ -48,7 +48,7 @@
                                 <tbody>
 
     
-                                @foreach ($orders as $item)
+                                @foreach ($data1 as $item)
                                     <tr>
                                         <td>{{$page}} </td>
                                         <td>{{$item->batch_used}}</td>
@@ -99,7 +99,7 @@
                         <!-- Pagination links -->
                         <div class="d-flex justify-content-end" style="margin-top: 20px;height:30%;height:1032%"> <!-- Adjust margin-top as needed -->
                             <div style="margin-right: 0; text-align: right; font-size: 14px; color: #555;">
-                                {{ $orders->appends(request()->except('page'))->links('vendor.pagination.simple-bootstrap-4')}}
+                                {{ $data1->appends(request()->except('page'))->links('vendor.pagination.simple-bootstrap-4')}}
                             </div>
                         </div>
                     </div>
@@ -136,7 +136,7 @@
                   
 
                     <!-- View Transaction of Stock Modal -->
-@foreach ($orders  as $item1)
+@foreach ($data1  as $item1)
 <div id="con-close-modal-txn-{{$item1['id']}}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
