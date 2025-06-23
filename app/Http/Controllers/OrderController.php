@@ -596,7 +596,7 @@ class OrderController extends Controller
     }
 
 
-    public function product_orders(Request $request){
+    public function product_ordersOLD(Request $request){
         $product_id=$request->product_id;
         if(!$product_id){//make sure valid product id
             return back();
@@ -609,15 +609,15 @@ class OrderController extends Controller
 
 
 
-               $data1 = Order::join('users', function($join) {
-        $join->on('orders.user_id', '=', 'users.id')
-             ->whereNull('users.deleted_at'); // Remove this line if you want to include soft-deleted users
-    })
-    ->select('orders.*', 'users.first_name', 'users.last_name')
-    ->where('orders.product_id', $product_id)
-    ->orderByDesc('orders.id')
-    ->take(10)
-    ->paginate(10);
+                $data1 = Order::join('users', function($join) {
+            $join->on('orders.user_id', '=', 'users.id')
+                ->whereNull('users.deleted_at'); // Remove this line if you want to include soft-deleted users
+        })
+        ->select('orders.*', 'users.first_name', 'users.last_name')
+        ->where('orders.product_id', $product_id)
+        ->orderByDesc('orders.id')
+        ->take(10)
+        ->paginate(10);
 
   
 
@@ -625,25 +625,70 @@ class OrderController extends Controller
             //Get data for view data transactions
             $view_data=array();
            $views=[];
-            // //$views=Orders::all();
-            // foreach($data1 as $v){
-            //     $batch_no=Batch::where('id',$v->batch_id)->pluck('batch_no')->first();
-            //     $expiryDate = Batch::where('id', $v->batch_id)->pluck('expiry_date')->first();
-            //     $e_date = \Carbon\Carbon::parse($expiryDate)->format("jS F Y");
-            //     array_push($view_data,[
-            //         'id'=>$v->order_id,
-            //         'product_id'=>$v->product_id,
-            //         'batch_id'=>$v->batch_id,
-            //         'batch_no'=>$batch_no,
-            //         'init_qty'=>$v->init_qty,
-            //         'qty_used'=>$v->quantity_used,
-            //         'balance'=>$v->balance,
-            //         'expiry_date'=>$e_date,
-            //         ]);
-            // }
+            $views=Orders::all();
+            foreach($data1 as $v){
+                $batch_no=Batch::where('id',$v->batch_id)->pluck('batch_no')->first();
+                $expiryDate = Batch::where('id', $v->batch_id)->pluck('expiry_date')->first();
+                $e_date = \Carbon\Carbon::parse($expiryDate)->format("jS F Y");
+                array_push($view_data,[
+                    'id'=>$v->order_id,
+                    'product_id'=>$v->product_id,
+                    'batch_id'=>$v->batch_id,
+                    'batch_no'=>$batch_no,
+                    'init_qty'=>$v->init_qty,
+                    'qty_used'=>$v->quantity_used,
+                    'balance'=>$v->balance,
+                    'expiry_date'=>$e_date,
+                    ]);
+            }
 
         return view('app.product_orders',compact('label', 'orders','data1','view_data'));
     }
+
+
+    public function product_orders(Request $request)
+{
+    $product_id = $request->product_id;
+
+    if (!$product_id) {
+        return back()->with('error', 'Invalid product ID');
+    }
+
+    $product = Product::find($product_id);
+
+    if (!$product) {
+        return back()->with('error', 'Product not found');
+    }
+
+    $label = "{$product->name} Orders";
+
+    // Fetch orders with user and batch details in one query
+    $orders = Order::with(['user' => function ($query) {
+                            $query->withTrashed()->select('id', 'first_name', 'last_name');
+                        }, 
+                        'batch:id,batch_no,expiry_date'])
+                    ->where('product_id', $product_id)
+                    ->orderByDesc('id')
+                    ->paginate(10);
+
+    // Prepare view_data for modal display
+    $view_data = $orders->map(function ($order) {
+        return [
+            'id' => $order->id,
+            'product_id' => $order->product_id,
+            'batch_id' => $order->batch_id,
+            'batch_no' => $order->batch->batch_no ?? 'N/A',
+            'init_qty' => $order->init_qty,
+            'qty_used' => $order->quantity_used,
+            'balance' => $order->balance,
+            'expiry_date' => optional($order->batch?->expiry_date)
+                                ? \Carbon\Carbon::parse($order->batch?->expiry_date)->format("jS F Y")
+                                : 'N/A',
+        ];
+    });
+
+    return view('app.product_orders', compact('label', 'orders', 'view_data'));
+}
 
 
 
