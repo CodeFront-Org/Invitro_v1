@@ -122,7 +122,7 @@ class CronController extends Controller
                 
 
                 //store expired products
-                /*  
+                /*  */
                 foreach($data as $d){
                     $x=$d['check'];
                     if($x==1){
@@ -136,7 +136,8 @@ class CronController extends Controller
                 }
                 //return $data;
                 // Create the table for the email with inline styles for borders and text alignment
-                $table = '<table style="border-collapse: collapse; width: 60%;">
+                $expired_table = "<h3 style='color:red'>Expired</h3>";
+                $expired_table .= '<table style="border-collapse: collapse; width: 60%;">
                     <thead>
                         <tr>
                             <th style="border: 1px solid #000; padding: 5px; text-align: center;">#</th>
@@ -159,18 +160,19 @@ class CronController extends Controller
                     }
             
                     // Close the table
-                $table .= '</tbody></table>';
-                $users=User::all()->where('role_type',1);
-                $link=env('APP_URL');
-                $product_name=Product::where('id',$product_id)->pluck('name')->first();
-                foreach($users as $user){
-                    $user=User::find($user->id);
-                    $name=$user->first_name;
-                    $recipient=$user->email;
-                    Mail::to($recipient)->send(new Expired($link, $recipient,$name,$table));
+                $expired_table .= '</tbody></table>';
+
+                // $users=User::all()->where('role_type',1);
+                // $link=env('APP_URL');
+                // $product_name=Product::where('id',$product_id)->pluck('name')->first();
+                // foreach($users as $user){
+                //     $user=User::find($user->id);
+                //     $name=$user->first_name;
+                //     $recipient=$user->email;
+                //     Mail::to($recipient)->send(new Expired($link, $recipient,$name,$table));
         
-                }
-              */
+                // }
+             
                  
                 $table = '<table style="border-collapse: collapse; width: 60%;">
                 <thead>
@@ -197,7 +199,7 @@ class CronController extends Controller
                 }
 
                 // Close the table
-                 $table .= '</tbody></table>';
+                 $table .= '</tbody></table>'.$expired_table;
 
                // $users=User::all()->where('role_type',1)->where('role_type',6);
                 $users=DB::select("SELECT * FROM `users` where alert=6 and deleted_at is Null;");

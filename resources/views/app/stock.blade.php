@@ -166,7 +166,7 @@
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label for="field-2l" class="form-label">Re-Order Level</label>
-                                        <input type="number" name="o_level" class="form-control" id="field-2l" placeholder="order level" required>
+                                        <input type="number" name="o_level" class="form-control" id="field-2l" placeholder="re-order level (min 1)" min=1 required>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
