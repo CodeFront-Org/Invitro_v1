@@ -148,7 +148,7 @@ class CronController extends Controller
                     </thead>
                     <tbody>';
                     foreach ($expired as $key => $item) {
-                            $table .= '<tr>
+                            $expired_table .= '<tr>
                             <td style="border: 1px solid #000; padding: 5px; text-align: center;">'.($key+1).'</td>
                             <td style="border: 1px solid #000; padding: 5px; text-align: center;">' . $item['product_name'] . '</td>
                             <td style="border: 1px solid #000; padding: 5px; text-align: center;">'.$item['batch_no'].'</td>
