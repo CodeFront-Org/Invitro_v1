@@ -21,6 +21,25 @@
         <button id="excelbtn" type="button" class="btn btn-success"><i class="fa fa-file-excel bg-success"></i> excel </button>
                 <div class="card" style="border-radius:0px 15px 15px 15px;box-shadow: 2px 3px 3px 2px rgba(9, 107, 255, 0.179);">
                     <div class="card-body">
+<form method="GET" action="{{ route('order.index') }}" class="row g-3 mb-3">
+    <div class="col-md-3">
+        <label for="from" class="form-label">From Date</label>
+        <input type="date" name="from" id="from" value="{{ request('from') }}" class="form-control">
+    </div>
+    <div class="col-md-3">
+        <label for="to" class="form-label">To Date</label>
+        <input type="date" name="to" id="to" value="{{ request('to') }}" class="form-control">
+    </div>
+    <div class="col-md-3 align-self-end">
+        <button type="submit" class="btn btn-primary">Filter</button>
+        <a href="{{ route('order.index') }}" class="btn btn-secondary">Reset</a>
+    </div>
+    <input type="hidden" name="product_id" value="{{ request('product_id') }}">
+</form>
+
+                        
+
+
                     <div class="table-responsive" style="overflow-x: auto;">
                         <table style="font-family: 'Times New Roman', Times, serif;" class="table table-bordered nowrap text-center" id="salestable">
                                 <thead class="table-light">

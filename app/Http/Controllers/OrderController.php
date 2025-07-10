@@ -42,7 +42,7 @@ class OrderController extends Controller
         $data=array();
         $orders=array();
         $products=Product::select('id','name')->get();
-        $stocks=Stock::all()->where('approve',1)->take(5);
+        $stocks=Stock::all()->where('approve',1)->take(20);
         //To get data for batches
         $count=0; //to help filter similar products so as to have the FIFO on batches
         $batches=Batch::where('sold_out', 0)->orderBy('expiry_date', 'asc')->get();
@@ -60,7 +60,7 @@ class OrderController extends Controller
         }
             /////////////////////////////// for new order ////////////////////////////////////////////
       
-            $data1=Order::orderByDesc('id')->paginate(5);
+            $data1=Order::orderByDesc('id')->paginate(20);
         foreach($data1 as $d){
             $p_id=$d->product_id;
             $order_id=$d->id;
@@ -101,7 +101,7 @@ class OrderController extends Controller
 
             //Get data for view data transactions
             $view_data=array();
-            $views=Orders::all()->take(5);
+            $views=Orders::all()->take(20);
             foreach($views as $v){
                 $batch_no=Batch::where('id',$v->batch_id)->pluck('batch_no')->first();
                 $expiryDate = Batch::where('id', $v->batch_id)->pluck('expiry_date')->first();
@@ -123,16 +123,11 @@ class OrderController extends Controller
     }
     public function index(Request $request)
 {
-    $label = "Orders.";
+     $label = "Orders.";
     $page_number = $request->input('page', 1);
-
-    // Get products
     $products = Product::select('id', 'name')->get();
+    $stocks = Stock::where('approve', 1)->take(20)->get();
 
-    // Get approved stocks, limited to 5
-    $stocks = Stock::where('approve', 1)->take(5)->get();
-
-    // Get distinct first batches per product (FIFO)
     $batches = Batch::where('sold_out', 0)
         ->orderBy('product_id')
         ->orderBy('expiry_date', 'asc')
@@ -146,16 +141,29 @@ class OrderController extends Controller
         ];
     })->values()->toArray();
 
-    /////////////////////////////// Orders Section ////////////////////////////////////////////
+    /////////////////// Apply Date Filter to Orders //////////////////////
 
-    // Eager load related data for pagination
-    $data1 = Order::with([
-            'batch:id,batch_no',
-            'product:id,name',
-            'user:id,first_name,last_name'
-        ])
-        ->orderByDesc('id')
-        ->paginate(5);
+    $query = Order::with(['batch:id,batch_no', 'product:id,name', 'user:id,first_name,last_name'])
+        ->orderByDesc('id');
+
+    if ($request->filled('from')) {
+        $query->whereDate('created_at', '>=', Carbon::parse($request->from)->startOfDay());
+    }
+
+    if ($request->filled('to')) {
+        $query->whereDate('created_at', '<=', Carbon::parse($request->to)->endOfDay());
+    }
+
+    if ($request->filled('product_id')) {
+        $query->where('product_id', $request->product_id);
+    }
+
+    if ($request->filled('destination')) {
+        $query->where('destination', 'like', '%' . $request->destination . '%');
+    }
+
+
+    $data1 = $query->paginate(20)->appends($request->all());
 
     $orders = $data1->map(function ($d) {
         return [
@@ -178,10 +186,9 @@ class OrderController extends Controller
         ];
     })->toArray();
 
-    /////////////////////////////// View Transactions Section ////////////////////////////////////////////
+    ////////////////// View Transactions //////////////////
 
-    // Replace "Orders" with "Order" if it's a typo
-    $view_data = Order::with('batch:id,batch_no,expiry_date')->take(5)->get()->map(function ($v) {
+    $view_data = Order::with('batch:id,batch_no,expiry_date')->take(20)->get()->map(function ($v) {
         return [
             'id' => $v->order_id,
             'product_id' => $v->product_id,
@@ -190,8 +197,8 @@ class OrderController extends Controller
             'init_qty' => $v->init_qty,
             'qty_used' => $v->quantity_used,
             'balance' => $v->balance,
-            'expiry_date' => optional($v->batch) && $v->batch?->expiry_date
-                ? \Carbon\Carbon::parse($v->batch->expiry_date)->format("jS F Y")
+            'expiry_date' => optional($v->batch)?->expiry_date
+                ? Carbon::parse($v->batch->expiry_date)->format("jS F Y")
                 : null,
         ];
     })->toArray();
@@ -616,8 +623,8 @@ class OrderController extends Controller
         ->select('orders.*', 'users.first_name', 'users.last_name')
         ->where('orders.product_id', $product_id)
         ->orderByDesc('orders.id')
-        ->take(10)
-        ->paginate(10);
+        ->take(20)
+        ->paginate(20);
 
   
 
@@ -669,7 +676,7 @@ class OrderController extends Controller
                         'batch:id,batch_no,expiry_date'])
                     ->where('product_id', $product_id)
                     ->orderByDesc('id')
-                    ->paginate(10);
+                    ->paginate(20);
 
     // Prepare view_data for modal display
     $view_data = $orders->map(function ($order) {
