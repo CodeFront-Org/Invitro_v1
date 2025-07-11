@@ -148,15 +148,12 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="mb-3">
-                                    <label for="field-11w" class="form-label">Product Name</label> 
+                                    <label for="field-11w" class="form-label">Product Name:</label> 
 
                                     <div class="input-group mb-3">
-                                     <input type="text" name='name' id='search_newstock' class='product-search form-control' placeholder="Search..." value=''  >
-                                      <div class='search_newstock' id='results-dropdown'></div>
+                                     <input type="text" name='name'  class='form-control' placeholder="Search..." value=''  >
+                                      
 
-                                        <div class="input-group-append">
-                                            <span class="input-group-text "><i class="bi bi-search"></i>search</span>
-                                        </div>
 
                                     </div>
                                         
