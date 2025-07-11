@@ -151,7 +151,7 @@
                                     <label for="field-11w" class="form-label">Product Name:</label> 
 
                                     <div class="input-group mb-3">
-                                     <input type="text" name='name'  class='form-control' placeholder="Search..." value=''  >
+                                     <input type="text" name='name'  class='form-control' placeholder="Item Name..." value=''  >
                                       
 
 
