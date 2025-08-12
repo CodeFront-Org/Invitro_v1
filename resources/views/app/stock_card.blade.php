@@ -19,7 +19,7 @@
 
     <div class="row">
         <div class="mb-3 col-md-3">
-            <label for="from">Product:rop</label>  
+            <label for="from">Product:</label>  
 
                                 <div class="input-group mb-3">
                                      <input type="text" name='name' id='search_id3' class='product-search form-control' placeholder="Search..." value=''  >
@@ -368,8 +368,9 @@
 
 <script type="text/javascript">
 $(document).ready(function () {
+   
     $("#excelbtn").click(function(){
-        TableToExcel.convert(document.getElementById("salestable1"), {
+        TableToExcel.convert(document.getElementById("salestable"), {
             name: "Invitro Stock Cards.xlsx",
             sheet: {
             name: "Sheet1"
