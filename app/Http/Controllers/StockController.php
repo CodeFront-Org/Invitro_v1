@@ -161,49 +161,49 @@ class StockController extends Controller
 
     public function showLandingCost(Request $request)
     {
-        $label = "Landing Cost";
-        $perPage = 10;
+            $label = "Landing Cost";
+            $perPage = 10;
 
-    // Filters
-    $productName = $request->input('product_name');
-    $batchNo = $request->input('batch_no');
-    $productId = $request->input('product_id');
+        // Filters
+        $productName = $request->input('product_name');
+        $batchNo = $request->input('batch_no');
+        $productId = $request->input('product_id');
 
-    // Build query
-    $query = DB::table('batches')
-        ->select(
-            'batches.id',
-            'products.name',
-            'batches.product_id',
-            'batch_no',
-            DB::raw('(batches.quantity - batches.sold) as quantity'),
-            DB::raw('batches.cost as landing_cost'),
-            DB::raw('(batches.quantity - batches.sold) * batches.cost as stock_value')
-        )
-        ->leftJoin('products', 'products.id', '=', 'batches.product_id')
-        ->where('batches.sold_out', '<>', 1)
-        ->whereNull('batches.deleted_at')
-        ->where('products.approve', 1)
-        ->orderByDesc('batches.product_id');
+        // Build query
+        $query = DB::table('batches')
+            ->select(
+                'batches.id',
+                'products.name',
+                'batches.product_id',
+                'batch_no',
+                DB::raw('(batches.quantity - batches.sold) as quantity'),
+                DB::raw('batches.cost as landing_cost'),
+                DB::raw('(batches.quantity - batches.sold) * batches.cost as stock_value')
+            )
+            ->leftJoin('products', 'products.id', '=', 'batches.product_id')
+            ->where('batches.sold_out', '<>', 1)
+            ->whereNull('batches.deleted_at')
+            ->where('products.approve', 1)
+            ->orderByDesc('batches.product_id');
 
-    // Apply filters
-    if ($productName) {
-        $query->where('products.name', 'LIKE', "%$productName%");
-    }
+        // Apply filters
+        if ($productName) {
+            $query->where('products.name', 'LIKE', "%$productName%");
+        }
 
-    if ($batchNo) {
-        $query->where('batches.batch_no', 'LIKE', "%$batchNo%");
-    }
+        if ($batchNo) {
+            $query->where('batches.batch_no', 'LIKE', "%$batchNo%");
+        }
 
-    if ($productId) {
-        $query->where('batches.product_id', $productId);
-    }
+        if ($productId) {
+            $query->where('batches.product_id', $productId);
+        }
 
-    // Paginate
-    $batches = $query->paginate($perPage)->withQueryString();
-    
+        // Paginate
+        $batches = $query->paginate($perPage)->withQueryString();
+        
 
-    return view('app.landingcost', compact('batches', 'label'));
+        return view('app.landingcost', compact('batches', 'label'));
 }
 
 
@@ -242,7 +242,7 @@ class StockController extends Controller
                 'expire_days'=>$e_period,
                 ]);
                 if($product){
-//send email notification to admin for new product creation
+               //send email notification to admin for new product creation
                 $users=User::all()->where('role_type',1);
                 $link=env('APP_URL');
                 foreach($users as $user){
@@ -261,6 +261,7 @@ class StockController extends Controller
             $q_type=$request->q_type;
             $batch_no=$request->batch_no;
             $e_date=$request->e_date;
+            $origin=$request->origin;
             // Start the transaction
             DB::beginTransaction();
 try {
@@ -415,7 +416,8 @@ try {
             $d_note=$request->d_note;
             $e_date=$request->e_date;
             $expires=$request->expires;
-            $cost=$request->cost;
+            $cost=$request->cost;            
+            $origin=$request->origin;
             //Store in batch tables
             $batch=Batch::create([
                 'batch_no'=>$batch_no,
@@ -446,6 +448,7 @@ try {
                         'type'=>0, //To know whetehr its new(0) or return(1) stock when reading data
                         'source'=>$request->source,
                         'remarks'=>$request->remarks,
+                        'origin'=>$origin,
                         'approve'=>0,
                     ]);
                 if($stock){
