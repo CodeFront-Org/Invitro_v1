@@ -178,15 +178,7 @@
                                         <input type="number" name="e_period" class="form-control" id="field-2l" placeholder="Expiry period in days" required>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label for="field-2l" class="form-label">Origin</label>
-                                        <select name="origin" class="form-control form-select" id="field-11" required>
-                                            <option value="local">Local</option>
-                                            <option value="imported">Imported</option>
-                                        </select>
-                                    </div>
-                                </div>
+                            
                             </div>
                         </div>
                         <div class="modal-footer">
