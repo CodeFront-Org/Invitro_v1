@@ -22,6 +22,8 @@ Route::get('/landing-cost/export', function (\Illuminate\Http\Request $request) 
         'product_name' => $request->input('product_name'),
         'batch_no'     => $request->input('batch_no'),
         'product_id'   => $request->input('product_id'),
+        'start_date'   => $request->input('start_date'),
+        'end_date'     => $request->input('end_date'),
     ];
 
     return Excel::download(new LandingCostExport($filters), 'landing_cost_report.xlsx');

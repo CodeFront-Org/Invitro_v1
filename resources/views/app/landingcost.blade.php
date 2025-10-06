@@ -1,3 +1,4 @@
+
 @extends('layouts.app')
 
 @section('content')
@@ -28,6 +29,13 @@
                 <div class="col-md-3">
                     <input type="text" name="product_id" class="form-control" placeholder="Product ID" value="{{ request('product_id') }}">
                 </div>
+                <!--start  Date Filter -->
+                <div class="col-md-3">
+                    From:<input type="date" name="start_date" class="form-control" placeholder="Start Date" value="{{ request('start_date') }}">
+                    To:<input type="date" name="end_date" class="form-control" placeholder="End Date" value="{{ request('end_date') }}">
+                </div>
+
+
                 <div class="col-md-3 d-flex">
                     <button type="submit" class="btn btn-primary me-2">Filter</button>
                     <a href="{{ route('landing.cost') }}" class="btn btn-secondary">Reset</a>
@@ -46,6 +54,8 @@
                             <th>Quantity</th>
                             <th>Landing Cost</th>
                             <th>Stock Value</th>
+                            <th>Origin</th>
+                            <th>Date</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -58,6 +68,8 @@
                                 <td>{{ $item->quantity }}</td>
                                 <td>Ksh {{ number_format($item->landing_cost, 2) }}</td>
                                 <td><strong>Ksh {{ number_format($item->stock_value, 2) }}</strong></td>
+                                <td>{{ $item->origin }}</td>
+                                <td>{{ $item->created_at }}</td>
                             </tr>
                         @endforeach
                     </tbody>

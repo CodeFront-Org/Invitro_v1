@@ -176,11 +176,14 @@ class StockController extends Controller
                 'products.name',
                 'batches.product_id',
                 'batch_no',
+                'batches.created_at as created_at',
+                'stocks.origin as origin',
                 DB::raw('(batches.quantity - batches.sold) as quantity'),
                 DB::raw('batches.cost as landing_cost'),
                 DB::raw('(batches.quantity - batches.sold) * batches.cost as stock_value')
             )
             ->leftJoin('products', 'products.id', '=', 'batches.product_id')
+            ->leftJoin('stocks', 'stocks.batch_id', '=', 'batches.id')
             ->where('batches.sold_out', '<>', 1)
             ->whereNull('batches.deleted_at')
             ->where('products.approve', 1)
@@ -198,7 +201,13 @@ class StockController extends Controller
         if ($productId) {
             $query->where('batches.product_id', $productId);
         }
-
+        // Date Range Filter
+         if ($request->filled('start_date') && $request->filled('end_date')) {
+            $startDate = Carbon::createFromFormat('Y-m-d', $request->input('start_date'))->startOfDay();
+            $endDate = Carbon::createFromFormat('Y-m-d', $request->input('end_date'))->endOfDay();
+            $query->whereBetween('batches.created_at', [$startDate, $endDate]);
+            }
+        
         // Paginate
         $batches = $query->paginate($perPage)->withQueryString();
         
