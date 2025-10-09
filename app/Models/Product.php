@@ -12,10 +12,16 @@ class Product extends Model
 
     protected $guarded=[];
 
-
-            public function batches() {
+                public function batches()
+        {
             return $this->hasMany(Batch::class);
         }
+
+        public function stocks()
+        {
+            return $this->hasMany(Stock::class);
+        }
+
 
 }
 

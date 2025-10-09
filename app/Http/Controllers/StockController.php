@@ -26,103 +26,141 @@ class StockController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+
+
+
+        public function index(Request $request)
     {
-        $page_number=$request->page;
+        // --- Pagination setup ---
+        $page_number = max(1, (int)$request->get('page', 1));
 
-        if($page_number==1){
-            $page_number=1;
-        }elseif($page_number>1){
-            $page_number=(($page_number-1)*10)+1;
-        }else{
-            $page_number=1;
-        }
+        // --- Filters ---
+        $name = $request->get('name');
+        $from_date = $request->get('from_date');
+        $to_date = $request->get('to_date');
 
-        $label="Stocks";
-        $data=array();//load data in 1st table before viewing transactions
-        $data2=array();//load data to be viewed for transactions
-        $data1=Product::select('id','name','order_level')->where('approve',1)->orderBy('name', 'asc')->take(5)->paginate(5);//get all products that have been approved
+        $label = "Stocks";
 
-
-        foreach($data1 as $p){
-            $product_name=$p->name;
-            $p_id=$p->id;
-            $order_level=$p->order_level;
-            //pick from batches table
-            $batch=Batch::all()->where('product_id',$p_id)->where('sold_out',0);
-            $total_batch=count($batch);
-            $total_qty_approved=Stock::where('approve',1)->where('product_id',$p_id)->sum('quantity');//total qty approved
-            $total_qty_not_approved=Stock::where('approve',0)->where('product_id',$p_id)->sum('quantity');//total qty approved
-            $qty_available=Batch::where('product_id',$p_id)->where('sold_out',0)->where('approved',1)->sum('quantity');
-            $sold=Batch::where('product_id',$p_id)->sum('sold');
-            $tot=Batch::where('product_id',$p_id)->where('approved',1)->sum('quantity');
-            $e_period=Product::where('id',$p_id)->pluck('expire_days')->first();
-
-            if($order_level>$qty_available){
-                $alert=1;
-            }else{
-                $alert=0;
-            }
-
-            //$total_qty=0;
-            //Push data for table stock
-            array_push($data,[
-                'id'=>$p_id,
-                'name'=>$product_name,
-                'qty_available'=>$tot-$sold,
-                'qty_not_approved'=>$total_qty_not_approved,
-                'batch'=>$total_batch,
-                'order_level'=>$order_level,
-                'e_period'=>$e_period,
-                'alert'=>$alert
-            ]);
-               //get data from stock table
-                $stocks=Stock::all()->where('product_id',$p_id)->sortByDesc('id')->take(10);
-                foreach($stocks as $s){
-                    $source=$s->source;
-                    $date=$s->created_at;
-                    //$date=Carbon::createFromFormat('Y-m-d H:i:s', $date)->format('F jS Y');
-                    $remarks=$s->remarks;
-                    $approve=$s->approve;
-                    $b_id=$s->batch_id;
-                    $batch_qty=Batch::where('id',$b_id)->pluck('quantity')->first();
-                    $batch_no=Batch::where('id',$b_id)->pluck('batch_no')->first();
-                    $batch_id=Batch::where('id',$b_id)->pluck('id')->first();
-                    $expiry=Batch::where('id',$b_id)->pluck('expiry_date')->first();
-                    $expiry = Carbon::createFromFormat('Y-m-d H:i:s', $expiry)->format('F jS Y');
-                    $sold=Batch::where('id',$b_id)->pluck('sold_out')->first();//Help know which batches have been sold out so as to not display them
-                    //getting user name
-                    $ff=$s->user_id;
-                    $f=User::withTrashed()->where('id',$ff)->pluck('first_name')->first();
-                    $l=User::withTrashed()->where('id',$ff)->pluck('last_name')->first();
-                    $staff=$f." ".$l;
-                    //push data for transaction
-                    if($sold==0 or $sold==1){
-                        array_push($data2,[
-                            'id'=>$s->id,
-                            'batch_id'=>$batch_id,
-                            'product_id'=>$p_id,
-                            'name'=>$product_name,
-                            'quantity'=>$batch_qty,
-                            'quantity_type'=>$s->quantity_type,
-                            'batch_no'=>$batch_no,
-                            'batch_id'=>$batch_id,
-                            'source'=>$source,
-                            'staff'=>$staff,
-                            'date_in'=>$date,
-                            'expiry'=>$expiry,
-                            'remarks'=>$remarks,
-                            'approve'=>$approve
-                            ]);
-                    }
+        // --- Build Product query with relationships ---
+        $query = Product::with([
+            'batches' => function ($q) {
+                $q->where('sold_out', 0)->where('approved', 1);
+            },
+            'stocks' => function ($q) use ($from_date, $to_date) {
+                // Apply date filters to Stock transactions
+                if ($from_date && $to_date) {
+                    $q->whereBetween('created_at', [$from_date, $to_date]);
+                } elseif ($from_date) {
+                    $q->whereDate('created_at', '>=', $from_date);
+                } elseif ($to_date) {
+                    $q->whereDate('created_at', '<=', $to_date);
                 }
+                $q->latest()->take(10);
+            },
+            'stocks.batch',
+            'stocks.user' => function ($q) {
+                $q->withTrashed();
+            }
+        ])
+        ->where('approve', 1);
+
+        // --- Apply product name filter ---
+        if ($name) {
+            $query->where('name', 'LIKE', "%{$name}%");
         }
 
-    $audits=Audit::all()->sortByDesc('id');
-   // $audits='';
-//return $data2;
-        return view('app.stock',compact('label','data','data1','data2','audits','page_number'));
+        // --- Fetch paginated products (NOW 50 per page) ---
+        $products = $query->orderBy('name', 'asc')
+            ->paginate(50) // ← changed from 5 to 50
+            ->appends($request->query());
+
+        // --- Prepare arrays for stock summary and transactions ---
+        $data = [];
+        $data2 = [];
+
+        foreach ($products as $product) {
+            $p_id = $product->id;
+            $product_name = $product->name;
+            $order_level = $product->order_level;
+
+            // --- Batch stats ---
+            $batches = $product->batches;
+            $total_batch = $batches->count();
+            $tot_qty = $batches->sum('quantity');
+            $sold_qty = $batches->sum('sold');
+            $qty_available = $tot_qty - $sold_qty;
+
+            // --- Stock stats ---
+            $total_qty_not_approved = Stock::where('approve', 0)
+                ->where('product_id', $p_id)
+                ->sum('quantity');
+
+            $e_period = $product->expire_days;
+            $alert = $order_level > $qty_available ? 1 : 0;
+
+            // --- Push summary data ---
+            $data[] = [
+                'id' => $p_id,
+                'name' => $product_name,
+                'qty_available' => $qty_available,
+                'qty_not_approved' => $total_qty_not_approved,
+                'batch' => $total_batch,
+                'order_level' => $order_level,
+                'e_period' => $e_period,
+                'alert' => $alert
+            ];
+
+            // --- Push stock transaction data ---
+            foreach ($product->stocks as $s) {
+                $batch = $s->batch;
+                $user = $s->user;
+
+                if (!$batch) continue;
+
+                $expiry = optional($batch->expiry_date)
+                    ? Carbon::parse($batch->expiry_date)->format('F jS Y')
+                    : null;
+
+                $staff = trim(($user->first_name ?? '') . ' ' . ($user->last_name ?? ''));
+
+                $data2[] = [
+                    'id' => $s->id,
+                    'batch_id' => $batch->id,
+                    'product_id' => $p_id,
+                    'name' => $product_name,
+                    'quantity' => $batch->quantity,
+                    'quantity_type' => $s->quantity_type,
+                    'batch_no' => $batch->batch_no,
+                    'source' => $s->source,
+                    'staff' => $staff,
+                    'date_in' => $s->created_at,
+                    'expiry' => $expiry,
+                    'remarks' => $s->remarks,
+                    'approve' => $s->approve
+                ];
+            }
+        }
+
+        // --- Audit data ---
+        $audits = Audit::latest()->get();
+
+        // --- Return to Blade view ---
+        return view('app.stock', [
+            'label' => $label,
+            'data' => $data,
+            'data1' => $products,
+            'data2' => $data2,
+            'audits' => $audits,
+            'page_number' => $page_number
+        ]);
     }
+
+
+
+
+
+
+
 
 
 

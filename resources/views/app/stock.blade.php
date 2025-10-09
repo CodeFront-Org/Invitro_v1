@@ -20,8 +20,37 @@
                          <i class="fa fa-plus"></i> Ref No
                     </button>
                 @endrole
-                <div class="card" style="border-radius:0px 15px 15px 15px;box-shadow: 2px 3px 3px 2px rgba(9, 107, 255, 0.179);">
+                 <div class="card" style="border-radius:0px 15px 15px 15px;box-shadow: 2px 3px 3px 2px rgba(9, 107, 255, 0.179);">
                     <div class="card-body">
+                                            <!-- Filter Form -->
+                    <form method="GET" action="{{ route('stock.index') }}" class="mb-3">
+                        <div class="row g-2 align-items-end">
+                            <!-- Filter by Product Name -->
+                            <div class="col-md-4">
+                                <label for="name" class="form-label">Product Name</label>
+                                <input type="text" name="name" id="name" value="{{ request('name') }}" 
+                                    class="form-control" placeholder="Search by name">
+                            </div>
+
+                            <!-- Filter by Date Range -->
+                            <div class="col-md-3">
+                                <label for="from_date" class="form-label">From Date</label>
+                                <input type="date" name="from_date" id="from_date" 
+                                    value="{{ request('from_date') }}" class="form-control">
+                            </div>
+
+                            <div class="col-md-3">
+                                <label for="to_date" class="form-label">To Date</label>
+                                <input type="date" name="to_date" id="to_date" 
+                                    value="{{ request('to_date') }}" class="form-control">
+                            </div>
+
+                            <div class="col-md-2">
+                                <button type="submit" class="btn btn-primary w-100">Filter</button>
+                            </div>
+                        </div>
+                    </form>
+
                         <div class="table-responsive">
                             <table  style="font-family: 'Times New Roman', Times, serif" class="table table-bordered nowrap text-center" id="datatable" class="table table-sm table-bordered dt-responsive nowrap text-center">
                                 <thead class="table-light">
@@ -125,7 +154,9 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> 
+
+                
 
             </div>
         </div> <!-- end row -->
@@ -196,254 +227,7 @@
             </div><!-- /.modal -->
 
 
-            {{-- <!--Edit OrderLevel Modal -->
-            @foreach ($data as $item)
-                <div id="con-close-modal-edit-order-level-{{$item['id']}}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
-                    <div class="modal-dialog modal-dialog-sm modal-dialog-centered">
-                        <div class="modal-content">
-                            <form class="orderlevelForm" method="post">
-                            @csrf
-                            @method('PATCH')
-                            <input type="hidden" name="type" value="2">
-                            <input type="hidden" name="editorderId" id="editorderId" value="{{$item['id']}}">
-                            <div class="modal-header">
-                                <h4 class="modal-title">Edit Order Level for Product: {{$item['name']}}</h4>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="mb-3">
-                                            <label for="field-2n" class="form-label">Re order Level</label>
-                                            <input type="number" name="o_level" value="{{$item['order_level']}}" class="form-control" id="field-2n" placeholder="set new order level" required>
-                                        </div>
-                                    </div>
-                                <div class="col-md-12">
-                                    <div class="mb-3">
-                                        <label for="field-2l" class="form-label">Expiry Alert</label>
-                                        <input type="number" name="e_period" value="{{$item['e_period']}}" class="form-control" id="field-2l" placeholder="Expiry period in days" required>
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="mb-3">
-                                        <label for="field-2l" class="form-label">Product Name</label>
-                                        <input type="text" name="p_name" 
-                                        value="{{$item['name']}}" class="form-control" id="field-2l" placeholder="Product Name" required>
-                                    </div>
-                                </div>
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button class="btn rounded-pill p-1" id="editorderbtn{{$item['id']}}" style="width: 100%; background-color: #08228a9f;color: white" type="submit">
-                                        Submit
-                                </button>
-                                <button class="btn rounded-pill p-1" id="editorderloader{{$item['id']}}" style="width: 100%; background-color: #08228a9f;color: white;display:none;" type="button">
-                                        <span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
-                                        Saving Data...
-                                </button>
-                            </div>
-                            </form>
-                        </div>
-                    </div>
-                </div><!-- /.modal -->
-            @endforeach
- --}}
 
-
-
-            {{-- <!--View Stock Audit-->
-            @foreach ($data as $item1)
-                <div id="con-close-modal-view-audit-{{$item1['id']}}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
-                    <div class="modal-dialog modal-lg modal-dialog-centered">
-                        <div class="modal-content">
-                            <form class="orderlevelForm" method="post">
-                            @csrf
-                            @method('PATCH')
-                            <input type="hidden" name="type" value="2">
-                            <input type="hidden" name="editorderId" id="editorderId" value="{{$item['id']}}">
-                            <div class="modal-header">
-                                <h4 class="modal-title">View Stock Audit for {{$item1['name']}}</h4>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                    <button id="excelbtn" type="button" class="btn btn-success"><i class="fa fa-file-excel bg-success"></i> excel </button>
-                <div class="table-responsive">
-                    <table  style="font-family: 'Times New Roman', Times, serif" class="table table-bordered nowrap text-center" id="salestable" class="table table-sm table-bordered dt-responsive nowrap text-center">
-                        <thead class="table-light">
-                        <tr>
-                            <th>#</th>
-                            <th>Status</th>
-                            <th>Comments</th>
-                            <th>Date</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                            @php
-                            $i=1;
-                            @endphp
-                        @foreach ($audits as $item)
-                            @if (empty($item)==0)
-                                @if ($item1['id']==$item['product_id'])
-                                    <tr>
-                                        <td>{{$i}}.</td>
-                                        <td>{{$item['status']==1?'Balanced':'Not Balanced'}}</td>
-                                        <td>{{$item['comments']}}</td>
-                                        <td>{{$item['created_at']}}</td>
-                                    </tr>
-                            @php
-                            $i+=1;
-                            @endphp
-                                @endif
-                            @else
-                                <tr>
-                                    <td colspan="4" class="text-center">No Data</td>
-                                </tr>
-                            @php
-                            $i+=1;
-                            @endphp
-                            @endif
-                            
-                        @endforeach
-
-                        </tbody>
-                    </table>
-                </div>
-                            </div>
-                            </form>
-                        </div>
-                    </div>
-                </div><!-- /.modal -->
-            @endforeach --}}
-
-
-
-
-            {{-- <!--Edit Audit Modal -->
-            @foreach ($data as $item)
-                <div id="con-close-modal-edit-audit-{{$item['id']}}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
-                    <div class="modal-dialog modal-dialog-sm modal-dialog-centered">
-                        <div class="modal-content">
-                            <form class="editaudit1" method="post">
-                            @csrf
-                            @method('PATCH')
-                            <input type="hidden" name="type" value="3">
-                            <input type="hidden" name="editorderId" id="editorderId" value="{{$item['id']}}">
-                            <div class="modal-header">
-                                <h4 class="modal-title">Edit Audit for {{$item['name']}} Product</h4>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="mb-3">
-                                        <label for="field-11w" class="form-label">Status</label>
-                                        <select name="status" class="form-control form-select" id="field-11w" required>
-                                                    <option value="1">Balanced</option>
-                                                    <option value="0">Not Balanced</option>
-                                            </select>
-                                    </div>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <div class="mb-3">
-                                            <label for="field-2" class="form-label">Comments</label>
-                                            <textarea id="textarea" value="My Comments" name="comments" class="form-control" maxlength="300" rows="3" placeholder="Your Remarks"></textarea>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button class="btn rounded-pill p-1" id="editauditbtn{{$item['id']}}" style="width: 100%; background-color: #08228a9f;color: white" type="submit">
-                                        Submit
-                                </button>
-                                <button class="btn rounded-pill p-1" id="editauditloader{{$item['id']}}" style="width: 100%; background-color: #08228a9f;color: white;display:none;" type="button">
-                                        <span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
-                                        Saving Data...
-                                </button>
-                            </div>
-                            </form>
-                        </div>
-                    </div>
-                </div><!-- /.modal -->
-            @endforeach --}}
-
-
-
-            {{-- <!-- Edit Stock Modal -->
-            @foreach ($data2 as $item)
-                <div id="con-close-modal-edit-stock-{{$item['id']}}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
-                    <div class="modal-dialog modal-dialog-centered">
-                        <div class="modal-content">
-                            <form class="editstockForm" method="post">
-                            @csrf
-                            @method('PATCH')
-                            <input type="hidden" name="type" value="1">
-                            <input type="hidden" name="batch_id" value="{{$item['batch_id']}}">
-                            <input type="hidden" name="product_id" value="{{$item['product_id']}}">
-                            <input type="hidden" name="stock_id" value="{{$item['id']}}">
-                            <input type="hidden" name="editstockId" id="editstockId" value="{{$item['id']}}">
-                            <div class="modal-header">
-                                <h4 class="modal-title">Edit Stock</h4>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="mb-3">
-                                            <label for="field-2l" class="form-label">Quantity</label>
-                                            <input type="text" value="{{$item['quantity']}}" name="quantity" class="form-control" id="field-2l" placeholder="quantity" required>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="mb-3">
-                                            <label for="field-2l" class="form-label">Batch/Lot Number</label>
-                                            <input type="text" value="{{$item['batch_no']}}" name="batch_no" class="form-control" id="field-2l" placeholder="batch/lot number" required>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="mb-3">
-                                        <label for="field-11w" class="form-label">Quantity Type</label>
-                                        <select name="q_type" class="form-control form-select" id="field-11w" required>
-                                                    <option {{$item['quantity_type']==0?'selected':''}} value="0">Cartons</option>
-                                                    <option {{$item['quantity_type']==1?'selected':''}} value="1">Packets</option>
-                                                    <option {{$item['quantity_type']==2?'selected':''}} value="2">Single Items</option>
-                                            </select>
-                                    </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="mb-3">
-                                            <label for="field-2n" class="form-label">Source</label>
-                                            <input type="text" value="{{$item['source']}}" name="source" class="form-control" id="field-2n" placeholder="source" required>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="mb-3">
-                                            <label for="field-2l" class="form-label">Expiry Date</label>
-                                            <input type="date" value="{{$item['expiry']}}" name="e_date" class="form-control" id="field-2l" placeholder="expiry date">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <div class="mb-3">
-                                            <label for="field-2" class="form-label">Remarks</label>
-                                            <textarea id="textarea" value="{{$item['remarks']}}" name="remarks" class="form-control" maxlength="300" rows="3" placeholder="Your Remarks"></textarea>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button class="btn rounded-pill p-1" id="editstockbtn{{$item['id']}}" style="width: 100%; background-color: #08228a9f;color: white" type="submit">
-                                        Submit
-                                </button>
-                                <button class="btn rounded-pill p-1" id="editstockloader{{$item['id']}}" style="width: 100%; background-color: #08228a9f;color: white;display:none;" type="button">
-                                        <span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
-                                        Saving Data...
-                                </button>
-                            </div>
-                            </form>
-                        </div>
-                    </div>
-                </div><!-- /.modal -->
-            @endforeach
- --}}
 
 
             <!-- REstock Stock Modal -->
