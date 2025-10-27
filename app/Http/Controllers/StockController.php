@@ -188,8 +188,7 @@ class StockController extends Controller
         cost as landing_cost,
         (batches.quantity-batches.sold) * batches.cost as stock_value FROM `batches` 
         left join products on products.id=batches.product_id
-        where sold_out<>1
-        AND batches.deleted_at IS NULL
+        where  batches.deleted_at IS NULL
         AND products.approve=1
         ORDER BY `product_id` DESC');
         //dd($batches);
@@ -222,7 +221,6 @@ class StockController extends Controller
             )
             ->leftJoin('products', 'products.id', '=', 'batches.product_id')
             ->leftJoin('stocks', 'stocks.batch_id', '=', 'batches.id')
-            ->where('batches.sold_out', '<>', 1)
             ->whereNull('batches.deleted_at')
             ->where('products.approve', 1)
             ->orderByDesc('batches.product_id');

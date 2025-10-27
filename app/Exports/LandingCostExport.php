@@ -32,7 +32,6 @@ class LandingCostExport implements FromQuery, WithHeadings
             )
             ->leftJoin('products', 'products.id', '=', 'batches.product_id')
             ->leftJoin('stocks', 'stocks.batch_id', '=', 'batches.id')
-            ->where('batches.sold_out', '<>', 1)
             ->whereNull('batches.deleted_at')
             ->where('products.approve', 1)
             ->orderByDesc('batches.product_id');
