@@ -8,19 +8,24 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Product extends Model
 {
-    use HasFactory,SoftDeletes;
+    use HasFactory, SoftDeletes;
 
-    protected $guarded=[];
+    protected $guarded = [];
 
-                public function batches()
-        {
-            return $this->hasMany(Batch::class);
-        }
+    public function batches()
+    {
+        return $this->hasMany(Batch::class);
+    }
 
-        public function stocks()
-        {
-            return $this->hasMany(Stock::class);
-        }
+    public function stocks()
+    {
+        return $this->hasMany(Stock::class);
+    }
+
+    public function restocks()
+    {
+        return $this->hasMany(Restock::class);
+    }
 
 
 }
