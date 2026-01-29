@@ -2,28 +2,22 @@
 
     <div class="h-100" data-simplebar>
 
-        <!--- Sidemenu -->
+        <!-- Sidemenu -->
         <div id="sidebar-menu">
 
             <ul id="side-menu">
-                {{-- @php
-                //display user roles
-                $user = auth()->user();
-                $userRole = $user->roles();
-                echo "Role: " . implode(', ', $userRole->pluck('name')->toArray());
-                //dd($userRole);
-                @endphp --}}
-                <li class="menu-title">Navigation</li>
+                <li class="menu-title"
+                    style="color: #667eea; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; font-size: 0.75rem;">
+                    <i class="mdi mdi-menu me-2"></i>Navigation
+                </li>
 
 
                 @role(['staff', 'admin'])
 
                 <li>
-                    <a href="{{route('home')}}">
+                    <a href="{{route('home')}}" class="waves-effect">
                         <i class="mdi mdi-view-dashboard-outline"></i>
-                        <span> Dashboard
-
-                        </span>
+                        <span>Dashboard</span>
                     </a>
                 </li>
 
@@ -32,7 +26,7 @@
 
                 @role(['card', 'card_view_only'])
                 <li>
-                    <a href="/cards">
+                    <a href="/cards" class="waves-effect">
                         <i class="fas fa-calendar-check"></i>
                         <span>Stock Card</span>
                     </a>
@@ -43,7 +37,7 @@
 
                 @role('card')
                 <li>
-                    <a href="{{route('audits.index')}}">
+                    <a href="{{route('audits.index')}}" class="waves-effect">
                         <i class="fas fa-credit-card"></i>
                         <span>Stock Audits</span>
                     </a>
@@ -52,56 +46,34 @@
 
                 @role('admin')
                 <li>
-                    <a href="{{route('users.index')}}">
+                    <a href="{{route('users.index')}}" class="waves-effect">
                         <i class="fa fa-users"></i>
-                        <span>Users </span>
+                        <span>Users</span>
                     </a>
                 </li>
                 @endrole
-                <!-- <li>
-                            <a href="#sidebarMultilevel" data-bs-toggle="collapse">
-                                <i class="fa fa-users"></i>
-                                <span> Users</span>
-                                <span class="menu-arrow"></span>
-                            </a>
-                            <div class="collapse" id="sidebarMultilevel">
-                                <ul class="nav-second-level">
-                                        <li>
-                                            <a href="{{route('users.index')}}">
-                                                Staff
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="{{route('customers')}}">
-                                                Customers
-                                            </a>
-                                        </li>
-                                </ul>
-
-                            </div>
-                        </li>-->
 
                 @role('staff')
                 <li>
-                    <a href="{{route('stock.index')}}">
+                    <a href="{{route('stock.index')}}" class="waves-effect">
                         <i class="fas fa-truck-moving"></i>
-                        <span>Stocks </span>
+                        <span>Stocks</span>
                     </a>
                 </li>
 
 
                 <li>
-                    <a href="/batch-edit">
-                        <i class="fas fa-truck-moving"></i>
-                        <span>Edit Batch Expiry Dates </span>
+                    <a href="/batch-edit" class="waves-effect">
+                        <i class="fas fa-edit"></i>
+                        <span>Edit Batch Expiry Dates</span>
                     </a>
                 </li>
 
 
                 <li>
-                    <a href="{{route('order.index')}}">
+                    <a href="{{route('order.index')}}" class="waves-effect">
                         <i class="fas fa-shopping-cart"></i>
-                        <span>Orders </span>
+                        <span>Orders</span>
                     </a>
                 </li>
 
@@ -111,19 +83,15 @@
 
 
                 <li>
-                    <a href="/batch-view">
-                        <i class="fas fa-truck-moving"></i>
-                        <span>View Batches </span>
+                    <a href="/batch-view" class="waves-effect">
+                        <i class="fas fa-eye"></i>
+                        <span>View Batches</span>
                     </a>
                 </li>
                 <li>
-                    <a href="{{route('approve.index')}}">
+                    <a href="{{route('approve.index')}}" class="waves-effect">
                         <i class="fas fa-check-double"></i>
-                        <span> Approvals</span>
-
-                        <!-- <span class="badge bg-success rounded-pill float-end">New</span>-->
-
-
+                        <span>Approvals</span>
                     </a>
                 </li>
 
@@ -132,51 +100,47 @@
 
                 @role(['admin', 'staff'])
 
-
-
-
-
                 <li>
-                    <a href="#sidebarMultilevel2" data-bs-toggle="collapse">
+                    <a href="#sidebarMultilevel2" data-bs-toggle="collapse" class="waves-effect">
                         <i class="fas fa-newspaper"></i>
-                        <span> Reports</span>
+                        <span>Reports</span>
                         <span class="menu-arrow"></span>
                     </a>
                     <div class="collapse" id="sidebarMultilevel2">
                         <ul class="nav-second-level">
                             <li>
-                                <a href="{{route('/audited')}}">
-                                    Audit
+                                <a href="{{route('/audited')}}" class="waves-effect">
+                                    <i class="mdi mdi-check-circle-outline me-2"></i>Audit
                                 </a>
                             </li>
                             <li>
-                                <a href="{{route('/sales')}}">
-                                    Sales
+                                <a href="{{route('/sales')}}" class="waves-effect">
+                                    <i class="mdi mdi-chart-line me-2"></i>Sales
                                 </a>
                             </li>
                             <li>
-                                <a href="{{route('/reorder-level', ['type' => 2])}}">
-                                    Re-Order Levels
+                                <a href="{{route('/reorder-level', ['type' => 2])}}" class="waves-effect">
+                                    <i class="mdi mdi-alert-circle-outline me-2"></i>Re-Order Levels
                                 </a>
                             </li>
                             <li>
-                                <a href="{{route('/expired', ['type' => 0])}}">
-                                    Expiry
+                                <a href="{{route('/expired', ['type' => 0])}}" class="waves-effect">
+                                    <i class="mdi mdi-calendar-remove me-2"></i>Expiry
                                 </a>
                             </li>
                             <li>
-                                <a href="{{route('/with-batch')}}">
-                                    Stocks
+                                <a href="{{route('/with-batch')}}" class="waves-effect">
+                                    <i class="mdi mdi-package-variant me-2"></i>Stocks
                                 </a>
                             </li>
                             <li>
-                                <a href="/landingCost">
-                                    Stock Value
+                                <a href="/landingCost" class="waves-effect">
+                                    <i class="mdi mdi-currency-usd me-2"></i>Stock Value
                                 </a>
                             </li>
                             <li>
-                                <a href="{{route('/restocks')}}">
-                                    Restocks
+                                <a href="{{route('/restocks')}}" class="waves-effect">
+                                    <i class="mdi mdi-truck-delivery me-2"></i>Restocks
                                 </a>
                             </li>
 
@@ -187,16 +151,10 @@
                 </li>
                 @endrole
 
-
-
-
-
-
-
                 <li>
-                    <a href="{{route('profile.index')}}">
+                    <a href="{{route('profile.index')}}" class="waves-effect">
                         <i class="fas fa-user-circle"></i>
-                        <span> Profile </span>
+                        <span>Profile</span>
                     </a>
                 </li>
 
