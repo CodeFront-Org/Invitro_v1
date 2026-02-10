@@ -38,4 +38,33 @@ class Handler extends ExceptionHandler
             //
         });
     }
+
+    /**
+     * Render an exception into an HTTP response.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Throwable  $exception
+     * @return \Symfony\Component\HttpFoundation\Response
+     *
+     * @throws \Throwable
+     */
+    public function render($request, Throwable $exception)
+    {
+        // Handle authentication exceptions gracefully
+        if ($exception instanceof \Illuminate\Auth\AuthenticationException) {
+            if ($request->expectsJson()) {
+                return response()->json(['error' => 'Unauthenticated.'], 401);
+            }
+            return redirect()->route('login')->with('error', 'Your session has expired. Please login again.');
+        }
+
+        // Handle errors when trying to access properties on null (session expired)
+        if ($exception instanceof \ErrorException && str_contains($exception->getMessage(), 'Attempt to read property')) {
+            if (!auth()->check()) {
+                return redirect()->route('login')->with('error', 'Your session has expired. Please login again.');
+            }
+        }
+
+        return parent::render($request, $exception);
+    }
 }

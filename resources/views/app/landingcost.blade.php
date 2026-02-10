@@ -1,51 +1,58 @@
-
 @extends('layouts.app')
 
 @section('content')
-@if (session()->has('error'))
-    <div id="toast" class="alert text-center alert-danger alert-dismissible w-100 fade show" role="alert">
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        {{ session('error') }}
+    @if (session()->has('error'))
+        <div id="toast" class="alert text-center alert-danger alert-dismissible w-100 fade show" role="alert">
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            {{ session('error') }}
+        </div>
+    @endif
+
+    <div class="row mt-3 mb-3">
+        <div class="col-12 d-flex justify-content-end">
+            <a href="{{ route('landing.cost.export', request()->query()) }}" class="btn btn-success">
+                <i class="mdi mdi-file-excel me-1"></i> Export to Excel
+            </a>
+        </div>
     </div>
-@endif
-
-<div class="row mt-1">
-    
-    <div class="card" style="border-radius:0px 15px 15px 15px;box-shadow: 2px 3px 3px 2px rgba(9, 107, 255, 0.179);">
+    <div class="card shadow-md">
         <div class="card-body">
-            <a href="{{ route('landing.cost.export', request()->query()) }}" class="btn btn-success mb-3">
-    Export to Excel
-</a>
 
 
-            <!-- Filter Form -->
-            <form method="GET" action="{{ route('landing.cost') }}" class="row g-3 mb-3">
+            <form method="GET" action="{{ route('landing.cost') }}" class="row g-3 mb-4 pb-3 border-bottom">
                 <div class="col-md-3">
-                    <input type="text" name="product_name" class="form-control" placeholder="Product Name" value="{{ request('product_name') }}">
+                    <label class="form-label fw-bold">Product Name</label>
+                    <input type="text" name="product_name" class="form-control" placeholder="Product Name"
+                        value="{{ request('product_name') }}">
                 </div>
-                <div class="col-md-3">
-                    <input type="text" name="batch_no" class="form-control" placeholder="Batch No" value="{{ request('batch_no') }}">
+                <div class="col-md-2">
+                    <label class="form-label fw-bold">Batch No</label>
+                    <input type="text" name="batch_no" class="form-control" placeholder="Batch No"
+                        value="{{ request('batch_no') }}">
                 </div>
-                <div class="col-md-3">
-                    <input type="text" name="product_id" class="form-control" placeholder="Product ID" value="{{ request('product_id') }}">
+                <div class="col-md-2">
+                    <label class="form-label fw-bold">From Date</label>
+                    <input type="date" name="start_date" class="form-control" value="{{ request('start_date') }}">
                 </div>
-                <!--start  Date Filter -->
-                <div class="col-md-3">
-                    From:<input type="date" name="start_date" class="form-control" placeholder="Start Date" value="{{ request('start_date') }}">
-                    To:<input type="date" name="end_date" class="form-control" placeholder="End Date" value="{{ request('end_date') }}">
+                <div class="col-md-2">
+                    <label class="form-label fw-bold">To Date</label>
+                    <input type="date" name="end_date" class="form-control" value="{{ request('end_date') }}">
                 </div>
-
-
-                <div class="col-md-3 d-flex">
-                    <button type="submit" class="btn btn-primary me-2">Filter</button>
-                    <a href="{{ route('landing.cost') }}" class="btn btn-secondary">Reset</a>
+                <div class="col-md-3 align-self-end">
+                    <div class="btn-group w-100">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="mdi mdi-filter me-1"></i> Filter
+                        </button>
+                        <a href="{{ route('landing.cost') }}" class="btn btn-secondary">
+                            <i class="mdi mdi-refresh me-1"></i> Reset
+                        </a>
+                    </div>
                 </div>
             </form>
 
-            <!-- Table -->
             <div class="table-responsive">
-                <table class="table table-bordered nowrap text-center" style="font-family: 'Times New Roman', Times, serif">
-                    <thead class="table-light">
+                <table class="table table-hover align-middle text-center">
+                    <thead>
                         <tr>
                             <th>#</th>
                             <th>Name</th>
@@ -77,13 +84,11 @@
             </div>
 
             <!-- Pagination -->
-            <div class="d-flex justify-content-end mt-3">
-               {{ $batches->links() }}
-
-                
+            <div class="d-flex justify-content-center mt-4">
+                {{ $batches->links('vendor.pagination.simple-bootstrap-4') }}
             </div>
 
         </div>
     </div>
-</div>
+    </div>
 @endsection

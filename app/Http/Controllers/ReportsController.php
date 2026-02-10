@@ -574,7 +574,7 @@ class ReportsController extends Controller
             });
         }
 
-        $totalLandingCost = $totalLandingCostQuery->sum('landing_cost');
+        $totalLandingCost = $totalLandingCostQuery->selectRaw('SUM(quantity * landing_cost) as total')->value('total') ?? 0;
 
         // Get unique sources for filter dropdown
         $sources = Restock::select('source')
@@ -594,19 +594,13 @@ class ReportsController extends Controller
             $staff = $r->user ? $r->user->first_name . ' ' . $r->user->last_name : 'N/A';
             $productName = $r->product ? $r->product->name : 'N/A';
 
-            // Calculate price per item
-            $pricePerItem = 0;
-            if ($r->quantity > 0 && $r->landing_cost > 0) {
-                $pricePerItem = $r->landing_cost / $r->quantity;
-            }
-
             $data[] = [
                 'id' => $r->id,
                 'product_name' => $productName,
                 'quantity' => $r->quantity,
                 'source' => $r->source,
                 'landing_cost' => $r->landing_cost,
-                'price_per_item' => $pricePerItem,
+                'stock_value' => ($r->quantity ?? 0) * ($r->landing_cost ?? 0),
                 'invoice' => $r->invoice_number,
                 'delivery_note' => $r->delivery_note,
                 'remarks' => $r->remarks,

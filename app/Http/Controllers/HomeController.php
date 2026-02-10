@@ -4,8 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use App\Models\Product;
+use App\Models\Stock;
+use App\Models\Restock;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
@@ -26,17 +30,6 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $label='Dashboard';
-
-        $products=count(Product::all()->where("approve",1));
-        $users=count(User::all());
-        $orders=count(Order::all()->where("approve",1));
-
-        return view('app.home',compact(
-            'label',
-            'products',
-            'users',
-            'orders',
-        ));
+        return redirect()->route('stock.index');
     }
 }

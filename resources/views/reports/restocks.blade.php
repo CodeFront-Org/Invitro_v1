@@ -110,7 +110,7 @@
                                     <th style="border-color: rgba(255,255,255,0.2);">Quantity</th>
                                     <th style="border-color: rgba(255,255,255,0.2);">Source</th>
                                     <th style="border-color: rgba(255,255,255,0.2);">Landing Cost</th>
-                                    <th style="border-color: rgba(255,255,255,0.2);">Price/Item</th>
+                                    <th style="border-color: rgba(255,255,255,0.2);">Stock Value</th>
                                     <th style="border-color: rgba(255,255,255,0.2);">Invoice</th>
                                     <th style="border-color: rgba(255,255,255,0.2);">Delivery Note</th>
                                     <th style="border-color: rgba(255,255,255,0.2);">Staff</th>
@@ -137,7 +137,7 @@
                                             {{ $item['landing_cost'] ? number_format($item['landing_cost'], 2) : 'N/A' }}
                                         </td>
                                         <td class="fw-semibold" style="color: #fd7e14;">
-                                            {{ $item['price_per_item'] > 0 ? number_format($item['price_per_item'], 2) : 'N/A' }}
+                                            {{ $item['stock_value'] > 0 ? number_format($item['stock_value'], 2) : '0.00' }}
                                         </td>
                                         <td>{{$item['invoice'] ?? '-'}}</td>
                                         <td>{{$item['delivery_note'] ?? '-'}}</td>

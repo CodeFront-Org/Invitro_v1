@@ -13,17 +13,19 @@ class CreateCardsAuditsTable extends Migration
      */
     public function up()
     {
-        Schema::create('cards_audits', function (Blueprint $table) {
-            $table->id();
-            $table->integer('user_id');
-            $table->integer('product_id');
-            $table->integer('qty')->nullable();
-            $table->tinyInteger('status')->default(0);
-            $table->date('audit_date');
-            $table->text('comments')->nullable();
-            $table->softDeletes();
-            $table->timestamps();
-        });
+        if (!Schema::hasTable('cards_audits')) {
+            Schema::create('cards_audits', function (Blueprint $table) {
+                $table->id();
+                $table->integer('user_id');
+                $table->integer('product_id');
+                $table->integer('qty')->nullable();
+                $table->tinyInteger('status')->default(0);
+                $table->date('audit_date');
+                $table->text('comments')->nullable();
+                $table->softDeletes();
+                $table->timestamps();
+            });
+        }
     }
 
     /**

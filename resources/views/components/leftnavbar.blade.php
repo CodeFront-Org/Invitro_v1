@@ -12,16 +12,7 @@
                 </li>
 
 
-                @role(['staff', 'admin'])
 
-                <li>
-                    <a href="{{route('home')}}" class="waves-effect">
-                        <i class="mdi mdi-view-dashboard-outline"></i>
-                        <span>Dashboard</span>
-                    </a>
-                </li>
-
-                @endrole
 
 
                 @role(['card', 'card_view_only'])
