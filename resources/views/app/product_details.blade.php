@@ -82,6 +82,7 @@
                                             @endrole
                                         </div>
                                     </td>
+                                    @endrole
                                 </tr>
                             @else
                                 <tr>
@@ -126,6 +127,7 @@
                                             @endrole
                                         </div>
                                     </td>
+                                    @endrole
                                 </tr>
 
                             @endif
@@ -360,206 +362,10 @@
                         </div>
                         <div class="modal-footer">
                             <button class="btn btn-primary w-100" id="editauditbtn{{$item['id']}}" type="submit">
-                                        <i class="mdi mdi-check-circle me-1"></i> Submit
-                                    </button>
-                                    <button class="btn btn-secondary w-100" id="editauditloader{{$item['id']}}" style="display:none;" type="button">
-                                        <span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
-                                        Saving Data...
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div><!-- /.modal -->
-    @endforeach
-
-
-
-        <!-- Edit Stock Modal -->
-        @foreach ($data2 as $item)
-            <div id="con-close-modal-edit-stock-{{$item['id']}}" class="modal fade" tabindex="-1" role="dialog"
-                aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content">
-                        <form class="editstockForm" method="post">
-                            @csrf
-                            @method('PATCH')
-                            <input type="hidden" name="type" value="1">
-                            <input type="hidden" name="batch_id" value="{{$item['batch_id']}}">
-                            <input type="hidden" name="product_id" value="{{$item['product_id']}}">
-                            <input type="hidden" name="stock_id" value="{{$item['id']}}">
-                            <input type="hidden" name="editstockId" id="editstockId" value="{{$item['id']}}">
-                            <div class="modal-header">
-                                <h4 class="modal-title">Edit Stock</h4>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="mb-3">
-                                            <label for="field-2n" class="form-label">Name</label>
-                                            <input type="text" value="{{$item['name']}}" name="name" class="form-control"
-                                                id="field-2n" placeholder="name" required>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="mb-3">
-                                            <label for="field-2l" class="form-label">Quantity</label>
-                                            <input type="text" value="{{$item['quantity']}}" name="quantity" class="form-control"
-                                                id="field-2l" placeholder="quantity" required>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="mb-3">
-                                            <label for="field-2l" class="form-label">Batch/Lot Number</label>
-                                            <input type="text" value="{{$item['batch_no']}}" name="batch_no" class="form-control"
-                                                id="field-2l" placeholder="batch/lot number" required>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="mb-3">
-                                            <label for="field-11w" class="form-label">Quantity Type</label>
-                                            <select name="q_type" class="form-control form-select" id="field-11w" required>
-                                                <option {{$item['quantity_type'] == 0 ? 'selected' : ''}} value="0">Cartons</option>
-                                                <option {{$item['quantity_type'] == 1 ? 'selected' : ''}} value="1">Packets</option>
-                                                <option {{$item['quantity_type'] == 2 ? 'selected' : ''}} value="2">Single Items
-                                                </option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="mb-3">
-                                            <label for="field-2n" class="form-label">Source</label>
-                                            <input type="text" value="{{$item['source']}}" name="source" class="form-control"
-                                                id="field-2n" placeholder="source" required>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="mb-3">
-                                            <label for="field-2l" class="form-label">Expiry Date</label>
-                                            <input type="date" value="{{$item['expiry']}}" name="e_date" class="form-control"
-                                                id="field-2l" placeholder="expiry date">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <div class="mb-3">
-                                            <label for="field-2" class="form-label">Remarks</label>
-                                            <textarea id="textarea" value="{{$item['remarks']}}" name="remarks" class="form-control"
-                                                maxlength="300" rows="3" placeholder="Your Remarks"></textarea>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button class="btn btn-primary w-100" id="editstockbtn{{$item['id']}}" type="submit">
-                                    <i class="mdi mdi-check-circle me-1"></i> Submit
-                                </button>
-                                <button class="btn btn-secondary w-100" id="editstockloader{{$item['id']}}" style="display:none;" type="button">
-                                    <span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
-                                    Saving Data...
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div><!-- /.modal -->
-        @endforeach
-
-
-
-        <!-- REstock Stock Modal -->
-
-        <div id="con-close-modal-restock-1" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-            aria-hidden="true" style="display: none;">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <form id="restockForm" method="post">
-                        @csrf
-                        @method('post')
-                        <input type="hidden" name="type" value="1">
-                        <div class="modal-header">
-                            <h4 class="modal-title">Re-Stock</h4>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label for="field-11w" class="form-label">Product Name</label>
-
-                                        @php
-                                            use App\Models\Product;
-                                            $products = Product::all();
-
-                                        @endphp
-
-                                        <input type="text" list="regnoo" parsley-trigger="change" required class="form-control"
-                                            id="p_name" name='name' autocomplete="off" placeholder="Search Product ..."
-                                            aria-label="Recipient's username" />
-
-                                        <datalist id="regnoo">
-                                            @foreach ($products as $product)
-                                                <option value="{{ $product->name }}">{{ $product->name }}</option>
-                                            @endforeach
-                                        </datalist>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label for="field-2l" class="form-label">Quantity</label>
-                                        <input type="text" name="quantity" class="form-control" id="field-2l"
-                                            placeholder="quantity" required>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label for="field-2l" class="form-label">Batch/Lot Number</label>
-                                        <input type="text" name="batch_no" class="form-control" id="field-2l"
-                                            placeholder="batch/lot number" required>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label for="field-2n" class="form-label">Source</label>
-                                        <input type="text" name="source" class="form-control" id="field-2n" placeholder="source"
-                                            required>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label for="field-2n" class="form-label">Invoice Number</label>
-                                        <input type="text" name="invoice" class="form-control" id="field-2n"
-                                            placeholder="invoice number">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label for="field-2l" class="form-label">Delivery Note</label>
-                                        <input type="text" name="d_note" class="form-control" id="field-2l"
-                                            placeholder="Delivery Note">
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="mb-3">
-                                        <label for="field-2l" class="form-label">Expiry Date</label>
-                                        <input type="date" name="e_date" class="form-control" id="field-2l"
-                                            placeholder="expiry date" required>
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="mb-3">
-                                        <label for="field-2" class="form-label">Remarks</label>
-                                        <textarea id="textarea" name="remarks" class="form-control" required maxlength="300"
-                                            rows="3" placeholder="Your Remarks"></textarea>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button class="btn btn-primary w-100" id="restockbtn" type="submit">
                                 <i class="mdi mdi-check-circle me-1"></i> Submit
                             </button>
-                            <button class="btn btn-secondary w-100" id="restockloader" style="display:none;" type="button">
+                            <button class="btn btn-secondary w-100" id="editauditloader{{$item['id']}}" style="display:none;"
+                                type="button">
                                 <span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
                                 Saving Data...
                             </button>
@@ -568,99 +374,299 @@
                 </div>
             </div>
         </div><!-- /.modal -->
+    @endforeach
 
 
 
-        <!-- View Transaction of Stock Modal -->
-        @foreach ($data as $item1)
-            <div id="con-close-modal-txn-{{$item1['id']}}" class="modal fade" tabindex="-1" role="dialog"
-                aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
-                <div class="modal-dialog modal-full-width">
-                    <div class="modal-content">
-                        <form id="settiingsForm" method="post">
-                            @csrf
-                            @method('PATCH')
-                            <input type="hidden" name="type" value="0">
-                            <div class="modal-header">
-                                <h4 class="modal-title">{{$item1['name']}} Stock Transactions</h4>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <div class="table-responsive">
-                                    <table class="table table-hover align-middle text-center" id="datatable">
-                                        <thead>
-                                            <tr>
-                                                <th>#</th>
-                                                <th>Quantity</th>
-                                                <th>Batch/Lot No</th>
-                                                <th>Source</th>
-                                                <th>Staff</th>
-                                                <th>Date In</th>
-                                                <th>Expiry</th>
-                                                <th>Remarks</th>
-                                                <th>Approval</th>
-                                                @role('admin')
-                                                <th>Actions</th>
-                                                @endrole
-                                            </tr>
-                                        </thead>
-
-
-                                        <tbody>
-                                            @foreach ($data2 as $item)
-                                                @if ($item1['id'] == $item['product_id'])
-                                                    <tr>
-                                                        <td>{{$loop->index + 1}}. </td>
-                                                        <td>{{$item['quantity']}}</td>
-                                                        <td>{{$item['batch_no']}}</td>
-                                                        <td>{{$item['source']}}</td>
-                                                        <td>{{$item['staff']}}</td>
-                                                        <td>{{$item['date_in']}}</td>
-                                                        <td>{{$item['expiry']}}</td>
-                                                        <td>{{$item['remarks']}}</td>
-                                                        <td>
-                                                            @if ($item['approve'] == 0)
-                                                                <span class="badge bg-warning text-dark">Pending</span>
-                                                            @else
-                                                                <span class="badge bg-success">Approved</span>
-                                                            @endif
-                                                        </td>
-                                                        @role('admin')
-                                                        <td class="text-center">
-                                                            <div class="btn-group btn-group-sm">
-                                                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" 
-                                                                    data-bs-target="#con-close-modal-edit-stock-{{$item['id']}}" title="Edit Stock">
-                                                                    <i class="mdi mdi-pencil"></i>
-                                                                </button>
-                                                                <button type="button" onclick="del_batch(this)" value="{{$item['batch_id']}}" 
-                                                                    class="btn btn-danger" title="Delete Batch">
-                                                                    <i class="mdi mdi-delete"></i>
-                                                                </button>
-                                                            </div>
-                                                        </td>
-                                                        @endrole
-                                                    </tr>
-                                                @endif
-                                            @endforeach
-                                        </tbody>
-                                    </table>
+    <!-- Edit Stock Modal -->
+    @foreach ($data2 as $item)
+        <div id="con-close-modal-edit-stock-{{$item['id']}}" class="modal fade" tabindex="-1" role="dialog"
+            aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <form class="editstockForm" method="post">
+                        @csrf
+                        @method('PATCH')
+                        <input type="hidden" name="type" value="1">
+                        <input type="hidden" name="batch_id" value="{{$item['batch_id']}}">
+                        <input type="hidden" name="product_id" value="{{$item['product_id']}}">
+                        <input type="hidden" name="stock_id" value="{{$item['id']}}">
+                        <input type="hidden" name="editstockId" id="editstockId" value="{{$item['id']}}">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Edit Stock</h4>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="field-2n" class="form-label">Name</label>
+                                        <input type="text" value="{{$item['name']}}" name="name" class="form-control"
+                                            id="field-2n" placeholder="name" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="field-2l" class="form-label">Quantity</label>
+                                        <input type="text" value="{{$item['quantity']}}" name="quantity" class="form-control"
+                                            id="field-2l" placeholder="quantity" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="field-2l" class="form-label">Batch/Lot Number</label>
+                                        <input type="text" value="{{$item['batch_no']}}" name="batch_no" class="form-control"
+                                            id="field-2l" placeholder="batch/lot number" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="field-11w" class="form-label">Quantity Type</label>
+                                        <select name="q_type" class="form-control form-select" id="field-11w" required>
+                                            <option {{$item['quantity_type'] == 0 ? 'selected' : ''}} value="0">Cartons</option>
+                                            <option {{$item['quantity_type'] == 1 ? 'selected' : ''}} value="1">Packets</option>
+                                            <option {{$item['quantity_type'] == 2 ? 'selected' : ''}} value="2">Single Items
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="field-2n" class="form-label">Source</label>
+                                        <input type="text" value="{{$item['source']}}" name="source" class="form-control"
+                                            id="field-2n" placeholder="source" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="field-2l" class="form-label">Expiry Date</label>
+                                        <input type="date" value="{{$item['expiry']}}" name="e_date" class="form-control"
+                                            id="field-2l" placeholder="expiry date">
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="mb-3">
+                                        <label for="field-2" class="form-label">Remarks</label>
+                                        <textarea id="textarea" value="{{$item['remarks']}}" name="remarks" class="form-control"
+                                            maxlength="300" rows="3" placeholder="Your Remarks"></textarea>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="modal-footer">
-                                <button class="btn p-1" id="editbtn" style="background-color: #08228a9f;color: white" type="submit">
-                                    Submit
-                                </button>
-                                <button class="btn p-1" id="editloader"
-                                    style="background-color: #08228a9f;color: white;display:none;" type="button">
-                                    <span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
-                                    Saving Data...
-                                </button>
-                            </div>
-                        </form>
-                    </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-primary w-100" id="editstockbtn{{$item['id']}}" type="submit">
+                                <i class="mdi mdi-check-circle me-1"></i> Submit
+                            </button>
+                            <button class="btn btn-secondary w-100" id="editstockloader{{$item['id']}}" style="display:none;"
+                                type="button">
+                                <span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
+                                Saving Data...
+                            </button>
+                        </div>
+                    </form>
                 </div>
-            </div><!-- /.modal -->
-        @endforeach
+            </div>
+        </div><!-- /.modal -->
+    @endforeach
+
+
+
+    <!-- REstock Stock Modal -->
+
+    <div id="con-close-modal-restock-1" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+        aria-hidden="true" style="display: none;">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <form id="restockForm" method="post">
+                    @csrf
+                    @method('post')
+                    <input type="hidden" name="type" value="1">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Re-Stock</h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="field-11w" class="form-label">Product Name</label>
+
+                                    @php
+                                        use App\Models\Product;
+                                        $products = Product::all();
+
+                                    @endphp
+
+                                    <input type="text" list="regnoo" parsley-trigger="change" required class="form-control"
+                                        id="p_name" name='name' autocomplete="off" placeholder="Search Product ..."
+                                        aria-label="Recipient's username" />
+
+                                    <datalist id="regnoo">
+                                        @foreach ($products as $product)
+                                            <option value="{{ $product->name }}">{{ $product->name }}</option>
+                                        @endforeach
+                                    </datalist>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="field-2l" class="form-label">Quantity</label>
+                                    <input type="text" name="quantity" class="form-control" id="field-2l"
+                                        placeholder="quantity" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="field-2l" class="form-label">Batch/Lot Number</label>
+                                    <input type="text" name="batch_no" class="form-control" id="field-2l"
+                                        placeholder="batch/lot number" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="field-2n" class="form-label">Source</label>
+                                    <input type="text" name="source" class="form-control" id="field-2n" placeholder="source"
+                                        required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="field-2n" class="form-label">Invoice Number</label>
+                                    <input type="text" name="invoice" class="form-control" id="field-2n"
+                                        placeholder="invoice number">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="field-2l" class="form-label">Delivery Note</label>
+                                    <input type="text" name="d_note" class="form-control" id="field-2l"
+                                        placeholder="Delivery Note">
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="mb-3">
+                                    <label for="field-2l" class="form-label">Expiry Date</label>
+                                    <input type="date" name="e_date" class="form-control" id="field-2l"
+                                        placeholder="expiry date" required>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="mb-3">
+                                    <label for="field-2" class="form-label">Remarks</label>
+                                    <textarea id="textarea" name="remarks" class="form-control" required maxlength="300"
+                                        rows="3" placeholder="Your Remarks"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary w-100" id="restockbtn" type="submit">
+                            <i class="mdi mdi-check-circle me-1"></i> Submit
+                        </button>
+                        <button class="btn btn-secondary w-100" id="restockloader" style="display:none;" type="button">
+                            <span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
+                            Saving Data...
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div><!-- /.modal -->
+
+
+
+    <!-- View Transaction of Stock Modal -->
+    @foreach ($data as $item1)
+        <div id="con-close-modal-txn-{{$item1['id']}}" class="modal fade" tabindex="-1" role="dialog"
+            aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+            <div class="modal-dialog modal-full-width">
+                <div class="modal-content">
+                    <form id="settiingsForm" method="post">
+                        @csrf
+                        @method('PATCH')
+                        <input type="hidden" name="type" value="0">
+                        <div class="modal-header">
+                            <h4 class="modal-title">{{$item1['name']}} Stock Transactions</h4>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="table-responsive">
+                                <table class="table table-hover align-middle text-center" id="datatable">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Quantity</th>
+                                            <th>Batch/Lot No</th>
+                                            <th>Source</th>
+                                            <th>Staff</th>
+                                            <th>Date In</th>
+                                            <th>Expiry</th>
+                                            <th>Remarks</th>
+                                            <th>Approval</th>
+                                            @role('admin')
+                                            <th>Actions</th>
+                                            @endrole
+                                        </tr>
+                                    </thead>
+
+
+                                    <tbody>
+                                        @foreach ($data2 as $item)
+                                            @if ($item1['id'] == $item['product_id'])
+                                                <tr>
+                                                    <td>{{$loop->index + 1}}. </td>
+                                                    <td>{{$item['quantity']}}</td>
+                                                    <td>{{$item['batch_no']}}</td>
+                                                    <td>{{$item['source']}}</td>
+                                                    <td>{{$item['staff']}}</td>
+                                                    <td>{{$item['date_in']}}</td>
+                                                    <td>{{$item['expiry']}}</td>
+                                                    <td>{{$item['remarks']}}</td>
+                                                    <td>
+                                                        @if ($item['approve'] == 0)
+                                                            <span class="badge bg-warning text-dark">Pending</span>
+                                                        @else
+                                                            <span class="badge bg-success">Approved</span>
+                                                        @endif
+                                                    </td>
+                                                    @role('admin')
+                                                    <td class="text-center">
+                                                        <div class="btn-group btn-group-sm">
+                                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                                                data-bs-target="#con-close-modal-edit-stock-{{$item['id']}}"
+                                                                title="Edit Stock">
+                                                                <i class="mdi mdi-pencil"></i>
+                                                            </button>
+                                                            <button type="button" onclick="del_batch(this)"
+                                                                value="{{$item['batch_id']}}" class="btn btn-danger"
+                                                                title="Delete Batch">
+                                                                <i class="mdi mdi-delete"></i>
+                                                            </button>
+                                                        </div>
+                                                    </td>
+                                                    @endrole
+                                                </tr>
+                                            @endif
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn p-1" id="editbtn" style="background-color: #08228a9f;color: white" type="submit">
+                                Submit
+                            </button>
+                            <button class="btn p-1" id="editloader"
+                                style="background-color: #08228a9f;color: white;display:none;" type="button">
+                                <span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
+                                Saving Data...
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div><!-- /.modal -->
+    @endforeach
 
 
 @endsection
