@@ -254,6 +254,31 @@ class StockController extends Controller
         return view('app.landingcost', compact('batches', 'label'));
     }
 
+    /**
+     * Update the landing cost for a batch.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function updateLandingCost(Request $request, $id)
+    {
+        $request->validate([
+            'landing_cost' => 'required|numeric|min:0',
+        ]);
+
+        $batch = Batch::find($id);
+
+        if (!$batch) {
+            return response()->json(['status' => 'error', 'message' => 'Batch not found.'], 404);
+        }
+
+        $batch->cost = $request->landing_cost;
+        $batch->save();
+
+        return response()->json(['status' => 'success', 'message' => 'Landing cost updated successfully.']);
+    }
+
 
     /**
      * Show the form for creating a new resource.
