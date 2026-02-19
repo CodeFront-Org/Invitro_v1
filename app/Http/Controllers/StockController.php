@@ -276,7 +276,36 @@ class StockController extends Controller
         $batch->cost = $request->landing_cost;
         $batch->save();
 
+        // Also update any restock records linked to this batch
+        Restock::where('batch_entry_id', $id)->update(['landing_cost' => $request->landing_cost]);
+
         return response()->json(['status' => 'success', 'message' => 'Landing cost updated successfully.']);
+    }
+
+    /**
+     * Update the landing cost for a restock record.
+     */
+    public function updateRestockCost(Request $request, $id)
+    {
+        $request->validate([
+            'landing_cost' => 'required|numeric|min:0',
+        ]);
+
+        $restock = Restock::find($id);
+
+        if (!$restock) {
+            return response()->json(['status' => 'error', 'message' => 'Restock record not found.'], 404);
+        }
+
+        $restock->landing_cost = $request->landing_cost;
+        $restock->save();
+
+        // If this restock is linked to a batch, update the batch cost as well
+        if ($restock->batch_entry_id) {
+            Batch::where('id', $restock->batch_entry_id)->update(['cost' => $request->landing_cost]);
+        }
+
+        return response()->json(['status' => 'success', 'message' => 'Restock landing cost updated successfully.']);
     }
 
 
@@ -403,7 +432,7 @@ class StockController extends Controller
                                 //$mobile=User::where('id',Auth::id())->pluck('contacts')->first();
                                 //$msg='Order Level for Product: '.$p_name.' has been reached.\n\nPlease Restock\nInvitro';
                                 //$mobile=$user->contacts;
-                                $msg = 'The Expiry date for Product: ' . $p_name . ' is approaching in the next 3 months.\nRegards\nInvitro';
+                                $msg = 'The Expiry date for Product: ' . $product_name . ' is approaching in the next 3 months.\nRegards\nInvitro';
                                 $curl = curl_init();
 
                                 curl_setopt_array($curl, array(
@@ -532,6 +561,7 @@ class StockController extends Controller
                         Restock::create([
                             'user_id' => $id,
                             'product_id' => $product_id,
+                            'batch_entry_id' => $batch->id,
                             'quantity' => $quantity,
                             'source' => $request->source,
                             'landing_cost' => $cost,

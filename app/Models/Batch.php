@@ -8,7 +8,12 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Batch extends Model
 {
-    use HasFactory,SoftDeletes;
+    use HasFactory, SoftDeletes;
 
-    protected $guarded=[];
+    protected $guarded = [];
+
+    public function restocks()
+    {
+        return $this->hasMany(Restock::class, 'batch_entry_id');
+    }
 }

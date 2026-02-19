@@ -19,6 +19,7 @@ class Restock extends Model
         'delivery_note',
         'remarks',
         'restock_date',
+        'batch_entry_id',
     ];
 
     public function product()
@@ -29,5 +30,10 @@ class Restock extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function batch()
+    {
+        return $this->belongsTo(Batch::class, 'batch_entry_id');
     }
 }

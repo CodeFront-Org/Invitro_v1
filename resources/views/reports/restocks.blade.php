@@ -116,6 +116,7 @@
                                     <th style="border-color: rgba(255,255,255,0.2);">Staff</th>
                                     <th style="border-color: rgba(255,255,255,0.2);">Date</th>
                                     <th style="border-color: rgba(255,255,255,0.2);">Remarks</th>
+                                    <th style="border-color: rgba(255,255,255,0.2);">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -152,6 +153,12 @@
                                         <td class="text-start" style="min-width: 150px; max-width: 200px; font-size: 0.85rem;">
                                             {{$item['remarks'] ?? '-'}}
                                         </td>
+                                        <td>
+                                            <button type="button" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal"
+                                                data-bs-target="#editRestockCostModal-{{ $item['id'] }}" title="Edit Landing Cost">
+                                                <i class="mdi mdi-pencil"></i>
+                                            </button>
+                                        </td>
                                     </tr>
                                     @php
                                         $page += 1;
@@ -178,6 +185,65 @@
             </div>
         </div>
     </div>
+
+    <!-- Edit Restock Cost Modals -->
+    @foreach ($restocks as $item)
+        <div id="editRestockCostModal-{{ $item->id }}" class="modal fade" tabindex="-1" role="dialog"
+            aria-labelledby="editRestockCostLabel-{{ $item->id }}" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <form class="editRestockCostForm" data-restock-id="{{ $item->id }}" method="post">
+                        @csrf
+                        @method('PATCH')
+                        <div class="modal-header">
+                            <h4 class="modal-title">Edit Landing Cost - {{ $item->product ? $item->product->name : 'N/A' }}</h4>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="mb-3 text-start">
+                                        <label class="form-label fw-bold">Current Product</label>
+                                        <input type="text" class="form-control" value="{{ $item->product ? $item->product->name : 'N/A' }}" disabled>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3 text-start">
+                                        <label class="form-label fw-bold">Invoice Number</label>
+                                        <input type="text" class="form-control" value="{{ $item->invoice_number ?? 'N/A' }}" disabled>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3 text-start">
+                                        <label class="form-label fw-bold">Quantity</label>
+                                        <input type="text" class="form-control" value="{{ $item->quantity }}" disabled>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 text-start">
+                                    <div class="mb-3">
+                                        <label for="restock_landing_cost_{{ $item->id }}" class="form-label fw-bold">Landing Cost (Ksh)</label>
+                                        <input type="number" step="0.01" min="0" name="landing_cost"
+                                            class="form-control" id="restock_landing_cost_{{ $item->id }}"
+                                            value="{{ $item->landing_cost }}" placeholder="Enter landing cost" required>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-primary w-100" id="editRestockCostBtn-{{ $item->id }}" type="submit">
+                                <i class="mdi mdi-check-circle me-1"></i> Update Landing Cost
+                            </button>
+                            <button class="btn btn-secondary w-100" id="editRestockCostLoader-{{ $item->id }}"
+                                style="display:none;" type="button">
+                                <span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
+                                Saving Data...
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    @endforeach
 
     <style>
         .table-hover tbody tr:hover {
@@ -228,6 +294,41 @@
             setTimeout(function () {
                 $('.alert').fadeOut('slow');
             }, 5000);
+
+            // Edit Restock Cost Form Submission
+            $(".editRestockCostForm").on('submit', function (e) {
+                e.preventDefault();
+
+                const form = $(this);
+                var restockId = form.data('restock-id');
+                var btn = $("#editRestockCostBtn-" + restockId);
+                var loader = $("#editRestockCostLoader-" + restockId);
+                btn.hide();
+                loader.show();
+
+                $.ajax({
+                    type: 'PATCH',
+                    url: '/restock-cost/' + restockId,
+                    data: form.serialize(),
+                    success: function (response) {
+                        if (response.status === 'success') {
+                            toastr["success"]("", "Landing Cost Updated Successfully.");
+                            btn.show();
+                            loader.hide();
+                            setTimeout(() => { location.reload(); }, 1000);
+                        } else {
+                            btn.show();
+                            loader.hide();
+                            Swal.fire("Error!", response.message || "Try again later...", "error");
+                        }
+                    },
+                    error: function (res) {
+                        btn.show();
+                        loader.hide();
+                        Swal.fire("Error!", "Try again later...", "error");
+                    }
+                });
+            });
         });
     </script>
 @endsection

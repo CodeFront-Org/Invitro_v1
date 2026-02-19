@@ -76,6 +76,7 @@ Route::get('/customers', [App\Http\Controllers\UserController::class, 'customers
 Route::resource('/stock', App\Http\Controllers\StockController::class);
 Route::get('/landingCost', [App\Http\Controllers\StockController::class, 'showLandingCost'])->name('landing.cost');
 Route::patch('/landingCost/{id}', [App\Http\Controllers\StockController::class, 'updateLandingCost'])->name('landing.cost.update');
+Route::patch('/restock-cost/{id}', [App\Http\Controllers\StockController::class, 'updateRestockCost'])->name('restock.cost.update');
 //Route::get('/landing-cost', [App\Http\Controllers\StockController::class,'showLandingCost'])->name('landing.cost');
 
 Route::resource('/batch-edit', App\Http\Controllers\BatchController::class);
