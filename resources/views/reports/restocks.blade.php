@@ -201,30 +201,16 @@
                         </div>
                         <div class="modal-body">
                             <div class="row">
-                                <div class="col-md-12">
-                                    <div class="mb-3 text-start">
-                                        <label class="form-label fw-bold">Current Product</label>
-                                        <input type="text" class="form-control" value="{{ $item->product ? $item->product->name : 'N/A' }}" disabled>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="mb-3 text-start">
-                                        <label class="form-label fw-bold">Invoice Number</label>
-                                        <input type="text" class="form-control" value="{{ $item->invoice_number ?? 'N/A' }}" disabled>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="mb-3 text-start">
-                                        <label class="form-label fw-bold">Quantity</label>
-                                        <input type="text" class="form-control" value="{{ $item->quantity }}" disabled>
-                                    </div>
-                                </div>
                                 <div class="col-md-12 text-start">
                                     <div class="mb-3">
-                                        <label for="restock_landing_cost_{{ $item->id }}" class="form-label fw-bold">Landing Cost (Ksh)</label>
-                                        <input type="number" step="0.01" min="0" name="landing_cost"
-                                            class="form-control" id="restock_landing_cost_{{ $item->id }}"
-                                            value="{{ $item->landing_cost }}" placeholder="Enter landing cost" required>
+                                        <label for="restock_landing_cost_{{ $item->id }}" class="form-label fw-bold">New Landing Cost (Ksh)</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text">Ksh</span>
+                                            <input type="number" step="0.01" min="0" name="landing_cost"
+                                                class="form-control" id="restock_landing_cost_{{ $item->id }}"
+                                                value="{{ $item->landing_cost }}" placeholder="Enter landing cost" required>
+                                        </div>
+                                        <small class="text-muted">This will also update the associated batch cost.</small>
                                     </div>
                                 </div>
                             </div>
