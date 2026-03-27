@@ -185,6 +185,63 @@
     </div> <!-- end row -->
 
 
+    <!--Edit OrderLevel Modal -->
+    @foreach ($data as $item)
+        <div id="con-close-modal-edit-order-level-{{$item['id']}}" class="modal fade" tabindex="-1" role="dialog"
+            aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+            <div class="modal-dialog modal-dialog-sm modal-dialog-centered">
+                <div class="modal-content">
+                    <form class="orderlevelForm" method="post">
+                        @csrf
+                        @method('PATCH')
+                        <input type="hidden" name="type" value="2">
+                        <input type="hidden" name="editorderId" id="editorderId" value="{{$item['id']}}">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Edit Order Level for Product: {{$item['name']}}</h4>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="mb-3">
+                                        <label for="field-2n" class="form-label">Order Level</label>
+                                        <input type="number" name="o_level" value="{{$item['order_level']}}"
+                                            class="form-control" id="field-2n" placeholder="set new order level" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="mb-3">
+                                        <label for="field-2l" class="form-label">Expiry Alert</label>
+                                        <input type="number" name="e_period" value="{{$item['e_period']}}" class="form-control"
+                                            id="field-2l" placeholder="Expiry period in days" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="mb-3">
+                                        <label for="field-2l" class="form-label">Product Name</label>
+                                        <input type="text" name="p_name" value="{{$item['name']}}" class="form-control"
+                                            id="field-2l" placeholder="Product Name" required>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-primary w-100" id="editorderbtn{{$item['id']}}" type="submit">
+                                <i class="mdi mdi-check-circle me-1"></i> Submit
+                            </button>
+                            <button class="btn btn-secondary w-100" id="editorderloader{{$item['id']}}" style="display:none;"
+                                type="button">
+                                <span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
+                                Saving Data...
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div><!-- /.modal -->
+    @endforeach
+
+
     <!-- Add New Stock Modal -->
 
     <div id="con-close-modal-add-1" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
