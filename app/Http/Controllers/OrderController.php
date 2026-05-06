@@ -331,8 +331,13 @@ class OrderController extends Controller
         //Check if total quantity orders is enough
         //$sum=Product::where('id', $product_id)->sum('quantity');
         $a_available_array=DB::select("SELECT SUM(quantity)-SUM(sold) as 'available_items' FROM batches where product_id=$product_id and deleted_at IS NULL AND sold_out=0 LIMIT 1;");
-        $sum= $a_available_array[0]->available_items;
+        $sum= $a_available_array[0]->available_items ?? 0;
 
+        // Hard stock floor — stock can NEVER go below 0, even with exceptional approval
+        if($sum <= 0){
+            session()->flash('error', 'This product has no stock available. The order cannot be processed.');
+            return back();
+        }
 
         if($sum<$total_quantity){//alert that the total available quantity is below ordered quantity
             // Error message
@@ -431,6 +436,13 @@ class OrderController extends Controller
             $qty=$request->quantity;
             if($admin_qty != $qty){// Quantity not equal
                 session()->flash('error','Total quantity allowed for order by the admin is '.$admin_qty);
+                return back();
+            }
+            // Even with exceptional approval, the stock must never go below 0
+            $a_avail_array=DB::select("SELECT SUM(quantity)-SUM(sold) as 'available_items' FROM batches where product_id=$product_id and deleted_at IS NULL AND sold_out=0 LIMIT 1;");
+            $avail_for_exception = $a_avail_array[0]->available_items ?? 0;
+            if($qty > $avail_for_exception){
+                session()->flash('error','Cannot process order. The requested quantity ('.$qty.') exceeds the available stock ('.$avail_for_exception.'). Stock cannot go below zero.');
                 return back();
             }
         }
@@ -570,9 +582,9 @@ class OrderController extends Controller
                 'sold_out'=>$check==0?'1':'0',
                 ]);
 
-            //Update Products Table
+            //Update Products Table — stock must never go below 0
             $prod_qty=Product::where('id',$product_id)->pluck('quantity')->first();
-            $new_qty=$prod_qty-$qty_used;
+            $new_qty=max(0, $prod_qty-$qty_used);
             Product::where('id',$product_id)->update(['quantity'=>$new_qty]);
 
         //////////////////////////////////////////////////////    Send Email to notify approval of new Order  //////////////////////////////////////////////////////////

@@ -812,7 +812,8 @@ class StockController extends Controller
             $p_id = Batch::where('id', $id)->pluck('product_id')->first();
             $amt = $qty - $sold;
             $p_amt = Product::where('id', $p_id)->pluck('quantity')->first();
-            $new_qty = $p_amt - $amt;
+            // Stock must never go below 0
+            $new_qty = max(0, $p_amt - $amt);
             Product::where('id', $p_id)->update(['quantity' => $new_qty]);
             Batch::find($id)->delete();
             Stock::where('batch_id', $id)->delete();

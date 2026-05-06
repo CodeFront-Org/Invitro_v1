@@ -42,12 +42,7 @@
                         <span>Users</span>
                     </a>
                 </li>
-                <li>
-                    <a href="/stock" class="waves-effect">
-                        <i class="fa fa-box"></i>
-                        <span>Products</span>
-                    </a>
-                </li>
+        
                 @endrole
 
                 @role('staff')
@@ -58,6 +53,12 @@
                     </a>
                 </li>
 
+              <li>
+                    <a href="/stock" class="waves-effect">
+                        <i class="fa fa-box"></i>
+                        <span>Products</span>
+                    </a>
+                </li>
 
                 <li>
                     <a href="/batch-edit" class="waves-effect">

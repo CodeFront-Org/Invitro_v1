@@ -387,7 +387,8 @@ class ApproveController extends Controller
             $bid=Stock::where("id",$id)->pluck("batch_id")->first();
             $qty=Batch::where("id",$bid)->pluck("quantity")->first();
             $db_qty=Product::where("id",$pid)->pluck("quantity")->first();
-            $q=$db_qty-$qty;
+            // Stock must never go below 0
+            $q=max(0, $db_qty-$qty);
 
             Product::where("id",$pid)->update(["quantity"=>$q]); 
             Stock::where("id",$id)->delete();
