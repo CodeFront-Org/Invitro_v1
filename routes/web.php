@@ -114,7 +114,8 @@ Route::get('/expired', [App\Http\Controllers\ReportsController::class, 'products
 Route::get('/due-expiry', [App\Http\Controllers\ReportsController::class, 'productsExpired'])->name('/due-expiry');
 Route::get('/sales', [App\Http\Controllers\ReportsController::class, 'sales'])->name('/sales');
 Route::get('/sales-details', [App\Http\Controllers\ReportsController::class, 'sales_details'])->name('/sales-details');//to narrow down to one product sales report
-Route::get('/reorder-level', [App\Http\Controllers\ReportsController::class, 'productsExpired'])->name('/reorder-level');
+Route::get('/reorder-level', [App\Http\Controllers\ReportsController::class, 'reorderLevelReport'])->name('/reorder-level');
+Route::get('/reorderlevel', [App\Http\Controllers\ReportsController::class, 'reorderLevelReport'])->name('reorderlevel');
 Route::get('/restocks', [App\Http\Controllers\ReportsController::class, 'restocks'])->name('/restocks');
 
 Route::post('/store-ref', [App\Http\Controllers\StockController::class, 'store_ref'])->name('store-ref');

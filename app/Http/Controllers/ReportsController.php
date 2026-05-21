@@ -11,6 +11,8 @@ use App\Models\Restock;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\Reorder;
 
 class ReportsController extends Controller
 {
@@ -613,5 +615,84 @@ class ReportsController extends Controller
     }
 
 
+    public function reorderLevelReport(Request $request)
+    {
+        $label = "Re-Order levels";
 
+        // BEST PRACTICE: Use database to filter rather than loading all items into memory and checking in a loop
+        $products = Product::select('name', 'quantity as balance', 'order_level as reorder')
+            ->where('approve', 1)
+            ->where('order_level', '>', 0)
+            ->whereColumn('quantity', '<=', 'order_level')
+            ->orderBy('name', 'asc')
+            ->get();
+
+        $order_level_data = [];
+
+        foreach ($products as $p) {
+            $status = 0;
+            $color = 'red';
+
+            if ($p->reorder > 0) {
+                $status = round(($p->balance / $p->reorder) * 100);
+                if ($status < 50) {
+                    $color = 'red';
+                } elseif ($status < 70) {
+                    $color = 'rgb(255, 183, 0)';
+                } else {
+                    $color = 'green';
+                }
+            } else {
+                $status = 0;
+                $color = 'red';
+            }
+
+            $order_level_data[] = [
+                'product_name' => $p->name,
+                'balance' => $p->balance,
+                'reorder' => $p->reorder,
+                'status' => $status . ' %',
+                'color' => $color
+            ];
+        }
+
+        $totalReorders = count($order_level_data);
+
+        // Generate HTML table for email
+        if ($totalReorders > 0) {
+            $table = '<table border="1" cellpadding="5" cellspacing="0" style="width:100%; text-align:center; border-collapse: collapse;">
+                <tr style="background-color: #f2f2f2;">
+                    <th>#</th>
+                    <th>Name</th>
+                    <th>Balance</th>
+                    <th>Re-Order Level</th>
+                    <th>Status</th>
+                </tr>';
+            
+            foreach ($order_level_data as $index => $item) {
+                $table .= '<tr>
+                    <td>'.($index + 1).'</td>
+                    <td>'.$item['product_name'].'</td>
+                    <td>'.$item['balance'].'</td>
+                    <td>'.$item['reorder'].'</td>
+                    <td style="color: '.$item['color'].'; font-weight: bold;">'.$item['status'].'</td>
+                </tr>';
+            }
+            $table .= '</table>';
+
+            // Send email to all users with alert = 6
+            $usersToAlert = User::where('alert', 6)->get();
+            foreach ($usersToAlert as $user) {
+                $recipient = $user->email;
+                $name = $user->first_name;
+                $link = url('/reorderlevel'); 
+                
+                if ($recipient) {
+                    Mail::to($recipient)->send(new Reorder($link, $recipient, $name, $table));
+                }
+            }
+        }
+
+        return view('reports.reorder-levels', compact('label', 'order_level_data', 'totalReorders'));
+    }
 }
