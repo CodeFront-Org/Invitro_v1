@@ -19,20 +19,20 @@ class LandingCostExport implements FromQuery, WithHeadings
     public function query()
     {
         $query = \DB::table('batches')
-                   ->select(
-                'batches.id',
+            ->select(
+                'products.id as product_id',
                 'products.name',
-                'batches.product_id',
-                'batch_no',
-                'batches.created_at as created_at',
-                \DB::raw('(batches.quantity - batches.sold) as quantity'),
-                \DB::raw('batches.cost as landing_cost'),
-                \DB::raw('(batches.quantity - batches.sold) * batches.cost as stock_value')
+                \DB::raw("GROUP_CONCAT(DISTINCT batches.batch_no SEPARATOR ', ') as batch_no"),
+                \DB::raw('SUM(batches.quantity - batches.sold) as quantity'),
+                \DB::raw('ROUND(SUM((batches.quantity - batches.sold) * batches.cost) / NULLIF(SUM(batches.quantity - batches.sold), 0), 2) as landing_cost'),
+                \DB::raw('SUM((batches.quantity - batches.sold) * batches.cost) as stock_value'),
+                \DB::raw('MAX(batches.created_at) as created_at')
             )
             ->leftJoin('products', 'products.id', '=', 'batches.product_id')
             ->whereNull('batches.deleted_at')
             ->where('products.approve', 1)
-            ->orderByDesc('batches.product_id');
+            ->groupBy('products.id', 'products.name')
+            ->orderBy('products.name', 'asc');
 
         if ($this->filters['product_name']) {
             $query->where('products.name', 'LIKE', '%' . $this->filters['product_name'] . '%');
@@ -55,14 +55,13 @@ class LandingCostExport implements FromQuery, WithHeadings
     public function headings(): array
     {
             return [
-                'batches.id',
-                'products.name',
-                'batches.product_id',
-                'batch_no',
-                'created_at',
-                'quantity',
-                'landing_cost',
-                'stock_value'
+                'Product ID',
+                'Product Name',
+                'Batch Numbers',
+                'Quantity Available',
+                'Landing Cost (Weighted Avg)',
+                'Stock Value',
+                'Latest Date Created'
             ];
     }
 }

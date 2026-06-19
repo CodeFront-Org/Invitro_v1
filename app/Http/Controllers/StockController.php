@@ -209,22 +209,22 @@ class StockController extends Controller
         $batchNo = $request->input('batch_no');
         $productId = $request->input('product_id');
 
-        // Build query
+        // Build query grouped by Product ID
         $query = DB::table('batches')
             ->select(
-                'batches.id',
+                'products.id as product_id',
                 'products.name',
-                'batches.product_id',
-                'batch_no',
-                'batches.created_at as created_at',
-                DB::raw('(batches.quantity - batches.sold) as quantity'),
-                DB::raw('batches.cost as landing_cost'),
-                DB::raw('(batches.quantity - batches.sold) * batches.cost as stock_value')
+                DB::raw("GROUP_CONCAT(DISTINCT batches.batch_no SEPARATOR ', ') as batch_no"),
+                DB::raw('SUM(batches.quantity - batches.sold) as quantity'),
+                DB::raw('ROUND(SUM((batches.quantity - batches.sold) * batches.cost) / NULLIF(SUM(batches.quantity - batches.sold), 0), 2) as landing_cost'),
+                DB::raw('SUM((batches.quantity - batches.sold) * batches.cost) as stock_value'),
+                DB::raw('MAX(batches.created_at) as created_at')
             )
             ->leftJoin('products', 'products.id', '=', 'batches.product_id')
             ->whereNull('batches.deleted_at')
             ->where('products.approve', 1)
-            ->orderByDesc('batches.product_id');
+            ->groupBy('products.id', 'products.name')
+            ->orderBy('products.name', 'asc');
 
         // Apply filters
         if ($productName) {
@@ -274,6 +274,13 @@ class StockController extends Controller
         $totalQty = $aggregates->total_qty ?? 0;
         $totalValue = $aggregates->total_val ?? 0;
 
+        // Fetch products for filter dropdown
+        $products = DB::table('products')
+            ->select('id', 'name')
+            ->where('approve', 1)
+            ->orderBy('name')
+            ->get();
+
         // Paginate
         $batches = $query->paginate($perPage)->withQueryString();
 
@@ -281,7 +288,8 @@ class StockController extends Controller
             'batches', 
             'label', 
             'totalQty', 
-            'totalValue'
+            'totalValue',
+            'products'
         ));
     }
 

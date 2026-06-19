@@ -64,8 +64,13 @@
             <form method="GET" action="{{ route('landing.cost') }}" class="row g-3 mb-4 pb-4 border-bottom align-items-end">
                 <div class="col-lg-3 col-md-6">
                     <label class="form-label fw-semibold text-muted mb-1" style="font-size: 0.85rem;">Product Name</label>
-                    <input type="text" name="product_name" class="form-control rounded-3" placeholder="Search by name..."
-                        value="{{ request('product_name') }}">
+                    <input type="text" list="product_list" name="product_name" class="form-control rounded-3" placeholder="Select or type product..."
+                        value="{{ request('product_name') }}" autocomplete="off">
+                    <datalist id="product_list">
+                        @foreach ($products as $product)
+                            <option value="{{ $product->name }}">{{ $product->name }} (ID: {{ $product->id }})</option>
+                        @endforeach
+                    </datalist>
                 </div>
                 <div class="col-lg-2 col-md-6">
                     <label class="form-label fw-semibold text-muted mb-1" style="font-size: 0.85rem;">Batch No</label>
@@ -98,23 +103,23 @@
                     <thead style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
                         <tr>
                             <th class="py-3" style="border-radius: 8px 0 0 0; border: none;">#</th>
-                            <th class="py-3" style="border: none;">Product Name</th>
                             <th class="py-3" style="border: none;">Product ID</th>
-                            <th class="py-3" style="border: none;">Batch No</th>
+                            <th class="py-3" style="border: none;">Product Name</th>
+                            <th class="py-3" style="border: none;">Batch Numbers</th>
                             <th class="py-3" style="border: none;">Quantity Available</th>
-                            <th class="py-3" style="border: none;">Landing Cost</th>
+                            <th class="py-3" style="border: none;">Weighted Landing Cost</th>
                             <th class="py-3" style="border: none;">Stock Value</th>
-                            <th class="py-3" style="border: none;">Date Created</th>
+                            <th class="py-3" style="border: none;">Latest Date Created</th>
                             <th class="py-3" style="border-radius: 0 8px 0 0; border: none;">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @forelse ($batches as $item)
+                        @forelse ($batches as $index => $item)
                             <tr class="stock-row" style="transition: all 0.3s ease;">
-                                <td><span class="text-muted fw-semibold">#{{ $item->id }}</span></td>
-                                <td class="text-start fw-semibold" style="color: #08228a; padding-left: 20px;">{{ $item->name }}</td>
+                                <td><span class="text-muted fw-semibold">#{{ ($batches->currentPage() - 1) * $batches->perPage() + $index + 1 }}</span></td>
                                 <td><span class="badge bg-light text-dark font-size-12 px-2 py-1">{{ $item->product_id }}</span></td>
-                                <td><code class="text-secondary fw-semibold">{{ $item->batch_no }}</code></td>
+                                <td class="text-start fw-semibold" style="color: #08228a; padding-left: 20px;">{{ $item->name }}</td>
+                                <td class="text-wrap" style="max-width: 250px;"><code class="text-secondary fw-semibold">{{ $item->batch_no ?? '-' }}</code></td>
                                 <td>
                                     <span class="badge bg-info px-2.5 py-1.5" style="font-size: 0.85rem; font-weight: 600;">
                                         {{ number_format($item->quantity) }}
@@ -128,10 +133,9 @@
                                     </small>
                                 </td>
                                 <td>
-                                    <button type="button" class="btn btn-sm btn-outline-primary rounded-circle" style="width: 32px; height: 32px; padding: 0;" data-bs-toggle="modal"
-                                        data-bs-target="#editLandingCostModal-{{ $item->id }}" title="Edit Landing Cost">
-                                        <i class="mdi mdi-pencil"></i>
-                                    </button>
+                                    <a href="/batch-view?item_search={{ urlencode($item->name) }}" class="btn btn-sm btn-outline-primary rounded-circle" style="width: 32px; height: 32px; padding: 0; display: inline-flex; align-items: center; justify-content: center;" title="View & Edit Batches">
+                                        <i class="mdi mdi-eye"></i>
+                                    </a>
                                 </td>
                             </tr>
                         @empty
@@ -153,61 +157,6 @@
 
         </div>
     </div>
-
-    <!-- Edit Landing Cost Modals -->
-    @foreach ($batches as $item)
-        <div id="editLandingCostModal-{{ $item->id }}" class="modal fade" tabindex="-1" role="dialog"
-            aria-labelledby="editLandingCostLabel-{{ $item->id }}" aria-hidden="true" style="display: none;">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content border-0 shadow-lg" style="border-radius: 16px;">
-                    <form class="editLandingCostForm" data-batch-id="{{ $item->id }}" method="post">
-                        @csrf
-                        @method('PATCH')
-                        <div class="modal-header bg-light" style="border-top-left-radius: 16px; border-top-right-radius: 16px;">
-                            <h5 class="modal-title fw-bold text-dark">Edit Landing Cost</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body p-4">
-                            <div class="row g-3">
-                                <div class="col-md-12">
-                                    <label class="form-label fw-semibold text-muted">Product</label>
-                                    <input type="text" class="form-control rounded-3 bg-light" value="{{ $item->name }}" disabled>
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="form-label fw-semibold text-muted">Batch No</label>
-                                    <input type="text" class="form-control rounded-3 bg-light" value="{{ $item->batch_no }}" disabled>
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="form-label fw-semibold text-muted">Quantity</label>
-                                    <input type="text" class="form-control rounded-3 bg-light" value="{{ $item->quantity }}" disabled>
-                                </div>
-                                <div class="col-md-12 pt-2">
-                                    <label for="landing_cost_{{ $item->id }}" class="form-label fw-semibold text-dark">Landing Cost (Ksh)</label>
-                                    <div class="input-group">
-                                        <span class="input-group-text rounded-start-3 bg-light">Ksh</span>
-                                        <input type="number" step="0.01" min="0" name="landing_cost"
-                                            class="form-control rounded-end-3" id="landing_cost_{{ $item->id }}"
-                                            value="{{ $item->landing_cost }}" placeholder="0.00" required>
-                                    </div>
-                                    <small class="text-muted mt-1 d-block"><i class="mdi mdi-information-outline me-1"></i>Updating this value will also recalculate the restock ledger.</small>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="modal-footer border-0 p-3 bg-light" style="border-bottom-left-radius: 16px; border-bottom-right-radius: 16px;">
-                            <button class="btn btn-primary w-100 rounded-3 py-2 fw-semibold" id="editLandingCostBtn-{{ $item->id }}" type="submit">
-                                <i class="mdi mdi-check-circle me-1"></i> Save Changes
-                            </button>
-                            <button class="btn btn-secondary w-100 rounded-3 py-2 fw-semibold" id="editLandingCostLoader-{{ $item->id }}"
-                                style="display:none;" type="button">
-                                <span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
-                                Saving Data...
-                            </button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    @endforeach
 
     <!-- Custom Executive Styling -->
     <style>
@@ -246,48 +195,4 @@
             box-shadow: 0 4px 8px rgba(17, 153, 142, 0.25);
         }
     </style>
-@endsection
-
-@section('scripts')
-    <script>
-        $(document).ready(function () {
-            // Edit Landing Cost Form
-            $(".editLandingCostForm").on('submit', function (e) {
-                e.preventDefault();
-
-                const form = $(this);
-                var batchId = form.data('batch-id');
-                var btn = $("#editLandingCostBtn-" + batchId);
-                var loader = $("#editLandingCostLoader-" + batchId);
-                btn.hide();
-                loader.show();
-
-                let data = form.serialize();
-
-                $.ajax({
-                    type: 'PATCH',
-                    url: '/landingCost/' + batchId,
-                    data: data,
-                    success: function (response) {
-                        if (response.status === 'success') {
-                            toastr["success"]("", "Landing Cost Updated Successfully.");
-                            btn.show();
-                            loader.hide();
-                            setTimeout(() => { location.reload(); }, 800);
-                        } else {
-                            btn.show();
-                            loader.hide();
-                            Swal.fire("Error!", response.message || "Try again later...", "error");
-                        }
-                    },
-                    error: function (res) {
-                        console.log(res);
-                        btn.show();
-                        loader.hide();
-                        Swal.fire("Error!", "Try again later...", "error");
-                    }
-                });
-            });
-        });
-    </script>
 @endsection
