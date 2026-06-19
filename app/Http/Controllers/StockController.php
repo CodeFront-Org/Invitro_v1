@@ -247,11 +247,51 @@ class StockController extends Controller
             $query->whereBetween('batches.created_at', [$startDate, $endDate]);
         }
 
+        // Calculate aggregates across all filtered records
+        $aggregatesQuery = DB::table('batches')
+            ->leftJoin('products', 'products.id', '=', 'batches.product_id')
+            ->leftJoin('stocks', 'stocks.batch_id', '=', 'batches.id')
+            ->whereNull('batches.deleted_at')
+            ->where('products.approve', 1);
+
+        if ($productName) {
+            $aggregatesQuery->where('products.name', 'LIKE', "%$productName%");
+        }
+        if ($batchNo) {
+            $aggregatesQuery->where('batches.batch_no', 'LIKE', "%$batchNo%");
+        }
+        if ($productId) {
+            $aggregatesQuery->where('batches.product_id', $productId);
+        }
+        if ($request->filled('start_date') && $request->filled('end_date')) {
+            $startDate = Carbon::createFromFormat('Y-m-d', $request->input('start_date'))->startOfDay();
+            $endDate = Carbon::createFromFormat('Y-m-d', $request->input('end_date'))->endOfDay();
+            $aggregatesQuery->whereBetween('batches.created_at', [$startDate, $endDate]);
+        }
+
+        $aggregates = $aggregatesQuery->selectRaw('
+            SUM(batches.quantity - batches.sold) as total_qty,
+            SUM((batches.quantity - batches.sold) * batches.cost) as total_val,
+            SUM(CASE WHEN stocks.origin = "local" THEN (batches.quantity - batches.sold) * batches.cost ELSE 0 END) as local_val,
+            SUM(CASE WHEN stocks.origin = "imported" THEN (batches.quantity - batches.sold) * batches.cost ELSE 0 END) as imported_val
+        ')->first();
+
+        $totalQty = $aggregates->total_qty ?? 0;
+        $totalValue = $aggregates->total_val ?? 0;
+        $localValue = $aggregates->local_val ?? 0;
+        $importedValue = $aggregates->imported_val ?? 0;
+
         // Paginate
         $batches = $query->paginate($perPage)->withQueryString();
 
-
-        return view('app.landingcost', compact('batches', 'label'));
+        return view('app.landingcost', compact(
+            'batches', 
+            'label', 
+            'totalQty', 
+            'totalValue', 
+            'localValue', 
+            'importedValue'
+        ));
     }
 
     /**
