@@ -23,7 +23,7 @@
     <!-- Executive KPI Cards -->
     <div class="row mb-4 mt-2">
         <!-- Card 1: Total Stock Value -->
-        <div class="col-xl-3 col-md-6 mb-4">
+        <div class="col-md-6 mb-4">
             <div class="card border-0 shadow-lg h-100 kpi-card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 16px; color: white;">
                 <div class="card-body d-flex align-items-center">
                     <div class="flex-grow-1">
@@ -40,7 +40,7 @@
         </div>
 
         <!-- Card 2: Items In Stock -->
-        <div class="col-xl-3 col-md-6 mb-4">
+        <div class="col-md-6 mb-4">
             <div class="card border-0 shadow-lg h-100 kpi-card" style="background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%); border-radius: 16px; color: white;">
                 <div class="card-body d-flex align-items-center">
                     <div class="flex-grow-1">
@@ -50,40 +50,6 @@
                     <div class="ms-3">
                         <div class="avatar-title rounded-circle" style="width: 48px; height: 48px; background: rgba(255,255,255,0.18); display: flex; align-items: center; justify-content: center;">
                             <i class="mdi mdi-package-variant text-white" style="font-size: 1.6rem;"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Card 3: Local Stock Value -->
-        <div class="col-xl-3 col-md-6 mb-4">
-            <div class="card border-0 shadow-lg h-100 kpi-card" style="background: linear-gradient(135deg, #ff9966 0%, #ff5e62 100%); border-radius: 16px; color: white;">
-                <div class="card-body d-flex align-items-center">
-                    <div class="flex-grow-1">
-                        <h6 class="text-white-50 text-uppercase fw-bold mb-1" style="font-size: 0.75rem; letter-spacing: 1px;">Local Stock Value</h6>
-                        <h3 class="fw-bold mb-0 text-white" style="font-size: 1.6rem;">Ksh {{ number_format($localValue, 2) }}</h3>
-                    </div>
-                    <div class="ms-3">
-                        <div class="avatar-title rounded-circle" style="width: 48px; height: 48px; background: rgba(255,255,255,0.18); display: flex; align-items: center; justify-content: center;">
-                            <i class="mdi mdi-map-marker text-white" style="font-size: 1.6rem;"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Card 4: Imported Stock Value -->
-        <div class="col-xl-3 col-md-6 mb-4">
-            <div class="card border-0 shadow-lg h-100 kpi-card" style="background: linear-gradient(135deg, #2193b0 0%, #6dd5ed 100%); border-radius: 16px; color: white;">
-                <div class="card-body d-flex align-items-center">
-                    <div class="flex-grow-1">
-                        <h6 class="text-white-50 text-uppercase fw-bold mb-1" style="font-size: 0.75rem; letter-spacing: 1px;">Imported Stock Value</h6>
-                        <h3 class="fw-bold mb-0 text-white" style="font-size: 1.6rem;">Ksh {{ number_format($importedValue, 2) }}</h3>
-                    </div>
-                    <div class="ms-3">
-                        <div class="avatar-title rounded-circle" style="width: 48px; height: 48px; background: rgba(255,255,255,0.18); display: flex; align-items: center; justify-content: center;">
-                            <i class="mdi mdi-airplane text-white" style="font-size: 1.6rem;"></i>
                         </div>
                     </div>
                 </div>
@@ -138,7 +104,6 @@
                             <th class="py-3" style="border: none;">Quantity Available</th>
                             <th class="py-3" style="border: none;">Landing Cost</th>
                             <th class="py-3" style="border: none;">Stock Value</th>
-                            <th class="py-3" style="border: none;">Category (Origin)</th>
                             <th class="py-3" style="border: none;">Date Created</th>
                             <th class="py-3" style="border-radius: 0 8px 0 0; border: none;">Actions</th>
                         </tr>
@@ -158,21 +123,6 @@
                                 <td class="fw-semibold text-success">Ksh {{ number_format($item->landing_cost, 2) }}</td>
                                 <td class="fw-bold" style="color: #fd7e14; font-size: 0.95rem;">Ksh {{ number_format($item->stock_value, 2) }}</td>
                                 <td>
-                                    @if(strtolower($item->origin) === 'local')
-                                        <span class="badge px-3 py-1.5 rounded-pill" style="background-color: rgba(40, 167, 69, 0.15); color: #28a745; font-size: 0.8rem; font-weight: 600;">
-                                            <i class="mdi mdi-map-marker me-1"></i>Local
-                                        </span>
-                                    @elseif(strtolower($item->origin) === 'imported')
-                                        <span class="badge px-3 py-1.5 rounded-pill" style="background-color: rgba(118, 75, 162, 0.15); color: #764ba2; font-size: 0.8rem; font-weight: 600;">
-                                            <i class="mdi mdi-airplane me-1"></i>Imported
-                                        </span>
-                                    @else
-                                        <span class="badge px-3 py-1.5 rounded-pill bg-light text-muted" style="font-size: 0.8rem; font-weight: 600;">
-                                            {{ ucfirst($item->origin ?? 'N/A') }}
-                                        </span>
-                                    @endif
-                                </td>
-                                <td>
                                     <small class="text-muted">
                                         <i class="mdi mdi-calendar-outline me-1"></i>{{ \Carbon\Carbon::parse($item->created_at)->format('Y-m-d') }}
                                     </small>
@@ -186,7 +136,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="10" class="text-center py-4">
+                                <td colspan="9" class="text-center py-4">
                                     <i class="mdi mdi-information-outline text-muted" style="font-size: 2.2rem;"></i>
                                     <p class="mt-2 text-muted mb-0">No stock records found matching filters.</p>
                                 </td>

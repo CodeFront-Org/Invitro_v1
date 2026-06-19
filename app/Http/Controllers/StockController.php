@@ -217,13 +217,11 @@ class StockController extends Controller
                 'batches.product_id',
                 'batch_no',
                 'batches.created_at as created_at',
-                'stocks.origin as origin',
                 DB::raw('(batches.quantity - batches.sold) as quantity'),
                 DB::raw('batches.cost as landing_cost'),
                 DB::raw('(batches.quantity - batches.sold) * batches.cost as stock_value')
             )
             ->leftJoin('products', 'products.id', '=', 'batches.product_id')
-            ->leftJoin('stocks', 'stocks.batch_id', '=', 'batches.id')
             ->whereNull('batches.deleted_at')
             ->where('products.approve', 1)
             ->orderByDesc('batches.product_id');
@@ -250,7 +248,6 @@ class StockController extends Controller
         // Calculate aggregates across all filtered records
         $aggregatesQuery = DB::table('batches')
             ->leftJoin('products', 'products.id', '=', 'batches.product_id')
-            ->leftJoin('stocks', 'stocks.batch_id', '=', 'batches.id')
             ->whereNull('batches.deleted_at')
             ->where('products.approve', 1);
 
@@ -271,15 +268,11 @@ class StockController extends Controller
 
         $aggregates = $aggregatesQuery->selectRaw('
             SUM(batches.quantity - batches.sold) as total_qty,
-            SUM((batches.quantity - batches.sold) * batches.cost) as total_val,
-            SUM(CASE WHEN stocks.origin = "local" THEN (batches.quantity - batches.sold) * batches.cost ELSE 0 END) as local_val,
-            SUM(CASE WHEN stocks.origin = "imported" THEN (batches.quantity - batches.sold) * batches.cost ELSE 0 END) as imported_val
+            SUM((batches.quantity - batches.sold) * batches.cost) as total_val
         ')->first();
 
         $totalQty = $aggregates->total_qty ?? 0;
         $totalValue = $aggregates->total_val ?? 0;
-        $localValue = $aggregates->local_val ?? 0;
-        $importedValue = $aggregates->imported_val ?? 0;
 
         // Paginate
         $batches = $query->paginate($perPage)->withQueryString();
@@ -288,9 +281,7 @@ class StockController extends Controller
             'batches', 
             'label', 
             'totalQty', 
-            'totalValue', 
-            'localValue', 
-            'importedValue'
+            'totalValue'
         ));
     }
 

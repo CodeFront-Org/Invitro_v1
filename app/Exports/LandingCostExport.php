@@ -25,13 +25,11 @@ class LandingCostExport implements FromQuery, WithHeadings
                 'batches.product_id',
                 'batch_no',
                 'batches.created_at as created_at',
-                'stocks.origin as origin',
                 \DB::raw('(batches.quantity - batches.sold) as quantity'),
                 \DB::raw('batches.cost as landing_cost'),
                 \DB::raw('(batches.quantity - batches.sold) * batches.cost as stock_value')
             )
             ->leftJoin('products', 'products.id', '=', 'batches.product_id')
-            ->leftJoin('stocks', 'stocks.batch_id', '=', 'batches.id')
             ->whereNull('batches.deleted_at')
             ->where('products.approve', 1)
             ->orderByDesc('batches.product_id');
@@ -56,15 +54,15 @@ class LandingCostExport implements FromQuery, WithHeadings
 
     public function headings(): array
     {
-       // return ['ID', 'Name', 'Product ID', 'Batch No', 'Quantity', 'Landing Cost', 'Stock Value'];
-            return['batches.id',
+            return [
+                'batches.id',
                 'products.name',
                 'batches.product_id',
                 'batch_no',
                 'created_at',
-                'origin',
                 'quantity',
-               'landing_cost',
-                'stock_value'];
+                'landing_cost',
+                'stock_value'
+            ];
     }
 }
