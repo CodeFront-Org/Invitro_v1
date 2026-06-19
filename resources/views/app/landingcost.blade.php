@@ -105,7 +105,6 @@
                             <th class="py-3" style="border-radius: 8px 0 0 0; border: none;">#</th>
                             <th class="py-3" style="border: none;">Product ID</th>
                             <th class="py-3" style="border: none;">Product Name</th>
-                            <th class="py-3" style="border: none;">Batch Numbers</th>
                             <th class="py-3" style="border: none;">Quantity Available</th>
                             <th class="py-3" style="border: none;">Weighted Landing Cost</th>
                             <th class="py-3" style="border: none;">Stock Value</th>
@@ -119,7 +118,6 @@
                                 <td><span class="text-muted fw-semibold">#{{ ($batches->currentPage() - 1) * $batches->perPage() + $index + 1 }}</span></td>
                                 <td><span class="badge bg-light text-dark font-size-12 px-2 py-1">{{ $item->product_id }}</span></td>
                                 <td class="text-start fw-semibold" style="color: #08228a; padding-left: 20px;">{{ $item->name }}</td>
-                                <td class="text-wrap" style="max-width: 250px;"><code class="text-secondary fw-semibold">{{ $item->batch_no ?? '-' }}</code></td>
                                 <td>
                                     <span class="badge bg-info px-2.5 py-1.5" style="font-size: 0.85rem; font-weight: 600;">
                                         {{ number_format($item->quantity) }}
@@ -140,7 +138,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="9" class="text-center py-4">
+                                <td colspan="8" class="text-center py-4">
                                     <i class="mdi mdi-information-outline text-muted" style="font-size: 2.2rem;"></i>
                                     <p class="mt-2 text-muted mb-0">No stock records found matching filters.</p>
                                 </td>

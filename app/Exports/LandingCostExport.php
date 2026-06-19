@@ -22,7 +22,6 @@ class LandingCostExport implements FromQuery, WithHeadings
             ->select(
                 'products.id as product_id',
                 'products.name',
-                \DB::raw("GROUP_CONCAT(DISTINCT batches.batch_no SEPARATOR ', ') as batch_no"),
                 \DB::raw('SUM(batches.quantity - batches.sold) as quantity'),
                 \DB::raw('ROUND(SUM((batches.quantity - batches.sold) * batches.cost) / NULLIF(SUM(batches.quantity - batches.sold), 0), 2) as landing_cost'),
                 \DB::raw('SUM((batches.quantity - batches.sold) * batches.cost) as stock_value'),
@@ -57,7 +56,6 @@ class LandingCostExport implements FromQuery, WithHeadings
             return [
                 'Product ID',
                 'Product Name',
-                'Batch Numbers',
                 'Quantity Available',
                 'Landing Cost (Weighted Avg)',
                 'Stock Value',
