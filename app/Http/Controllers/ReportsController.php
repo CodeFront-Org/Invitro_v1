@@ -528,6 +528,7 @@ class ReportsController extends Controller
         $from = $request->from;
         $to = $request->to;
         $source = $request->source;
+        $origin = $request->origin;
         $product_name = $request->product_name;
         $page_number = $request->page ?? 1;
 
@@ -539,16 +540,20 @@ class ReportsController extends Controller
             $page_number = 1;
         }
 
-        $query = Restock::with(['user', 'product'])->orderByDesc('created_at');
+        $query = Restock::query()
+            ->select('restocks.*', 'stocks.origin as origin')
+            ->leftJoin('stocks', 'stocks.batch_id', '=', 'restocks.batch_entry_id')
+            ->with(['user', 'product'])
+            ->orderByDesc('restocks.created_at');
 
         // Date range filter
         if ($from && $to) {
-            $query->whereBetween('created_at', [$from, $to]);
+            $query->whereBetween('restocks.created_at', [$from, $to]);
         }
 
         // Source filter
         if ($source) {
-            $query->where('source', 'LIKE', "%{$source}%");
+            $query->where('restocks.source', 'LIKE', "%{$source}%");
         }
 
         // Product name filter
@@ -558,25 +563,34 @@ class ReportsController extends Controller
             });
         }
 
+        // Origin (Category) filter
+        if ($origin) {
+            $query->where('stocks.origin', $origin);
+        }
+
         $restocks = $query->paginate(30);
         $totalRestocks = $restocks->total();
 
         // Calculate total landing cost for all filtered records (not just current page)
-        $totalLandingCostQuery = Restock::query();
+        $totalLandingCostQuery = Restock::query()
+            ->leftJoin('stocks', 'stocks.batch_id', '=', 'restocks.batch_entry_id');
 
         if ($from && $to) {
-            $totalLandingCostQuery->whereBetween('created_at', [$from, $to]);
+            $totalLandingCostQuery->whereBetween('restocks.created_at', [$from, $to]);
         }
         if ($source) {
-            $totalLandingCostQuery->where('source', 'LIKE', "%{$source}%");
+            $totalLandingCostQuery->where('restocks.source', 'LIKE', "%{$source}%");
         }
         if ($product_name) {
             $totalLandingCostQuery->whereHas('product', function ($q) use ($product_name) {
                 $q->where('name', 'LIKE', "%{$product_name}%");
             });
         }
+        if ($origin) {
+            $totalLandingCostQuery->where('stocks.origin', $origin);
+        }
 
-        $totalLandingCost = $totalLandingCostQuery->selectRaw('SUM(quantity * landing_cost) as total')->value('total') ?? 0;
+        $totalLandingCost = $totalLandingCostQuery->selectRaw('SUM(restocks.quantity * restocks.landing_cost) as total')->value('total') ?? 0;
 
         // Get unique sources for filter dropdown
         $sources = Restock::select('source')
@@ -584,6 +598,14 @@ class ReportsController extends Controller
             ->whereNotNull('source')
             ->orderBy('source')
             ->pluck('source');
+
+        // Get unique categories (origins) for filter dropdown
+        $categories = Stock::select('origin')
+            ->distinct()
+            ->whereNotNull('origin')
+            ->where('origin', '<>', '')
+            ->orderBy('origin')
+            ->pluck('origin');
 
         // Get products for filter
         $products = Product::select('name')
@@ -601,6 +623,7 @@ class ReportsController extends Controller
                 'product_name' => $productName,
                 'quantity' => $r->quantity,
                 'source' => $r->source,
+                'origin' => $r->origin,
                 'landing_cost' => $r->landing_cost,
                 'stock_value' => ($r->quantity ?? 0) * ($r->landing_cost ?? 0),
                 'invoice' => $r->invoice_number,
@@ -611,7 +634,7 @@ class ReportsController extends Controller
             ];
         }
 
-        return view('reports.restocks', compact('label', 'restocks', 'data', 'totalRestocks', 'totalLandingCost', 'page_number', 'sources', 'products'));
+        return view('reports.restocks', compact('label', 'restocks', 'data', 'totalRestocks', 'totalLandingCost', 'page_number', 'sources', 'categories', 'products'));
     }
 
 

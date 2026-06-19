@@ -25,7 +25,7 @@
                     </h5>
                     <form method="GET" action="/restocks">
                         <div class="row g-3">
-                            <div class="col-md-3">
+                            <div class="col-md-2">
                                 <label for="product_name" class="form-label fw-semibold">Product Name</label>
                                 <input type="text" list="product_list" class="form-control" id="product_name"
                                     name="product_name" value="{{ request('product_name') }}"
@@ -37,20 +37,29 @@
                                 </datalist>
                             </div>
 
-
                             <div class="col-md-2">
-                                <label for="source" class="form-label fw-semibold">Source Type</label>
-                                <select class="form-select" id="source" name="source">
-                                    <option value="">All Sources</option>
-                                    <option value="import" {{ request('source') == 'import' ? 'selected' : '' }}>Import
-                                    </option>
-                                    <option value="export" {{ request('source') == 'export' ? 'selected' : '' }}>Export
-                                    </option>
-                                    <option value="local" {{ request('source') == 'local' ? 'selected' : '' }}>Local</option>
+                                <label for="origin" class="form-label fw-semibold">Category (Origin)</label>
+                                <select class="form-select" id="origin" name="origin">
+                                    <option value="">All Categories</option>
+                                    @foreach ($categories as $category)
+                                        <option value="{{ $category }}" {{ request('origin') == $category ? 'selected' : '' }}>
+                                            {{ ucfirst($category) }}
+                                        </option>
+                                    @endforeach
                                 </select>
                             </div>
 
-
+                            <div class="col-md-2">
+                                <label for="source" class="form-label fw-semibold">Source / Supplier</label>
+                                <input type="text" list="source_list" class="form-control" id="source"
+                                    name="source" value="{{ request('source') }}"
+                                    placeholder="Search source..." autocomplete="off">
+                                <datalist id="source_list">
+                                    @foreach ($sources as $src)
+                                        <option value="{{ $src }}">{{ $src }}</option>
+                                    @endforeach
+                                </datalist>
+                            </div>
 
                             <div class="col-md-2">
                                 <label for="from" class="form-label fw-semibold">From Date</label>
@@ -62,7 +71,7 @@
                                 <input type="date" class="form-control" id="to" name="to" value="{{ request('to') }}">
                             </div>
 
-                            <div class="col-md-3 d-flex align-items-end">
+                            <div class="col-md-2 d-flex align-items-end">
                                 <div class="btn-group w-100" role="group">
                                     <button type="submit" class="btn btn-primary">
                                         <i class="mdi mdi-magnify me-1"></i>Filter
@@ -109,6 +118,7 @@
                                     <th style="border-color: rgba(255,255,255,0.2);">Product</th>
                                     <th style="border-color: rgba(255,255,255,0.2);">Quantity</th>
                                     <th style="border-color: rgba(255,255,255,0.2);">Source</th>
+                                    <th style="border-color: rgba(255,255,255,0.2);">Category</th>
                                     <th style="border-color: rgba(255,255,255,0.2);">Landing Cost</th>
                                     <th style="border-color: rgba(255,255,255,0.2);">Stock Value</th>
                                     <th style="border-color: rgba(255,255,255,0.2);">Invoice</th>
@@ -132,6 +142,11 @@
                                         <td>
                                             <span class="badge" style="background-color: #667eea; font-size: 0.85rem;">
                                                 {{$item['source'] ?? 'N/A'}}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span class="badge" style="background-color: #764ba2; font-size: 0.85rem;">
+                                                {{ ucfirst($item['origin'] ?? 'N/A') }}
                                             </span>
                                         </td>
                                         <td class="fw-semibold" style="color: #28a745;">
@@ -165,7 +180,7 @@
                                     @endphp
                                 @empty
                                     <tr>
-                                        <td colspan="11" class="text-center py-4">
+                                        <td colspan="13" class="text-center py-4">
                                             <i class="mdi mdi-information-outline" style="font-size: 2rem; color: #999;"></i>
                                             <p class="mt-2 mb-0" style="color: #999;">No restock records found</p>
                                         </td>
